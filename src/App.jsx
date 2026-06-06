@@ -53,6 +53,22 @@ const DESTINATIONS = [
   { id:"venice",     name:"Venise",         country:"Italie",         flag:"🇮🇹", emoji:"🚤", temp:"19°C", currency:"EUR", mapCenter:[45.4408,12.3155],    continent:"europe",    photo:IMG("1523906834658-6fe1e6e1e4ba") },
   { id:"seville",    name:"Séville",        country:"Espagne",        flag:"🇪🇸", emoji:"💃", temp:"25°C", currency:"EUR", mapCenter:[37.3891,-5.9845],    continent:"europe",    photo:IMG("1556679908-a4bde52f8a88") },
   { id:"shanghai",   name:"Shanghai",       country:"Chine",          flag:"🇨🇳", emoji:"🌆", temp:"20°C", currency:"CNY", mapCenter:[31.2304,121.4737],   continent:"asie",      photo:IMG("1547981609-4b6bfe67ca0b") },
+  // ── European capitals ──
+  { id:"dublin",     name:"Dublin",         country:"Irlande",        flag:"🇮🇪", emoji:"🍺", temp:"12°C", currency:"EUR", mapCenter:[53.3498,-6.2603],    continent:"europe",    photo:IMG("1558618666-fcd25c85cd64") },
+  { id:"copenhagen", name:"Copenhague",     country:"Danemark",       flag:"🇩🇰", emoji:"🧜", temp:"13°C", currency:"DKK", mapCenter:[55.6761,12.5683],    continent:"europe",    photo:IMG("1513622470-c6e7e3e3c0b7") },
+  { id:"stockholm",  name:"Stockholm",      country:"Suède",          flag:"🇸🇪", emoji:"👑", temp:"10°C", currency:"SEK", mapCenter:[59.3293,18.0686],    continent:"europe",    photo:IMG("1508193638397-1cc6e7b6da6f") },
+  { id:"helsinki",   name:"Helsinki",       country:"Finlande",       flag:"🇫🇮", emoji:"🌲", temp:"7°C",  currency:"EUR", mapCenter:[60.1699,24.9384],    continent:"europe",    photo:IMG("1570984891966-b8afe7e61ba9") },
+  { id:"oslo",       name:"Oslo",           country:"Norvège",        flag:"🇳🇴", emoji:"⛵", temp:"8°C",  currency:"NOK", mapCenter:[59.9139,10.7522],    continent:"europe",    photo:IMG("1586661897040-7c98f517e09c") },
+  { id:"warsaw",     name:"Varsovie",       country:"Pologne",        flag:"🇵🇱", emoji:"🏰", temp:"13°C", currency:"PLN", mapCenter:[52.2297,21.0122],    continent:"europe",    photo:IMG("1599946347371-68eb71b457c3") },
+  { id:"budapest",   name:"Budapest",       country:"Hongrie",        flag:"🇭🇺", emoji:"🌊", temp:"17°C", currency:"HUF", mapCenter:[47.4979,19.0402],    continent:"europe",    photo:IMG("1549993538-ec6bd5c0bc74") },
+  { id:"bucharest",  name:"Bucarest",       country:"Roumanie",       flag:"🇷🇴", emoji:"🏛️", temp:"16°C", currency:"RON", mapCenter:[44.4268,26.1025],    continent:"europe",    photo:IMG("1555400038-63f5ba517994") },
+  { id:"brussels",   name:"Bruxelles",      country:"Belgique",       flag:"🇧🇪", emoji:"🧇", temp:"14°C", currency:"EUR", mapCenter:[50.8503,4.3517],     continent:"europe",    photo:IMG("1566804801-15e97ce60d7e") },
+  { id:"edinburgh",  name:"Édimbourg",      country:"Écosse",         flag:"🏴󠁧󠁢󠁳󠁣󠁴󠁿", emoji:"🏯", temp:"11°C", currency:"GBP", mapCenter:[55.9533,-3.1883],    continent:"europe",    photo:IMG("1504736139-35d9a2d4bcec") },
+  { id:"belgrade",   name:"Belgrade",       country:"Serbie",         flag:"🇷🇸", emoji:"🎸", temp:"16°C", currency:"RSD", mapCenter:[44.7866,20.4489],    continent:"europe",    photo:IMG("1558025137-c7bc3af35fc3") },
+  { id:"reykjavik",  name:"Reykjavik",      country:"Islande",        flag:"🇮🇸", emoji:"🌌", temp:"5°C",  currency:"ISK", mapCenter:[64.1265,-21.8174],   continent:"europe",    photo:IMG("1520769878-ef2536be3ffd") },
+  { id:"sofia",      name:"Sofia",          country:"Bulgarie",       flag:"🇧🇬", emoji:"🕍", temp:"15°C", currency:"BGN", mapCenter:[42.6977,23.3219],    continent:"europe",    photo:IMG("1557483160-8cae8e1c5c4f") },
+  { id:"zagreb",     name:"Zagreb",         country:"Croatie",        flag:"🇭🇷", emoji:"🏰", temp:"17°C", currency:"EUR", mapCenter:[45.8150,15.9819],    continent:"europe",    photo:IMG("1502602898657-3e91760cbb34") },
+  { id:"valletta",   name:"La Valette",     country:"Malte",          flag:"🇲🇹", emoji:"⚓", temp:"22°C", currency:"EUR", mapCenter:[35.8997,14.5147],    continent:"europe",    photo:IMG("1523906834658-6fe1e6e1e4ba") },
 ];
 
 const ORIGINS = ["Alger","Tunis","Casablanca","Rabat","Oran","Constantine","Paris","Lyon","Marseille","Bruxelles","Genève","Montréal","Dakar","Beyrouth","Dubaï","Le Caire","Riyad"];
@@ -83,6 +99,113 @@ const BUDGET_LABELS = {
   serré:{ label:"Budget Serré", icon:"🎒", color:"#2DD4BF", desc:"Voyager malin, profiter au max" },
   moyen:{ label:"Budget Moyen", icon:"✈️",  color:"#F59E0B", desc:"Confort et bonnes expériences" },
   riche:{ label:"Budget Premium",icon:"💎", color:"#8B5CF6", desc:"Le luxe sans compromis" },
+};
+
+const LANG = {
+  fr:{
+    hero_title:"Planifiez votre voyage de rêve",
+    hero_sub:"50+ destinations · Hôtels, attractions & itinéraire personnalisé",
+    depart:"Ville de départ", search_ph:"Paris, Tokyo, Bali, Marrakech…",
+    trending:"Destinations tendance", results:"résultat",
+    continue:"Continuer →", configure:"Configurez votre voyage",
+    dep_date:"Date de départ", ret_date:"Date de retour",
+    adults:"Adultes", children:"Enfants", budget_type:"Type de budget",
+    generate:"🗺️ Générer mon programme", back:"← Retour",
+    dl_pdf:"Télécharger PDF", modify:"✏️ Modifier",
+    tabs:["🗺 Attractions","🍽 Restaurants","📅 Itinéraire","🗾 Carte","✈️ Transport","🏨 Hébergements"],
+    tab_keys:["attractions","restaurants","itinerary","map","transport","hotels"],
+    recommended:"Hébergement recommandé", transport_title:"Transport & Conseils",
+    transport_general:"Moyens de transport généraux", tips:"💡 Conseils pratiques",
+    no_dest:"Aucune destination trouvée pour",
+    selected:"sélectionné", also_choose:"— choisissez aussi votre ville de départ",
+    nights:n=>`${n} nuit${n>1?"s":""}`, budget_label:"Budget",
+    journey:"Trajet", stay:"Séjour", travelers:"Voyageurs",
+    hotel_options:"Options d\'hébergement",
+    stars:"étoile",
+  },
+  en:{
+    hero_title:"Plan your dream trip",
+    hero_sub:"50+ destinations · Hotels, attractions & personalized itinerary",
+    depart:"Departure city", search_ph:"Paris, Tokyo, Bali, Marrakech…",
+    trending:"Trending destinations", results:"result",
+    continue:"Continue →", configure:"Configure your trip",
+    dep_date:"Departure date", ret_date:"Return date",
+    adults:"Adults", children:"Children", budget_type:"Budget type",
+    generate:"🗺️ Generate my itinerary", back:"← Back",
+    dl_pdf:"Download PDF", modify:"✏️ Edit",
+    tabs:["🗺 Attractions","🍽 Restaurants","📅 Itinerary","🗾 Map","✈️ Transport","🏨 Accommodation"],
+    tab_keys:["attractions","restaurants","itinerary","map","transport","hotels"],
+    recommended:"Recommended accommodation", transport_title:"Transport & Tips",
+    transport_general:"General transport options", tips:"💡 Practical tips",
+    no_dest:"No destination found for",
+    selected:"selected", also_choose:"— also choose your departure city",
+    nights:n=>`${n} night${n>1?"s":""}`, budget_label:"Budget",
+    journey:"Route", stay:"Stay", travelers:"Travelers",
+    hotel_options:"Accommodation options",
+    stars:"star",
+  },
+  ar:{
+    hero_title:"خطط لرحلة أحلامك",
+    hero_sub:"أكثر من 50 وجهة · فنادق، معالم سياحية وبرنامج مخصص",
+    depart:"مدينة الانطلاق", search_ph:"باريس، طوكيو، بالي، مراكش…",
+    trending:"الوجهات الرائجة", results:"نتيجة",
+    continue:"متابعة ←", configure:"إعداد رحلتك",
+    dep_date:"تاريخ المغادرة", ret_date:"تاريخ العودة",
+    adults:"البالغون", children:"الأطفال", budget_type:"نوع الميزانية",
+    generate:"🗺️ إنشاء برنامجي", back:"→ رجوع",
+    dl_pdf:"تحميل PDF", modify:"✏️ تعديل",
+    tabs:["🗺 المعالم","🍽 المطاعم","📅 البرنامج","🗾 الخريطة","✈️ النقل","🏨 الإقامة"],
+    tab_keys:["attractions","restaurants","itinerary","map","transport","hotels"],
+    recommended:"الإقامة الموصى بها", transport_title:"النقل والنصائح",
+    transport_general:"خيارات النقل العامة", tips:"💡 نصائح عملية",
+    no_dest:"لم يتم العثور على وجهة لـ",
+    selected:"محدد", also_choose:"— اختر أيضاً مدينة انطلاقك",
+    nights:n=>`${n} ليلة`, budget_label:"الميزانية",
+    journey:"المسار", stay:"المدة", travelers:"المسافرون",
+    hotel_options:"خيارات الإقامة",
+    stars:"نجمة",
+  },
+};
+
+const THEMES = {
+  dark:{
+    bg:"#080F1E", bg2:"linear-gradient(160deg,#050D1F 0%,#0A1628 50%,#060E1A 100%)",
+    card:"rgba(255,255,255,.04)", cardBorder:"rgba(255,255,255,.08)",
+    cardHover:"rgba(255,255,255,.12)",
+    text:"#E2E8F0", text2:"rgba(148,163,184,.75)", text3:"rgba(148,163,184,.45)",
+    inputBg:"rgba(255,255,255,.06)", inputBorder:"rgba(255,255,255,.12)",
+    headerBg:"linear-gradient(135deg,#0A1E3D,#0F2952,#0A1628)",
+    headerBorder:"rgba(14,165,233,.15)",
+    heroBg:"linear-gradient(135deg,#061226,#0A1E3D,#0D1530)",
+    summaryBg:"linear-gradient(135deg,#0A1E3D,#0F2952)",
+    summaryBorder:"rgba(14,165,233,.2)",
+    tabActive:"linear-gradient(135deg,#1E6FA8,#0EA5E9)",
+    tabInactive:"rgba(255,255,255,.06)",
+    tabInactiveBorder:"rgba(255,255,255,.1)",
+    tabInactiveColor:"rgba(148,163,184,.8)",
+    btnSecBg:"rgba(255,255,255,.06)", btnSecBorder:"rgba(255,255,255,.1)", btnSecColor:"#94A3B8",
+    hotelBg:"linear-gradient(135deg,rgba(14,165,233,.08),rgba(14,165,233,.03))",
+    hotelBorder:"rgba(14,165,233,.2)",
+  },
+  light:{
+    bg:"#F0F6FF", bg2:"linear-gradient(160deg,#EFF6FF 0%,#DBEAFE 50%,#EFF6FF 100%)",
+    card:"#FFFFFF", cardBorder:"rgba(30,64,175,.12)",
+    cardHover:"rgba(30,64,175,.06)",
+    text:"#0F172A", text2:"#475569", text3:"#94A3B8",
+    inputBg:"#FFFFFF", inputBorder:"rgba(30,64,175,.25)",
+    headerBg:"linear-gradient(135deg,#1E3A8A,#2563EB,#1D4ED8)",
+    headerBorder:"rgba(37,99,235,.3)",
+    heroBg:"linear-gradient(135deg,#1E3A8A,#2563EB,#3B82F6)",
+    summaryBg:"linear-gradient(135deg,#DBEAFE,#EFF6FF)",
+    summaryBorder:"rgba(30,64,175,.2)",
+    tabActive:"linear-gradient(135deg,#1D4ED8,#2563EB)",
+    tabInactive:"rgba(30,64,175,.06)",
+    tabInactiveBorder:"rgba(30,64,175,.15)",
+    tabInactiveColor:"#1E40AF",
+    btnSecBg:"rgba(30,64,175,.06)", btnSecBorder:"rgba(30,64,175,.15)", btnSecColor:"#1E40AF",
+    hotelBg:"linear-gradient(135deg,rgba(37,99,235,.08),rgba(37,99,235,.03))",
+    hotelBorder:"rgba(37,99,235,.2)",
+  },
 };
 
 // Rich data for top cities
@@ -382,15 +505,62 @@ function genericData(dest) {
       {name:"Street food & marchés",type:"Street food",budget:{serré:"5-10 "+c,moyen:"8-15 "+c,riche:null},coords:mc},
       {name:"Restaurant gastronomique",type:"Haute cuisine",budget:{serré:null,moyen:null,riche:"150-300 "+c},coords:mc},
     ],
-    hotels:{serré:{name:"Auberge de jeunesse",price:"20-60 "+c+"/nuit",stars:1},moyen:{name:"Hôtel 3-4 étoiles",price:"80-200 "+c+"/nuit",stars:3},riche:{name:"Hôtel de luxe 5 étoiles",price:"300-1500 "+c+"/nuit",stars:5}},
+    hotels:{
+      serré:[{name:"Auberge de jeunesse",price:"20-60 "+c+"/nuit",stars:1,type:"Hostel"},{name:"Hôtel économique",price:"30-80 "+c+"/nuit",stars:2,type:"Hôtel éco"}],
+      moyen:[{name:"Hôtel 3-4 étoiles",price:"80-200 "+c+"/nuit",stars:3,type:"Hôtel 3★"},{name:"Hôtel confort",price:"100-220 "+c+"/nuit",stars:4,type:"Hôtel 4★"}],
+      riche:[{name:"Hôtel de luxe 5 étoiles",price:"300-1500 "+c+"/nuit",stars:5,type:"Palace"},{name:"Resort premium",price:"400-2000 "+c+"/nuit",stars:5,type:"Resort 5★"}],
+    },
     transport:[{mode:"✈️ Avion",info:"Vol depuis votre ville de départ vers "+dest.name,budgetNote:"Prix variable selon compagnie"}],
   };
 }
 
+const EXTRA_HOTELS = {
+  paris:{
+    serré:[{name:"Generator Paris",price:"45-80€/nuit",stars:2,type:"Hostel"},{name:"ibis Paris Gare du Nord",price:"65-105€/nuit",stars:2,type:"Hôtel éco"},{name:"MIJE Marais",price:"35-55€/nuit",stars:2,type:"Auberge"}],
+    moyen:[{name:"Mercure Paris Centre",price:"120-180€/nuit",stars:3,type:"Hôtel 3★"},{name:"Hotel du Louvre",price:"150-220€/nuit",stars:4,type:"Hôtel 4★"},{name:"Hôtel Grands Boulevards",price:"130-200€/nuit",stars:3,type:"Boutique"}],
+    riche:[{name:"Hôtel de Crillon",price:"900-2500€/nuit",stars:5,type:"Palace"},{name:"Le Bristol Paris",price:"1200-3500€/nuit",stars:5,type:"Palace"},{name:"The Peninsula Paris",price:"1000-3000€/nuit",stars:5,type:"Palace"}],
+  },
+  tokyo:{
+    serré:[{name:"Capsule Hotel Shinjuku",price:"3000-5000¥/nuit",stars:1,type:"Capsule"},{name:"Khaosan Tokyo",price:"2500-4000¥/nuit",stars:2,type:"Hostel"},{name:"Nui Hostel",price:"3500-5500¥/nuit",stars:2,type:"Hostel"}],
+    moyen:[{name:"Dormy Inn Akihabara",price:"9000-15000¥/nuit",stars:3,type:"Hôtel 3★"},{name:"APA Hotel Shinjuku",price:"10000-18000¥/nuit",stars:3,type:"Hôtel 3★"},{name:"Citadines Shinjuku",price:"12000-20000¥/nuit",stars:3,type:"Appart-hôtel"}],
+    riche:[{name:"The Peninsula Tokyo",price:"60000-120000¥/nuit",stars:5,type:"Palace"},{name:"Park Hyatt Tokyo",price:"55000-100000¥/nuit",stars:5,type:"Hôtel 5★"},{name:"Aman Tokyo",price:"80000-200000¥/nuit",stars:5,type:"Resort"}],
+  },
+  dubai:{
+    serré:[{name:"ibis Dubai Al Barsha",price:"180-260 AED/nuit",stars:2,type:"Hôtel éco"},{name:"Rove Downtown",price:"200-300 AED/nuit",stars:3,type:"Lifestyle hotel"},{name:"Dubai Youth Hostel",price:"90-150 AED/nuit",stars:1,type:"Hostel"}],
+    moyen:[{name:"Marriott Al Jaddaf",price:"400-600 AED/nuit",stars:4,type:"Hôtel 4★"},{name:"Wyndham Dubai Marina",price:"350-550 AED/nuit",stars:4,type:"Hôtel 4★"},{name:"Millennium Airport Hotel",price:"380-580 AED/nuit",stars:4,type:"Hôtel 4★"}],
+    riche:[{name:"Burj Al Arab",price:"5000-30000 AED/nuit",stars:5,type:"7★ Iconique"},{name:"Atlantis The Palm",price:"3000-15000 AED/nuit",stars:5,type:"Resort 5★"},{name:"One&Only Royal Mirage",price:"2500-8000 AED/nuit",stars:5,type:"Palace"}],
+  },
+  marrakech:{
+    serré:[{name:"Riad Dar Zitoun",price:"250-400 MAD/nuit",stars:2,type:"Riad"},{name:"Equity Point Hostel",price:"80-150 MAD/nuit",stars:1,type:"Hostel"},{name:"Dar Assiya",price:"200-350 MAD/nuit",stars:2,type:"Riad éco"}],
+    moyen:[{name:"Riad Yasmine",price:"600-900 MAD/nuit",stars:3,type:"Riad 3★"},{name:"Riad Les Orangers",price:"700-1000 MAD/nuit",stars:3,type:"Riad"},{name:"Hotel Ivoire Marrakech",price:"650-950 MAD/nuit",stars:4,type:"Hôtel 4★"}],
+    riche:[{name:"La Mamounia",price:"4500-15000 MAD/nuit",stars:5,type:"Palace légendaire"},{name:"Royal Mansour",price:"6000-20000 MAD/nuit",stars:5,type:"Palace Royal"},{name:"Amanjena",price:"5000-18000 MAD/nuit",stars:5,type:"Resort Aman"}],
+  },
+  london:{
+    serré:[{name:"Generator London",price:"25-60£/nuit",stars:2,type:"Hostel"},{name:"YHA London Oxford Street",price:"20-50£/nuit",stars:1,type:"Auberge"},{name:"Clink261 Hostel",price:"22-55£/nuit",stars:2,type:"Hostel"}],
+    moyen:[{name:"Marriott County Hall",price:"200-400£/nuit",stars:4,type:"Hôtel 4★"},{name:"Premier Inn Waterloo",price:"130-220£/nuit",stars:3,type:"Hôtel 3★"},{name:"Hotel Indigo London",price:"180-320£/nuit",stars:4,type:"Boutique"}],
+    riche:[{name:"The Ritz London",price:"800-3000£/nuit",stars:5,type:"Palace"},{name:"Claridge's",price:"700-2500£/nuit",stars:5,type:"Palace"},{name:"The Savoy",price:"600-2200£/nuit",stars:5,type:"Palace"}],
+  },
+  rome:{
+    serré:[{name:"Hotel Panda",price:"60-90€/nuit",stars:2,type:"Hôtel éco"},{name:"The Yellow Hostel",price:"20-45€/nuit",stars:2,type:"Hostel"},{name:"Campo de' Fiori Hostel",price:"25-50€/nuit",stars:1,type:"Hostel"}],
+    moyen:[{name:"Mercure Roma",price:"130-200€/nuit",stars:4,type:"Hôtel 4★"},{name:"Hotel Nazionale",price:"140-210€/nuit",stars:4,type:"Hôtel 4★"},{name:"NH Collection Giustiniano",price:"120-190€/nuit",stars:4,type:"Hôtel 4★"}],
+    riche:[{name:"Hotel de Russie",price:"700-2000€/nuit",stars:5,type:"Hôtel 5★"},{name:"Hotel Eden",price:"600-1800€/nuit",stars:5,type:"Hôtel 5★"},{name:"Grand Hotel Via Veneto",price:"500-1500€/nuit",stars:5,type:"Hôtel 5★"}],
+  },
+  newyork:{
+    serré:[{name:"HI NYC Hostel",price:"50-90$/nuit",stars:1,type:"Auberge"},{name:"The Local NYC",price:"60-100$/nuit",stars:2,type:"Hostel"},{name:"Pod 51",price:"80-130$/nuit",stars:2,type:"Micro-hôtel"}],
+    moyen:[{name:"The Pod Hotel",price:"150-250$/nuit",stars:3,type:"Hôtel 3★"},{name:"Marriott Times Square",price:"200-380$/nuit",stars:4,type:"Hôtel 4★"},{name:"Citizenm New York",price:"180-320$/nuit",stars:3,type:"Boutique"}],
+    riche:[{name:"The Plaza Hotel",price:"800-3000$/nuit",stars:5,type:"Palace"},{name:"The St. Regis New York",price:"900-3500$/nuit",stars:5,type:"Palace"},{name:"Mandarin Oriental NYC",price:"700-2500$/nuit",stars:5,type:"Palace"}],
+  },
+};
+
 function getDestData(dest) {
-  const rich = CITY_DATA[dest.id];
-  if (rich) return rich;
-  return genericData(dest);
+  const raw = CITY_DATA[dest.id] || genericData(dest);
+  const extraH = EXTRA_HOTELS[dest.id];
+  const hotels = {};
+  for (const tier of ["serré","moyen","riche"]) {
+    const h = raw.hotels[tier];
+    hotels[tier] = extraH ? extraH[tier] : (Array.isArray(h) ? h : [h]);
+  }
+  return { ...raw, hotels };
 }
 
 // ── MAP COMPONENT ──
@@ -420,7 +590,8 @@ function MapView({ destination, budget }) {
     mapInst.current = map;
     window.L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { attribution: "© OpenStreetMap" }).addTo(map);
     const mkIcon = (bg, em) => window.L.divIcon({ html: `<div style="background:${bg};color:white;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:15px;border:2px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.4)">${em}</div>`, className: "", iconSize: [32,32], iconAnchor: [16,16] });
-    window.L.marker(mc, { icon: mkIcon("#1E3A5F","🏨") }).addTo(map).bindPopup(`<strong>🏨 ${data.hotels[budget]?.name}</strong><br>${data.hotels[budget]?.price}`);
+    const h0 = data.hotels[budget]?.[0];
+    window.L.marker(mc, { icon: mkIcon("#1E3A5F","🏨") }).addTo(map).bindPopup(`<strong>🏨 ${h0?.name}</strong><br>${h0?.price}`);
     data.attractions.forEach(a => {
       window.L.marker(a.coords, { icon: mkIcon("#EF4444","📍") }).addTo(map).bindPopup(`<strong>${a.name}</strong><br>⏱ ${a.duration}<br>💰 ${a.budget[budget]}`);
     });
@@ -458,7 +629,7 @@ function generateItinerary(destination, budget, startDate, endDate, adults, chil
     const ai = (d * 2) % attractions.length;
     const ri = d % Math.max(restaurants.length, 1);
     const morning = d === 0
-      ? [{ time:"10h00", activity:`🛬 Arrivée & check-in — ${data.hotels[budget]?.name}`, note:"Installation, première exploration" }]
+      ? [{ time:"10h00", activity:`🛬 Arrivée & check-in — ${data.hotels[budget]?.[0]?.name}`, note:"Installation, première exploration" }]
       : [{ time:"09h00", activity:"☀️ Petit-déjeuner", note:`Pour ${adults} adulte${adults>1?"s":""}${children>0?` + ${children} enfant${children>1?"s":""}`:""}`}];
     const afternoon = [];
     if (attractions[ai]) afternoon.push({ time:"14h00", activity:`📍 ${attractions[ai].name}`, note:`${attractions[ai].duration} · ${attractions[ai].budget[budget]}` });
@@ -475,7 +646,8 @@ async function exportToPDF({ destination, origin, budget, startDate, endDate, ad
   const nights = Math.max(0, Math.round((new Date(endDate)-new Date(startDate))/86400000));
   const bColor = { serré:"#2DD4BF", moyen:"#F59E0B", riche:"#8B5CF6" }[budget];
   const fmtDate = ds => { const d=new Date(ds); const m=["jan","fév","mar","avr","mai","juin","juil","août","sep","oct","nov","déc"]; return `${d.getDate()} ${m[d.getMonth()]} ${d.getFullYear()}`; };
-  const hotel = data.hotels[budget];
+  const hotelList = data.hotels[budget] || [];
+  const hotel = hotelList[0];
 
   const html = `<!DOCTYPE html><html><head><meta charset="UTF-8">
 <title>VoyagePro - ${destination.name}</title>
@@ -543,9 +715,11 @@ async function exportToPDF({ destination, origin, budget, startDate, endDate, ad
     <div class="pill"><span>Dates</span><strong>${fmtDate(startDate)} → ${fmtDate(endDate)}</strong></div>
   </div>
   ${hotel ? `<div class="hotel-box">
-    <div class="label">🏨 Hébergement recommandé</div>
-    <div class="name">${hotel.name}</div>
-    <span class="stars">${"★".repeat(hotel.stars)}</span><span class="price">${hotel.price}</span>
+    <div class="label">🏨 Hébergements ${BUDGET_LABELS[budget].label}</div>
+    ${hotelList.map((h,i)=>`<div style="margin-bottom:${i<hotelList.length-1?'10px':'0'};padding-bottom:${i<hotelList.length-1?'10px':'0'};border-bottom:${i<hotelList.length-1?'1px solid rgba(255,255,255,.1)':'none'}">
+      <div class="name">${h.name} <span style="font-size:12px;color:#7dd3fc;font-weight:400">${h.type||''}</span></div>
+      <span class="stars">${"★".repeat(h.stars)}</span><span class="price">${h.price}</span>
+    </div>`).join('')}
   </div>` : ""}
   <div style="margin-top:30px;font-size:11px;color:#475569;">Généré le ${new Date().toLocaleDateString("fr-FR")} par VoyagePro</div>
 </div>
@@ -572,6 +746,25 @@ async function exportToPDF({ destination, origin, budget, startDate, endDate, ad
         <div class="sub">${r.type}</div>
       </div>
       <div class="card-right">${price ? `<span class="price-tag">${price}</span>` : `<span class="unavail">Non disponible pour ce budget</span>`}</div>
+    </div>`;
+  }).join("")}
+</div>
+
+<!-- HEBERGEMENTS -->
+<div class="page pagebreak">
+  <div class="header"><strong>🏨 Hébergements — ${destination.name}</strong><span>${BUDGET_LABELS[budget].icon} ${BUDGET_LABELS[budget].label}</span></div>
+  <h3>🏨 Options d'hébergement par budget</h3>
+  ${["serré","moyen","riche"].map(tier=>{
+    const list = data.hotels[tier];
+    return `<div style="margin-bottom:18px;">
+      <div style="background:${tier==="serré"?"#0a2a2a":tier==="moyen"?"#2a1a00":"#1a0a2a"};color:${tier==="serré"?"#2DD4BF":tier==="moyen"?"#F59E0B":"#8B5CF6"};padding:8px 14px;border-radius:8px;font-weight:700;font-size:13px;margin-bottom:10px;">${BUDGET_LABELS[tier].icon} ${BUDGET_LABELS[tier].label}</div>
+      ${list.map(h=>`<div class="card" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <div class="card-left">
+          <div class="name">${h.name} <span style="color:#64748b;font-weight:400;font-size:11px">${h.type||""}</span></div>
+          <div class="sub">${"★".repeat(h.stars)}${"☆".repeat(Math.max(0,5-h.stars))}</div>
+        </div>
+        <div class="card-right"><span class="price-tag">${h.price}</span></div>
+      </div>`).join("")}
     </div>`;
   }).join("")}
 </div>
@@ -638,6 +831,8 @@ export default function TravelPlanner() {
   const [destination, setDestination] = useState(null);
   const [budget, setBudget] = useState("");
   const [startDate, setStartDate] = useState("");
+  const [theme, setTheme] = useState("dark");
+  const [lang, setLang] = useState("fr");
   const [endDate, setEndDate] = useState("");
   const [adults, setAdults] = useState(2);
   const [children, setChildren] = useState(0);
@@ -647,6 +842,10 @@ export default function TravelPlanner() {
   const [continent, setContinent] = useState("tous");
   const [hoveredId, setHoveredId] = useState(null);
   const [pdfLoading, setPdfLoading] = useState(false);
+
+  const T = LANG[lang];
+  const TH = THEMES[theme];
+  const isRTL = lang === "ar";
 
   const nights = startDate && endDate ? Math.max(0, Math.round((new Date(endDate)-new Date(startDate))/86400000)) : 0;
   const data = destination ? getDestData(destination) : null;
@@ -674,35 +873,35 @@ export default function TravelPlanner() {
   const css = `
     @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap');
     *{box-sizing:border-box;margin:0;padding:0;}
-    body{background:#080F1E;font-family:'DM Sans',sans-serif;color:#E2E8F0;}
-    ::-webkit-scrollbar{width:6px;}::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.15);border-radius:3px;}
+    body{background:${TH.bg};font-family:'DM Sans',sans-serif;color:${TH.text};}
+    ::-webkit-scrollbar{width:6px;}::-webkit-scrollbar-thumb{background:rgba(128,128,128,.3);border-radius:3px;}
     .bp{background:linear-gradient(135deg,#1E6FA8,#0EA5E9);color:white;border:none;padding:13px 30px;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif;}
     .bp:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(14,165,233,.35);}
     .bp:disabled{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none;}
     .bpdf{background:linear-gradient(135deg,#7C3AED,#8B5CF6);color:white;border:none;padding:11px 22px;border-radius:11px;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif;display:flex;align-items:center;gap:8px;}
     .bpdf:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(139,92,246,.4);}
     .bpdf:disabled{opacity:.5;cursor:not-allowed;transform:none;}
-    .card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:20px;transition:border-color .2s;}
-    .card:hover{border-color:rgba(255,255,255,.16);}
-    input,select{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:10px;color:#E2E8F0;padding:11px 14px;font-size:14px;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .2s;width:100%;}
+    .card{background:${TH.card};border:1px solid ${TH.cardBorder};border-radius:16px;padding:20px;transition:border-color .2s,background .2s;color:${TH.text};}
+    .card:hover{border-color:${TH.cardHover};}
+    input,select{background:${TH.inputBg};border:1px solid ${TH.inputBorder};border-radius:10px;color:${TH.text};padding:11px 14px;font-size:14px;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .2s;width:100%;}
     input:focus,select:focus{border-color:#0EA5E9;}
-    input[type=date]::-webkit-calendar-picker-indicator{filter:invert(1) opacity(.5);cursor:pointer;}
-    select option{background:#0D1629;}
+    input[type=date]::-webkit-calendar-picker-indicator{filter:${theme==='dark'?'invert(1) opacity(.5)':'opacity(.5)'};cursor:pointer;}
+    select option{background:${TH.inputBg};color:${TH.text};}
     .tab{padding:10px 18px;border-radius:8px;border:none;cursor:pointer;font-size:13px;font-weight:500;font-family:'DM Sans',sans-serif;transition:all .2s;}
-    .dc{cursor:pointer;padding:13px;border-radius:12px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03);transition:all .15s;}
+    .dc{cursor:pointer;padding:13px;border-radius:12px;border:1px solid ${TH.cardBorder};background:${TH.card};transition:all .15s;}
     .dc:hover{border-color:rgba(14,165,233,.4);background:rgba(14,165,233,.07);}
     .dc.sel{border:2px solid #0EA5E9;background:rgba(14,165,233,.12);}
     @keyframes spin{to{transform:rotate(360deg)}}
     .sp{width:14px;height:14px;border:2px solid rgba(255,255,255,.3);border-top-color:white;border-radius:50%;display:inline-block;animation:spin 0.8s linear infinite;}
     .pcard{position:relative;border-radius:14px;overflow:hidden;cursor:pointer;aspect-ratio:4/3;transition:box-shadow .2s,transform .2s;}
-    .pcard:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(0,0,0,.5);}
+    .pcard:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(0,0,0,.4);}
     .pcard img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .45s ease;}
     .pcard:hover img{transform:scale(1.08);}
     .pcard-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.85) 0%,rgba(0,0,0,.15) 55%,transparent 100%);}
     .pcard-text{position:absolute;bottom:0;left:0;right:0;padding:10px 10px 9px;}
-    .cfbtn{padding:8px 16px;border-radius:20px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);color:rgba(148,163,184,.8);font-size:12px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .18s;white-space:nowrap;}
-    .cfbtn:hover{border-color:rgba(14,165,233,.5);background:rgba(14,165,233,.1);color:#7DD3FC;}
-    .cfbtn.act{border-color:#0EA5E9;background:rgba(14,165,233,.18);color:#38BDF8;font-weight:600;}
+    .cfbtn{padding:8px 16px;border-radius:20px;border:1px solid ${TH.cardBorder};background:${TH.card};color:${TH.text2};font-size:12px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .18s;white-space:nowrap;}
+    .cfbtn:hover{border-color:rgba(14,165,233,.5);background:rgba(14,165,233,.1);color:#0EA5E9;}
+    .cfbtn.act{border-color:#0EA5E9;background:rgba(14,165,233,.18);color:#0EA5E9;font-weight:700;}
     .feat-strip{display:flex;gap:10px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none;}
     .feat-strip::-webkit-scrollbar{display:none;}
     .feat-card{position:relative;border-radius:12px;overflow:hidden;cursor:pointer;flex-shrink:0;width:130px;height:90px;transition:transform .2s;}
@@ -711,31 +910,50 @@ export default function TravelPlanner() {
     .feat-card:hover img{transform:scale(1.1);}
     .feat-card-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.7),transparent);}
     .feat-card-lbl{position:absolute;bottom:6px;left:8px;font-size:11px;font-weight:700;color:white;}
+    label{color:${TH.text2};}
   `;
 
   return (
     <>
       <style>{css}</style>
-      <div style={{ minHeight:"100vh", background:"linear-gradient(160deg,#050D1F 0%,#0A1628 50%,#060E1A 100%)" }}>
+      <div dir={isRTL ? "rtl" : "ltr"} style={{ minHeight:"100vh", background:TH.bg2, color:TH.text }}>
 
         {/* HEADER */}
-        <div style={{ background:"linear-gradient(135deg,#0A1E3D,#0F2952,#0A1628)", borderBottom:"1px solid rgba(14,165,233,.15)", padding:"18px 0 14px" }}>
+        <div style={{ background:TH.headerBg, borderBottom:`1px solid ${TH.headerBorder}`, padding:"18px 0 14px" }}>
           <div style={{ maxWidth:1140, margin:"0 auto", padding:"0 24px" }}>
-            <div style={{ display:"flex", alignItems:"center", gap:12, marginBottom:6 }}>
-              <span style={{ fontSize:32 }}>✈️</span>
-              <div>
-                <div style={{ fontFamily:"'Playfair Display',serif", fontSize:26, fontWeight:900, background:"linear-gradient(135deg,#7DD3FC,#38BDF8,#0EA5E9)", WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent" }}>VoyagePro</div>
-                <div style={{ fontSize:11, color:"rgba(148,163,184,.7)", letterSpacing:"2px", textTransform:"uppercase" }}>50 destinations mondiales · Export PDF</div>
+            <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:6 }}>
+              <div style={{ display:"flex", alignItems:"center", gap:12 }}>
+                <span style={{ fontSize:32 }}>✈️</span>
+                <div>
+                  <div style={{ fontFamily:"'Playfair Display',serif", fontSize:26, fontWeight:900, background:"linear-gradient(135deg,#7DD3FC,#38BDF8,#0EA5E9)", WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent" }}>VoyagePro</div>
+                  <div style={{ fontSize:11, color:TH.text3, letterSpacing:"2px", textTransform:"uppercase" }}>50 destinations mondiales · Export PDF</div>
+                </div>
+              </div>
+              <div style={{ display:"flex", gap:8, alignItems:"center" }}>
+                {/* Language switcher */}
+                <div style={{ display:"flex", gap:4 }}>
+                  {["fr","en","ar"].map(l=>(
+                    <button key={l} onClick={()=>setLang(l)} style={{ padding:"5px 10px", borderRadius:7, border:`1px solid ${lang===l?"#0EA5E9":TH.cardBorder}`, background:lang===l?"rgba(14,165,233,.18)":TH.card, color:lang===l?"#7DD3FC":TH.text2, fontSize:11, fontWeight:lang===l?700:500, cursor:"pointer", fontFamily:"'DM Sans',sans-serif", textTransform:"uppercase", letterSpacing:"1px" }}>{l}</button>
+                  ))}
+                </div>
+                {/* Theme toggle */}
+                <button onClick={()=>setTheme(t=>t==="dark"?"light":"dark")} style={{ padding:"6px 12px", borderRadius:8, border:`1px solid ${TH.cardBorder}`, background:TH.card, color:TH.text2, fontSize:16, cursor:"pointer", display:"flex", alignItems:"center", gap:6, fontFamily:"'DM Sans',sans-serif" }}>
+                  {theme==="dark"?"☀️":"🌙"}<span style={{ fontSize:11, fontWeight:500 }}>{theme==="dark"?"Clair":"Sombre"}</span>
+                </button>
               </div>
             </div>
             <div style={{ display:"flex", gap:6, marginTop:12, flexWrap:"wrap" }}>
-              {[["1","Destination"],["2","Paramètres"],["3","Programme"]].map(([n,l],i) => (
-                <div key={n} style={{ display:"flex", alignItems:"center", gap:6 }}>
-                  <div style={{ width:24, height:24, borderRadius:"50%", background:step>=i+1?"linear-gradient(135deg,#0EA5E9,#38BDF8)":"rgba(255,255,255,.08)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:11, fontWeight:700, color:step>=i+1?"white":"rgba(148,163,184,.5)", border:step===i+1?"2px solid #38BDF8":"2px solid transparent" }}>{n}</div>
-                  <span style={{ fontSize:12, color:step>=i+1?"#7DD3FC":"rgba(148,163,184,.5)", fontWeight:step===i+1?600:400 }}>{l}</span>
-                  {i<2 && <div style={{ width:14, height:1, background:"rgba(255,255,255,.1)", margin:"0 4px" }}/>}
-                </div>
-              ))}
+              {[[T.tabs?.[0]?.replace(/[^\w\s]/g,"").trim()||"Destination","Destination"],[T.configure||"Paramètres","Paramètres"],["Programme","Programme"]].map(([,l],i) => {
+                const labels = [T.tabs?.[0]?.split(" ").slice(1).join(" ")||"Destination", T.configure?.split(" ")[0]||"Paramètres", "Programme"];
+                const label = ["Destination","Paramètres","Programme"][i];
+                return (
+                  <div key={i} style={{ display:"flex", alignItems:"center", gap:6 }}>
+                    <div style={{ width:24, height:24, borderRadius:"50%", background:step>=i+1?"linear-gradient(135deg,#0EA5E9,#38BDF8)":TH.card, display:"flex", alignItems:"center", justifyContent:"center", fontSize:11, fontWeight:700, color:step>=i+1?"white":TH.text3, border:step===i+1?"2px solid #38BDF8":"2px solid transparent" }}>{i+1}</div>
+                    <span style={{ fontSize:12, color:step>=i+1?"#7DD3FC":TH.text3, fontWeight:step===i+1?600:400 }}>{label}</span>
+                    {i<2 && <div style={{ width:14, height:1, background:TH.cardBorder, margin:"0 4px" }}/>}
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
@@ -746,8 +964,8 @@ export default function TravelPlanner() {
           {step===1 && (
             <div>
               {/* HERO BANNER */}
-              <div style={{ borderRadius:20, overflow:"hidden", marginBottom:26, position:"relative", background:"linear-gradient(135deg,#061226,#0A1E3D,#0D1530)", padding:"36px 32px 32px" }}>
-                <div style={{ position:"absolute", top:0, right:0, bottom:0, width:"48%", display:"flex", gap:2, overflow:"hidden" }}>
+              <div style={{ borderRadius:20, overflow:"hidden", marginBottom:26, position:"relative", background:TH.heroBg, padding:"36px 32px 32px" }}>
+                <div style={{ position:"absolute", top:0, [isRTL?"left":"right"]:0, bottom:0, width:"48%", display:"flex", gap:2, overflow:"hidden" }}>
                   <div style={{ flex:1, display:"flex", flexDirection:"column", gap:2 }}>
                     {[DESTINATIONS[0],DESTINATIONS[7],DESTINATIONS[24]].map(d=>(
                       <div key={d.id} style={{ flex:1, backgroundImage:`url(${d.photo})`, backgroundSize:"cover", backgroundPosition:"center", opacity:.45 }}/>
@@ -758,14 +976,14 @@ export default function TravelPlanner() {
                       <div key={d.id} style={{ flex:1, backgroundImage:`url(${d.photo})`, backgroundSize:"cover", backgroundPosition:"center", opacity:.45 }}/>
                     ))}
                   </div>
-                  <div style={{ position:"absolute", top:0, left:0, bottom:0, right:0, background:"linear-gradient(to right,#0A1E3D 10%,rgba(10,30,61,.4) 60%,transparent 100%)" }}/>
+                  <div style={{ position:"absolute", top:0, left:0, bottom:0, right:0, background:`linear-gradient(to ${isRTL?"left":"right"},${theme==="dark"?"#0A1E3D":"#1E3A8A"} 10%,rgba(10,30,61,.4) 60%,transparent 100%)` }}/>
                 </div>
                 <div style={{ position:"relative", zIndex:1, maxWidth:500 }}>
                   <div style={{ fontSize:10, letterSpacing:"3px", color:"#7DD3FC", textTransform:"uppercase", marginBottom:10 }}>✈ Planificateur de voyage intelligent</div>
                   <h1 style={{ fontFamily:"'Playfair Display',serif", fontSize:34, fontWeight:900, lineHeight:1.18, marginBottom:12, background:"linear-gradient(135deg,#fff 40%,#7DD3FC)", WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent" }}>
-                    Planifiez votre<br/>voyage de rêve
+                    {T.hero_title}
                   </h1>
-                  <p style={{ fontSize:14, color:"rgba(148,163,184,.8)", marginBottom:20, lineHeight:1.65 }}>50 destinations · Hôtels, attractions & restaurants<br/>Itinéraire personnalisé · Export PDF gratuit</p>
+                  <p style={{ fontSize:14, color:"rgba(148,163,184,.8)", marginBottom:20, lineHeight:1.65 }}>{T.hero_sub}</p>
                   <div style={{ display:"flex", gap:16, flexWrap:"wrap" }}>
                     {[["🗺️","50 destinations"],["🏨","Hôtels inclus"],["📅","Itinéraire auto"],["📥","Export PDF"]].map(([ic,txt])=>(
                       <div key={txt} style={{ display:"flex", alignItems:"center", gap:5, fontSize:12, color:"#7DD3FC" }}><span>{ic}</span><span>{txt}</span></div>
@@ -776,7 +994,7 @@ export default function TravelPlanner() {
 
               {/* ORIGIN */}
               <div style={{ marginBottom:18 }}>
-                <label style={{ display:"block", marginBottom:7, fontSize:12, fontWeight:600, color:"#7DD3FC", textTransform:"uppercase", letterSpacing:"1px" }}>🛫 Ville de départ</label>
+                <label style={{ display:"block", marginBottom:7, fontSize:12, fontWeight:600, color:"#7DD3FC", textTransform:"uppercase", letterSpacing:"1px" }}>🛫 {T.depart}</label>
                 <select value={origin} onChange={e=>setOrigin(e.target.value)} style={{ maxWidth:340 }}>
                   <option value="">— Choisir une ville —</option>
                   {ORIGINS.map(o=><option key={o} value={o}>{o}</option>)}
@@ -785,21 +1003,21 @@ export default function TravelPlanner() {
 
               {/* SEARCH */}
               <div style={{ marginBottom:14 }}>
-                <label style={{ display:"block", marginBottom:7, fontSize:12, fontWeight:600, color:"#7DD3FC", textTransform:"uppercase", letterSpacing:"1px" }}>🔍 Rechercher une destination</label>
+                <label style={{ display:"block", marginBottom:7, fontSize:12, fontWeight:600, color:"#7DD3FC", textTransform:"uppercase", letterSpacing:"1px" }}>🔍 {T.search_ph.split(",")[0]}…</label>
                 <div style={{ display:"flex", gap:10, alignItems:"center" }}>
                   <div style={{ position:"relative", flex:1, maxWidth:380 }}>
-                    <span style={{ position:"absolute", left:12, top:"50%", transform:"translateY(-50%)", fontSize:15, opacity:.5 }}>🔍</span>
-                    <input value={search} onChange={e=>{setSearch(e.target.value);setContinent("tous");}} placeholder="Paris, Tokyo, Bali, Marrakech…" style={{ paddingLeft:36, width:"100%" }}/>
-                    {search && <button onClick={()=>setSearch("")} style={{ position:"absolute", right:10, top:"50%", transform:"translateY(-50%)", background:"none", border:"none", color:"rgba(148,163,184,.6)", cursor:"pointer", fontSize:16, lineHeight:1 }}>×</button>}
+                    <span style={{ position:"absolute", [isRTL?"right":"left"]:12, top:"50%", transform:"translateY(-50%)", fontSize:15, opacity:.5 }}>🔍</span>
+                    <input value={search} onChange={e=>{setSearch(e.target.value);setContinent("tous");}} placeholder={T.search_ph} style={{ [isRTL?"paddingRight":"paddingLeft"]:36, width:"100%" }}/>
+                    {search && <button onClick={()=>setSearch("")} style={{ position:"absolute", [isRTL?"left":"right"]:10, top:"50%", transform:"translateY(-50%)", background:"none", border:"none", color:TH.text3, cursor:"pointer", fontSize:16, lineHeight:1 }}>×</button>}
                   </div>
-                  <span style={{ fontSize:12, color:"rgba(148,163,184,.5)", whiteSpace:"nowrap" }}>{filtered.length} résultat{filtered.length!==1?"s":""}</span>
+                  <span style={{ fontSize:12, color:TH.text3, whiteSpace:"nowrap" }}>{filtered.length} {T.results}{filtered.length!==1?"s":""}</span>
                 </div>
               </div>
 
               {/* FEATURED QUICK-PICKS (shown when search is empty) */}
               {!search && (
                 <div style={{ marginBottom:16 }}>
-                  <div style={{ fontSize:11, color:"rgba(148,163,184,.5)", textTransform:"uppercase", letterSpacing:"1px", marginBottom:8 }}>Destinations tendance</div>
+                  <div style={{ fontSize:11, color:TH.text3, textTransform:"uppercase", letterSpacing:"1px", marginBottom:8 }}>{T.trending}</div>
                   <div className="feat-strip">
                     {FEATURED_IDS.map(id=>{
                       const d = DESTINATIONS.find(x=>x.id===id);
@@ -851,20 +1069,20 @@ export default function TravelPlanner() {
                   </div>
                 ))}
                 {filtered.length===0 && (
-                  <div style={{ gridColumn:"1/-1", textAlign:"center", padding:"40px 20px", color:"rgba(148,163,184,.5)" }}>
+                  <div style={{ gridColumn:"1/-1", textAlign:"center", padding:"40px 20px", color:TH.text3 }}>
                     <div style={{ fontSize:32, marginBottom:8 }}>🔍</div>
-                    <div>Aucune destination trouvée pour « {search} »</div>
+                    <div>{T.no_dest} « {search} »</div>
                   </div>
                 )}
               </div>
 
               {destination && (
                 <div style={{ marginBottom:16, padding:"10px 16px", borderRadius:10, background:"rgba(14,165,233,.1)", border:"1px solid rgba(14,165,233,.25)", fontSize:13, color:"#7DD3FC", display:"inline-flex", alignItems:"center", gap:8 }}>
-                  {destination.emoji} <strong>{destination.name}</strong> {destination.flag} sélectionné{origin ? "" : " — choisissez aussi votre ville de départ"}
+                  {destination.emoji} <strong>{destination.name}</strong> {destination.flag} {T.selected}{origin ? "" : ` ${T.also_choose}`}
                 </div>
               )}
 
-              <button className="bp" disabled={!origin||!destination} onClick={()=>setStep(2)}>Continuer →</button>
+              <button className="bp" disabled={!origin||!destination} onClick={()=>setStep(2)}>{T.continue}</button>
             </div>
           )}
 
@@ -872,41 +1090,41 @@ export default function TravelPlanner() {
           {step===2 && (
             <div>
               <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:6 }}>
-                <button onClick={()=>setStep(1)} style={{ background:"transparent", border:"none", color:"#7DD3FC", cursor:"pointer", fontSize:13, padding:0 }}>← Retour</button>
-                <div style={{ width:1, height:13, background:"rgba(255,255,255,.15)" }}/>
-                <span style={{ color:"rgba(148,163,184,.6)", fontSize:13 }}>{origin} → {destination.name} {destination.flag}</span>
+                <button onClick={()=>setStep(1)} style={{ background:"transparent", border:"none", color:"#7DD3FC", cursor:"pointer", fontSize:13, padding:0 }}>{T.back}</button>
+                <div style={{ width:1, height:13, background:TH.cardBorder }}/>
+                <span style={{ color:TH.text2, fontSize:13 }}>{origin} → {destination.name} {destination.flag}</span>
               </div>
-              <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:24, fontWeight:700, marginBottom:20 }}>Configurez votre voyage</h2>
+              <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:24, fontWeight:700, marginBottom:20, color:TH.text }}>{T.configure}</h2>
 
               <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:13, marginBottom:20 }}>
-                <div><label style={{ display:"block", marginBottom:6, fontSize:12, fontWeight:600, color:"#7DD3FC", textTransform:"uppercase", letterSpacing:"1px" }}>📅 Date de départ</label><input type="date" value={startDate} min={new Date().toISOString().split("T")[0]} onChange={e=>setStartDate(e.target.value)}/></div>
-                <div><label style={{ display:"block", marginBottom:6, fontSize:12, fontWeight:600, color:"#7DD3FC", textTransform:"uppercase", letterSpacing:"1px" }}>📅 Date de retour</label><input type="date" value={endDate} min={startDate||new Date().toISOString().split("T")[0]} onChange={e=>setEndDate(e.target.value)}/></div>
+                <div><label style={{ display:"block", marginBottom:6, fontSize:12, fontWeight:600, color:"#7DD3FC", textTransform:"uppercase", letterSpacing:"1px" }}>📅 {T.dep_date}</label><input type="date" value={startDate} min={new Date().toISOString().split("T")[0]} onChange={e=>setStartDate(e.target.value)}/></div>
+                <div><label style={{ display:"block", marginBottom:6, fontSize:12, fontWeight:600, color:"#7DD3FC", textTransform:"uppercase", letterSpacing:"1px" }}>📅 {T.ret_date}</label><input type="date" value={endDate} min={startDate||new Date().toISOString().split("T")[0]} onChange={e=>setEndDate(e.target.value)}/></div>
               </div>
-              {nights>0 && <div style={{ background:"rgba(14,165,233,.1)", border:"1px solid rgba(14,165,233,.25)", borderRadius:9, padding:"8px 14px", marginBottom:18, fontSize:13, color:"#7DD3FC", display:"inline-block" }}>✨ <strong>{nights} nuit{nights>1?"s":""}</strong> à {destination.name}</div>}
+              {nights>0 && <div style={{ background:"rgba(14,165,233,.1)", border:"1px solid rgba(14,165,233,.25)", borderRadius:9, padding:"8px 14px", marginBottom:18, fontSize:13, color:"#7DD3FC", display:"inline-block" }}>✨ <strong>{T.nights(nights)}</strong> à {destination.name}</div>}
 
               <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:13, marginBottom:20 }}>
-                {[["👤 Adultes",adults,setAdults,1],["👶 Enfants",children,setChildren,0]].map(([lbl,val,set,min]) => (
+                {[[`👤 ${T.adults}`,adults,setAdults,1],[`👶 ${T.children}`,children,setChildren,0]].map(([lbl,val,set,min]) => (
                   <div key={lbl}><label style={{ display:"block", marginBottom:6, fontSize:12, fontWeight:600, color:"#7DD3FC", textTransform:"uppercase", letterSpacing:"1px" }}>{lbl}</label>
                     <div style={{ display:"flex", gap:8, alignItems:"center" }}>
-                      <button onClick={()=>set(Math.max(min,val-1))} style={{ width:32, height:32, borderRadius:8, border:"1px solid rgba(255,255,255,.15)", background:"rgba(255,255,255,.06)", color:"white", cursor:"pointer", fontSize:18 }}>−</button>
-                      <span style={{ fontSize:18, fontWeight:700, minWidth:28, textAlign:"center" }}>{val}</span>
-                      <button onClick={()=>set(val+1)} style={{ width:32, height:32, borderRadius:8, border:"1px solid rgba(255,255,255,.15)", background:"rgba(255,255,255,.06)", color:"white", cursor:"pointer", fontSize:18 }}>+</button>
+                      <button onClick={()=>set(Math.max(min,val-1))} style={{ width:32, height:32, borderRadius:8, border:`1px solid ${TH.cardBorder}`, background:TH.card, color:TH.text, cursor:"pointer", fontSize:18 }}>−</button>
+                      <span style={{ fontSize:18, fontWeight:700, minWidth:28, textAlign:"center", color:TH.text }}>{val}</span>
+                      <button onClick={()=>set(val+1)} style={{ width:32, height:32, borderRadius:8, border:`1px solid ${TH.cardBorder}`, background:TH.card, color:TH.text, cursor:"pointer", fontSize:18 }}>+</button>
                     </div>
                   </div>
                 ))}
               </div>
 
-              <label style={{ display:"block", marginBottom:11, fontSize:12, fontWeight:600, color:"#7DD3FC", textTransform:"uppercase", letterSpacing:"1px" }}>💰 Type de budget</label>
+              <label style={{ display:"block", marginBottom:11, fontSize:12, fontWeight:600, color:"#7DD3FC", textTransform:"uppercase", letterSpacing:"1px" }}>💰 {T.budget_type}</label>
               <div style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:10, marginBottom:26 }}>
                 {Object.entries(BUDGET_LABELS).map(([key,val]) => (
-                  <div key={key} onClick={()=>setBudget(key)} className="card" style={{ cursor:"pointer", textAlign:"center", padding:"16px 10px", border:budget===key?`2px solid ${val.color}`:"1px solid rgba(255,255,255,.08)", background:budget===key?`rgba(${key==="serré"?"45,212,191":key==="moyen"?"245,158,11":"139,92,246"},.08)`:"rgba(255,255,255,.04)" }}>
+                  <div key={key} onClick={()=>setBudget(key)} className="card" style={{ cursor:"pointer", textAlign:"center", padding:"16px 10px", border:budget===key?`2px solid ${val.color}`:`1px solid ${TH.cardBorder}`, background:budget===key?`rgba(${key==="serré"?"45,212,191":key==="moyen"?"245,158,11":"139,92,246"},.08)`:TH.card }}>
                     <div style={{ fontSize:26, marginBottom:5 }}>{val.icon}</div>
-                    <div style={{ fontWeight:700, fontSize:14, marginBottom:3, color:budget===key?val.color:"white" }}>{val.label}</div>
-                    <div style={{ fontSize:11, color:"rgba(148,163,184,.7)" }}>{val.desc}</div>
+                    <div style={{ fontWeight:700, fontSize:14, marginBottom:3, color:budget===key?val.color:TH.text }}>{val.label}</div>
+                    <div style={{ fontSize:11, color:TH.text2 }}>{val.desc}</div>
                   </div>
                 ))}
               </div>
-              <button className="bp" disabled={!startDate||!endDate||!budget} onClick={handlePlan}>🗺️ Générer mon programme</button>
+              <button className="bp" disabled={!startDate||!endDate||!budget} onClick={handlePlan}>{T.generate}</button>
             </div>
           )}
 
@@ -914,44 +1132,47 @@ export default function TravelPlanner() {
           {step===3 && data && (
             <div>
               {/* Summary bar */}
-              <div style={{ background:"linear-gradient(135deg,#0A1E3D,#0F2952)", border:"1px solid rgba(14,165,233,.2)", borderRadius:13, padding:"13px 18px", marginBottom:18, display:"flex", flexWrap:"wrap", gap:12, alignItems:"center", justifyContent:"space-between" }}>
+              <div style={{ background:TH.summaryBg, border:`1px solid ${TH.summaryBorder}`, borderRadius:13, padding:"13px 18px", marginBottom:18, display:"flex", flexWrap:"wrap", gap:12, alignItems:"center", justifyContent:"space-between" }}>
                 <div style={{ display:"flex", gap:14, flexWrap:"wrap" }}>
-                  {[["Trajet",`${origin} → ${destination.name} ${destination.flag}`],["Séjour",`${nights} nuit${nights>1?"s":""}`],["Voyageurs",`${adults} adulte${adults>1?"s":""}${children>0?` + ${children} enfant${children>1?"s":""}`:""}`],["Budget",`${BUDGET_LABELS[budget].icon} ${BUDGET_LABELS[budget].label}`]].map(([k,v]) => (
-                    <div key={k}><div style={{ fontSize:10, color:"rgba(148,163,184,.6)", textTransform:"uppercase", letterSpacing:"1px" }}>{k}</div><div style={{ fontSize:14, fontWeight:700, color:k==="Budget"?BUDGET_LABELS[budget].color:"white" }}>{v}</div></div>
+                  {[[T.journey,`${origin} → ${destination.name} ${destination.flag}`],[T.stay,T.nights(nights)],[T.travelers,`${adults} adulte${adults>1?"s":""}${children>0?` + ${children} enfant${children>1?"s":""}`:""}`],[T.budget_label,`${BUDGET_LABELS[budget].icon} ${BUDGET_LABELS[budget].label}`]].map(([k,v]) => (
+                    <div key={k}><div style={{ fontSize:10, color:TH.text2, textTransform:"uppercase", letterSpacing:"1px" }}>{k}</div><div style={{ fontSize:14, fontWeight:700, color:k===T.budget_label?BUDGET_LABELS[budget].color:TH.text }}>{v}</div></div>
                   ))}
                 </div>
                 <div style={{ display:"flex", gap:8 }}>
                   <button className="bpdf" onClick={handlePDF} disabled={pdfLoading}>
-                    {pdfLoading ? <span className="sp"/> : "📥"} {pdfLoading ? "Génération…" : "Télécharger PDF"}
+                    {pdfLoading ? <span className="sp"/> : "📥"} {pdfLoading ? "Génération…" : T.dl_pdf}
                   </button>
-                  <button onClick={reset} style={{ background:"rgba(255,255,255,.06)", border:"1px solid rgba(255,255,255,.1)", color:"#94A3B8", padding:"8px 13px", borderRadius:8, cursor:"pointer", fontSize:13, fontFamily:"'DM Sans',sans-serif" }}>✏️ Modifier</button>
+                  <button onClick={reset} style={{ background:TH.btnSecBg, border:`1px solid ${TH.btnSecBorder}`, color:TH.btnSecColor, padding:"8px 13px", borderRadius:8, cursor:"pointer", fontSize:13, fontFamily:"'DM Sans',sans-serif" }}>{T.modify}</button>
                 </div>
               </div>
 
               {/* Hotel banner */}
-              <div style={{ background:"linear-gradient(135deg,rgba(14,165,233,.08),rgba(14,165,233,.03))", border:"1px solid rgba(14,165,233,.2)", borderRadius:13, padding:"13px 18px", marginBottom:18, display:"flex", alignItems:"center", gap:12 }}>
+              <div style={{ background:TH.hotelBg, border:`1px solid ${TH.hotelBorder}`, borderRadius:13, padding:"13px 18px", marginBottom:18, display:"flex", alignItems:"center", gap:12 }}>
                 <span style={{ fontSize:32 }}>🏨</span>
                 <div>
-                  <div style={{ fontSize:10, color:"#7DD3FC", textTransform:"uppercase", letterSpacing:"1px", marginBottom:3 }}>Hébergement recommandé</div>
-                  <div style={{ fontSize:17, fontWeight:700, marginBottom:3 }}>{data.hotels[budget]?.name}</div>
+                  <div style={{ fontSize:10, color:"#7DD3FC", textTransform:"uppercase", letterSpacing:"1px", marginBottom:3 }}>{T.recommended}</div>
+                  <div style={{ fontSize:17, fontWeight:700, marginBottom:3, color:TH.text }}>{data.hotels[budget]?.[0]?.name}</div>
                   <div style={{ display:"flex", gap:8, alignItems:"center" }}>
-                    <span>{Array.from({length:data.hotels[budget]?.stars||0},(_,i)=><span key={i} style={{color:"#F59E0B"}}>★</span>)}</span>
-                    <span style={{ fontSize:12, color:"rgba(148,163,184,.8)" }}>· {data.hotels[budget]?.price}</span>
+                    <span>{Array.from({length:data.hotels[budget]?.[0]?.stars||0},(_,i)=><span key={i} style={{color:"#F59E0B"}}>★</span>)}</span>
+                    <span style={{ fontSize:12, color:TH.text2 }}>· {data.hotels[budget]?.[0]?.price}</span>
                   </div>
                 </div>
               </div>
 
               {/* Tabs */}
               <div style={{ display:"flex", gap:7, marginBottom:20, flexWrap:"wrap" }}>
-                {[["attractions","🗺 Attractions"],["restaurants","🍽 Restaurants"],["itinerary","📅 Itinéraire"],["map","🗾 Carte"],["transport","✈️ Transport"]].map(([key,label]) => (
-                  <button key={key} onClick={()=>setActiveTab(key)} className="tab" style={{ background:activeTab===key?"linear-gradient(135deg,#1E6FA8,#0EA5E9)":"rgba(255,255,255,.06)", color:activeTab===key?"white":"rgba(148,163,184,.8)", border:activeTab===key?"none":"1px solid rgba(255,255,255,.1)" }}>{label}</button>
-                ))}
+                {T.tabs.map((label,i) => {
+                  const key = T.tab_keys[i];
+                  return (
+                    <button key={key} onClick={()=>setActiveTab(key)} className="tab" style={{ background:activeTab===key?TH.tabActive:TH.tabInactive, color:activeTab===key?"white":TH.tabInactiveColor, border:activeTab===key?"none":`1px solid ${TH.tabInactiveBorder}` }}>{label}</button>
+                  );
+                })}
               </div>
 
               {/* ATTRACTIONS */}
               {activeTab==="attractions" && (
                 <div>
-                  <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:19, fontWeight:700, marginBottom:13 }}>Attractions à {destination.name}</h3>
+                  <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:19, fontWeight:700, marginBottom:13, color:TH.text }}>Attractions à {destination.name}</h3>
                   <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(270px,1fr))", gap:11 }}>
                     {data.attractions.map(a => (
                       <div key={a.name} className="card" style={{ padding:15 }}>
@@ -960,7 +1181,7 @@ export default function TravelPlanner() {
                           <span style={{ padding:"3px 8px", borderRadius:20, fontSize:10, fontWeight:600, background:"rgba(14,165,233,.15)", color:"#7DD3FC", flexShrink:0, marginLeft:6 }}>{a.type}</span>
                         </div>
                         <div style={{ fontSize:12, color:"rgba(148,163,184,.7)", marginBottom:8 }}>⏱ {a.duration}</div>
-                        <div style={{ background:"rgba(255,255,255,.04)", borderRadius:8, padding:"7px 10px" }}>
+                        <div style={{ background:TH.inputBg, borderRadius:8, padding:"7px 10px" }}>
                           <div style={{ fontSize:10, color:BUDGET_LABELS[budget].color, fontWeight:600, textTransform:"uppercase", letterSpacing:"1px", marginBottom:2 }}>{BUDGET_LABELS[budget].icon} Prix</div>
                           <div style={{ fontSize:13, fontWeight:600 }}>{a.budget[budget]}</div>
                         </div>
@@ -973,7 +1194,7 @@ export default function TravelPlanner() {
               {/* RESTAURANTS */}
               {activeTab==="restaurants" && (
                 <div>
-                  <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:19, fontWeight:700, marginBottom:13 }}>Restaurants & Cafés à {destination.name}</h3>
+                  <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:19, fontWeight:700, marginBottom:13, color:TH.text }}>Restaurants & Cafés à {destination.name}</h3>
                   <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(270px,1fr))", gap:11 }}>
                     {data.restaurants.map(r => {
                       const price = r.budget[budget];
@@ -1003,7 +1224,7 @@ export default function TravelPlanner() {
               {activeTab==="itinerary" && (
                 <div>
                   <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:13, flexWrap:"wrap", gap:10 }}>
-                    <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:19, fontWeight:700 }}>Programme — {destination.name}</h3>
+                    <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:19, fontWeight:700, color:TH.text }}>Programme — {destination.name}</h3>
                     <button className="bpdf" onClick={handlePDF} disabled={pdfLoading} style={{ fontSize:12, padding:"9px 18px" }}>
                       {pdfLoading ? <><span className="sp"/> Génération…</> : "📥 PDF complet"}
                     </button>
@@ -1011,7 +1232,7 @@ export default function TravelPlanner() {
                   <div style={{ display:"flex", flexDirection:"column", gap:13 }}>
                     {itinerary.map(day => (
                       <div key={day.day} className="card" style={{ padding:"17px 20px" }}>
-                        <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:13, paddingBottom:11, borderBottom:"1px solid rgba(255,255,255,.07)" }}>
+                        <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:13, paddingBottom:11, borderBottom:`1px solid ${TH.cardBorder}` }}>
                           <div style={{ width:34, height:34, borderRadius:"50%", background:"linear-gradient(135deg,#1E6FA8,#0EA5E9)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:13, fontWeight:800, color:"white", flexShrink:0 }}>{day.day}</div>
                           <div><div style={{ fontSize:10, color:"#7DD3FC", textTransform:"uppercase", letterSpacing:"1px" }}>Jour {day.day}</div><div style={{ fontWeight:700, fontSize:14 }}>{day.date}</div></div>
                         </div>
@@ -1033,17 +1254,17 @@ export default function TravelPlanner() {
               {/* MAP */}
               {activeTab==="map" && (
                 <div>
-                  <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:19, fontWeight:700, marginBottom:13 }}>Carte — {destination.name}</h3>
+                  <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:19, fontWeight:700, marginBottom:13, color:TH.text }}>Carte — {destination.name}</h3>
                   <MapView destination={destination} budget={budget}/>
-                  <p style={{ marginTop:10, fontSize:12, color:"rgba(148,163,184,.6)", textAlign:"center" }}>Cliquez sur les marqueurs pour voir les détails et les prix</p>
+                  <p style={{ marginTop:10, fontSize:12, color:TH.text2, textAlign:"center" }}>Cliquez sur les marqueurs pour voir les détails et les prix</p>
                 </div>
               )}
 
               {/* TRANSPORT */}
               {activeTab==="transport" && (
                 <div>
-                  <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:19, fontWeight:700, marginBottom:6 }}>Transport — {destination.name}</h3>
-                  <p style={{ fontSize:13, color:"rgba(148,163,184,.65)", marginBottom:16 }}>Options de transport depuis {origin} vers {destination.name}</p>
+                  <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:19, fontWeight:700, marginBottom:6, color:TH.text }}>{T.transport_title} — {destination.name}</h3>
+                  <p style={{ fontSize:13, color:TH.text2, marginBottom:16 }}>Options de transport depuis {origin} vers {destination.name}</p>
 
                   {/* City-specific transport */}
                   <div style={{ display:"flex", flexDirection:"column", gap:11, marginBottom:22 }}>
@@ -1051,8 +1272,8 @@ export default function TravelPlanner() {
                       <div key={i} className="card" style={{ padding:"17px 20px", display:"flex", gap:13, alignItems:"flex-start", borderLeft:"3px solid #0EA5E9" }}>
                         <span style={{ fontSize:30, flexShrink:0 }}>{t.mode.split(" ")[0]}</span>
                         <div style={{ flex:1 }}>
-                          <div style={{ fontWeight:700, fontSize:14, marginBottom:4 }}>{t.mode}</div>
-                          <div style={{ fontSize:13, color:"rgba(148,163,184,.8)", marginBottom:8 }}>{t.info}</div>
+                          <div style={{ fontWeight:700, fontSize:14, marginBottom:4, color:TH.text }}>{t.mode}</div>
+                          <div style={{ fontSize:13, color:TH.text2, marginBottom:8 }}>{t.info}</div>
                           <div style={{ background:`rgba(${budget==="serré"?"45,212,191":budget==="moyen"?"245,158,11":"139,92,246"},.1)`, border:`1px solid rgba(${budget==="serré"?"45,212,191":budget==="moyen"?"245,158,11":"139,92,246"},.2)`, borderRadius:8, padding:"6px 12px", display:"inline-block", fontSize:12, fontWeight:600, color:BUDGET_LABELS[budget].color }}>{BUDGET_LABELS[budget].icon} {t.budgetNote}</div>
                         </div>
                       </div>
@@ -1061,27 +1282,66 @@ export default function TravelPlanner() {
 
                   {/* General transport modes visual grid */}
                   <div style={{ marginBottom:20 }}>
-                    <div style={{ fontSize:12, fontWeight:600, color:"#7DD3FC", textTransform:"uppercase", letterSpacing:"1px", marginBottom:12 }}>🌐 Moyens de transport généraux</div>
+                    <div style={{ fontSize:12, fontWeight:600, color:"#7DD3FC", textTransform:"uppercase", letterSpacing:"1px", marginBottom:12 }}>🌐 {T.transport_general}</div>
                     <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(200px,1fr))", gap:10 }}>
                       {TRANSPORT_MODES.map(tm=>(
                         <div key={tm.label} className="card" style={{ padding:"14px 16px", display:"flex", gap:12, alignItems:"flex-start", borderTop:`2px solid ${tm.color}` }}>
                           <span style={{ fontSize:26, flexShrink:0 }}>{tm.icon}</span>
                           <div>
-                            <div style={{ fontWeight:700, fontSize:13, marginBottom:4, color:"white" }}>{tm.label}</div>
-                            <div style={{ fontSize:11, color:"rgba(148,163,184,.75)", lineHeight:1.5 }}>{tm.desc}</div>
+                            <div style={{ fontWeight:700, fontSize:13, marginBottom:4, color:TH.text }}>{tm.label}</div>
+                            <div style={{ fontSize:11, color:TH.text2, lineHeight:1.5 }}>{tm.desc}</div>
                           </div>
                         </div>
                       ))}
                     </div>
                   </div>
 
-                  <div style={{ background:"rgba(255,255,255,.03)", border:"1px solid rgba(255,255,255,.08)", borderRadius:13, padding:"17px 20px" }}>
-                    <h4 style={{ fontWeight:700, marginBottom:11, fontSize:14, color:"#7DD3FC" }}>💡 Conseils pratiques</h4>
+                  <div style={{ background:TH.card, border:`1px solid ${TH.cardBorder}`, borderRadius:13, padding:"17px 20px" }}>
+                    <h4 style={{ fontWeight:700, marginBottom:11, fontSize:14, color:"#7DD3FC" }}>{T.tips}</h4>
                     <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:9 }}>
                       {[["📱","Téléchargez les cartes offline"],["💱",`Monnaie locale : ${destination.currency}`],["🌡",`Température : ${destination.temp}`],["🗣","Apprenez quelques mots locaux"],["🛡","Assurance voyage recommandée"],["📸","Copies numériques des documents"]].map(([e,t]) => (
-                        <div key={t} style={{ display:"flex", gap:7, alignItems:"flex-start", fontSize:12, color:"rgba(148,163,184,.8)" }}><span style={{ flexShrink:0 }}>{e}</span><span>{t}</span></div>
+                        <div key={t} style={{ display:"flex", gap:7, alignItems:"flex-start", fontSize:12, color:TH.text2 }}><span style={{ flexShrink:0 }}>{e}</span><span>{t}</span></div>
                       ))}
                     </div>
+                  </div>
+                </div>
+              )}
+
+              {/* HOTELS */}
+              {activeTab==="hotels" && (
+                <div>
+                  <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:19, fontWeight:700, marginBottom:6, color:TH.text }}>🏨 {T.hotel_options} — {destination.name}</h3>
+                  <p style={{ fontSize:13, color:TH.text2, marginBottom:18 }}>Tous les hébergements disponibles par catégorie de budget</p>
+                  <div style={{ display:"flex", flexDirection:"column", gap:20 }}>
+                    {["serré","moyen","riche"].map(tier=>{
+                      const list = data.hotels[tier] || [];
+                      const bl = BUDGET_LABELS[tier];
+                      return (
+                        <div key={tier}>
+                          <div style={{ display:"flex", alignItems:"center", gap:9, marginBottom:12, paddingBottom:9, borderBottom:`1px solid ${TH.cardBorder}` }}>
+                            <span style={{ fontSize:22 }}>{bl.icon}</span>
+                            <div style={{ fontWeight:700, fontSize:15, color:bl.color }}>{bl.label}</div>
+                            <span style={{ fontSize:12, color:TH.text2 }}>— {bl.desc}</span>
+                          </div>
+                          <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(250px,1fr))", gap:11 }}>
+                            {list.map((h,i)=>(
+                              <div key={i} className="card" style={{ padding:16, border:tier===budget?`2px solid ${bl.color}`:`1px solid ${TH.cardBorder}`, position:"relative" }}>
+                                {tier===budget && i===0 && (
+                                  <div style={{ position:"absolute", top:10, right:10, background:bl.color, color:"white", fontSize:9, fontWeight:700, padding:"2px 7px", borderRadius:10, textTransform:"uppercase", letterSpacing:"1px" }}>✓ {T.selected}</div>
+                                )}
+                                <div style={{ fontWeight:700, fontSize:14, marginBottom:4, color:TH.text, paddingRight:tier===budget&&i===0?70:0 }}>{h.name}</div>
+                                {h.type && <div style={{ fontSize:11, color:TH.text2, marginBottom:6 }}>{h.type}</div>}
+                                <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:8 }}>
+                                  <span style={{ color:"#F59E0B", fontSize:14 }}>{"★".repeat(h.stars)}{"☆".repeat(Math.max(0,5-h.stars))}</span>
+                                  <span style={{ fontSize:11, color:TH.text2 }}>{h.stars} {T.stars}{h.stars>1?"s":""}</span>
+                                </div>
+                                <div style={{ background:`rgba(${tier==="serré"?"45,212,191":tier==="moyen"?"245,158,11":"139,92,246"},.1)`, border:`1px solid rgba(${tier==="serré"?"45,212,191":tier==="moyen"?"245,158,11":"139,92,246"},.2)`, borderRadius:8, padding:"6px 10px", fontSize:13, fontWeight:600, color:bl.color }}>💰 {h.price}</div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
               )}
@@ -1089,8 +1349,8 @@ export default function TravelPlanner() {
           )}
         </div>
 
-        <div style={{ textAlign:"center", padding:"18px", borderTop:"1px solid rgba(255,255,255,.06)", color:"rgba(148,163,184,.4)", fontSize:11 }}>
-          VoyagePro — 50 destinations mondiales · Planificateur de voyage intelligent ✈️
+        <div style={{ textAlign:"center", padding:"18px", borderTop:`1px solid ${TH.cardBorder}`, color:TH.text3, fontSize:11 }}>
+          VoyagePro — 50+ destinations mondiales · Planificateur de voyage intelligent ✈️
         </div>
       </div>
     </>
