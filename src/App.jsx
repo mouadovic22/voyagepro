@@ -1,59 +1,83 @@
 import { useState, useEffect, useRef } from "react";
 
+const IMG = id => `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=600&q=80`;
+
 const DESTINATIONS = [
-  { id:"paris",      name:"Paris",          country:"France",        flag:"🇫🇷", emoji:"🗼", temp:"18°C", currency:"EUR", mapCenter:[48.8566,2.3522] },
-  { id:"tokyo",      name:"Tokyo",          country:"Japon",         flag:"🇯🇵", emoji:"🗾", temp:"22°C", currency:"JPY", mapCenter:[35.6762,139.6503] },
-  { id:"marrakech",  name:"Marrakech",      country:"Maroc",         flag:"🇲🇦", emoji:"🕌", temp:"28°C", currency:"MAD", mapCenter:[31.6295,-7.9811] },
-  { id:"rome",       name:"Rome",           country:"Italie",        flag:"🇮🇹", emoji:"🏛️", temp:"24°C", currency:"EUR", mapCenter:[41.9028,12.4964] },
-  { id:"dubai",      name:"Dubaï",          country:"Émirats",       flag:"🇦🇪", emoji:"🏙️", temp:"35°C", currency:"AED", mapCenter:[25.2048,55.2708] },
-  { id:"barcelona",  name:"Barcelone",      country:"Espagne",       flag:"🇪🇸", emoji:"🎭", temp:"21°C", currency:"EUR", mapCenter:[41.3851,2.1734] },
-  { id:"newyork",    name:"New York",       country:"USA",           flag:"🇺🇸", emoji:"🗽", temp:"15°C", currency:"USD", mapCenter:[40.7128,-74.0060] },
-  { id:"bali",       name:"Bali",           country:"Indonésie",     flag:"🇮🇩", emoji:"🌴", temp:"30°C", currency:"IDR", mapCenter:[-8.3405,115.0920] },
-  { id:"istanbul",   name:"Istanbul",       country:"Türkiye",       flag:"🇹🇷", emoji:"🕍", temp:"20°C", currency:"TRY", mapCenter:[41.0082,28.9784] },
-  { id:"london",     name:"Londres",        country:"Royaume-Uni",   flag:"🇬🇧", emoji:"🎡", temp:"14°C", currency:"GBP", mapCenter:[51.5074,-0.1278] },
-  { id:"singapore",  name:"Singapour",      country:"Singapour",     flag:"🇸🇬", emoji:"🦁", temp:"31°C", currency:"SGD", mapCenter:[1.3521,103.8198] },
-  { id:"bangkok",    name:"Bangkok",        country:"Thaïlande",     flag:"🇹🇭", emoji:"🛕", temp:"33°C", currency:"THB", mapCenter:[13.7563,100.5018] },
-  { id:"amsterdam",  name:"Amsterdam",      country:"Pays-Bas",      flag:"🇳🇱", emoji:"🌷", temp:"16°C", currency:"EUR", mapCenter:[52.3676,4.9041] },
-  { id:"prague",     name:"Prague",         country:"Tchéquie",      flag:"🇨🇿", emoji:"🏰", temp:"15°C", currency:"CZK", mapCenter:[50.0755,14.4378] },
-  { id:"vienna",     name:"Vienne",         country:"Autriche",      flag:"🇦🇹", emoji:"🎶", temp:"16°C", currency:"EUR", mapCenter:[48.2082,16.3738] },
-  { id:"sydney",     name:"Sydney",         country:"Australie",     flag:"🇦🇺", emoji:"🦘", temp:"22°C", currency:"AUD", mapCenter:[-33.8688,151.2093] },
-  { id:"kyoto",      name:"Kyoto",          country:"Japon",         flag:"🇯🇵", emoji:"⛩️", temp:"20°C", currency:"JPY", mapCenter:[35.0116,135.7681] },
-  { id:"losangeles", name:"Los Angeles",    country:"USA",           flag:"🇺🇸", emoji:"🎬", temp:"24°C", currency:"USD", mapCenter:[34.0522,-118.2437] },
-  { id:"miami",      name:"Miami",          country:"USA",           flag:"🇺🇸", emoji:"🌊", temp:"29°C", currency:"USD", mapCenter:[25.7617,-80.1918] },
-  { id:"lisbon",     name:"Lisbonne",       country:"Portugal",      flag:"🇵🇹", emoji:"🚋", temp:"19°C", currency:"EUR", mapCenter:[38.7223,-9.1393] },
-  { id:"athens",     name:"Athènes",        country:"Grèce",         flag:"🇬🇷", emoji:"🏺", temp:"25°C", currency:"EUR", mapCenter:[37.9838,23.7275] },
-  { id:"cairo",      name:"Le Caire",       country:"Égypte",        flag:"🇪🇬", emoji:"🐪", temp:"32°C", currency:"EGP", mapCenter:[30.0444,31.2357] },
-  { id:"capetown",   name:"Le Cap",         country:"Afrique du Sud",flag:"🇿🇦", emoji:"🦁", temp:"20°C", currency:"ZAR", mapCenter:[-33.9249,18.4241] },
-  { id:"maldives",   name:"Maldives",       country:"Maldives",      flag:"🇲🇻", emoji:"🏝️", temp:"30°C", currency:"MVR", mapCenter:[4.1755,73.5093] },
-  { id:"santorini",  name:"Santorin",       country:"Grèce",         flag:"🇬🇷", emoji:"🌅", temp:"25°C", currency:"EUR", mapCenter:[36.3932,25.4615] },
-  { id:"rio",        name:"Rio de Janeiro", country:"Brésil",        flag:"🇧🇷", emoji:"🎉", temp:"28°C", currency:"BRL", mapCenter:[-22.9068,-43.1729] },
-  { id:"buenosaires",name:"Buenos Aires",   country:"Argentine",     flag:"🇦🇷", emoji:"💃", temp:"20°C", currency:"ARS", mapCenter:[-34.6037,-58.3816] },
-  { id:"mexico",     name:"Mexico",         country:"Mexique",       flag:"🇲🇽", emoji:"🌮", temp:"22°C", currency:"MXN", mapCenter:[19.4326,-99.1332] },
-  { id:"havana",     name:"La Havane",      country:"Cuba",          flag:"🇨🇺", emoji:"🎺", temp:"28°C", currency:"CUP", mapCenter:[23.1136,-82.3666] },
-  { id:"beijing",    name:"Pékin",          country:"Chine",         flag:"🇨🇳", emoji:"🏯", temp:"18°C", currency:"CNY", mapCenter:[39.9042,116.4074] },
-  { id:"hongkong",   name:"Hong Kong",      country:"Chine (RAE)",   flag:"🇭🇰", emoji:"🌃", temp:"26°C", currency:"HKD", mapCenter:[22.3193,114.1694] },
-  { id:"seoul",      name:"Séoul",          country:"Corée du Sud",  flag:"🇰🇷", emoji:"🎎", temp:"16°C", currency:"KRW", mapCenter:[37.5665,126.9780] },
-  { id:"berlin",     name:"Berlin",         country:"Allemagne",     flag:"🇩🇪", emoji:"🌉", temp:"15°C", currency:"EUR", mapCenter:[52.5200,13.4050] },
-  { id:"munich",     name:"Munich",         country:"Allemagne",     flag:"🇩🇪", emoji:"🍺", temp:"14°C", currency:"EUR", mapCenter:[48.1351,11.5820] },
-  { id:"zurich",     name:"Zurich",         country:"Suisse",        flag:"🇨🇭", emoji:"⛰️", temp:"13°C", currency:"CHF", mapCenter:[47.3769,8.5417] },
-  { id:"toronto",    name:"Toronto",        country:"Canada",        flag:"🇨🇦", emoji:"🍁", temp:"12°C", currency:"CAD", mapCenter:[43.6532,-79.3832] },
-  { id:"montreal",   name:"Montréal",       country:"Canada",        flag:"🇨🇦", emoji:"🥐", temp:"10°C", currency:"CAD", mapCenter:[45.5017,-73.5673] },
-  { id:"mumbai",     name:"Mumbai",         country:"Inde",          flag:"🇮🇳", emoji:"🎥", temp:"30°C", currency:"INR", mapCenter:[19.0760,72.8777] },
-  { id:"delhi",      name:"New Delhi",      country:"Inde",          flag:"🇮🇳", emoji:"🕌", temp:"29°C", currency:"INR", mapCenter:[28.6139,77.2090] },
-  { id:"nairobi",    name:"Nairobi",        country:"Kenya",         flag:"🇰🇪", emoji:"🦒", temp:"24°C", currency:"KES", mapCenter:[-1.2921,36.8219] },
-  { id:"casablanca", name:"Casablanca",     country:"Maroc",         flag:"🇲🇦", emoji:"🕌", temp:"22°C", currency:"MAD", mapCenter:[33.5731,-7.5898] },
-  { id:"tunis",      name:"Tunis",          country:"Tunisie",       flag:"🇹🇳", emoji:"🏛️", temp:"23°C", currency:"TND", mapCenter:[36.8191,10.1658] },
-  { id:"alger",      name:"Alger",          country:"Algérie",       flag:"🇩🇿", emoji:"🏛️", temp:"20°C", currency:"DZD", mapCenter:[36.7538,3.0588] },
-  { id:"abudhabi",   name:"Abu Dhabi",      country:"Émirats",       flag:"🇦🇪", emoji:"🕌", temp:"34°C", currency:"AED", mapCenter:[24.4539,54.3773] },
-  { id:"doha",       name:"Doha",           country:"Qatar",         flag:"🇶🇦", emoji:"🏟️", temp:"33°C", currency:"QAR", mapCenter:[25.2854,51.5310] },
-  { id:"phuket",     name:"Phuket",         country:"Thaïlande",     flag:"🇹🇭", emoji:"🏖️", temp:"30°C", currency:"THB", mapCenter:[7.8804,98.3923] },
-  { id:"florence",   name:"Florence",       country:"Italie",        flag:"🇮🇹", emoji:"🎨", temp:"22°C", currency:"EUR", mapCenter:[43.7696,11.2558] },
-  { id:"venice",     name:"Venise",         country:"Italie",        flag:"🇮🇹", emoji:"🚤", temp:"19°C", currency:"EUR", mapCenter:[45.4408,12.3155] },
-  { id:"seville",    name:"Séville",        country:"Espagne",       flag:"🇪🇸", emoji:"💃", temp:"25°C", currency:"EUR", mapCenter:[37.3891,-5.9845] },
-  { id:"shanghai",   name:"Shanghai",       country:"Chine",         flag:"🇨🇳", emoji:"🌆", temp:"20°C", currency:"CNY", mapCenter:[31.2304,121.4737] },
+  { id:"paris",      name:"Paris",          country:"France",         flag:"🇫🇷", emoji:"🗼", temp:"18°C", currency:"EUR", mapCenter:[48.8566,2.3522],    continent:"europe",    photo:IMG("1502602898657-3e91760cbb34") },
+  { id:"tokyo",      name:"Tokyo",          country:"Japon",          flag:"🇯🇵", emoji:"🗾", temp:"22°C", currency:"JPY", mapCenter:[35.6762,139.6503],  continent:"asie",      photo:IMG("1540959733332-eab4deabeeaf") },
+  { id:"marrakech",  name:"Marrakech",      country:"Maroc",          flag:"🇲🇦", emoji:"🕌", temp:"28°C", currency:"MAD", mapCenter:[31.6295,-7.9811],   continent:"maghreb",   photo:IMG("1570168007204-ec17f8b76a88") },
+  { id:"rome",       name:"Rome",           country:"Italie",         flag:"🇮🇹", emoji:"🏛️", temp:"24°C", currency:"EUR", mapCenter:[41.9028,12.4964],   continent:"europe",    photo:IMG("1552832230-c0197dd311b5") },
+  { id:"dubai",      name:"Dubaï",          country:"Émirats",        flag:"🇦🇪", emoji:"🏙️", temp:"35°C", currency:"AED", mapCenter:[25.2048,55.2708],   continent:"maghreb",   photo:IMG("1512453979798-5ea266f8880c") },
+  { id:"barcelona",  name:"Barcelone",      country:"Espagne",        flag:"🇪🇸", emoji:"🎭", temp:"21°C", currency:"EUR", mapCenter:[41.3851,2.1734],    continent:"europe",    photo:IMG("1583422409516-2895a77efded") },
+  { id:"newyork",    name:"New York",       country:"USA",            flag:"🇺🇸", emoji:"🗽", temp:"15°C", currency:"USD", mapCenter:[40.7128,-74.0060],   continent:"ameriques", photo:IMG("1496442226666-8d4d0e62e6e9") },
+  { id:"bali",       name:"Bali",           country:"Indonésie",      flag:"🇮🇩", emoji:"🌴", temp:"30°C", currency:"IDR", mapCenter:[-8.3405,115.0920],  continent:"asie",      photo:IMG("1537996194471-e657df975ab4") },
+  { id:"istanbul",   name:"Istanbul",       country:"Türkiye",        flag:"🇹🇷", emoji:"🕍", temp:"20°C", currency:"TRY", mapCenter:[41.0082,28.9784],   continent:"maghreb",   photo:IMG("1524231757912-21f4fe3a7200") },
+  { id:"london",     name:"Londres",        country:"Royaume-Uni",    flag:"🇬🇧", emoji:"🎡", temp:"14°C", currency:"GBP", mapCenter:[51.5074,-0.1278],   continent:"europe",    photo:IMG("1513635269975-59663e0ac1ad") },
+  { id:"singapore",  name:"Singapour",      country:"Singapour",      flag:"🇸🇬", emoji:"🦁", temp:"31°C", currency:"SGD", mapCenter:[1.3521,103.8198],   continent:"asie",      photo:IMG("1525625293386-3f8f99389edd") },
+  { id:"bangkok",    name:"Bangkok",        country:"Thaïlande",      flag:"🇹🇭", emoji:"🛕", temp:"33°C", currency:"THB", mapCenter:[13.7563,100.5018],  continent:"asie",      photo:IMG("1508009603885-50cf7c579365") },
+  { id:"amsterdam",  name:"Amsterdam",      country:"Pays-Bas",       flag:"🇳🇱", emoji:"🌷", temp:"16°C", currency:"EUR", mapCenter:[52.3676,4.9041],    continent:"europe",    photo:IMG("1534351590666-13e3e96b5017") },
+  { id:"prague",     name:"Prague",         country:"Tchéquie",       flag:"🇨🇿", emoji:"🏰", temp:"15°C", currency:"CZK", mapCenter:[50.0755,14.4378],   continent:"europe",    photo:IMG("1541849546-216549ae216d") },
+  { id:"vienna",     name:"Vienne",         country:"Autriche",       flag:"🇦🇹", emoji:"🎶", temp:"16°C", currency:"EUR", mapCenter:[48.2082,16.3738],   continent:"europe",    photo:IMG("1516550135099-2fede5e0e7b8") },
+  { id:"sydney",     name:"Sydney",         country:"Australie",      flag:"🇦🇺", emoji:"🦘", temp:"22°C", currency:"AUD", mapCenter:[-33.8688,151.2093], continent:"oceanie",   photo:IMG("1524820801166-404e5e0d5253") },
+  { id:"kyoto",      name:"Kyoto",          country:"Japon",          flag:"🇯🇵", emoji:"⛩️", temp:"20°C", currency:"JPY", mapCenter:[35.0116,135.7681],  continent:"asie",      photo:IMG("1492571350019-22de08371fd3") },
+  { id:"losangeles", name:"Los Angeles",    country:"USA",            flag:"🇺🇸", emoji:"🎬", temp:"24°C", currency:"USD", mapCenter:[34.0522,-118.2437],  continent:"ameriques", photo:IMG("1534190760961-74e8c701a2f3") },
+  { id:"miami",      name:"Miami",          country:"USA",            flag:"🇺🇸", emoji:"🌊", temp:"29°C", currency:"USD", mapCenter:[25.7617,-80.1918],   continent:"ameriques", photo:IMG("1533106497176-028a3b62b521") },
+  { id:"lisbon",     name:"Lisbonne",       country:"Portugal",       flag:"🇵🇹", emoji:"🚋", temp:"19°C", currency:"EUR", mapCenter:[38.7223,-9.1393],   continent:"europe",    photo:IMG("1555881400-74d7acaacd8b") },
+  { id:"athens",     name:"Athènes",        country:"Grèce",          flag:"🇬🇷", emoji:"🏺", temp:"25°C", currency:"EUR", mapCenter:[37.9838,23.7275],   continent:"europe",    photo:IMG("1603565816030-6b389edb65fb") },
+  { id:"cairo",      name:"Le Caire",       country:"Égypte",         flag:"🇪🇬", emoji:"🐪", temp:"32°C", currency:"EGP", mapCenter:[30.0444,31.2357],   continent:"maghreb",   photo:IMG("1539650116574-75c0c6d73bd0") },
+  { id:"capetown",   name:"Le Cap",         country:"Afrique du Sud", flag:"🇿🇦", emoji:"🦁", temp:"20°C", currency:"ZAR", mapCenter:[-33.9249,18.4241],  continent:"afrique",   photo:IMG("1580060839134-75a5edca2e99") },
+  { id:"maldives",   name:"Maldives",       country:"Maldives",       flag:"🇲🇻", emoji:"🏝️", temp:"30°C", currency:"MVR", mapCenter:[4.1755,73.5093],    continent:"asie",      photo:IMG("1514282401047-d79a71a590e8") },
+  { id:"santorini",  name:"Santorin",       country:"Grèce",          flag:"🇬🇷", emoji:"🌅", temp:"25°C", currency:"EUR", mapCenter:[36.3932,25.4615],   continent:"europe",    photo:IMG("1570077188670-e3baeaae9be3") },
+  { id:"rio",        name:"Rio de Janeiro", country:"Brésil",         flag:"🇧🇷", emoji:"🎉", temp:"28°C", currency:"BRL", mapCenter:[-22.9068,-43.1729],  continent:"ameriques", photo:IMG("1483729600741-365d66cd6f1e") },
+  { id:"buenosaires",name:"Buenos Aires",   country:"Argentine",      flag:"🇦🇷", emoji:"💃", temp:"20°C", currency:"ARS", mapCenter:[-34.6037,-58.3816],  continent:"ameriques", photo:IMG("1589909202802-8f4aab6d18d4") },
+  { id:"mexico",     name:"Mexico",         country:"Mexique",        flag:"🇲🇽", emoji:"🌮", temp:"22°C", currency:"MXN", mapCenter:[19.4326,-99.1332],   continent:"ameriques", photo:IMG("1588702547923-7093a6c3ba33") },
+  { id:"havana",     name:"La Havane",      country:"Cuba",           flag:"🇨🇺", emoji:"🎺", temp:"28°C", currency:"CUP", mapCenter:[23.1136,-82.3666],   continent:"ameriques", photo:IMG("1551962966-3ac80b8ac05b") },
+  { id:"beijing",    name:"Pékin",          country:"Chine",          flag:"🇨🇳", emoji:"🏯", temp:"18°C", currency:"CNY", mapCenter:[39.9042,116.4074],   continent:"asie",      photo:IMG("1508804185872-3e26c63d5440") },
+  { id:"hongkong",   name:"Hong Kong",      country:"Chine (RAE)",    flag:"🇭🇰", emoji:"🌃", temp:"26°C", currency:"HKD", mapCenter:[22.3193,114.1694],   continent:"asie",      photo:IMG("1518599807935-37016df1b49d") },
+  { id:"seoul",      name:"Séoul",          country:"Corée du Sud",   flag:"🇰🇷", emoji:"🎎", temp:"16°C", currency:"KRW", mapCenter:[37.5665,126.9780],   continent:"asie",      photo:IMG("1517154421773-0855c1e7f01b") },
+  { id:"berlin",     name:"Berlin",         country:"Allemagne",      flag:"🇩🇪", emoji:"🌉", temp:"15°C", currency:"EUR", mapCenter:[52.5200,13.4050],    continent:"europe",    photo:IMG("1560979549-c3f7f9bd2ab9") },
+  { id:"munich",     name:"Munich",         country:"Allemagne",      flag:"🇩🇪", emoji:"🍺", temp:"14°C", currency:"EUR", mapCenter:[48.1351,11.5820],    continent:"europe",    photo:IMG("1544412795-f0e3f76f3cd4") },
+  { id:"zurich",     name:"Zurich",         country:"Suisse",         flag:"🇨🇭", emoji:"⛰️", temp:"13°C", currency:"CHF", mapCenter:[47.3769,8.5417],    continent:"europe",    photo:IMG("1515488964-00216a4c5f1e") },
+  { id:"toronto",    name:"Toronto",        country:"Canada",         flag:"🇨🇦", emoji:"🍁", temp:"12°C", currency:"CAD", mapCenter:[43.6532,-79.3832],   continent:"ameriques", photo:IMG("1517935706615-2717063c2225") },
+  { id:"montreal",   name:"Montréal",       country:"Canada",         flag:"🇨🇦", emoji:"🥐", temp:"10°C", currency:"CAD", mapCenter:[45.5017,-73.5673],   continent:"ameriques", photo:IMG("1519121785383-4f5ab07c6e52") },
+  { id:"mumbai",     name:"Mumbai",         country:"Inde",           flag:"🇮🇳", emoji:"🎥", temp:"30°C", currency:"INR", mapCenter:[19.0760,72.8777],    continent:"asie",      photo:IMG("1529253355930-ddbe423a2ac7") },
+  { id:"delhi",      name:"New Delhi",      country:"Inde",           flag:"🇮🇳", emoji:"🕌", temp:"29°C", currency:"INR", mapCenter:[28.6139,77.2090],    continent:"asie",      photo:IMG("1548013146-8a5a5b7bef36") },
+  { id:"nairobi",    name:"Nairobi",        country:"Kenya",          flag:"🇰🇪", emoji:"🦒", temp:"24°C", currency:"KES", mapCenter:[-1.2921,36.8219],    continent:"afrique",   photo:IMG("1547949003-9792a18a2c97") },
+  { id:"casablanca", name:"Casablanca",     country:"Maroc",          flag:"🇲🇦", emoji:"🕌", temp:"22°C", currency:"MAD", mapCenter:[33.5731,-7.5898],    continent:"maghreb",   photo:IMG("1542367592-8849eb83bf6f") },
+  { id:"tunis",      name:"Tunis",          country:"Tunisie",        flag:"🇹🇳", emoji:"🏛️", temp:"23°C", currency:"TND", mapCenter:[36.8191,10.1658],    continent:"maghreb",   photo:IMG("1490845406768-96ef7b3e8413") },
+  { id:"alger",      name:"Alger",          country:"Algérie",        flag:"🇩🇿", emoji:"🏛️", temp:"20°C", currency:"DZD", mapCenter:[36.7538,3.0588],     continent:"maghreb",   photo:IMG("1570168007204-ec17f8b76a88") },
+  { id:"abudhabi",   name:"Abu Dhabi",      country:"Émirats",        flag:"🇦🇪", emoji:"🕌", temp:"34°C", currency:"AED", mapCenter:[24.4539,54.3773],    continent:"maghreb",   photo:IMG("1558618666-fcd25c85cd64") },
+  { id:"doha",       name:"Doha",           country:"Qatar",          flag:"🇶🇦", emoji:"🏟️", temp:"33°C", currency:"QAR", mapCenter:[25.2854,51.5310],    continent:"maghreb",   photo:IMG("1565876062826-3fde2e4555ab") },
+  { id:"phuket",     name:"Phuket",         country:"Thaïlande",      flag:"🇹🇭", emoji:"🏖️", temp:"30°C", currency:"THB", mapCenter:[7.8804,98.3923],     continent:"asie",      photo:IMG("1537953773345-d172ccf13cf4") },
+  { id:"florence",   name:"Florence",       country:"Italie",         flag:"🇮🇹", emoji:"🎨", temp:"22°C", currency:"EUR", mapCenter:[43.7696,11.2558],    continent:"europe",    photo:IMG("1541726260-14a2f77a5e12") },
+  { id:"venice",     name:"Venise",         country:"Italie",         flag:"🇮🇹", emoji:"🚤", temp:"19°C", currency:"EUR", mapCenter:[45.4408,12.3155],    continent:"europe",    photo:IMG("1523906834658-6fe1e6e1e4ba") },
+  { id:"seville",    name:"Séville",        country:"Espagne",        flag:"🇪🇸", emoji:"💃", temp:"25°C", currency:"EUR", mapCenter:[37.3891,-5.9845],    continent:"europe",    photo:IMG("1556679908-a4bde52f8a88") },
+  { id:"shanghai",   name:"Shanghai",       country:"Chine",          flag:"🇨🇳", emoji:"🌆", temp:"20°C", currency:"CNY", mapCenter:[31.2304,121.4737],   continent:"asie",      photo:IMG("1547981609-4b6bfe67ca0b") },
 ];
 
 const ORIGINS = ["Alger","Tunis","Casablanca","Rabat","Oran","Constantine","Paris","Lyon","Marseille","Bruxelles","Genève","Montréal","Dakar","Beyrouth","Dubaï","Le Caire","Riyad"];
+
+const CONTINENTS = [
+  { id:"tous",      label:"Tous",         icon:"🌍" },
+  { id:"europe",    label:"Europe",       icon:"🏛️" },
+  { id:"asie",      label:"Asie",         icon:"🌸" },
+  { id:"maghreb",   label:"Orient",       icon:"🕌" },
+  { id:"ameriques", label:"Amériques",    icon:"🌎" },
+  { id:"afrique",   label:"Afrique",      icon:"🦁" },
+  { id:"oceanie",   label:"Océanie",      icon:"🦘" },
+];
+
+const CONTINENT_BG = { europe:"#0F2040", asie:"#0F2E0F", maghreb:"#2E1800", ameriques:"#0F1E2E", afrique:"#2E1000", oceanie:"#002E2E" };
+
+const FEATURED_IDS = ["paris","tokyo","bali","dubai","santorini","newyork","marrakech","kyoto"];
+
+const TRANSPORT_MODES = [
+  { icon:"✈️", label:"Avion",         desc:"Liaisons directes & low-cost partout dans le monde", color:"#0EA5E9" },
+  { icon:"🚄", label:"Train rapide",  desc:"TGV, Shinkansen, Frecciarossa — confort & rapidité", color:"#10B981" },
+  { icon:"🚢", label:"Croisière",     desc:"Traversée et escales entre plusieurs destinations",   color:"#6366F1" },
+  { icon:"🚌", label:"Bus longue distance", desc:"FlixBus, Ouibus — économique & confortable",   color:"#F59E0B" },
+  { icon:"🚗", label:"Location auto", desc:"Liberté totale pour explorer à votre rythme",        color:"#EF4444" },
+];
 
 const BUDGET_LABELS = {
   serré:{ label:"Budget Serré", icon:"🎒", color:"#2DD4BF", desc:"Voyager malin, profiter au max" },
@@ -620,14 +644,18 @@ export default function TravelPlanner() {
   const [activeTab, setActiveTab] = useState("attractions");
   const [itinerary, setItinerary] = useState([]);
   const [search, setSearch] = useState("");
+  const [continent, setContinent] = useState("tous");
+  const [hoveredId, setHoveredId] = useState(null);
   const [pdfLoading, setPdfLoading] = useState(false);
 
   const nights = startDate && endDate ? Math.max(0, Math.round((new Date(endDate)-new Date(startDate))/86400000)) : 0;
   const data = destination ? getDestData(destination) : null;
-  const filtered = DESTINATIONS.filter(d =>
-    d.name.toLowerCase().includes(search.toLowerCase()) ||
-    d.country.toLowerCase().includes(search.toLowerCase())
-  );
+  const filtered = DESTINATIONS.filter(d => {
+    const q = search.toLowerCase();
+    const matchSearch = !q || d.name.toLowerCase().includes(q) || d.country.toLowerCase().includes(q);
+    const matchContinent = continent === "tous" || d.continent === continent;
+    return matchSearch && matchContinent;
+  });
 
   const handlePlan = () => {
     setItinerary(generateItinerary(destination, budget, startDate, endDate, adults, children));
@@ -641,7 +669,7 @@ export default function TravelPlanner() {
     setPdfLoading(false);
   };
 
-  const reset = () => { setStep(1); setOrigin(""); setDestination(null); setBudget(""); setStartDate(""); setEndDate(""); setAdults(2); setChildren(0); setSearch(""); };
+  const reset = () => { setStep(1); setOrigin(""); setDestination(null); setBudget(""); setStartDate(""); setEndDate(""); setAdults(2); setChildren(0); setSearch(""); setContinent("tous"); };
 
   const css = `
     @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap');
@@ -666,6 +694,23 @@ export default function TravelPlanner() {
     .dc.sel{border:2px solid #0EA5E9;background:rgba(14,165,233,.12);}
     @keyframes spin{to{transform:rotate(360deg)}}
     .sp{width:14px;height:14px;border:2px solid rgba(255,255,255,.3);border-top-color:white;border-radius:50%;display:inline-block;animation:spin 0.8s linear infinite;}
+    .pcard{position:relative;border-radius:14px;overflow:hidden;cursor:pointer;aspect-ratio:4/3;transition:box-shadow .2s,transform .2s;}
+    .pcard:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(0,0,0,.5);}
+    .pcard img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .45s ease;}
+    .pcard:hover img{transform:scale(1.08);}
+    .pcard-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.85) 0%,rgba(0,0,0,.15) 55%,transparent 100%);}
+    .pcard-text{position:absolute;bottom:0;left:0;right:0;padding:10px 10px 9px;}
+    .cfbtn{padding:8px 16px;border-radius:20px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);color:rgba(148,163,184,.8);font-size:12px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .18s;white-space:nowrap;}
+    .cfbtn:hover{border-color:rgba(14,165,233,.5);background:rgba(14,165,233,.1);color:#7DD3FC;}
+    .cfbtn.act{border-color:#0EA5E9;background:rgba(14,165,233,.18);color:#38BDF8;font-weight:600;}
+    .feat-strip{display:flex;gap:10px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none;}
+    .feat-strip::-webkit-scrollbar{display:none;}
+    .feat-card{position:relative;border-radius:12px;overflow:hidden;cursor:pointer;flex-shrink:0;width:130px;height:90px;transition:transform .2s;}
+    .feat-card:hover{transform:translateY(-2px);}
+    .feat-card img{width:100%;height:100%;object-fit:cover;transition:transform .4s;}
+    .feat-card:hover img{transform:scale(1.1);}
+    .feat-card-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.7),transparent);}
+    .feat-card-lbl{position:absolute;bottom:6px;left:8px;font-size:11px;font-weight:700;color:white;}
   `;
 
   return (
@@ -700,9 +745,36 @@ export default function TravelPlanner() {
           {/* ── STEP 1 ── */}
           {step===1 && (
             <div>
-              <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:24, fontWeight:700, marginBottom:5 }}>Où souhaitez-vous voyager ?</h2>
-              <p style={{ color:"rgba(148,163,184,.7)", marginBottom:20, fontSize:14 }}>50 destinations parmi les plus visitées au monde</p>
+              {/* HERO BANNER */}
+              <div style={{ borderRadius:20, overflow:"hidden", marginBottom:26, position:"relative", background:"linear-gradient(135deg,#061226,#0A1E3D,#0D1530)", padding:"36px 32px 32px" }}>
+                <div style={{ position:"absolute", top:0, right:0, bottom:0, width:"48%", display:"flex", gap:2, overflow:"hidden" }}>
+                  <div style={{ flex:1, display:"flex", flexDirection:"column", gap:2 }}>
+                    {[DESTINATIONS[0],DESTINATIONS[7],DESTINATIONS[24]].map(d=>(
+                      <div key={d.id} style={{ flex:1, backgroundImage:`url(${d.photo})`, backgroundSize:"cover", backgroundPosition:"center", opacity:.45 }}/>
+                    ))}
+                  </div>
+                  <div style={{ flex:1, display:"flex", flexDirection:"column", gap:2 }}>
+                    {[DESTINATIONS[4],DESTINATIONS[6]].map(d=>(
+                      <div key={d.id} style={{ flex:1, backgroundImage:`url(${d.photo})`, backgroundSize:"cover", backgroundPosition:"center", opacity:.45 }}/>
+                    ))}
+                  </div>
+                  <div style={{ position:"absolute", top:0, left:0, bottom:0, right:0, background:"linear-gradient(to right,#0A1E3D 10%,rgba(10,30,61,.4) 60%,transparent 100%)" }}/>
+                </div>
+                <div style={{ position:"relative", zIndex:1, maxWidth:500 }}>
+                  <div style={{ fontSize:10, letterSpacing:"3px", color:"#7DD3FC", textTransform:"uppercase", marginBottom:10 }}>✈ Planificateur de voyage intelligent</div>
+                  <h1 style={{ fontFamily:"'Playfair Display',serif", fontSize:34, fontWeight:900, lineHeight:1.18, marginBottom:12, background:"linear-gradient(135deg,#fff 40%,#7DD3FC)", WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent" }}>
+                    Planifiez votre<br/>voyage de rêve
+                  </h1>
+                  <p style={{ fontSize:14, color:"rgba(148,163,184,.8)", marginBottom:20, lineHeight:1.65 }}>50 destinations · Hôtels, attractions & restaurants<br/>Itinéraire personnalisé · Export PDF gratuit</p>
+                  <div style={{ display:"flex", gap:16, flexWrap:"wrap" }}>
+                    {[["🗺️","50 destinations"],["🏨","Hôtels inclus"],["📅","Itinéraire auto"],["📥","Export PDF"]].map(([ic,txt])=>(
+                      <div key={txt} style={{ display:"flex", alignItems:"center", gap:5, fontSize:12, color:"#7DD3FC" }}><span>{ic}</span><span>{txt}</span></div>
+                    ))}
+                  </div>
+                </div>
+              </div>
 
+              {/* ORIGIN */}
               <div style={{ marginBottom:18 }}>
                 <label style={{ display:"block", marginBottom:7, fontSize:12, fontWeight:600, color:"#7DD3FC", textTransform:"uppercase", letterSpacing:"1px" }}>🛫 Ville de départ</label>
                 <select value={origin} onChange={e=>setOrigin(e.target.value)} style={{ maxWidth:340 }}>
@@ -711,23 +783,87 @@ export default function TravelPlanner() {
                 </select>
               </div>
 
-              <div style={{ marginBottom:14, display:"flex", gap:10, alignItems:"center", flexWrap:"wrap" }}>
-                <label style={{ fontSize:12, fontWeight:600, color:"#7DD3FC", textTransform:"uppercase", letterSpacing:"1px", whiteSpace:"nowrap" }}>🌍 Destination</label>
-                <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Rechercher une ville ou un pays…" style={{ maxWidth:280 }}/>
-                <span style={{ fontSize:12, color:"rgba(148,163,184,.45)", whiteSpace:"nowrap" }}>{filtered.length} résultat{filtered.length!==1?"s":""}</span>
+              {/* SEARCH */}
+              <div style={{ marginBottom:14 }}>
+                <label style={{ display:"block", marginBottom:7, fontSize:12, fontWeight:600, color:"#7DD3FC", textTransform:"uppercase", letterSpacing:"1px" }}>🔍 Rechercher une destination</label>
+                <div style={{ display:"flex", gap:10, alignItems:"center" }}>
+                  <div style={{ position:"relative", flex:1, maxWidth:380 }}>
+                    <span style={{ position:"absolute", left:12, top:"50%", transform:"translateY(-50%)", fontSize:15, opacity:.5 }}>🔍</span>
+                    <input value={search} onChange={e=>{setSearch(e.target.value);setContinent("tous");}} placeholder="Paris, Tokyo, Bali, Marrakech…" style={{ paddingLeft:36, width:"100%" }}/>
+                    {search && <button onClick={()=>setSearch("")} style={{ position:"absolute", right:10, top:"50%", transform:"translateY(-50%)", background:"none", border:"none", color:"rgba(148,163,184,.6)", cursor:"pointer", fontSize:16, lineHeight:1 }}>×</button>}
+                  </div>
+                  <span style={{ fontSize:12, color:"rgba(148,163,184,.5)", whiteSpace:"nowrap" }}>{filtered.length} résultat{filtered.length!==1?"s":""}</span>
+                </div>
               </div>
 
-              <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(155px,1fr))", gap:9, marginBottom:26, maxHeight:480, overflowY:"auto", paddingRight:4 }}>
-                {filtered.map(dest => (
-                  <div key={dest.id} onClick={()=>setDestination(dest)} className={`dc${destination?.id===dest.id?" sel":""}`} style={{ position:"relative" }}>
-                    {destination?.id===dest.id && <div style={{ position:"absolute", top:7, right:7, width:15, height:15, borderRadius:"50%", background:"#0EA5E9", display:"flex", alignItems:"center", justifyContent:"center", fontSize:9, color:"white", fontWeight:700 }}>✓</div>}
-                    <div style={{ fontSize:28, marginBottom:5 }}>{dest.emoji}</div>
-                    <div style={{ fontWeight:700, fontSize:13, marginBottom:2 }}>{dest.name} {dest.flag}</div>
-                    <div style={{ fontSize:11, color:"rgba(148,163,184,.6)", marginBottom:3 }}>{dest.country}</div>
-                    <div style={{ fontSize:10, color:"rgba(148,163,184,.4)" }}>{dest.temp} · {dest.currency}</div>
+              {/* FEATURED QUICK-PICKS (shown when search is empty) */}
+              {!search && (
+                <div style={{ marginBottom:16 }}>
+                  <div style={{ fontSize:11, color:"rgba(148,163,184,.5)", textTransform:"uppercase", letterSpacing:"1px", marginBottom:8 }}>Destinations tendance</div>
+                  <div className="feat-strip">
+                    {FEATURED_IDS.map(id=>{
+                      const d = DESTINATIONS.find(x=>x.id===id);
+                      return (
+                        <div key={id} className="feat-card" onClick={()=>setDestination(d)} style={{ outline:destination?.id===id?"2px solid #0EA5E9":"none", outlineOffset:2 }}>
+                          <img src={d.photo} alt={d.name}/>
+                          <div className="feat-card-ov"/>
+                          <div className="feat-card-lbl">{d.emoji} {d.name}</div>
+                        </div>
+                      );
+                    })}
                   </div>
+                </div>
+              )}
+
+              {/* CONTINENT FILTERS */}
+              <div style={{ display:"flex", gap:7, flexWrap:"wrap", marginBottom:16 }}>
+                {CONTINENTS.map(c=>(
+                  <button key={c.id} onClick={()=>setContinent(c.id)} className={`cfbtn${continent===c.id?" act":""}`}>
+                    {c.icon} {c.label}
+                  </button>
                 ))}
               </div>
+
+              {/* DESTINATION PHOTO GRID */}
+              <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(185px,1fr))", gap:10, marginBottom:26, maxHeight:540, overflowY:"auto", paddingRight:4 }}>
+                {filtered.map(dest=>(
+                  <div
+                    key={dest.id}
+                    className="pcard"
+                    onClick={()=>setDestination(dest)}
+                    onMouseEnter={()=>setHoveredId(dest.id)}
+                    onMouseLeave={()=>setHoveredId(null)}
+                    style={{
+                      backgroundColor: CONTINENT_BG[dest.continent] || "#0A1628",
+                      boxShadow: destination?.id===dest.id ? "0 0 0 2.5px #0EA5E9" : hoveredId===dest.id ? "0 0 0 1.5px rgba(14,165,233,.35)" : "none",
+                    }}
+                  >
+                    <img src={dest.photo} alt={dest.name} loading="lazy"/>
+                    <div className="pcard-overlay"/>
+                    {destination?.id===dest.id && (
+                      <div style={{ position:"absolute", top:8, right:8, width:22, height:22, borderRadius:"50%", background:"#0EA5E9", display:"flex", alignItems:"center", justifyContent:"center", fontSize:11, fontWeight:700, color:"white", zIndex:2 }}>✓</div>
+                    )}
+                    <div className="pcard-text">
+                      <div style={{ fontSize:11, marginBottom:1, opacity:.9 }}>{dest.emoji}</div>
+                      <div style={{ fontWeight:700, fontSize:13, color:"white", lineHeight:1.2, marginBottom:2 }}>{dest.name} {dest.flag}</div>
+                      <div style={{ fontSize:10, color:"rgba(255,255,255,.65)" }}>{dest.country} · 🌡 {dest.temp}</div>
+                    </div>
+                  </div>
+                ))}
+                {filtered.length===0 && (
+                  <div style={{ gridColumn:"1/-1", textAlign:"center", padding:"40px 20px", color:"rgba(148,163,184,.5)" }}>
+                    <div style={{ fontSize:32, marginBottom:8 }}>🔍</div>
+                    <div>Aucune destination trouvée pour « {search} »</div>
+                  </div>
+                )}
+              </div>
+
+              {destination && (
+                <div style={{ marginBottom:16, padding:"10px 16px", borderRadius:10, background:"rgba(14,165,233,.1)", border:"1px solid rgba(14,165,233,.25)", fontSize:13, color:"#7DD3FC", display:"inline-flex", alignItems:"center", gap:8 }}>
+                  {destination.emoji} <strong>{destination.name}</strong> {destination.flag} sélectionné{origin ? "" : " — choisissez aussi votre ville de départ"}
+                </div>
+              )}
+
               <button className="bp" disabled={!origin||!destination} onClick={()=>setStep(2)}>Continuer →</button>
             </div>
           )}
@@ -906,19 +1042,39 @@ export default function TravelPlanner() {
               {/* TRANSPORT */}
               {activeTab==="transport" && (
                 <div>
-                  <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:19, fontWeight:700, marginBottom:13 }}>Transport & Conseils — {destination.name}</h3>
-                  <div style={{ display:"flex", flexDirection:"column", gap:11, marginBottom:20 }}>
+                  <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:19, fontWeight:700, marginBottom:6 }}>Transport — {destination.name}</h3>
+                  <p style={{ fontSize:13, color:"rgba(148,163,184,.65)", marginBottom:16 }}>Options de transport depuis {origin} vers {destination.name}</p>
+
+                  {/* City-specific transport */}
+                  <div style={{ display:"flex", flexDirection:"column", gap:11, marginBottom:22 }}>
                     {data.transport.map((t,i) => (
-                      <div key={i} className="card" style={{ padding:"17px 20px", display:"flex", gap:13, alignItems:"flex-start" }}>
-                        <span style={{ fontSize:28, flexShrink:0 }}>{t.mode.split(" ")[0]}</span>
-                        <div>
+                      <div key={i} className="card" style={{ padding:"17px 20px", display:"flex", gap:13, alignItems:"flex-start", borderLeft:"3px solid #0EA5E9" }}>
+                        <span style={{ fontSize:30, flexShrink:0 }}>{t.mode.split(" ")[0]}</span>
+                        <div style={{ flex:1 }}>
                           <div style={{ fontWeight:700, fontSize:14, marginBottom:4 }}>{t.mode}</div>
-                          <div style={{ fontSize:13, color:"rgba(148,163,184,.8)", marginBottom:7 }}>{t.info}</div>
+                          <div style={{ fontSize:13, color:"rgba(148,163,184,.8)", marginBottom:8 }}>{t.info}</div>
                           <div style={{ background:`rgba(${budget==="serré"?"45,212,191":budget==="moyen"?"245,158,11":"139,92,246"},.1)`, border:`1px solid rgba(${budget==="serré"?"45,212,191":budget==="moyen"?"245,158,11":"139,92,246"},.2)`, borderRadius:8, padding:"6px 12px", display:"inline-block", fontSize:12, fontWeight:600, color:BUDGET_LABELS[budget].color }}>{BUDGET_LABELS[budget].icon} {t.budgetNote}</div>
                         </div>
                       </div>
                     ))}
                   </div>
+
+                  {/* General transport modes visual grid */}
+                  <div style={{ marginBottom:20 }}>
+                    <div style={{ fontSize:12, fontWeight:600, color:"#7DD3FC", textTransform:"uppercase", letterSpacing:"1px", marginBottom:12 }}>🌐 Moyens de transport généraux</div>
+                    <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(200px,1fr))", gap:10 }}>
+                      {TRANSPORT_MODES.map(tm=>(
+                        <div key={tm.label} className="card" style={{ padding:"14px 16px", display:"flex", gap:12, alignItems:"flex-start", borderTop:`2px solid ${tm.color}` }}>
+                          <span style={{ fontSize:26, flexShrink:0 }}>{tm.icon}</span>
+                          <div>
+                            <div style={{ fontWeight:700, fontSize:13, marginBottom:4, color:"white" }}>{tm.label}</div>
+                            <div style={{ fontSize:11, color:"rgba(148,163,184,.75)", lineHeight:1.5 }}>{tm.desc}</div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
                   <div style={{ background:"rgba(255,255,255,.03)", border:"1px solid rgba(255,255,255,.08)", borderRadius:13, padding:"17px 20px" }}>
                     <h4 style={{ fontWeight:700, marginBottom:11, fontSize:14, color:"#7DD3FC" }}>💡 Conseils pratiques</h4>
                     <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:9 }}>
