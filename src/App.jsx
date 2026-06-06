@@ -2,6 +2,35 @@ import { useState, useEffect, useRef } from "react";
 
 const IMG = id => `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=600&q=80`;
 
+const WIKI_TITLES = {
+  paris:"Paris",newyork:"New_York_City",tokyo:"Tokyo",london:"London",
+  rome:"Rome",barcelona:"Barcelona",bali:"Bali",dubai:"Dubai",istanbul:"Istanbul",
+  singapore:"Singapore",bangkok:"Bangkok",amsterdam:"Amsterdam",prague:"Prague",
+  vienna:"Vienna",sydney:"Sydney",kyoto:"Kyoto",losangeles:"Los_Angeles",
+  miami:"Miami",lisbon:"Lisbon",athens:"Athens",cairo:"Cairo",capetown:"Cape_Town",
+  maldives:"Maldives",santorini:"Santorini",rio:"Rio_de_Janeiro",
+  buenosaires:"Buenos_Aires",mexico:"Mexico_City",havana:"Havana",beijing:"Beijing",
+  hongkong:"Hong_Kong",seoul:"Seoul",berlin:"Berlin",munich:"Munich",zurich:"Zurich",
+  toronto:"Toronto",montreal:"Montreal",mumbai:"Mumbai",delhi:"New_Delhi",
+  nairobi:"Nairobi",casablanca:"Casablanca",tunis:"Tunis",alger:"Algiers",
+  marrakech:"Marrakesh",abudhabi:"Abu_Dhabi",doha:"Doha",phuket:"Phuket",
+  florence:"Florence",venice:"Venice",seville:"Seville",shanghai:"Shanghai",
+  dublin:"Dublin",copenhagen:"Copenhagen",stockholm:"Stockholm",helsinki:"Helsinki",
+  oslo:"Oslo",warsaw:"Warsaw",budapest:"Budapest",bucharest:"Bucharest",
+  brussels:"Brussels",edinburgh:"Edinburgh",belgrade:"Belgrade",reykjavik:"Reykjavik",
+  sofia:"Sofia",zagreb:"Zagreb",valletta:"Valletta"
+};
+
+const wikiError = e => {
+  if (e.target.dataset.tried) { e.target.style.opacity=0; return; }
+  e.target.dataset.tried = '1';
+  const title = WIKI_TITLES[e.target.dataset.id] || e.target.alt.replace(/ /g,'_');
+  fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`)
+    .then(r=>r.json())
+    .then(d=>{ if(d.thumbnail?.source){e.target.src=d.thumbnail.source;e.target.style.opacity=1;}else e.target.style.opacity=0;})
+    .catch(()=>{e.target.style.opacity=0;});
+};
+
 const DESTINATIONS = [
   { id:"paris",      name:"Paris",          country:"France",         flag:"🇫🇷", emoji:"🗼", temp:"18°C", currency:"EUR", mapCenter:[48.8566,2.3522],    continent:"europe",    photo:IMG("QAwciFlS1g4") },
   { id:"tokyo",      name:"Tokyo",          country:"Japon",          flag:"🇯🇵", emoji:"🗾", temp:"22°C", currency:"JPY", mapCenter:[35.6762,139.6503],  continent:"asie",      photo:IMG("rFYAxgF43vw") },
@@ -1023,7 +1052,7 @@ export default function TravelPlanner() {
                       const d = DESTINATIONS.find(x=>x.id===id);
                       return (
                         <div key={id} className="feat-card" onClick={()=>setDestination(d)} style={{ outline:destination?.id===id?"2px solid #0EA5E9":"none", outlineOffset:2 }}>
-                          <img src={d.photo} alt={d.name} onError={e=>{e.target.style.opacity=0}}/>
+                          <img src={d.photo} alt={d.name} data-id={d.id} onError={wikiError}/>
                           <div className="feat-card-ov"/>
                           <div className="feat-card-lbl">{d.emoji} {d.name}</div>
                         </div>
@@ -1056,7 +1085,7 @@ export default function TravelPlanner() {
                       boxShadow: destination?.id===dest.id ? "0 0 0 2.5px #0EA5E9" : hoveredId===dest.id ? "0 0 0 1.5px rgba(14,165,233,.35)" : "none",
                     }}
                   >
-                    <img src={dest.photo} alt={dest.name} loading="lazy" onError={e=>{e.target.style.opacity=0}}/>
+                    <img src={dest.photo} alt={dest.name} data-id={dest.id} loading="lazy" onError={wikiError}/>
                     <div className="pcard-overlay"/>
                     {destination?.id===dest.id && (
                       <div style={{ position:"absolute", top:8, right:8, width:22, height:22, borderRadius:"50%", background:"#0EA5E9", display:"flex", alignItems:"center", justifyContent:"center", fontSize:11, fontWeight:700, color:"white", zIndex:2 }}>✓</div>
