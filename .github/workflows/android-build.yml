@@ -1,4 +1,4 @@
-name: Build Android APK / AAB
+name: Build & Deploy to Google Play
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -33,33 +33,32 @@ jobs:
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
 
+      - name: Install Gradle 8.14.3
+        run: |
+          wget -q https://services.gradle.org/distributions/gradle-8.14.3-bin.zip
+          unzip -q gradle-8.14.3-bin.zip -d /opt/gradle
+          echo "/opt/gradle/gradle-8.14.3/bin" >> $GITHUB_PATH
+
       - name: Sync Capacitor
         run: npx cap sync android
 
-      - name: Grant Gradle execute permission
-        run: chmod +x android/gradlew
-
-      - name: Build release AAB
-        working-directory: android
-        run: ./gradlew bundleRelease --no-daemon
-
-      - name: Sign AAB
-        if: ${{ env.KEYSTORE_BASE64 != '' }}
+      - name: Decode keystore
         env:
           KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+        run: echo "$KEYSTORE_BASE64" | base64 --decode > android/app/voyagepro.jks
+
+      - name: Build signed release AAB
+        working-directory: android
+        env:
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
           STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
         run: |
-          echo "$KEYSTORE_BASE64" | base64 --decode > voyagepro.jks
-          jarsigner -verbose \
-            -sigalg SHA256withRSA \
-            -digestalg SHA-256 \
-            -keystore voyagepro.jks \
-            -storepass "$STORE_PASSWORD" \
-            -keypass "$KEY_PASSWORD" \
-            android/app/build/outputs/bundle/release/app-release.aab \
-            "$KEY_ALIAS"
+          gradle bundleRelease \
+            -Pandroid.injected.signing.store.file=$PWD/app/voyagepro.jks \
+            -Pandroid.injected.signing.store.password=$STORE_PASSWORD \
+            -Pandroid.injected.signing.key.alias=$KEY_ALIAS \
+            -Pandroid.injected.signing.key.password=$KEY_PASSWORD
 
       - name: Upload AAB artifact
         uses: actions/upload-artifact@v4
@@ -67,12 +66,12 @@ jobs:
           name: voyagepro-release.aab
           path: android/app/build/outputs/bundle/release/app-release.aab
 
-      - name: Build debug APK (for testing)
-        working-directory: android
-        run: ./gradlew assembleDebug --no-daemon
-
-      - name: Upload debug APK artifact
-        uses: actions/upload-artifact@v4
+      - name: Deploy to Google Play (Internal Testing)
+        if: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT != '' }}
+        uses: r0adkll/upload-google-play@v1
         with:
-          name: voyagepro-debug.apk
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          serviceAccountJsonPlainText: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT }}
+          packageName: com.voyagepro.app
+          releaseFiles: android/app/build/outputs/bundle/release/app-release.aab
+          track: internal
+          status: completed
