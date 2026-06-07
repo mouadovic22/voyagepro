@@ -34,14 +34,28 @@ const BOOK = {
   maps:        (name, city) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(name+" "+city)}`,
 };
 
+// Upscale a Wikipedia/Commons thumbnail URL to a larger width for crisp images
+const upscaleWiki = (url, width=1000) => url ? url.replace(/\/(\d+)px-/, `/${width}px-`) : url;
+
+// Fetch a high-resolution Wikipedia image for a destination id (returns a promise of url|null)
+const fetchWikiImage = (id, name, width=1200) => {
+  const title = WIKI_TITLES[id] || (name||"").replace(/ /g,'_');
+  return fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`)
+    .then(r=>r.json())
+    .then(d=>{
+      const orig = d.originalimage?.source;
+      const thumb = upscaleWiki(d.thumbnail?.source, width);
+      return orig || thumb || null;
+    })
+    .catch(()=>null);
+};
+
 const wikiError = e => {
   if (e.target.dataset.tried) { e.target.style.opacity=0; return; }
   e.target.dataset.tried = '1';
-  const title = WIKI_TITLES[e.target.dataset.id] || e.target.alt.replace(/ /g,'_');
-  fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`)
-    .then(r=>r.json())
-    .then(d=>{ if(d.thumbnail?.source){e.target.src=d.thumbnail.source;e.target.style.opacity=1;}else e.target.style.opacity=0;})
-    .catch(()=>{e.target.style.opacity=0;});
+  const width = e.target.dataset.hires ? 1000 : 600;
+  fetchWikiImage(e.target.dataset.id, e.target.alt, width)
+    .then(src=>{ if(src){e.target.src=src;e.target.style.opacity=1;}else e.target.style.opacity=0;});
 };
 
 const DESTINATIONS = [
@@ -966,13 +980,23 @@ export default function TravelPlanner() {
   const [pdfLoading, setPdfLoading] = useState(false);
   const [showPrivacy, setShowPrivacy] = useState(false);
   const [heroIdx, setHeroIdx] = useState(0);
+  const [heroImgs, setHeroImgs] = useState({});
+  const [showTravelers, setShowTravelers] = useState(false);
   const destRef = useRef(null);
   const heroDests = ['santorini','bali','kyoto','paris'].map(id=>DESTINATIONS.find(d=>d.id===id)).filter(Boolean);
   useEffect(()=>{
     if(step!==1) return;
-    const t = setInterval(()=>setHeroIdx(i=>(i+1)%heroDests.length), 5000);
+    const t = setInterval(()=>setHeroIdx(i=>(i+1)%heroDests.length), 5500);
     return ()=>clearInterval(t);
   },[step]);
+  // Preload premium full-resolution hero images from Wikipedia
+  useEffect(()=>{
+    heroDests.forEach(d=>{
+      if(heroImgs[d.id]) return;
+      fetchWikiImage(d.id, d.name, 2000).then(src=>{ if(src) setHeroImgs(p=>({...p,[d.id]:src})); });
+    });
+  // eslint-disable-next-line
+  },[]);
 
   const T = LANG[lang];
   const TH = THEMES[theme];
@@ -1109,7 +1133,7 @@ export default function TravelPlanner() {
             {/* ── HERO ── */}
             <section style={{ position:"relative", height:"100vh", minHeight:600, overflow:"hidden", display:"flex", alignItems:"center", justifyContent:"center" }}>
               {heroDests.map((d,i)=>(
-                <div key={d.id} style={{ position:"absolute", inset:0, backgroundImage:`url(${d.photo})`, backgroundSize:"cover", backgroundPosition:"center top", opacity:heroIdx===i?1:0, transition:"opacity 1.8s ease", zIndex:0 }}/>
+                <div key={d.id} style={{ position:"absolute", inset:0, backgroundColor:"#0A1426", backgroundImage:`url(${heroImgs[d.id]||d.photo})`, backgroundSize:"cover", backgroundPosition:"center", opacity:heroIdx===i?1:0, transform:heroIdx===i?"scale(1.06)":"scale(1)", transition:"opacity 1.8s ease, transform 7s ease", zIndex:0 }}/>
               ))}
               <div style={{ position:"absolute", inset:0, background:"linear-gradient(180deg,rgba(5,10,20,.18) 0%,rgba(5,10,20,.55) 50%,rgba(7,17,31,.97) 100%)", zIndex:1 }}/>
               <div style={{ position:"relative", zIndex:2, textAlign:"center", maxWidth:800, padding:"0 28px", marginTop:68 }}>
@@ -1143,31 +1167,73 @@ export default function TravelPlanner() {
 
             {/* ── GLASSMORPHISM SEARCH BAR ── */}
             <div style={{ position:"relative", zIndex:50, padding:"0 28px", marginTop:-50 }}>
-              <div style={{ maxWidth:1060, margin:"0 auto", background:"rgba(10,20,38,.88)", backdropFilter:"blur(28px)", border:"1px solid rgba(255,255,255,.08)", borderRadius:24, padding:"22px 28px", boxShadow:"0 24px 72px rgba(0,0,0,.55)" }}>
+              <div style={{ maxWidth:1120, margin:"0 auto", background:"rgba(10,20,38,.9)", backdropFilter:"blur(28px)", border:"1px solid rgba(255,255,255,.08)", borderRadius:24, padding:"20px 24px", boxShadow:"0 24px 72px rgba(0,0,0,.55)" }}>
                 <div style={{ display:"flex", gap:0, alignItems:"stretch", flexWrap:"wrap" }}>
-                  <div style={{ flex:"2 1 210px", borderRight:"1px solid rgba(255,255,255,.08)", paddingRight:22, marginRight:22 }}>
-                    <div style={{ fontSize:10, color:"#D4A574", textTransform:"uppercase", letterSpacing:"1.5px", fontWeight:600, marginBottom:7 }}>🛫 Où souhaitez-vous partir ?</div>
+                  {/* Départ */}
+                  <div style={{ flex:"1.4 1 170px", borderRight:"1px solid rgba(255,255,255,.08)", paddingRight:18, marginRight:18 }}>
+                    <div style={{ fontSize:10, color:"#D4A574", textTransform:"uppercase", letterSpacing:"1.5px", fontWeight:600, marginBottom:6 }}>🛫 Départ</div>
                     <CitySelect value={origin} onChange={setOrigin} options={ORIGINS} placeholder="Ville de départ…" TH={{ inputBg:"transparent", inputBorder:"transparent", text:"#F8FAFC", text3:"rgba(248,250,252,.4)", bg:"#0A1426" }} />
                   </div>
-                  <div style={{ flex:"1 1 120px", borderRight:"1px solid rgba(255,255,255,.08)", paddingRight:20, marginRight:20 }}>
-                    <div style={{ fontSize:10, color:"#D4A574", textTransform:"uppercase", letterSpacing:"1.5px", fontWeight:600, marginBottom:7 }}>📅 Dates</div>
-                    <div style={{ fontSize:13, color:startDate?"#F8FAFC":"rgba(248,250,252,.38)", paddingTop:11 }}>{startDate||"Sélectionnez vos dates"}</div>
+                  {/* Destination */}
+                  <div style={{ flex:"1.4 1 170px", borderRight:"1px solid rgba(255,255,255,.08)", paddingRight:18, marginRight:18 }}>
+                    <div style={{ fontSize:10, color:"#D4A574", textTransform:"uppercase", letterSpacing:"1.5px", fontWeight:600, marginBottom:6 }}>📍 Destination</div>
+                    <CitySelect value={destination?.name||""} onChange={name=>setDestination(DESTINATIONS.find(d=>d.name===name)||null)} options={DESTINATIONS.map(d=>d.name)} placeholder="Où partir ?" TH={{ inputBg:"transparent", inputBorder:"transparent", text:"#F8FAFC", text3:"rgba(248,250,252,.4)", bg:"#0A1426" }} />
                   </div>
-                  <div style={{ flex:"1 1 110px", borderRight:"1px solid rgba(255,255,255,.08)", paddingRight:20, marginRight:20 }}>
-                    <div style={{ fontSize:10, color:"#D4A574", textTransform:"uppercase", letterSpacing:"1.5px", fontWeight:600, marginBottom:7 }}>👤 Voyageurs</div>
-                    <div style={{ fontSize:13, color:"#F8FAFC", paddingTop:11 }}>{adults+children} voyageur{adults+children>1?"s":""}</div>
+                  {/* Dates */}
+                  <div style={{ flex:"1.2 1 160px", borderRight:"1px solid rgba(255,255,255,.08)", paddingRight:16, marginRight:16 }}>
+                    <div style={{ fontSize:10, color:"#D4A574", textTransform:"uppercase", letterSpacing:"1.5px", fontWeight:600, marginBottom:6 }}>📅 Dates</div>
+                    <div style={{ display:"flex", gap:6 }}>
+                      <input type="date" value={startDate} min={new Date().toISOString().split("T")[0]} onChange={e=>setStartDate(e.target.value)} style={{ padding:"7px 8px", fontSize:12, borderRadius:9 }}/>
+                      <input type="date" value={endDate} min={startDate||new Date().toISOString().split("T")[0]} onChange={e=>setEndDate(e.target.value)} style={{ padding:"7px 8px", fontSize:12, borderRadius:9 }}/>
+                    </div>
                   </div>
-                  <div style={{ flex:"1 1 110px", paddingRight:16 }}>
-                    <div style={{ fontSize:10, color:"#D4A574", textTransform:"uppercase", letterSpacing:"1.5px", fontWeight:600, marginBottom:7 }}>💰 Budget</div>
-                    <div style={{ fontSize:13, color:budget?BUDGET_LABELS[budget].color:"rgba(248,250,252,.38)", paddingTop:11 }}>{budget?`${BUDGET_LABELS[budget].icon} ${BUDGET_LABELS[budget].label}`:"Tous budgets"}</div>
+                  {/* Voyageurs */}
+                  <div style={{ position:"relative", flex:"1 1 130px", borderRight:"1px solid rgba(255,255,255,.08)", paddingRight:16, marginRight:16 }}>
+                    <div style={{ fontSize:10, color:"#D4A574", textTransform:"uppercase", letterSpacing:"1.5px", fontWeight:600, marginBottom:6 }}>👤 Voyageurs</div>
+                    <button onClick={()=>setShowTravelers(s=>!s)} style={{ background:"transparent", border:"none", color:"#F8FAFC", fontSize:13, cursor:"pointer", padding:"6px 0", fontFamily:"'Inter',sans-serif", textAlign:"left", width:"100%" }}>
+                      {adults+children} voyageur{adults+children>1?"s":""} ▾
+                    </button>
+                    {showTravelers && (
+                      <div style={{ position:"absolute", top:"calc(100% + 8px)", left:0, background:"#0A1426", border:"1px solid rgba(212,165,116,.25)", borderRadius:14, padding:16, zIndex:80, width:220, boxShadow:"0 20px 60px rgba(0,0,0,.5)" }}>
+                        {[[`👤 ${T.adults}`,adults,setAdults,1],[`👶 ${T.children}`,children,setChildren,0]].map(([lbl,val,set,min])=>(
+                          <div key={lbl} style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:12 }}>
+                            <span style={{ fontSize:13, color:"#F8FAFC" }}>{lbl}</span>
+                            <div style={{ display:"flex", alignItems:"center", gap:10 }}>
+                              <button onClick={()=>set(Math.max(min,val-1))} style={{ width:30, height:30, borderRadius:9, border:"1px solid rgba(255,255,255,.15)", background:"rgba(255,255,255,.05)", color:"#F8FAFC", cursor:"pointer", fontSize:16 }}>−</button>
+                              <span style={{ fontSize:15, fontWeight:700, color:"#F8FAFC", minWidth:18, textAlign:"center" }}>{val}</span>
+                              <button onClick={()=>set(val+1)} style={{ width:30, height:30, borderRadius:9, border:"1px solid rgba(255,255,255,.15)", background:"rgba(255,255,255,.05)", color:"#F8FAFC", cursor:"pointer", fontSize:16 }}>+</button>
+                            </div>
+                          </div>
+                        ))}
+                        <button onClick={()=>setShowTravelers(false)} style={{ width:"100%", marginTop:4, padding:"8px 0", borderRadius:9, background:"rgba(212,165,116,.15)", border:"1px solid rgba(212,165,116,.25)", color:"#D4A574", fontSize:12, fontWeight:600, cursor:"pointer", fontFamily:"'Inter',sans-serif" }}>OK</button>
+                      </div>
+                    )}
                   </div>
-                  <div style={{ display:"flex", alignItems:"center" }}>
-                    <button onClick={()=>destRef.current?.scrollIntoView({behavior:"smooth",block:"start"})} style={{ background:"linear-gradient(135deg,#0EA5E9,#0284C7)", color:"white", border:"none", padding:"14px 22px", borderRadius:14, fontSize:14, fontWeight:700, cursor:"pointer", fontFamily:"'Inter',sans-serif", whiteSpace:"nowrap", boxShadow:"0 4px 20px rgba(14,165,233,.3)", transition:"box-shadow .2s" }}
+                  {/* Budget */}
+                  <div style={{ flex:"1 1 120px", paddingRight:14 }}>
+                    <div style={{ fontSize:10, color:"#D4A574", textTransform:"uppercase", letterSpacing:"1.5px", fontWeight:600, marginBottom:6 }}>💰 Budget</div>
+                    <div style={{ display:"flex", gap:5 }}>
+                      {Object.entries(BUDGET_LABELS).map(([key,val])=>(
+                        <button key={key} onClick={()=>setBudget(budget===key?"":key)} title={val.label} style={{ flex:1, padding:"7px 0", borderRadius:9, border:`1px solid ${budget===key?val.color:"rgba(255,255,255,.12)"}`, background:budget===key?`${val.color}22`:"transparent", color:budget===key?val.color:"rgba(248,250,252,.5)", fontSize:15, cursor:"pointer" }}>{val.icon}</button>
+                      ))}
+                    </div>
+                  </div>
+                  {/* Rechercher */}
+                  <div style={{ display:"flex", alignItems:"center", paddingTop:14 }}>
+                    <button onClick={()=>{
+                      if(origin && destination){ setStep(2); window.scrollTo({top:0,behavior:"smooth"}); }
+                      else { destRef.current?.scrollIntoView({behavior:"smooth",block:"start"}); }
+                    }} style={{ background:"linear-gradient(135deg,#0EA5E9,#0284C7)", color:"white", border:"none", padding:"13px 24px", borderRadius:14, fontSize:14, fontWeight:700, cursor:"pointer", fontFamily:"'Inter',sans-serif", whiteSpace:"nowrap", boxShadow:"0 4px 20px rgba(14,165,233,.3)", transition:"box-shadow .2s" }}
                       onMouseEnter={e=>e.currentTarget.style.boxShadow="0 6px 28px rgba(14,165,233,.5)"} onMouseLeave={e=>e.currentTarget.style.boxShadow="0 4px 20px rgba(14,165,233,.3)"}>
                       Rechercher 🔍
                     </button>
                   </div>
                 </div>
+                {origin && destination && (
+                  <div style={{ marginTop:14, paddingTop:14, borderTop:"1px solid rgba(255,255,255,.07)", fontSize:13, color:"#D4A574", display:"flex", alignItems:"center", gap:8 }}>
+                    ✓ {origin} → {destination.name} {destination.flag} — cliquez sur <strong>Rechercher</strong> pour configurer votre voyage
+                  </div>
+                )}
               </div>
             </div>
 
@@ -1194,7 +1260,7 @@ export default function TravelPlanner() {
                         onMouseEnter={e=>{if(!sel){e.currentTarget.style.transform="translateY(-5px)";e.currentTarget.style.boxShadow="0 24px 60px rgba(0,0,0,.55)";}}}
                         onMouseLeave={e=>{if(!sel){e.currentTarget.style.transform="none";e.currentTarget.style.boxShadow="0 8px 32px rgba(0,0,0,.35)";}}}
                       >
-                        <img src={d.photo} alt={d.name} data-id={d.id} onError={wikiError} style={{ width:"100%", height:"100%", objectFit:"cover", transition:"transform .55s" }}
+                        <img src={heroImgs[d.id]||d.photo} alt={d.name} data-id={d.id} data-hires="1" onError={wikiError} style={{ width:"100%", height:"100%", objectFit:"cover", transition:"transform .55s" }}
                           onMouseEnter={e=>e.target.style.transform="scale(1.08)"} onMouseLeave={e=>e.target.style.transform="scale(1)"}/>
                         <div style={{ position:"absolute", inset:0, background:"linear-gradient(to top,rgba(0,0,0,.9) 0%,rgba(0,0,0,.1) 55%,transparent 100%)" }}/>
                         {sel&&<div style={{ position:"absolute", top:14, right:14, width:30, height:30, borderRadius:"50%", background:"#D4A574", display:"flex", alignItems:"center", justifyContent:"center", fontSize:13, color:"white", fontWeight:800 }}>✓</div>}
@@ -1331,7 +1397,7 @@ export default function TravelPlanner() {
 
             {/* ── CTA BANNER ── */}
             <section style={{ position:"relative", height:330, overflow:"hidden", display:"flex", alignItems:"center", justifyContent:"center" }}>
-              <div style={{ position:"absolute", inset:0, backgroundImage:`url(${DESTINATIONS.find(d=>d.id==="bali")?.photo||DESTINATIONS[7]?.photo})`, backgroundSize:"cover", backgroundPosition:"center" }}/>
+              <div style={{ position:"absolute", inset:0, backgroundColor:"#0A1426", backgroundImage:`url(${heroImgs["bali"]||heroImgs["santorini"]||DESTINATIONS.find(d=>d.id==="bali")?.photo})`, backgroundSize:"cover", backgroundPosition:"center" }}/>
               <div style={{ position:"absolute", inset:0, background:"linear-gradient(135deg,rgba(7,17,31,.88),rgba(15,27,45,.75))" }}/>
               <div style={{ position:"relative", zIndex:1, textAlign:"center", padding:"0 24px" }}>
                 <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:"clamp(28px,4vw,48px)", fontWeight:900, color:"#F8FAFC", marginBottom:14 }}>Prêt à vivre l'aventure ?</h2>
