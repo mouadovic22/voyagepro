@@ -21,12 +21,14 @@ const WIKI_TITLES = {
   sofia:"Sofia",zagreb:"Zagreb",valletta:"Valletta"
 };
 
-// ── AFFILIATE IDs ── fill in after registering at each platform
+// ── AFFILIATE IDs ── CJ Publisher ID: 7982811
+// To get link IDs: CJ dashboard → Advertisers → join program → Links → Deep Link Generator
 const AFF = {
-  booking:      "",   // partners.booking.com  → "AID" (ex: "1234567")
-  getyourguide: "",   // partner.getyourguide.com → "partner_id" (ex: "AB1CD2")
-  viator:       "",   // partnerplatform.viator.com → publisher pid (ex: "P00123456")
-  skyscanner:   "",   // travelpayouts.com/programs/114 → "marker" (ex: "123456")
+  cj_pid:       "7982811", // your CJ Publisher ID
+  booking:      "",   // CJ → Booking.com program → link ID after "click-7982811-"
+  getyourguide: "",   // partner.getyourguide.com → partner_id (direct program, not CJ)
+  viator:       "",   // CJ → Viator program → link ID after "click-7982811-"
+  kayak:        "",   // CJ → Kayak program → link ID after "click-7982811-"
 };
 
 const aff = (base, params) => AFF[Object.keys(params)[0]]
