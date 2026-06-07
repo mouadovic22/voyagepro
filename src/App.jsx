@@ -130,7 +130,7 @@ const CONTINENT_BG = { europe:"#0F2040", asie:"#0F2E0F", maghreb:"#2E1800", amer
 const FEATURED_IDS = ["paris","tokyo","bali","dubai","santorini","newyork","marrakech","kyoto"];
 
 const TRANSPORT_MODES = [
-  { icon:"✈️", label:"Avion",         desc:"Liaisons directes & low-cost partout dans le monde", color:"#0EA5E9" },
+  { icon:"✈️", label:"Avion",         desc:"Liaisons directes & low-cost partout dans le monde", color:"#8B5CF6" },
   { icon:"🚄", label:"Train rapide",  desc:"TGV, Shinkansen, Frecciarossa — confort & rapidité", color:"#10B981" },
   { icon:"🚢", label:"Croisière",     desc:"Traversée et escales entre plusieurs destinations",   color:"#6366F1" },
   { icon:"🚌", label:"Bus longue distance", desc:"FlixBus, Ouibus — économique & confortable",   color:"#F59E0B" },
@@ -211,42 +211,42 @@ const LANG = {
 
 const THEMES = {
   dark:{
-    bg:"#080F1E", bg2:"linear-gradient(160deg,#050D1F 0%,#0A1628 50%,#060E1A 100%)",
-    card:"rgba(255,255,255,.04)", cardBorder:"rgba(255,255,255,.08)",
-    cardHover:"rgba(255,255,255,.12)",
-    text:"#E2E8F0", text2:"rgba(148,163,184,.75)", text3:"rgba(148,163,184,.45)",
-    inputBg:"rgba(255,255,255,.06)", inputBorder:"rgba(255,255,255,.12)",
-    headerBg:"linear-gradient(135deg,#0A1E3D,#0F2952,#0A1628)",
-    headerBorder:"rgba(14,165,233,.15)",
-    heroBg:"linear-gradient(135deg,#061226,#0A1E3D,#0D1530)",
-    summaryBg:"linear-gradient(135deg,#0A1E3D,#0F2952)",
-    summaryBorder:"rgba(14,165,233,.2)",
-    tabActive:"linear-gradient(135deg,#1E6FA8,#0EA5E9)",
-    tabInactive:"rgba(255,255,255,.06)",
-    tabInactiveBorder:"rgba(255,255,255,.1)",
-    tabInactiveColor:"rgba(148,163,184,.8)",
-    btnSecBg:"rgba(255,255,255,.06)", btnSecBorder:"rgba(255,255,255,.1)", btnSecColor:"#94A3B8",
-    hotelBg:"linear-gradient(135deg,rgba(14,165,233,.08),rgba(14,165,233,.03))",
-    hotelBorder:"rgba(14,165,233,.2)",
+    bg:"#08071A", bg2:"linear-gradient(160deg,#06051A 0%,#0D0A28 50%,#06051A 100%)",
+    card:"rgba(139,92,246,.06)", cardBorder:"rgba(139,92,246,.15)",
+    cardHover:"rgba(139,92,246,.22)",
+    text:"#F0EEFF", text2:"rgba(196,181,253,.75)", text3:"rgba(196,181,253,.4)",
+    inputBg:"rgba(139,92,246,.08)", inputBorder:"rgba(139,92,246,.2)",
+    headerBg:"linear-gradient(135deg,#160D35,#22104A,#160D35)",
+    headerBorder:"rgba(139,92,246,.2)",
+    heroBg:"linear-gradient(135deg,#0F0822,#1C0D42,#0F0822)",
+    summaryBg:"linear-gradient(135deg,#1A0B40,#22104A)",
+    summaryBorder:"rgba(139,92,246,.25)",
+    tabActive:"linear-gradient(135deg,#6D28D9,#8B5CF6)",
+    tabInactive:"rgba(139,92,246,.08)",
+    tabInactiveBorder:"rgba(139,92,246,.15)",
+    tabInactiveColor:"rgba(196,181,253,.75)",
+    btnSecBg:"rgba(139,92,246,.08)", btnSecBorder:"rgba(139,92,246,.15)", btnSecColor:"#A78BFA",
+    hotelBg:"linear-gradient(135deg,rgba(139,92,246,.08),rgba(245,158,11,.04))",
+    hotelBorder:"rgba(139,92,246,.2)",
   },
   light:{
-    bg:"#F0F6FF", bg2:"linear-gradient(160deg,#EFF6FF 0%,#DBEAFE 50%,#EFF6FF 100%)",
-    card:"#FFFFFF", cardBorder:"rgba(30,64,175,.12)",
-    cardHover:"rgba(30,64,175,.06)",
-    text:"#0F172A", text2:"#475569", text3:"#94A3B8",
-    inputBg:"#FFFFFF", inputBorder:"rgba(30,64,175,.25)",
-    headerBg:"linear-gradient(135deg,#1E3A8A,#2563EB,#1D4ED8)",
-    headerBorder:"rgba(37,99,235,.3)",
-    heroBg:"linear-gradient(135deg,#1E3A8A,#2563EB,#3B82F6)",
-    summaryBg:"linear-gradient(135deg,#DBEAFE,#EFF6FF)",
-    summaryBorder:"rgba(30,64,175,.2)",
-    tabActive:"linear-gradient(135deg,#1D4ED8,#2563EB)",
-    tabInactive:"rgba(30,64,175,.06)",
-    tabInactiveBorder:"rgba(30,64,175,.15)",
-    tabInactiveColor:"#1E40AF",
-    btnSecBg:"rgba(30,64,175,.06)", btnSecBorder:"rgba(30,64,175,.15)", btnSecColor:"#1E40AF",
-    hotelBg:"linear-gradient(135deg,rgba(37,99,235,.08),rgba(37,99,235,.03))",
-    hotelBorder:"rgba(37,99,235,.2)",
+    bg:"#FAF8FF", bg2:"linear-gradient(160deg,#F5F0FF 0%,#EDE5FF 50%,#F5F0FF 100%)",
+    card:"#FFFFFF", cardBorder:"rgba(109,40,217,.12)",
+    cardHover:"rgba(109,40,217,.06)",
+    text:"#1A0B35", text2:"#5B21B6", text3:"#A78BFA",
+    inputBg:"#FFFFFF", inputBorder:"rgba(109,40,217,.25)",
+    headerBg:"linear-gradient(135deg,#3B0764,#6D28D9,#7C3AED)",
+    headerBorder:"rgba(109,40,217,.3)",
+    heroBg:"linear-gradient(135deg,#3B0764,#6D28D9,#8B5CF6)",
+    summaryBg:"linear-gradient(135deg,#EDE5FF,#F5F0FF)",
+    summaryBorder:"rgba(109,40,217,.2)",
+    tabActive:"linear-gradient(135deg,#5B21B6,#7C3AED)",
+    tabInactive:"rgba(109,40,217,.06)",
+    tabInactiveBorder:"rgba(109,40,217,.15)",
+    tabInactiveColor:"#5B21B6",
+    btnSecBg:"rgba(109,40,217,.06)", btnSecBorder:"rgba(109,40,217,.15)", btnSecColor:"#6D28D9",
+    hotelBg:"linear-gradient(135deg,rgba(109,40,217,.08),rgba(245,158,11,.04))",
+    hotelBorder:"rgba(109,40,217,.2)",
   },
 };
 
@@ -867,6 +867,43 @@ async function exportToPDF({ destination, origin, budget, startDate, endDate, ad
 }
 
 // ── MAIN APP ──
+function CitySelect({ value, onChange, options, placeholder, TH }) {
+  const [open, setOpen] = useState(false);
+  const [q, setQ] = useState("");
+  const ref = useRef(null);
+  useEffect(() => {
+    const handler = e => { if (ref.current && !ref.current.contains(e.target)) setOpen(false); };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
+  const filtered = q ? options.filter(o => o.toLowerCase().includes(q.toLowerCase())) : options;
+  return (
+    <div ref={ref} style={{ position:"relative", maxWidth:340 }}>
+      <button onClick={() => setOpen(o => !o)} style={{ width:"100%", padding:"11px 14px", background:TH.inputBg, border:`1px solid ${open?"#8B5CF6":TH.inputBorder}`, borderRadius:10, color:value ? TH.text : TH.text3, fontSize:14, fontFamily:"'DM Sans',sans-serif", textAlign:"left", cursor:"pointer", display:"flex", justifyContent:"space-between", alignItems:"center", transition:"border-color .2s" }}>
+        <span>{value || placeholder}</span>
+        <span style={{ fontSize:10, opacity:.6, transform:open?"rotate(180deg)":"none", transition:"transform .2s" }}>▼</span>
+      </button>
+      {open && (
+        <div style={{ position:"absolute", top:"calc(100% + 4px)", left:0, right:0, background:TH.bg||"#0D0A28", border:`1px solid #8B5CF6`, borderRadius:12, zIndex:999, boxShadow:"0 20px 60px rgba(0,0,0,.5)", overflow:"hidden" }}>
+          <div style={{ padding:"8px 8px 4px" }}>
+            <input autoFocus value={q} onChange={e => setQ(e.target.value)} placeholder="Rechercher..." style={{ width:"100%", padding:"8px 12px", background:"rgba(139,92,246,.12)", border:"1px solid rgba(139,92,246,.2)", borderRadius:8, color:TH.text, fontSize:13, fontFamily:"'DM Sans',sans-serif", outline:"none" }} />
+          </div>
+          <div style={{ maxHeight:240, overflowY:"auto", padding:"4px 4px 8px" }}>
+            {filtered.map(o => (
+              <div key={o} onClick={() => { onChange(o); setOpen(false); setQ(""); }} style={{ padding:"9px 14px", borderRadius:8, cursor:"pointer", fontSize:13, color:value===o?"#C4B5FD":TH.text, background:value===o?"rgba(139,92,246,.2)":"transparent", fontWeight:value===o?600:400, transition:"background .12s" }}
+                onMouseEnter={e => { if(value!==o) e.currentTarget.style.background="rgba(139,92,246,.1)"; }}
+                onMouseLeave={e => { if(value!==o) e.currentTarget.style.background="transparent"; }}>
+                {o}
+              </div>
+            ))}
+            {filtered.length === 0 && <div style={{ padding:"12px 14px", fontSize:13, color:TH.text3, textAlign:"center" }}>Aucun résultat</div>}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function AdBanner({ slot = "1234567890", format = "auto" }) {
   useEffect(() => {
     try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch(e) {}
@@ -889,7 +926,7 @@ function PrivacyModal({ onClose }) {
       <div onClick={e=>e.stopPropagation()} style={{ background:"#0F1A2E", border:"1px solid #1E3A5F", borderRadius:18, padding:"32px 28px", maxWidth:560, width:"100%", maxHeight:"80vh", overflowY:"auto", color:"#CBD5E1" }}>
         <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:20 }}>
           <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:22, fontWeight:700, color:"#F1F5F9" }}>🔒 Politique de confidentialité</h2>
-          <button onClick={onClose} style={{ background:"transparent", border:"none", color:"#7DD3FC", fontSize:22, cursor:"pointer", lineHeight:1 }}>×</button>
+          <button onClick={onClose} style={{ background:"transparent", border:"none", color:"#C4B5FD", fontSize:22, cursor:"pointer", lineHeight:1 }}>×</button>
         </div>
         <p style={{ fontSize:12, color:"#64748B", marginBottom:20 }}>Dernière mise à jour : 7 juin 2026</p>
         {[
@@ -900,11 +937,11 @@ function PrivacyModal({ onClose }) {
           ["Vos droits", "Vous pouvez désactiver les cookies publicitaires dans les paramètres de votre navigateur. Pour toute question : mouad.ouhaddou@gmail.com"],
         ].map(([title, text]) => (
           <div key={title} style={{ marginBottom:18 }}>
-            <div style={{ fontWeight:700, fontSize:14, color:"#7DD3FC", marginBottom:6 }}>{title}</div>
+            <div style={{ fontWeight:700, fontSize:14, color:"#C4B5FD", marginBottom:6 }}>{title}</div>
             <p style={{ fontSize:13, lineHeight:1.7 }}>{text}</p>
           </div>
         ))}
-        <button onClick={onClose} style={{ marginTop:10, width:"100%", padding:"11px 0", borderRadius:10, background:"linear-gradient(135deg,#1E6FA8,#0EA5E9)", color:"white", border:"none", fontSize:14, fontWeight:600, cursor:"pointer", fontFamily:"'DM Sans',sans-serif" }}>J'ai compris</button>
+        <button onClick={onClose} style={{ marginTop:10, width:"100%", padding:"11px 0", borderRadius:10, background:"linear-gradient(135deg,#6D28D9,#8B5CF6)", color:"white", border:"none", fontSize:14, fontWeight:600, cursor:"pointer", fontFamily:"'DM Sans',sans-serif" }}>J'ai compris</button>
       </div>
     </div>
   );
@@ -961,33 +998,32 @@ export default function TravelPlanner() {
     *{box-sizing:border-box;margin:0;padding:0;}
     body{background:${TH.bg};font-family:'DM Sans',sans-serif;color:${TH.text};}
     ::-webkit-scrollbar{width:6px;}::-webkit-scrollbar-thumb{background:rgba(128,128,128,.3);border-radius:3px;}
-    .bp{background:linear-gradient(135deg,#1E6FA8,#0EA5E9);color:white;border:none;padding:13px 30px;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif;}
-    .bp:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(14,165,233,.35);}
+    .bp{background:linear-gradient(135deg,#6D28D9,#8B5CF6);color:white;border:none;padding:13px 30px;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif;}
+    .bp:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(139,92,246,.4);}
     .bp:disabled{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none;}
-    .bpdf{background:linear-gradient(135deg,#7C3AED,#8B5CF6);color:white;border:none;padding:11px 22px;border-radius:11px;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif;display:flex;align-items:center;gap:8px;}
-    .bpdf:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(139,92,246,.4);}
+    .bpdf{background:linear-gradient(135deg,#F59E0B,#FBBF24);color:white;border:none;padding:11px 22px;border-radius:11px;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif;display:flex;align-items:center;gap:8px;}
+    .bpdf:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(245,158,11,.4);}
     .bpdf:disabled{opacity:.5;cursor:not-allowed;transform:none;}
     .card{background:${TH.card};border:1px solid ${TH.cardBorder};border-radius:16px;padding:20px;transition:border-color .2s,background .2s;color:${TH.text};}
     .card:hover{border-color:${TH.cardHover};}
-    input,select{background:${TH.inputBg};border:1px solid ${TH.inputBorder};border-radius:10px;color:${TH.text};padding:11px 14px;font-size:14px;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .2s;width:100%;}
-    input:focus,select:focus{border-color:#0EA5E9;}
+    input{background:${TH.inputBg};border:1px solid ${TH.inputBorder};border-radius:10px;color:${TH.text};padding:11px 14px;font-size:14px;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .2s;width:100%;}
+    input:focus{border-color:#8B5CF6;}
     input[type=date]::-webkit-calendar-picker-indicator{filter:${theme==='dark'?'invert(1) opacity(.5)':'opacity(.5)'};cursor:pointer;}
-    select option{background:${TH.inputBg};color:${TH.text};}
     .tab{padding:10px 18px;border-radius:8px;border:none;cursor:pointer;font-size:13px;font-weight:500;font-family:'DM Sans',sans-serif;transition:all .2s;}
     .dc{cursor:pointer;padding:13px;border-radius:12px;border:1px solid ${TH.cardBorder};background:${TH.card};transition:all .15s;}
-    .dc:hover{border-color:rgba(14,165,233,.4);background:rgba(14,165,233,.07);}
-    .dc.sel{border:2px solid #0EA5E9;background:rgba(14,165,233,.12);}
+    .dc:hover{border-color:rgba(139,92,246,.4);background:rgba(139,92,246,.07);}
+    .dc.sel{border:2px solid #8B5CF6;background:rgba(139,92,246,.12);}
     @keyframes spin{to{transform:rotate(360deg)}}
     .sp{width:14px;height:14px;border:2px solid rgba(255,255,255,.3);border-top-color:white;border-radius:50%;display:inline-block;animation:spin 0.8s linear infinite;}
     .pcard{position:relative;border-radius:14px;overflow:hidden;cursor:pointer;aspect-ratio:4/3;transition:box-shadow .2s,transform .2s;}
-    .pcard:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(0,0,0,.4);}
+    .pcard:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(139,92,246,.25);}
     .pcard img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .45s ease;}
     .pcard:hover img{transform:scale(1.08);}
     .pcard-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.85) 0%,rgba(0,0,0,.15) 55%,transparent 100%);}
     .pcard-text{position:absolute;bottom:0;left:0;right:0;padding:10px 10px 9px;}
     .cfbtn{padding:8px 16px;border-radius:20px;border:1px solid ${TH.cardBorder};background:${TH.card};color:${TH.text2};font-size:12px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .18s;white-space:nowrap;}
-    .cfbtn:hover{border-color:rgba(14,165,233,.5);background:rgba(14,165,233,.1);color:#0EA5E9;}
-    .cfbtn.act{border-color:#0EA5E9;background:rgba(14,165,233,.18);color:#0EA5E9;font-weight:700;}
+    .cfbtn:hover{border-color:rgba(139,92,246,.5);background:rgba(139,92,246,.1);color:#A78BFA;}
+    .cfbtn.act{border-color:#8B5CF6;background:rgba(139,92,246,.18);color:#C4B5FD;font-weight:700;}
     .feat-strip{display:flex;gap:10px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none;}
     .feat-strip::-webkit-scrollbar{display:none;}
     .feat-card{position:relative;border-radius:12px;overflow:hidden;cursor:pointer;flex-shrink:0;width:130px;height:90px;transition:transform .2s;}
@@ -1009,18 +1045,33 @@ export default function TravelPlanner() {
         <div style={{ background:TH.headerBg, borderBottom:`1px solid ${TH.headerBorder}`, padding:"18px 0 14px" }}>
           <div style={{ maxWidth:1140, margin:"0 auto", padding:"0 24px" }}>
             <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:6 }}>
-              <div style={{ display:"flex", alignItems:"center", gap:12 }}>
-                <span style={{ fontSize:32 }}>✈️</span>
+              <div style={{ display:"flex", alignItems:"center", gap:14 }}>
+                <svg width="42" height="42" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <linearGradient id="lg1" x1="0" y1="0" x2="44" y2="44" gradientUnits="userSpaceOnUse">
+                      <stop offset="0%" stopColor="#E9D5FF"/><stop offset="100%" stopColor="#8B5CF6"/>
+                    </linearGradient>
+                    <linearGradient id="lg2" x1="0" y1="0" x2="44" y2="44" gradientUnits="userSpaceOnUse">
+                      <stop offset="0%" stopColor="#FCD34D"/><stop offset="100%" stopColor="#F59E0B"/>
+                    </linearGradient>
+                  </defs>
+                  <circle cx="22" cy="22" r="19" stroke="url(#lg1)" strokeWidth="2" fill="none"/>
+                  <ellipse cx="22" cy="22" rx="10" ry="19" stroke="url(#lg1)" strokeWidth="1.5" fill="none"/>
+                  <line x1="3" y1="22" x2="41" y2="22" stroke="url(#lg1)" strokeWidth="1.5"/>
+                  <line x1="3" y1="15" x2="41" y2="15" stroke="url(#lg1)" strokeWidth="1" opacity="0.5"/>
+                  <line x1="3" y1="29" x2="41" y2="29" stroke="url(#lg1)" strokeWidth="1" opacity="0.5"/>
+                  <path d="M30 12l-12 9 2 1-3 6 5-2 2 4 1-6 5-1z" fill="url(#lg2)"/>
+                </svg>
                 <div>
-                  <div style={{ fontFamily:"'Playfair Display',serif", fontSize:26, fontWeight:900, background:"linear-gradient(135deg,#7DD3FC,#38BDF8,#0EA5E9)", WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent" }}>VoyagePro</div>
-                  <div style={{ fontSize:11, color:TH.text3, letterSpacing:"2px", textTransform:"uppercase" }}>50 destinations mondiales · Export PDF</div>
+                  <div style={{ fontFamily:"'Playfair Display',serif", fontSize:26, fontWeight:900, background:"linear-gradient(135deg,#E9D5FF,#C4B5FD,#A78BFA)", WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent", letterSpacing:"-0.5px" }}>VoyagesPro</div>
+                  <div style={{ fontSize:10, color:TH.text3, letterSpacing:"2.5px", textTransform:"uppercase" }}>50 destinations · Export PDF</div>
                 </div>
               </div>
               <div style={{ display:"flex", gap:8, alignItems:"center" }}>
                 {/* Language switcher */}
                 <div style={{ display:"flex", gap:4 }}>
                   {["fr","en","ar"].map(l=>(
-                    <button key={l} onClick={()=>setLang(l)} style={{ padding:"5px 10px", borderRadius:7, border:`1px solid ${lang===l?"#0EA5E9":TH.cardBorder}`, background:lang===l?"rgba(14,165,233,.18)":TH.card, color:lang===l?"#7DD3FC":TH.text2, fontSize:11, fontWeight:lang===l?700:500, cursor:"pointer", fontFamily:"'DM Sans',sans-serif", textTransform:"uppercase", letterSpacing:"1px" }}>{l}</button>
+                    <button key={l} onClick={()=>setLang(l)} style={{ padding:"5px 10px", borderRadius:7, border:`1px solid ${lang===l?"#8B5CF6":TH.cardBorder}`, background:lang===l?"rgba(139,92,246,.18)":TH.card, color:lang===l?"#C4B5FD":TH.text2, fontSize:11, fontWeight:lang===l?700:500, cursor:"pointer", fontFamily:"'DM Sans',sans-serif", textTransform:"uppercase", letterSpacing:"1px" }}>{l}</button>
                   ))}
                 </div>
                 {/* Theme toggle */}
@@ -1035,8 +1086,8 @@ export default function TravelPlanner() {
                 const label = ["Destination","Paramètres","Programme"][i];
                 return (
                   <div key={i} style={{ display:"flex", alignItems:"center", gap:6 }}>
-                    <div style={{ width:24, height:24, borderRadius:"50%", background:step>=i+1?"linear-gradient(135deg,#0EA5E9,#38BDF8)":TH.card, display:"flex", alignItems:"center", justifyContent:"center", fontSize:11, fontWeight:700, color:step>=i+1?"white":TH.text3, border:step===i+1?"2px solid #38BDF8":"2px solid transparent" }}>{i+1}</div>
-                    <span style={{ fontSize:12, color:step>=i+1?"#7DD3FC":TH.text3, fontWeight:step===i+1?600:400 }}>{label}</span>
+                    <div style={{ width:24, height:24, borderRadius:"50%", background:step>=i+1?"linear-gradient(135deg,#6D28D9,#8B5CF6)":TH.card, display:"flex", alignItems:"center", justifyContent:"center", fontSize:11, fontWeight:700, color:step>=i+1?"white":TH.text3, border:step===i+1?"2px solid #A78BFA":"2px solid transparent" }}>{i+1}</div>
+                    <span style={{ fontSize:12, color:step>=i+1?"#C4B5FD":TH.text3, fontWeight:step===i+1?600:400 }}>{label}</span>
                     {i<2 && <div style={{ width:14, height:1, background:TH.cardBorder, margin:"0 4px" }}/>}
                   </div>
                 );
@@ -1063,17 +1114,17 @@ export default function TravelPlanner() {
                       <div key={d.id} style={{ flex:1, backgroundImage:`url(${d.photo})`, backgroundSize:"cover", backgroundPosition:"center", opacity:.45 }}/>
                     ))}
                   </div>
-                  <div style={{ position:"absolute", top:0, left:0, bottom:0, right:0, background:`linear-gradient(to ${isRTL?"left":"right"},${theme==="dark"?"#0A1E3D":"#1E3A8A"} 10%,rgba(10,30,61,.4) 60%,transparent 100%)` }}/>
+                  <div style={{ position:"absolute", top:0, left:0, bottom:0, right:0, background:`linear-gradient(to ${isRTL?"left":"right"},${theme==="dark"?"#160D35":"#3B0764"} 10%,rgba(22,13,53,.4) 60%,transparent 100%)` }}/>
                 </div>
                 <div style={{ position:"relative", zIndex:1, maxWidth:500 }}>
-                  <div style={{ fontSize:10, letterSpacing:"3px", color:"#7DD3FC", textTransform:"uppercase", marginBottom:10 }}>✈ Planificateur de voyage intelligent</div>
-                  <h1 style={{ fontFamily:"'Playfair Display',serif", fontSize:34, fontWeight:900, lineHeight:1.18, marginBottom:12, background:"linear-gradient(135deg,#fff 40%,#7DD3FC)", WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent" }}>
+                  <div style={{ fontSize:10, letterSpacing:"3px", color:"#C4B5FD", textTransform:"uppercase", marginBottom:10 }}>✈ Planificateur de voyage intelligent</div>
+                  <h1 style={{ fontFamily:"'Playfair Display',serif", fontSize:34, fontWeight:900, lineHeight:1.18, marginBottom:12, background:"linear-gradient(135deg,#fff 40%,#C4B5FD)", WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent" }}>
                     {T.hero_title}
                   </h1>
                   <p style={{ fontSize:14, color:"rgba(148,163,184,.8)", marginBottom:20, lineHeight:1.65 }}>{T.hero_sub}</p>
                   <div style={{ display:"flex", gap:16, flexWrap:"wrap" }}>
                     {[["🗺️","50 destinations"],["🏨","Hôtels inclus"],["📅","Itinéraire auto"],["📥","Export PDF"]].map(([ic,txt])=>(
-                      <div key={txt} style={{ display:"flex", alignItems:"center", gap:5, fontSize:12, color:"#7DD3FC" }}><span>{ic}</span><span>{txt}</span></div>
+                      <div key={txt} style={{ display:"flex", alignItems:"center", gap:5, fontSize:12, color:"#C4B5FD" }}><span>{ic}</span><span>{txt}</span></div>
                     ))}
                   </div>
                 </div>
@@ -1081,16 +1132,13 @@ export default function TravelPlanner() {
 
               {/* ORIGIN */}
               <div style={{ marginBottom:18 }}>
-                <label style={{ display:"block", marginBottom:7, fontSize:12, fontWeight:600, color:"#7DD3FC", textTransform:"uppercase", letterSpacing:"1px" }}>🛫 {T.depart}</label>
-                <select value={origin} onChange={e=>setOrigin(e.target.value)} style={{ maxWidth:340 }}>
-                  <option value="">— Choisir une ville —</option>
-                  {ORIGINS.map(o=><option key={o} value={o}>{o}</option>)}
-                </select>
+                <label style={{ display:"block", marginBottom:7, fontSize:12, fontWeight:600, color:"#C4B5FD", textTransform:"uppercase", letterSpacing:"1px" }}>🛫 {T.depart}</label>
+                <CitySelect value={origin} onChange={setOrigin} options={ORIGINS} placeholder="— Choisir une ville —" TH={TH} />
               </div>
 
               {/* SEARCH */}
               <div style={{ marginBottom:14 }}>
-                <label style={{ display:"block", marginBottom:7, fontSize:12, fontWeight:600, color:"#7DD3FC", textTransform:"uppercase", letterSpacing:"1px" }}>🔍 {T.search_ph.split(",")[0]}…</label>
+                <label style={{ display:"block", marginBottom:7, fontSize:12, fontWeight:600, color:"#C4B5FD", textTransform:"uppercase", letterSpacing:"1px" }}>🔍 {T.search_ph.split(",")[0]}…</label>
                 <div style={{ display:"flex", gap:10, alignItems:"center" }}>
                   <div style={{ position:"relative", flex:1, maxWidth:380 }}>
                     <span style={{ position:"absolute", [isRTL?"right":"left"]:12, top:"50%", transform:"translateY(-50%)", fontSize:15, opacity:.5 }}>🔍</span>
@@ -1109,7 +1157,7 @@ export default function TravelPlanner() {
                     {FEATURED_IDS.map(id=>{
                       const d = DESTINATIONS.find(x=>x.id===id);
                       return (
-                        <div key={id} className="feat-card" onClick={()=>setDestination(d)} style={{ outline:destination?.id===id?"2px solid #0EA5E9":"none", outlineOffset:2 }}>
+                        <div key={id} className="feat-card" onClick={()=>setDestination(d)} style={{ outline:destination?.id===id?"2px solid #8B5CF6":"none", outlineOffset:2 }}>
                           <img src={d.photo} alt={d.name} data-id={d.id} onError={wikiError}/>
                           <div className="feat-card-ov"/>
                           <div className="feat-card-lbl">{d.emoji} {d.name}</div>
@@ -1139,14 +1187,14 @@ export default function TravelPlanner() {
                     onMouseEnter={()=>setHoveredId(dest.id)}
                     onMouseLeave={()=>setHoveredId(null)}
                     style={{
-                      backgroundColor: CONTINENT_BG[dest.continent] || "#0A1628",
-                      boxShadow: destination?.id===dest.id ? "0 0 0 2.5px #0EA5E9" : hoveredId===dest.id ? "0 0 0 1.5px rgba(14,165,233,.35)" : "none",
+                      backgroundColor: CONTINENT_BG[dest.continent] || "#0D0A28",
+                      boxShadow: destination?.id===dest.id ? "0 0 0 2.5px #8B5CF6" : hoveredId===dest.id ? "0 0 0 1.5px rgba(139,92,246,.35)" : "none",
                     }}
                   >
                     <img src={dest.photo} alt={dest.name} data-id={dest.id} loading="lazy" onError={wikiError}/>
                     <div className="pcard-overlay"/>
                     {destination?.id===dest.id && (
-                      <div style={{ position:"absolute", top:8, right:8, width:22, height:22, borderRadius:"50%", background:"#0EA5E9", display:"flex", alignItems:"center", justifyContent:"center", fontSize:11, fontWeight:700, color:"white", zIndex:2 }}>✓</div>
+                      <div style={{ position:"absolute", top:8, right:8, width:22, height:22, borderRadius:"50%", background:"#8B5CF6", display:"flex", alignItems:"center", justifyContent:"center", fontSize:11, fontWeight:700, color:"white", zIndex:2 }}>✓</div>
                     )}
                     <div className="pcard-text">
                       <div style={{ fontSize:11, marginBottom:1, opacity:.9 }}>{dest.emoji}</div>
@@ -1164,7 +1212,7 @@ export default function TravelPlanner() {
               </div>
 
               {destination && (
-                <div style={{ marginBottom:16, padding:"10px 16px", borderRadius:10, background:"rgba(14,165,233,.1)", border:"1px solid rgba(14,165,233,.25)", fontSize:13, color:"#7DD3FC", display:"inline-flex", alignItems:"center", gap:8 }}>
+                <div style={{ marginBottom:16, padding:"10px 16px", borderRadius:10, background:"rgba(139,92,246,.1)", border:"1px solid rgba(139,92,246,.25)", fontSize:13, color:"#C4B5FD", display:"inline-flex", alignItems:"center", gap:8 }}>
                   {destination.emoji} <strong>{destination.name}</strong> {destination.flag} {T.selected}{origin ? "" : ` ${T.also_choose}`}
                 </div>
               )}
@@ -1177,21 +1225,21 @@ export default function TravelPlanner() {
           {step===2 && (
             <div>
               <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:6 }}>
-                <button onClick={()=>setStep(1)} style={{ background:"transparent", border:"none", color:"#7DD3FC", cursor:"pointer", fontSize:13, padding:0 }}>{T.back}</button>
+                <button onClick={()=>setStep(1)} style={{ background:"transparent", border:"none", color:"#C4B5FD", cursor:"pointer", fontSize:13, padding:0 }}>{T.back}</button>
                 <div style={{ width:1, height:13, background:TH.cardBorder }}/>
                 <span style={{ color:TH.text2, fontSize:13 }}>{origin} → {destination.name} {destination.flag}</span>
               </div>
               <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:24, fontWeight:700, marginBottom:20, color:TH.text }}>{T.configure}</h2>
 
               <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:13, marginBottom:20 }}>
-                <div><label style={{ display:"block", marginBottom:6, fontSize:12, fontWeight:600, color:"#7DD3FC", textTransform:"uppercase", letterSpacing:"1px" }}>📅 {T.dep_date}</label><input type="date" value={startDate} min={new Date().toISOString().split("T")[0]} onChange={e=>setStartDate(e.target.value)}/></div>
-                <div><label style={{ display:"block", marginBottom:6, fontSize:12, fontWeight:600, color:"#7DD3FC", textTransform:"uppercase", letterSpacing:"1px" }}>📅 {T.ret_date}</label><input type="date" value={endDate} min={startDate||new Date().toISOString().split("T")[0]} onChange={e=>setEndDate(e.target.value)}/></div>
+                <div><label style={{ display:"block", marginBottom:6, fontSize:12, fontWeight:600, color:"#C4B5FD", textTransform:"uppercase", letterSpacing:"1px" }}>📅 {T.dep_date}</label><input type="date" value={startDate} min={new Date().toISOString().split("T")[0]} onChange={e=>setStartDate(e.target.value)}/></div>
+                <div><label style={{ display:"block", marginBottom:6, fontSize:12, fontWeight:600, color:"#C4B5FD", textTransform:"uppercase", letterSpacing:"1px" }}>📅 {T.ret_date}</label><input type="date" value={endDate} min={startDate||new Date().toISOString().split("T")[0]} onChange={e=>setEndDate(e.target.value)}/></div>
               </div>
-              {nights>0 && <div style={{ background:"rgba(14,165,233,.1)", border:"1px solid rgba(14,165,233,.25)", borderRadius:9, padding:"8px 14px", marginBottom:18, fontSize:13, color:"#7DD3FC", display:"inline-block" }}>✨ <strong>{T.nights(nights)}</strong> à {destination.name}</div>}
+              {nights>0 && <div style={{ background:"rgba(139,92,246,.1)", border:"1px solid rgba(139,92,246,.25)", borderRadius:9, padding:"8px 14px", marginBottom:18, fontSize:13, color:"#C4B5FD", display:"inline-block" }}>✨ <strong>{T.nights(nights)}</strong> à {destination.name}</div>}
 
               <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:13, marginBottom:20 }}>
                 {[[`👤 ${T.adults}`,adults,setAdults,1],[`👶 ${T.children}`,children,setChildren,0]].map(([lbl,val,set,min]) => (
-                  <div key={lbl}><label style={{ display:"block", marginBottom:6, fontSize:12, fontWeight:600, color:"#7DD3FC", textTransform:"uppercase", letterSpacing:"1px" }}>{lbl}</label>
+                  <div key={lbl}><label style={{ display:"block", marginBottom:6, fontSize:12, fontWeight:600, color:"#C4B5FD", textTransform:"uppercase", letterSpacing:"1px" }}>{lbl}</label>
                     <div style={{ display:"flex", gap:8, alignItems:"center" }}>
                       <button onClick={()=>set(Math.max(min,val-1))} style={{ width:32, height:32, borderRadius:8, border:`1px solid ${TH.cardBorder}`, background:TH.card, color:TH.text, cursor:"pointer", fontSize:18 }}>−</button>
                       <span style={{ fontSize:18, fontWeight:700, minWidth:28, textAlign:"center", color:TH.text }}>{val}</span>
@@ -1201,7 +1249,7 @@ export default function TravelPlanner() {
                 ))}
               </div>
 
-              <label style={{ display:"block", marginBottom:11, fontSize:12, fontWeight:600, color:"#7DD3FC", textTransform:"uppercase", letterSpacing:"1px" }}>💰 {T.budget_type}</label>
+              <label style={{ display:"block", marginBottom:11, fontSize:12, fontWeight:600, color:"#C4B5FD", textTransform:"uppercase", letterSpacing:"1px" }}>💰 {T.budget_type}</label>
               <div style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:10, marginBottom:26 }}>
                 {Object.entries(BUDGET_LABELS).map(([key,val]) => (
                   <div key={key} onClick={()=>setBudget(key)} className="card" style={{ cursor:"pointer", textAlign:"center", padding:"16px 10px", border:budget===key?`2px solid ${val.color}`:`1px solid ${TH.cardBorder}`, background:budget===key?`rgba(${key==="serré"?"45,212,191":key==="moyen"?"245,158,11":"139,92,246"},.08)`:TH.card }}>
@@ -1225,20 +1273,21 @@ export default function TravelPlanner() {
                     <div key={k}><div style={{ fontSize:10, color:TH.text2, textTransform:"uppercase", letterSpacing:"1px" }}>{k}</div><div style={{ fontSize:14, fontWeight:700, color:k===T.budget_label?BUDGET_LABELS[budget].color:TH.text }}>{v}</div></div>
                   ))}
                 </div>
-                <div style={{ display:"flex", gap:8 }}>
+                <div style={{ display:"flex", gap:8, flexWrap:"wrap" }}>
                   <button className="bpdf" onClick={handlePDF} disabled={pdfLoading}>
                     {pdfLoading ? <span className="sp"/> : "📥"} {pdfLoading ? "Génération…" : T.dl_pdf}
                   </button>
                   <button onClick={reset} style={{ background:TH.btnSecBg, border:`1px solid ${TH.btnSecBorder}`, color:TH.btnSecColor, padding:"8px 13px", borderRadius:8, cursor:"pointer", fontSize:13, fontFamily:"'DM Sans',sans-serif" }}>{T.modify}</button>
+                  <button onClick={reset} style={{ background:"linear-gradient(135deg,#F59E0B,#FCD34D)", border:"none", color:"white", padding:"8px 16px", borderRadius:8, cursor:"pointer", fontSize:13, fontWeight:600, fontFamily:"'DM Sans',sans-serif", display:"flex", alignItems:"center", gap:6 }}>🏠 Accueil</button>
                 </div>
               </div>
 
               {/* ── QUICK BOOKING BAR ── */}
-              <div style={{ background:"linear-gradient(135deg,rgba(14,165,233,.12),rgba(99,102,241,.08))", border:"1px solid rgba(14,165,233,.25)", borderRadius:14, padding:"14px 18px", marginBottom:18 }}>
-                <div style={{ fontSize:11, color:"#7DD3FC", textTransform:"uppercase", letterSpacing:"1px", fontWeight:600, marginBottom:11 }}>🔗 Réserver maintenant — {destination.name}</div>
+              <div style={{ background:"linear-gradient(135deg,rgba(139,92,246,.12),rgba(99,102,241,.08))", border:"1px solid rgba(139,92,246,.25)", borderRadius:14, padding:"14px 18px", marginBottom:18 }}>
+                <div style={{ fontSize:11, color:"#C4B5FD", textTransform:"uppercase", letterSpacing:"1px", fontWeight:600, marginBottom:11 }}>🔗 Réserver maintenant — {destination.name}</div>
                 <div style={{ display:"flex", gap:9, flexWrap:"wrap" }}>
                   {[
-                    { label:"✈️ Google Flights", color:"#0EA5E9", url:BOOK.flights(origin, destination.name) },
+                    { label:"✈️ Google Flights", color:"#8B5CF6", url:BOOK.flights(origin, destination.name) },
                     { label:"🔍 Skyscanner",     color:"#00A3BE", url:BOOK.skyscanner(origin, destination.name) },
                     { label:"💺 Kayak",           color:"#FF690F", url:BOOK.kayak(origin, destination.name) },
                     { label:"🏨 Booking.com",     color:"#003580", url:BOOK.booking(destination.name) },
@@ -1260,7 +1309,7 @@ export default function TravelPlanner() {
                 <div style={{ display:"flex", alignItems:"center", gap:12 }}>
                   <span style={{ fontSize:32 }}>🏨</span>
                   <div>
-                    <div style={{ fontSize:10, color:"#7DD3FC", textTransform:"uppercase", letterSpacing:"1px", marginBottom:3 }}>{T.recommended}</div>
+                    <div style={{ fontSize:10, color:"#C4B5FD", textTransform:"uppercase", letterSpacing:"1px", marginBottom:3 }}>{T.recommended}</div>
                     <div style={{ fontSize:17, fontWeight:700, marginBottom:3, color:TH.text }}>{data.hotels[budget]?.[0]?.name}</div>
                     <div style={{ display:"flex", gap:8, alignItems:"center" }}>
                       <span>{Array.from({length:data.hotels[budget]?.[0]?.stars||0},(_,i)=><span key={i} style={{color:"#F59E0B"}}>★</span>)}</span>
@@ -1293,7 +1342,7 @@ export default function TravelPlanner() {
                       <div key={a.name} className="card" style={{ padding:15 }}>
                         <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:5 }}>
                           <div style={{ fontWeight:700, fontSize:14 }}>{a.name}</div>
-                          <span style={{ padding:"3px 8px", borderRadius:20, fontSize:10, fontWeight:600, background:"rgba(14,165,233,.15)", color:"#7DD3FC", flexShrink:0, marginLeft:6 }}>{a.type}</span>
+                          <span style={{ padding:"3px 8px", borderRadius:20, fontSize:10, fontWeight:600, background:"rgba(139,92,246,.15)", color:"#C4B5FD", flexShrink:0, marginLeft:6 }}>{a.type}</span>
                         </div>
                         <div style={{ fontSize:12, color:"rgba(148,163,184,.7)", marginBottom:8 }}>⏱ {a.duration}</div>
                         <div style={{ background:TH.inputBg, borderRadius:8, padding:"7px 10px", marginBottom:10 }}>
@@ -1306,7 +1355,7 @@ export default function TravelPlanner() {
                             🎟 GetYourGuide
                           </a>
                           <a href={BOOK.maps(a.name, destination.name)} target="_blank" rel="noopener noreferrer"
-                            style={{ flex:1, display:"flex", alignItems:"center", justifyContent:"center", gap:5, padding:"7px 0", borderRadius:8, background:"rgba(14,165,233,.15)", color:"#7DD3FC", fontSize:11, fontWeight:600, textDecoration:"none", fontFamily:"'DM Sans',sans-serif", border:"1px solid rgba(14,165,233,.25)" }}>
+                            style={{ flex:1, display:"flex", alignItems:"center", justifyContent:"center", gap:5, padding:"7px 0", borderRadius:8, background:"rgba(139,92,246,.15)", color:"#C4B5FD", fontSize:11, fontWeight:600, textDecoration:"none", fontFamily:"'DM Sans',sans-serif", border:"1px solid rgba(139,92,246,.25)" }}>
                             📍 Google Maps
                           </a>
                         </div>
@@ -1374,12 +1423,12 @@ export default function TravelPlanner() {
                     {itinerary.map(day => (
                       <div key={day.day} className="card" style={{ padding:"17px 20px" }}>
                         <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:13, paddingBottom:11, borderBottom:`1px solid ${TH.cardBorder}` }}>
-                          <div style={{ width:34, height:34, borderRadius:"50%", background:"linear-gradient(135deg,#1E6FA8,#0EA5E9)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:13, fontWeight:800, color:"white", flexShrink:0 }}>{day.day}</div>
-                          <div><div style={{ fontSize:10, color:"#7DD3FC", textTransform:"uppercase", letterSpacing:"1px" }}>Jour {day.day}</div><div style={{ fontWeight:700, fontSize:14 }}>{day.date}</div></div>
+                          <div style={{ width:34, height:34, borderRadius:"50%", background:"linear-gradient(135deg,#6D28D9,#8B5CF6)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:13, fontWeight:800, color:"white", flexShrink:0 }}>{day.day}</div>
+                          <div><div style={{ fontSize:10, color:"#C4B5FD", textTransform:"uppercase", letterSpacing:"1px" }}>Jour {day.day}</div><div style={{ fontWeight:700, fontSize:14 }}>{day.date}</div></div>
                         </div>
                         {[...day.morning,...day.afternoon,...day.evening].map((item,i) => (
                           <div key={i} style={{ display:"flex", gap:11, marginBottom:9 }}>
-                            <div style={{ fontSize:11, color:"#7DD3FC", fontWeight:600, minWidth:42, paddingTop:2 }}>{item.time}</div>
+                            <div style={{ fontSize:11, color:"#C4B5FD", fontWeight:600, minWidth:42, paddingTop:2 }}>{item.time}</div>
                             <div>
                               <div style={{ fontSize:13, fontWeight:600, marginBottom:1 }}>{item.activity}</div>
                               {item.note && <div style={{ fontSize:11, color:"rgba(148,163,184,.65)" }}>{item.note}</div>}
@@ -1408,11 +1457,11 @@ export default function TravelPlanner() {
                   <p style={{ fontSize:13, color:TH.text2, marginBottom:14 }}>Options de transport depuis {origin} vers {destination.name}</p>
 
                   {/* Flight booking buttons */}
-                  <div style={{ background:"linear-gradient(135deg,rgba(14,165,233,.1),rgba(14,165,233,.04))", border:"1px solid rgba(14,165,233,.2)", borderRadius:13, padding:"14px 16px", marginBottom:20 }}>
-                    <div style={{ fontSize:11, color:"#7DD3FC", fontWeight:600, textTransform:"uppercase", letterSpacing:"1px", marginBottom:10 }}>✈️ Comparer & Réserver votre vol</div>
+                  <div style={{ background:"linear-gradient(135deg,rgba(139,92,246,.1),rgba(245,158,11,.04))", border:"1px solid rgba(139,92,246,.2)", borderRadius:13, padding:"14px 16px", marginBottom:20 }}>
+                    <div style={{ fontSize:11, color:"#C4B5FD", fontWeight:600, textTransform:"uppercase", letterSpacing:"1px", marginBottom:10 }}>✈️ Comparer & Réserver votre vol</div>
                     <div style={{ display:"flex", gap:9, flexWrap:"wrap" }}>
                       {[
-                        { label:"Google Flights", icon:"✈️", color:"#0EA5E9", url:BOOK.flights(origin, destination.name) },
+                        { label:"Google Flights", icon:"✈️", color:"#8B5CF6", url:BOOK.flights(origin, destination.name) },
                         { label:"Skyscanner",     icon:"🔍", color:"#00A3BE", url:BOOK.skyscanner(origin, destination.name) },
                         { label:"Kayak",           icon:"🛫", color:"#FF690F", url:BOOK.kayak(origin, destination.name) },
                       ].map(({label,icon,color,url})=>(
@@ -1427,7 +1476,7 @@ export default function TravelPlanner() {
                   {/* City-specific transport */}
                   <div style={{ display:"flex", flexDirection:"column", gap:11, marginBottom:22 }}>
                     {data.transport.map((t,i) => (
-                      <div key={i} className="card" style={{ padding:"17px 20px", display:"flex", gap:13, alignItems:"flex-start", borderLeft:"3px solid #0EA5E9" }}>
+                      <div key={i} className="card" style={{ padding:"17px 20px", display:"flex", gap:13, alignItems:"flex-start", borderLeft:"3px solid #8B5CF6" }}>
                         <span style={{ fontSize:30, flexShrink:0 }}>{t.mode.split(" ")[0]}</span>
                         <div style={{ flex:1 }}>
                           <div style={{ fontWeight:700, fontSize:14, marginBottom:4, color:TH.text }}>{t.mode}</div>
@@ -1440,7 +1489,7 @@ export default function TravelPlanner() {
 
                   {/* General transport modes visual grid */}
                   <div style={{ marginBottom:20 }}>
-                    <div style={{ fontSize:12, fontWeight:600, color:"#7DD3FC", textTransform:"uppercase", letterSpacing:"1px", marginBottom:12 }}>🌐 {T.transport_general}</div>
+                    <div style={{ fontSize:12, fontWeight:600, color:"#C4B5FD", textTransform:"uppercase", letterSpacing:"1px", marginBottom:12 }}>🌐 {T.transport_general}</div>
                     <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(200px,1fr))", gap:10 }}>
                       {TRANSPORT_MODES.map(tm=>(
                         <div key={tm.label} className="card" style={{ padding:"14px 16px", display:"flex", gap:12, alignItems:"flex-start", borderTop:`2px solid ${tm.color}` }}>
@@ -1455,7 +1504,7 @@ export default function TravelPlanner() {
                   </div>
 
                   <div style={{ background:TH.card, border:`1px solid ${TH.cardBorder}`, borderRadius:13, padding:"17px 20px" }}>
-                    <h4 style={{ fontWeight:700, marginBottom:11, fontSize:14, color:"#7DD3FC" }}>{T.tips}</h4>
+                    <h4 style={{ fontWeight:700, marginBottom:11, fontSize:14, color:"#C4B5FD" }}>{T.tips}</h4>
                     <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:9 }}>
                       {[["📱","Téléchargez les cartes offline"],["💱",`Monnaie locale : ${destination.currency}`],["🌡",`Température : ${destination.temp}`],["🗣","Apprenez quelques mots locaux"],["🛡","Assurance voyage recommandée"],["📸","Copies numériques des documents"]].map(([e,t]) => (
                         <div key={t} style={{ display:"flex", gap:7, alignItems:"flex-start", fontSize:12, color:TH.text2 }}><span style={{ flexShrink:0 }}>{e}</span><span>{t}</span></div>
