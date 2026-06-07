@@ -176,8 +176,63 @@ const LANG = {
     selected:"sélectionné", also_choose:"— choisissez aussi votre ville de départ",
     nights:n=>`${n} nuit${n>1?"s":""}`, budget_label:"Budget",
     journey:"Trajet", stay:"Séjour", travelers:"Voyageurs",
-    hotel_options:"Options d\'hébergement",
-    stars:"étoile",
+    hotel_options:"Options d\'hébergement", stars:"étoile",
+    // Step 1 landing page
+    hero_badge:"Planificateur de voyage intelligent",
+    hero_h1:["Créez votre","voyage","idéal"],
+    hero_desc:"Des itinéraires personnalisés, des hôtels d'exception et des expériences uniques, rien que pour vous.",
+    hero_cta1:"Commencer mon voyage →", hero_cta2:"▶ Découvrir les destinations",
+    lbl_depart:"🛫 Départ", lbl_dest:"📍 Destination", dest_ph:"Où partir ?",
+    lbl_dates:"📅 Dates", lbl_travelers:"👤 Voyageurs",
+    travelers_fn:n=>`${n} voyageur${n>1?"s":""}`,
+    lbl_budget:"💰 Budget", search_btn:"Rechercher 🔍",
+    search_confirm:(o,d,f)=>`✓ ${o} → ${d} ${f} — cliquez sur Rechercher pour configurer votre voyage`,
+    featured_badge:"✦ Destinations populaires",
+    featured_title:["Explorez les plus belles","destinations"],
+    featured_see_all:"Voir toutes les destinations ▾",
+    featured_hotels:"hôtels disponibles",
+    grid_title:"Choisissez votre destination",
+    grid_search_lbl:"🔍 Rechercher une destination",
+    dest_no_origin:"· Choisissez aussi votre ville de départ",
+    passion_badge:"✦ Voyagez selon vos envies",
+    passion_title:"Des voyages pour chaque passion",
+    passion_items:[
+      {emoji:"🏝",label:"Plage",desc:"Se détendre au soleil"},
+      {emoji:"🏔",label:"Nature",desc:"Aventures & paysages"},
+      {emoji:"🏛",label:"Culture",desc:"Histoire & patrimoine"},
+      {emoji:"🍽",label:"Gastronomie",desc:"Saveurs du monde"},
+      {emoji:"💎",label:"Luxe",desc:"Expériences d'exception"},
+      {emoji:"🧭",label:"Aventure",desc:"Sensations fortes"},
+    ],
+    features_badge:"✦ Pourquoi choisir VoyagesPro ?",
+    features_title:"Une expérience sur-mesure",
+    features_items:[
+      {icon:"✈️",title:"Itinéraires intelligents",desc:"Notre IA crée des itinéraires personnalisés selon vos goûts, votre budget et vos envies."},
+      {icon:"🏨",title:"Hôtels sélectionnés",desc:"Une sélection rigoureuse des meilleurs hôtels pour un confort et un service d'exception."},
+      {icon:"📄",title:"Export PDF premium",desc:"Exportez votre itinéraire complet en PDF pour l'emporter partout avec vous."},
+    ],
+    testimonial_rating:"4,9/5 ⭐", testimonial_count:"+10 000 voyageurs satisfaits",
+    testimonial_quote:"Un voyage inoubliable grâce à un itinéraire parfaitement organisé.\nChaque détail était parfait !",
+    testimonial_author:"— Marie L., Paris → Tokyo",
+    cta_title:"Prêt à vivre l'aventure ?",
+    cta_desc:"Créez votre voyage de rêve en quelques clics.",
+    cta_btn:"Commencer maintenant →",
+    about_badge:"À propos", about_title:"Planifiez le voyage de vos rêves, simplement",
+    about_p1:"VoyagesPro est né d'une conviction simple : organiser un voyage devrait être un plaisir, pas une corvée. Trop souvent, préparer un séjour demande des heures de recherche sur des dizaines de sites différents pour comparer les attractions, trouver de bons restaurants et bâtir un programme cohérent. Nous avons voulu réunir tout cela en un seul endroit, gratuit et accessible à tous.",
+    about_p2:"En quelques clics, indiquez votre destination, vos dates et votre budget : VoyagesPro génère instantanément un itinéraire jour par jour avec les incontournables, des suggestions de restaurants locaux et des recommandations d'hébergements adaptées. Que vous prépariez un week-end à Paris, une lune de miel à Bali ou un grand voyage à Tokyo, notre outil vous fait gagner un temps précieux pour que vous puissiez vous concentrer sur l'essentiel : profiter.",
+    guides_badge:"Guides de voyage", guides_title:"Nos destinations à la loupe",
+    guides_desc:"Découvrez l'essence de chaque destination, ses incontournables et la meilleure période pour la visiter.",
+    guides_btn:"Planifier ce voyage →",
+    faq_badge:"Questions fréquentes", faq_title:"Tout ce qu'il faut savoir",
+    footer_tagline:"Votre partenaire pour des voyages inoubliables, personnalisés et sans stress.",
+    footer_dest:"Destinations",
+    footer_continents:["Europe","Asie","Afrique","Amérique","Océanie"],
+    footer_info:"Informations",
+    footer_links_labels:["À propos","Guides de voyage","FAQ","Contact","Mentions légales & CGU"],
+    footer_privacy:"Confidentialité", footer_newsletter:"Newsletter",
+    footer_newsletter_desc:"Recevez nos meilleures offres de voyage.",
+    footer_newsletter_ph:"Votre email",
+    footer_copyright:`© ${new Date().getFullYear()} VoyagesPro. Tous droits réservés.`,
   },
   en:{
     hero_title:"Plan your dream trip",
@@ -197,8 +252,63 @@ const LANG = {
     selected:"selected", also_choose:"— also choose your departure city",
     nights:n=>`${n} night${n>1?"s":""}`, budget_label:"Budget",
     journey:"Route", stay:"Stay", travelers:"Travelers",
-    hotel_options:"Accommodation options",
-    stars:"star",
+    hotel_options:"Accommodation options", stars:"star",
+    // Step 1 landing page
+    hero_badge:"Intelligent Travel Planner",
+    hero_h1:["Create your","perfect","journey"],
+    hero_desc:"Personalized itineraries, exceptional hotels and unique experiences, just for you.",
+    hero_cta1:"Start my trip →", hero_cta2:"▶ Discover destinations",
+    lbl_depart:"🛫 Departure", lbl_dest:"📍 Destination", dest_ph:"Where to?",
+    lbl_dates:"📅 Dates", lbl_travelers:"👤 Travelers",
+    travelers_fn:n=>`${n} traveler${n>1?"s":""}`,
+    lbl_budget:"💰 Budget", search_btn:"Search 🔍",
+    search_confirm:(o,d,f)=>`✓ ${o} → ${d} ${f} — click Search to configure your trip`,
+    featured_badge:"✦ Popular destinations",
+    featured_title:["Explore the world's most beautiful","destinations"],
+    featured_see_all:"See all destinations ▾",
+    featured_hotels:"hotels available",
+    grid_title:"Choose your destination",
+    grid_search_lbl:"🔍 Search a destination",
+    dest_no_origin:"· Also choose your departure city",
+    passion_badge:"✦ Travel your way",
+    passion_title:"Trips for every passion",
+    passion_items:[
+      {emoji:"🏝",label:"Beach",desc:"Relax in the sun"},
+      {emoji:"🏔",label:"Nature",desc:"Adventures & landscapes"},
+      {emoji:"🏛",label:"Culture",desc:"History & heritage"},
+      {emoji:"🍽",label:"Gastronomy",desc:"Flavors of the world"},
+      {emoji:"💎",label:"Luxury",desc:"Exceptional experiences"},
+      {emoji:"🧭",label:"Adventure",desc:"Thrills & exploration"},
+    ],
+    features_badge:"✦ Why choose VoyagesPro?",
+    features_title:"A tailor-made experience",
+    features_items:[
+      {icon:"✈️",title:"Smart itineraries",desc:"Our AI creates personalized itineraries based on your tastes, budget and desires."},
+      {icon:"🏨",title:"Curated hotels",desc:"A rigorous selection of the best hotels for exceptional comfort and service."},
+      {icon:"📄",title:"Premium PDF export",desc:"Export your complete itinerary as PDF to take with you everywhere."},
+    ],
+    testimonial_rating:"4.9/5 ⭐", testimonial_count:"+10,000 satisfied travelers",
+    testimonial_quote:"An unforgettable trip thanks to a perfectly organized itinerary.\nEvery detail was perfect!",
+    testimonial_author:"— Marie L., Paris → Tokyo",
+    cta_title:"Ready for adventure?",
+    cta_desc:"Create your dream trip in just a few clicks.",
+    cta_btn:"Start now →",
+    about_badge:"About", about_title:"Plan the trip of your dreams, simply",
+    about_p1:"VoyagesPro was born from a simple belief: organizing a trip should be a pleasure, not a chore. Too often, planning a stay requires hours of research across dozens of different websites to compare attractions, find good restaurants, and build a coherent schedule. We wanted to bring it all together in one place, free and accessible to everyone.",
+    about_p2:"In just a few clicks, enter your destination, dates and budget: VoyagesPro instantly generates a day-by-day itinerary with must-sees, local restaurant suggestions and tailored accommodation recommendations. Whether you're planning a weekend in Paris, a honeymoon in Bali or a grand adventure in Tokyo, our tool saves you precious time so you can focus on what matters: enjoying.",
+    guides_badge:"Travel guides", guides_title:"Our destinations in detail",
+    guides_desc:"Discover the essence of each destination, its highlights and the best time to visit.",
+    guides_btn:"Plan this trip →",
+    faq_badge:"FAQ", faq_title:"Everything you need to know",
+    footer_tagline:"Your partner for unforgettable, personalized and stress-free travels.",
+    footer_dest:"Destinations",
+    footer_continents:["Europe","Asia","Africa","Americas","Oceania"],
+    footer_info:"Information",
+    footer_links_labels:["About","Travel guides","FAQ","Contact","Legal notice & Terms"],
+    footer_privacy:"Privacy", footer_newsletter:"Newsletter",
+    footer_newsletter_desc:"Get our best travel deals.",
+    footer_newsletter_ph:"Your email",
+    footer_copyright:`© ${new Date().getFullYear()} VoyagesPro. All rights reserved.`,
   },
   ar:{
     hero_title:"خطط لرحلة أحلامك",
@@ -218,8 +328,94 @@ const LANG = {
     selected:"محدد", also_choose:"— اختر أيضاً مدينة انطلاقك",
     nights:n=>`${n} ليلة`, budget_label:"الميزانية",
     journey:"المسار", stay:"المدة", travelers:"المسافرون",
-    hotel_options:"خيارات الإقامة",
-    stars:"نجمة",
+    hotel_options:"خيارات الإقامة", stars:"نجمة",
+    // Step 1 landing page
+    hero_badge:"مخطط رحلات ذكي",
+    hero_h1:["أنشئ رحلة","أحلامك","المثالية"],
+    hero_desc:"برامج مخصصة، فنادق استثنائية وتجارب فريدة، فقط لك.",
+    hero_cta1:"ابدأ رحلتي ←", hero_cta2:"▶ اكتشف الوجهات",
+    lbl_depart:"🛫 المغادرة", lbl_dest:"📍 الوجهة", dest_ph:"إلى أين؟",
+    lbl_dates:"📅 التواريخ", lbl_travelers:"👤 المسافرون",
+    travelers_fn:n=>`${n} مسافر${n>1?"ون":""}`,
+    lbl_budget:"💰 الميزانية", search_btn:"بحث 🔍",
+    search_confirm:(o,d,f)=>`✓ ${o} ← ${d} ${f} — انقر بحث لإعداد رحلتك`,
+    featured_badge:"✦ الوجهات الشهيرة",
+    featured_title:["استكشف أجمل","وجهات العالم"],
+    featured_see_all:"عرض جميع الوجهات ▾",
+    featured_hotels:"فندق متاح",
+    grid_title:"اختر وجهتك",
+    grid_search_lbl:"🔍 ابحث عن وجهة",
+    dest_no_origin:"· اختر أيضاً مدينة انطلاقك",
+    passion_badge:"✦ سافر بطريقتك",
+    passion_title:"رحلات لكل شغف",
+    passion_items:[
+      {emoji:"🏝",label:"الشاطئ",desc:"الاسترخاء تحت الشمس"},
+      {emoji:"🏔",label:"الطبيعة",desc:"مغامرات ومناظر خلابة"},
+      {emoji:"🏛",label:"الثقافة",desc:"التاريخ والتراث"},
+      {emoji:"🍽",label:"الطهي",desc:"نكهات العالم"},
+      {emoji:"💎",label:"الفخامة",desc:"تجارب استثنائية"},
+      {emoji:"🧭",label:"المغامرة",desc:"إثارة واكتشاف"},
+    ],
+    features_badge:"✦ لماذا VoyagesPro؟",
+    features_title:"تجربة مصممة خصيصاً لك",
+    features_items:[
+      {icon:"✈️",title:"برامج ذكية",desc:"يُنشئ ذكاؤنا الاصطناعي برامج مخصصة حسب اهتماماتك وميزانيتك ورغباتك."},
+      {icon:"🏨",title:"فنادق منتقاة",desc:"تشكيلة دقيقة من أفضل الفنادق لراحة وخدمة استثنائية."},
+      {icon:"📄",title:"تصدير PDF متميز",desc:"صدّر برنامجك كاملاً بصيغة PDF لاصطحابه معك في أي مكان."},
+    ],
+    testimonial_rating:"4.9/5 ⭐", testimonial_count:"+10,000 مسافر سعيد",
+    testimonial_quote:"رحلة لا تُنسى بفضل برنامج منظم بإتقان.\nكل تفصيل كان مثالياً!",
+    testimonial_author:"— ماري ل.، باريس ← طوكيو",
+    cta_title:"مستعد للمغامرة؟",
+    cta_desc:"أنشئ رحلة أحلامك بنقرات قليلة.",
+    cta_btn:"ابدأ الآن ←",
+    about_badge:"عن VoyagesPro", about_title:"خطط لرحلة أحلامك بكل سهولة",
+    about_p1:"وُلد VoyagesPro من قناعة بسيطة: تنظيم الرحلة يجب أن يكون متعة، لا عبئاً. في أغلب الأحيان، يستغرق التخطيط ساعات من البحث عبر عشرات المواقع المختلفة لمقارنة المعالم والمطاعم وبناء برنامج متكامل. أردنا تجميع كل ذلك في مكان واحد، مجاناً وفي متناول الجميع.",
+    about_p2:"في بضع نقرات، أدخل وجهتك وتواريخك وميزانيتك: يُنشئ VoyagesPro على الفور برنامجاً يومياً بالمعالم الأساسية ومقترحات المطاعم المحلية والإقامات المناسبة. سواء كنت تخطط لعطلة في باريس أو شهر عسل في بالي أو مغامرة كبرى في طوكيو، يوفّر عليك أداتنا وقتاً ثميناً لتتفرغ للأهم: الاستمتاع.",
+    guides_badge:"أدلة السفر", guides_title:"وجهاتنا بالتفصيل",
+    guides_desc:"اكتشف جوهر كل وجهة ومعالمها وأفضل وقت لزيارتها.",
+    guides_btn:"خطط لهذه الرحلة ←",
+    faq_badge:"الأسئلة الشائعة", faq_title:"كل ما تحتاج معرفته",
+    footer_tagline:"رفيقك لرحلات لا تُنسى، مخصصة وخالية من التوتر.",
+    footer_dest:"الوجهات",
+    footer_continents:["أوروبا","آسيا","أفريقيا","الأمريكتان","أوقيانوسيا"],
+    footer_info:"معلومات",
+    footer_links_labels:["عن VoyagesPro","أدلة السفر","الأسئلة الشائعة","تواصل معنا","الإشعارات القانونية"],
+    footer_privacy:"الخصوصية", footer_newsletter:"النشرة الإخبارية",
+    footer_newsletter_desc:"احصل على أفضل عروض السفر.",
+    footer_newsletter_ph:"بريدك الإلكتروني",
+    footer_copyright:`© ${new Date().getFullYear()} VoyagesPro. جميع الحقوق محفوظة.`,
+  },
+};
+
+const STEP1 = {
+  dark:{
+    bg:"#07111F", bg2:"#0F1B2D", footerBg:"#060D1A",
+    text:"#F8FAFC", textMuted:"#94A3B8",
+    cardBg:"rgba(15,27,45,.65)", cardBorder:"rgba(255,255,255,.07)",
+    searchBg:"rgba(10,20,38,.9)", searchBorder:"rgba(255,255,255,.08)",
+    searchDivider:"rgba(255,255,255,.08)", searchText:"#F8FAFC",
+    passionBg:"rgba(255,255,255,.03)", passionBorder:"rgba(255,255,255,.07)",
+    gridBg:"rgba(15,27,45,.55)", gridBorder:"rgba(255,255,255,.07)",
+    btnOutline:"rgba(255,255,255,.12)", btnOutlineText:"#94A3B8",
+    sectionTag:"#D4A574", socialBg:"rgba(255,255,255,.05)",
+    socialBorder:"rgba(255,255,255,.08)", divider:"rgba(255,255,255,.06)",
+    copyright:"rgba(148,163,184,.45)", continentBg:"rgba(255,255,255,.03)",
+    continentActive:"rgba(212,165,116,.1)", heroMuted:"rgba(248,250,252,.68)",
+  },
+  light:{
+    bg:"#FAF6F0", bg2:"#F0E8DC", footerBg:"#1A1208",
+    text:"#1A1208", textMuted:"#7B6B55",
+    cardBg:"rgba(255,255,255,.95)", cardBorder:"rgba(212,165,116,.18)",
+    searchBg:"rgba(255,248,240,.97)", searchBorder:"rgba(212,165,116,.28)",
+    searchDivider:"rgba(212,165,116,.18)", searchText:"#1A1208",
+    passionBg:"rgba(212,165,116,.06)", passionBorder:"rgba(212,165,116,.14)",
+    gridBg:"rgba(255,248,240,.92)", gridBorder:"rgba(212,165,116,.18)",
+    btnOutline:"rgba(26,18,8,.14)", btnOutlineText:"#7B6B55",
+    sectionTag:"#C49160", socialBg:"rgba(255,255,255,.08)",
+    socialBorder:"rgba(255,255,255,.12)", divider:"rgba(255,255,255,.08)",
+    copyright:"rgba(255,255,255,.5)", continentBg:"rgba(212,165,116,.06)",
+    continentActive:"rgba(212,165,116,.18)", heroMuted:"rgba(248,250,252,.78)",
   },
 };
 
@@ -1061,6 +1257,7 @@ export default function TravelPlanner() {
 
   const T = LANG[lang];
   const TH = THEMES[theme];
+  const ST = STEP1[theme];
   const isRTL = lang === "ar";
 
   const nights = startDate && endDate ? Math.max(0, Math.round((new Date(endDate)-new Date(startDate))/86400000)) : 0;
@@ -1198,24 +1395,24 @@ export default function TravelPlanner() {
                 <div key={d.id} style={{ position:"absolute", inset:0, backgroundColor:"#0A1426", backgroundImage:`url(${heroImgs[d.id]||d.photo})`, backgroundSize:"cover", backgroundPosition:"center", opacity:heroIdx===i?1:0, transform:heroIdx===i?"scale(1.06)":"scale(1)", transition:"opacity 1.8s ease, transform 7s ease", zIndex:0 }}/>
               ))}
               <div style={{ position:"absolute", inset:0, background:"linear-gradient(180deg,rgba(5,10,20,.18) 0%,rgba(5,10,20,.55) 50%,rgba(7,17,31,.97) 100%)", zIndex:1 }}/>
-              <div style={{ position:"relative", zIndex:2, textAlign:"center", maxWidth:800, padding:"0 28px", marginTop:68 }}>
+              <div style={{ position:"relative", zIndex:2, textAlign:"center", maxWidth:800, padding:"0 28px", marginTop:68, direction:isRTL?"rtl":"ltr" }}>
                 <div style={{ display:"inline-flex", alignItems:"center", gap:8, background:"rgba(212,165,116,.1)", border:"1px solid rgba(212,165,116,.22)", borderRadius:30, padding:"7px 20px", fontSize:11, color:"#D4A574", fontWeight:600, letterSpacing:"1.8px", textTransform:"uppercase", marginBottom:30 }}>
-                  ✦ Planificateur de voyage intelligent
+                  ✦ {T.hero_badge}
                 </div>
                 <h1 style={{ fontFamily:"'Playfair Display',serif", fontSize:"clamp(44px,7.5vw,82px)", fontWeight:900, lineHeight:1.05, marginBottom:22, color:"#F8FAFC" }}>
-                  Créez votre<br/>voyage <span style={{ background:"linear-gradient(135deg,#D4A574,#F0C896)", WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent" }}>idéal</span>
+                  {T.hero_h1[0]}<br/>{T.hero_h1[1]} <span style={{ background:"linear-gradient(135deg,#D4A574,#F0C896)", WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent" }}>{T.hero_h1[2]}</span>
                 </h1>
-                <p style={{ fontSize:"clamp(15px,2vw,18px)", color:"rgba(248,250,252,.68)", lineHeight:1.7, marginBottom:38, maxWidth:560, margin:"0 auto 38px" }}>
-                  Des itinéraires personnalisés, des hôtels d'exception<br/>et des expériences uniques, rien que pour vous.
+                <p style={{ fontSize:"clamp(15px,2vw,18px)", color:ST.heroMuted, lineHeight:1.7, marginBottom:38, maxWidth:560, margin:"0 auto 38px" }}>
+                  {T.hero_desc}
                 </p>
                 <div style={{ display:"flex", gap:14, justifyContent:"center", flexWrap:"wrap" }}>
                   <button onClick={()=>destRef.current?.scrollIntoView({behavior:"smooth",block:"start"})} style={{ background:"linear-gradient(135deg,#D4A574,#B8834A)", color:"white", border:"none", padding:"15px 34px", borderRadius:14, fontSize:15, fontWeight:700, cursor:"pointer", fontFamily:"'Inter',sans-serif", boxShadow:"0 8px 30px rgba(212,165,116,.35)", transition:"all .25s" }}
                     onMouseEnter={e=>e.currentTarget.style.transform="translateY(-2px)"} onMouseLeave={e=>e.currentTarget.style.transform="none"}>
-                    Commencer mon voyage →
+                    {T.hero_cta1}
                   </button>
                   <button onClick={()=>destRef.current?.scrollIntoView({behavior:"smooth",block:"start"})} style={{ background:"rgba(255,255,255,.07)", color:"#F8FAFC", border:"1px solid rgba(255,255,255,.16)", padding:"15px 28px", borderRadius:14, fontSize:15, fontWeight:500, cursor:"pointer", fontFamily:"'Inter',sans-serif", backdropFilter:"blur(8px)", transition:"all .25s" }}
                     onMouseEnter={e=>e.currentTarget.style.background="rgba(255,255,255,.13)"} onMouseLeave={e=>e.currentTarget.style.background="rgba(255,255,255,.07)"}>
-                    ▶ Découvrir les destinations
+                    {T.hero_cta2}
                   </button>
                 </div>
               </div>
@@ -1229,31 +1426,31 @@ export default function TravelPlanner() {
 
             {/* ── GLASSMORPHISM SEARCH BAR ── */}
             <div style={{ position:"relative", zIndex:50, padding:"0 28px", marginTop:-50 }}>
-              <div style={{ maxWidth:1120, margin:"0 auto", background:"rgba(10,20,38,.9)", backdropFilter:"blur(28px)", border:"1px solid rgba(255,255,255,.08)", borderRadius:24, padding:"20px 24px", boxShadow:"0 24px 72px rgba(0,0,0,.55)" }}>
-                <div style={{ display:"flex", gap:0, alignItems:"stretch", flexWrap:"wrap" }}>
+              <div style={{ maxWidth:1120, margin:"0 auto", background:ST.searchBg, backdropFilter:"blur(28px)", border:`1px solid ${ST.searchBorder}`, borderRadius:24, padding:"20px 24px", boxShadow:"0 24px 72px rgba(0,0,0,.55)" }}>
+                <div style={{ display:"flex", gap:0, alignItems:"stretch", flexWrap:"wrap", direction:isRTL?"rtl":"ltr" }}>
                   {/* Départ */}
-                  <div style={{ flex:"1.4 1 170px", borderRight:"1px solid rgba(255,255,255,.08)", paddingRight:18, marginRight:18 }}>
-                    <div style={{ fontSize:10, color:"#D4A574", textTransform:"uppercase", letterSpacing:"1.5px", fontWeight:600, marginBottom:6 }}>🛫 Départ</div>
-                    <CitySelect value={origin} onChange={setOrigin} options={ORIGINS} placeholder="Ville de départ…" TH={{ inputBg:"transparent", inputBorder:"transparent", text:"#F8FAFC", text3:"rgba(248,250,252,.4)", bg:"#0A1426" }} />
+                  <div style={{ flex:"1.4 1 170px", borderRight:`1px solid ${ST.searchDivider}`, paddingRight:18, marginRight:18 }}>
+                    <div style={{ fontSize:10, color:"#D4A574", textTransform:"uppercase", letterSpacing:"1.5px", fontWeight:600, marginBottom:6 }}>{T.lbl_depart}</div>
+                    <CitySelect value={origin} onChange={setOrigin} options={ORIGINS} placeholder={T.depart+"…"} TH={{ inputBg:"transparent", inputBorder:"transparent", text:ST.searchText, text3:"rgba(128,100,64,.5)", bg:theme==="light"?"#FFF8F0":"#0A1426" }} />
                   </div>
                   {/* Destination */}
-                  <div style={{ flex:"1.4 1 170px", borderRight:"1px solid rgba(255,255,255,.08)", paddingRight:18, marginRight:18 }}>
-                    <div style={{ fontSize:10, color:"#D4A574", textTransform:"uppercase", letterSpacing:"1.5px", fontWeight:600, marginBottom:6 }}>📍 Destination</div>
-                    <CitySelect value={destination?.name||""} onChange={name=>setDestination(DESTINATIONS.find(d=>d.name===name)||null)} options={DESTINATIONS.map(d=>d.name)} placeholder="Où partir ?" TH={{ inputBg:"transparent", inputBorder:"transparent", text:"#F8FAFC", text3:"rgba(248,250,252,.4)", bg:"#0A1426" }} />
+                  <div style={{ flex:"1.4 1 170px", borderRight:`1px solid ${ST.searchDivider}`, paddingRight:18, marginRight:18 }}>
+                    <div style={{ fontSize:10, color:"#D4A574", textTransform:"uppercase", letterSpacing:"1.5px", fontWeight:600, marginBottom:6 }}>{T.lbl_dest}</div>
+                    <CitySelect value={destination?.name||""} onChange={name=>setDestination(DESTINATIONS.find(d=>d.name===name)||null)} options={DESTINATIONS.map(d=>d.name)} placeholder={T.dest_ph} TH={{ inputBg:"transparent", inputBorder:"transparent", text:ST.searchText, text3:"rgba(128,100,64,.5)", bg:theme==="light"?"#FFF8F0":"#0A1426" }} />
                   </div>
                   {/* Dates */}
-                  <div style={{ flex:"1.2 1 160px", borderRight:"1px solid rgba(255,255,255,.08)", paddingRight:16, marginRight:16 }}>
-                    <div style={{ fontSize:10, color:"#D4A574", textTransform:"uppercase", letterSpacing:"1.5px", fontWeight:600, marginBottom:6 }}>📅 Dates</div>
+                  <div style={{ flex:"1.2 1 160px", borderRight:`1px solid ${ST.searchDivider}`, paddingRight:16, marginRight:16 }}>
+                    <div style={{ fontSize:10, color:"#D4A574", textTransform:"uppercase", letterSpacing:"1.5px", fontWeight:600, marginBottom:6 }}>{T.lbl_dates}</div>
                     <div style={{ display:"flex", gap:6 }}>
                       <input type="date" value={startDate} min={new Date().toISOString().split("T")[0]} onChange={e=>setStartDate(e.target.value)} style={{ padding:"7px 8px", fontSize:12, borderRadius:9 }}/>
                       <input type="date" value={endDate} min={startDate||new Date().toISOString().split("T")[0]} onChange={e=>setEndDate(e.target.value)} style={{ padding:"7px 8px", fontSize:12, borderRadius:9 }}/>
                     </div>
                   </div>
                   {/* Voyageurs */}
-                  <div style={{ position:"relative", flex:"1 1 130px", borderRight:"1px solid rgba(255,255,255,.08)", paddingRight:16, marginRight:16 }}>
-                    <div style={{ fontSize:10, color:"#D4A574", textTransform:"uppercase", letterSpacing:"1.5px", fontWeight:600, marginBottom:6 }}>👤 Voyageurs</div>
-                    <button onClick={()=>setShowTravelers(s=>!s)} style={{ background:"transparent", border:"none", color:"#F8FAFC", fontSize:13, cursor:"pointer", padding:"6px 0", fontFamily:"'Inter',sans-serif", textAlign:"left", width:"100%" }}>
-                      {adults+children} voyageur{adults+children>1?"s":""} ▾
+                  <div style={{ position:"relative", flex:"1 1 130px", borderRight:`1px solid ${ST.searchDivider}`, paddingRight:16, marginRight:16 }}>
+                    <div style={{ fontSize:10, color:"#D4A574", textTransform:"uppercase", letterSpacing:"1.5px", fontWeight:600, marginBottom:6 }}>{T.lbl_travelers}</div>
+                    <button onClick={()=>setShowTravelers(s=>!s)} style={{ background:"transparent", border:"none", color:ST.searchText, fontSize:13, cursor:"pointer", padding:"6px 0", fontFamily:"'Inter',sans-serif", textAlign:"left", width:"100%" }}>
+                      {T.travelers_fn(adults+children)} ▾
                     </button>
                     {showTravelers && (
                       <div style={{ position:"absolute", top:"calc(100% + 8px)", left:0, background:"#0A1426", border:"1px solid rgba(212,165,116,.25)", borderRadius:14, padding:16, zIndex:80, width:220, boxShadow:"0 20px 60px rgba(0,0,0,.5)" }}>
@@ -1273,7 +1470,7 @@ export default function TravelPlanner() {
                   </div>
                   {/* Budget */}
                   <div style={{ flex:"1 1 120px", paddingRight:14 }}>
-                    <div style={{ fontSize:10, color:"#D4A574", textTransform:"uppercase", letterSpacing:"1.5px", fontWeight:600, marginBottom:6 }}>💰 Budget</div>
+                    <div style={{ fontSize:10, color:"#D4A574", textTransform:"uppercase", letterSpacing:"1.5px", fontWeight:600, marginBottom:6 }}>{T.lbl_budget}</div>
                     <div style={{ display:"flex", gap:5 }}>
                       {Object.entries(BUDGET_LABELS).map(([key,val])=>(
                         <button key={key} onClick={()=>setBudget(budget===key?"":key)} title={val.label} style={{ flex:1, padding:"7px 0", borderRadius:9, border:`1px solid ${budget===key?val.color:"rgba(255,255,255,.12)"}`, background:budget===key?`${val.color}22`:"transparent", color:budget===key?val.color:"rgba(248,250,252,.5)", fontSize:15, cursor:"pointer" }}>{val.icon}</button>
@@ -1287,29 +1484,29 @@ export default function TravelPlanner() {
                       else { destRef.current?.scrollIntoView({behavior:"smooth",block:"start"}); }
                     }} style={{ background:"linear-gradient(135deg,#0EA5E9,#0284C7)", color:"white", border:"none", padding:"13px 24px", borderRadius:14, fontSize:14, fontWeight:700, cursor:"pointer", fontFamily:"'Inter',sans-serif", whiteSpace:"nowrap", boxShadow:"0 4px 20px rgba(14,165,233,.3)", transition:"box-shadow .2s" }}
                       onMouseEnter={e=>e.currentTarget.style.boxShadow="0 6px 28px rgba(14,165,233,.5)"} onMouseLeave={e=>e.currentTarget.style.boxShadow="0 4px 20px rgba(14,165,233,.3)"}>
-                      Rechercher 🔍
+                      {T.search_btn}
                     </button>
                   </div>
                 </div>
                 {origin && destination && (
-                  <div style={{ marginTop:14, paddingTop:14, borderTop:"1px solid rgba(255,255,255,.07)", fontSize:13, color:"#D4A574", display:"flex", alignItems:"center", gap:8 }}>
-                    ✓ {origin} → {destination.name} {destination.flag} — cliquez sur <strong>Rechercher</strong> pour configurer votre voyage
+                  <div style={{ marginTop:14, paddingTop:14, borderTop:`1px solid ${ST.searchDivider}`, fontSize:13, color:"#D4A574", display:"flex", alignItems:"center", gap:8 }}>
+                    {T.search_confirm(origin, destination.name, destination.flag)}
                   </div>
                 )}
               </div>
             </div>
 
             {/* ── FEATURED DESTINATIONS horizontal ── */}
-            <section style={{ padding:"76px 0 48px" }}>
+            <section style={{ padding:"76px 0 48px", background:ST.bg }}>
               <div style={{ maxWidth:1200, margin:"0 auto", padding:"0 32px" }}>
-                <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-end", marginBottom:34 }}>
+                <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-end", marginBottom:34, direction:isRTL?"rtl":"ltr" }}>
                   <div>
-                    <div style={{ fontSize:11, color:"#D4A574", textTransform:"uppercase", letterSpacing:"2px", fontWeight:600, marginBottom:10 }}>✦ Destinations populaires</div>
-                    <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:"clamp(26px,3.5vw,40px)", fontWeight:900, color:"#F8FAFC", lineHeight:1.12 }}>Explorez les plus belles<br/>destinations</h2>
+                    <div style={{ fontSize:11, color:"#D4A574", textTransform:"uppercase", letterSpacing:"2px", fontWeight:600, marginBottom:10 }}>{T.featured_badge}</div>
+                    <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:"clamp(26px,3.5vw,40px)", fontWeight:900, color:ST.text, lineHeight:1.12 }}>{T.featured_title[0]}<br/>{T.featured_title[1]}</h2>
                   </div>
-                  <button onClick={()=>destRef.current?.scrollIntoView({behavior:"smooth"})} style={{ background:"transparent", border:"1px solid rgba(255,255,255,.12)", color:"#94A3B8", padding:"10px 20px", borderRadius:12, fontSize:13, cursor:"pointer", fontFamily:"'Inter',sans-serif", whiteSpace:"nowrap", transition:"all .2s" }}
-                    onMouseEnter={e=>{e.currentTarget.style.borderColor="rgba(212,165,116,.3)";e.currentTarget.style.color="#D4A574";}} onMouseLeave={e=>{e.currentTarget.style.borderColor="rgba(255,255,255,.12)";e.currentTarget.style.color="#94A3B8";}}>
-                    Voir toutes les destinations ▾
+                  <button onClick={()=>destRef.current?.scrollIntoView({behavior:"smooth"})} style={{ background:"transparent", border:`1px solid ${ST.btnOutline}`, color:ST.btnOutlineText, padding:"10px 20px", borderRadius:12, fontSize:13, cursor:"pointer", fontFamily:"'Inter',sans-serif", whiteSpace:"nowrap", transition:"all .2s" }}
+                    onMouseEnter={e=>{e.currentTarget.style.borderColor="rgba(212,165,116,.3)";e.currentTarget.style.color="#D4A574";}} onMouseLeave={e=>{e.currentTarget.style.borderColor=ST.btnOutline;e.currentTarget.style.color=ST.btnOutlineText;}}>
+                    {T.featured_see_all}
                   </button>
                 </div>
                 <div style={{ display:"flex", gap:16, overflowX:"auto", paddingBottom:8, scrollbarWidth:"none", WebkitScrollSnapType:"x mandatory" }}>
@@ -1329,7 +1526,7 @@ export default function TravelPlanner() {
                         <div style={{ position:"absolute", bottom:0, left:0, right:0, padding:"20px 16px 16px" }}>
                           <div style={{ fontFamily:"'Playfair Display',serif", fontWeight:700, fontSize:18, color:"#F8FAFC", marginBottom:4 }}>{d.name}</div>
                           <div style={{ fontSize:12, color:"rgba(255,255,255,.6)", marginBottom:8, display:"flex", alignItems:"center", gap:4 }}>📍 {d.country}</div>
-                          <div style={{ fontSize:11, color:"#D4A574", fontWeight:600 }}>120+ hôtels</div>
+                          <div style={{ fontSize:11, color:"#D4A574", fontWeight:600 }}>120+ {T.featured_hotels}</div>
                         </div>
                       </div>
                     );
@@ -1339,15 +1536,15 @@ export default function TravelPlanner() {
             </section>
 
             {/* ── FULL DESTINATION SEARCH GRID ── */}
-            <section ref={destRef} style={{ padding:"0 32px 80px", maxWidth:1200, margin:"0 auto" }}>
-              <div style={{ background:"rgba(15,27,45,.55)", border:"1px solid rgba(255,255,255,.07)", borderRadius:28, padding:"32px 28px", backdropFilter:"blur(12px)" }}>
-                <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:22, fontWeight:700, color:"#F8FAFC", marginBottom:22 }}>Choisissez votre destination</h3>
+            <section ref={destRef} style={{ padding:"0 32px 80px", maxWidth:1200, margin:"0 auto", background:ST.bg }}>
+              <div style={{ background:ST.gridBg, border:`1px solid ${ST.gridBorder}`, borderRadius:28, padding:"32px 28px", backdropFilter:"blur(12px)", direction:isRTL?"rtl":"ltr" }}>
+                <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:22, fontWeight:700, color:ST.text, marginBottom:22 }}>{T.grid_title}</h3>
                 <div style={{ marginBottom:18 }}>
                   <label style={{ display:"block", marginBottom:8, fontSize:11, fontWeight:600, color:"#D4A574", textTransform:"uppercase", letterSpacing:"1.5px" }}>🛫 {T.depart}</label>
-                  <CitySelect value={origin} onChange={setOrigin} options={ORIGINS} placeholder="— Choisir votre ville de départ —" TH={TH} />
+                  <CitySelect value={origin} onChange={setOrigin} options={ORIGINS} placeholder={`— ${T.depart} —`} TH={TH} />
                 </div>
                 <div style={{ marginBottom:18 }}>
-                  <label style={{ display:"block", marginBottom:8, fontSize:11, fontWeight:600, color:"#D4A574", textTransform:"uppercase", letterSpacing:"1.5px" }}>🔍 Rechercher une destination</label>
+                  <label style={{ display:"block", marginBottom:8, fontSize:11, fontWeight:600, color:"#D4A574", textTransform:"uppercase", letterSpacing:"1.5px" }}>{T.grid_search_lbl}</label>
                   <div style={{ display:"flex", gap:10, alignItems:"center" }}>
                     <div style={{ position:"relative", flex:1, maxWidth:440 }}>
                       <span style={{ position:"absolute", left:14, top:"50%", transform:"translateY(-50%)", fontSize:14, opacity:.4 }}>🔍</span>
@@ -1359,7 +1556,7 @@ export default function TravelPlanner() {
                 </div>
                 <div style={{ display:"flex", gap:8, flexWrap:"wrap", marginBottom:20 }}>
                   {CONTINENTS.map(c=>(
-                    <button key={c.id} onClick={()=>setContinent(c.id)} style={{ padding:"7px 16px", borderRadius:20, border:`1px solid ${continent===c.id?"#D4A574":"rgba(255,255,255,.1)"}`, background:continent===c.id?"rgba(212,165,116,.1)":"rgba(255,255,255,.03)", color:continent===c.id?"#D4A574":"#94A3B8", fontSize:12, fontWeight:continent===c.id?700:500, cursor:"pointer", fontFamily:"'Inter',sans-serif", transition:"all .18s" }}>
+                    <button key={c.id} onClick={()=>setContinent(c.id)} style={{ padding:"7px 16px", borderRadius:20, border:`1px solid ${continent===c.id?"#D4A574":ST.btnOutline}`, background:continent===c.id?ST.continentActive:ST.continentBg, color:continent===c.id?"#D4A574":ST.textMuted, fontSize:12, fontWeight:continent===c.id?700:500, cursor:"pointer", fontFamily:"'Inter',sans-serif", transition:"all .18s" }}>
                       {c.icon} {c.label}
                     </button>
                   ))}
@@ -1390,27 +1587,27 @@ export default function TravelPlanner() {
                 </div>
                 {destination&&(
                   <div style={{ marginTop:18, padding:"12px 20px", borderRadius:14, background:"rgba(212,165,116,.08)", border:"1px solid rgba(212,165,116,.22)", fontSize:13, color:"#D4A574", display:"inline-flex", alignItems:"center", gap:10 }}>
-                    {destination.emoji} <strong>{destination.name}</strong> {destination.flag} sélectionné{!origin?" · Choisissez aussi votre ville de départ":""}
+                    {destination.emoji} <strong>{destination.name}</strong> {destination.flag} {T.selected}{!origin?` ${T.dest_no_origin}`:""}
                   </div>
                 )}
               </div>
             </section>
 
             {/* ── PASSION THEMES ── */}
-            <section style={{ background:"#0F1B2D", padding:"88px 32px" }}>
-              <div style={{ maxWidth:1200, margin:"0 auto" }}>
+            <section style={{ background:ST.bg2, padding:"88px 32px" }}>
+              <div style={{ maxWidth:1200, margin:"0 auto", direction:isRTL?"rtl":"ltr" }}>
                 <div style={{ textAlign:"center", marginBottom:56 }}>
-                  <div style={{ fontSize:11, color:"#D4A574", textTransform:"uppercase", letterSpacing:"2px", fontWeight:600, marginBottom:12 }}>✦ Voyagez selon vos envies</div>
-                  <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:"clamp(26px,3.5vw,38px)", fontWeight:900, color:"#F8FAFC" }}>Des voyages pour chaque passion</h2>
+                  <div style={{ fontSize:11, color:"#D4A574", textTransform:"uppercase", letterSpacing:"2px", fontWeight:600, marginBottom:12 }}>{T.passion_badge}</div>
+                  <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:"clamp(26px,3.5vw,38px)", fontWeight:900, color:ST.text }}>{T.passion_title}</h2>
                 </div>
                 <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(175px,1fr))", gap:16 }}>
-                  {[{emoji:"🏝",label:"Plage",desc:"Se détendre au soleil"},{emoji:"🏔",label:"Nature",desc:"Aventures & paysages"},{emoji:"🏛",label:"Culture",desc:"Histoire & patrimoine"},{emoji:"🍽",label:"Gastronomie",desc:"Saveurs du monde"},{emoji:"💎",label:"Luxe",desc:"Expériences d'exception"},{emoji:"🧭",label:"Aventure",desc:"Sensations fortes"}].map(t=>(
-                    <div key={t.label} style={{ background:"rgba(255,255,255,.03)", border:"1px solid rgba(255,255,255,.07)", borderRadius:22, padding:"30px 20px", textAlign:"center", cursor:"pointer", transition:"all .28s" }}
-                      onMouseEnter={e=>{e.currentTarget.style.background="rgba(212,165,116,.07)";e.currentTarget.style.borderColor="rgba(212,165,116,.22)";e.currentTarget.style.transform="translateY(-5px)";}}
-                      onMouseLeave={e=>{e.currentTarget.style.background="rgba(255,255,255,.03)";e.currentTarget.style.borderColor="rgba(255,255,255,.07)";e.currentTarget.style.transform="none";}}>
+                  {T.passion_items.map(t=>(
+                    <div key={t.label} style={{ background:ST.passionBg, border:`1px solid ${ST.passionBorder}`, borderRadius:22, padding:"30px 20px", textAlign:"center", cursor:"pointer", transition:"all .28s" }}
+                      onMouseEnter={e=>{e.currentTarget.style.background="rgba(212,165,116,.1)";e.currentTarget.style.borderColor="rgba(212,165,116,.28)";e.currentTarget.style.transform="translateY(-5px)";}}
+                      onMouseLeave={e=>{e.currentTarget.style.background=ST.passionBg;e.currentTarget.style.borderColor=ST.passionBorder;e.currentTarget.style.transform="none";}}>
                       <div style={{ fontSize:36, marginBottom:14 }}>{t.emoji}</div>
-                      <div style={{ fontFamily:"'Playfair Display',serif", fontWeight:700, fontSize:16, color:"#F8FAFC", marginBottom:7 }}>{t.label}</div>
-                      <div style={{ fontSize:12, color:"#94A3B8", lineHeight:1.6 }}>{t.desc}</div>
+                      <div style={{ fontFamily:"'Playfair Display',serif", fontWeight:700, fontSize:16, color:ST.text, marginBottom:7 }}>{t.label}</div>
+                      <div style={{ fontSize:12, color:ST.textMuted, lineHeight:1.6 }}>{t.desc}</div>
                     </div>
                   ))}
                 </div>
@@ -1418,78 +1615,76 @@ export default function TravelPlanner() {
             </section>
 
             {/* ── FEATURES ── */}
-            <section style={{ padding:"88px 32px", maxWidth:1200, margin:"0 auto" }}>
-              <div style={{ textAlign:"center", marginBottom:52 }}>
-                <div style={{ fontSize:11, color:"#D4A574", textTransform:"uppercase", letterSpacing:"2px", fontWeight:600, marginBottom:12 }}>✦ Pourquoi choisir VoyagesPro ?</div>
-                <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:"clamp(26px,3.5vw,38px)", fontWeight:900, color:"#F8FAFC" }}>Une expérience sur-mesure</h2>
-              </div>
-              <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(300px,1fr))", gap:22 }}>
-                {[{icon:"✈️",title:"Itinéraires intelligents",desc:"Notre IA crée des itinéraires personnalisés selon vos goûts, votre budget et vos envies."},{icon:"🏨",title:"Hôtels sélectionnés",desc:"Une sélection rigoureuse des meilleurs hôtels pour un confort et un service d'exception."},{icon:"📄",title:"Export PDF premium",desc:"Exportez votre itinéraire complet en PDF pour l'emporter partout avec vous."}].map(f=>(
-                  <div key={f.title} style={{ background:"rgba(15,27,45,.65)", border:"1px solid rgba(255,255,255,.07)", borderRadius:26, padding:"36px 32px", backdropFilter:"blur(8px)", transition:"all .3s", boxShadow:"0 8px 32px rgba(0,0,0,.2)" }}
-                    onMouseEnter={e=>{e.currentTarget.style.borderColor="rgba(212,165,116,.2)";e.currentTarget.style.transform="translateY(-5px)";e.currentTarget.style.boxShadow="0 24px 64px rgba(0,0,0,.4)";}}
-                    onMouseLeave={e=>{e.currentTarget.style.borderColor="rgba(255,255,255,.07)";e.currentTarget.style.transform="none";e.currentTarget.style.boxShadow="0 8px 32px rgba(0,0,0,.2)";}}>
-                    <div style={{ width:54, height:54, borderRadius:18, background:"rgba(212,165,116,.1)", border:"1px solid rgba(212,165,116,.18)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:26, marginBottom:22 }}>{f.icon}</div>
-                    <div style={{ fontFamily:"'Playfair Display',serif", fontWeight:700, fontSize:20, color:"#F8FAFC", marginBottom:12 }}>{f.title}</div>
-                    <div style={{ fontSize:14, color:"#94A3B8", lineHeight:1.75 }}>{f.desc}</div>
-                  </div>
-                ))}
+            <section style={{ padding:"88px 32px", background:ST.bg, maxWidth:"100%" }}>
+              <div style={{ maxWidth:1200, margin:"0 auto", direction:isRTL?"rtl":"ltr" }}>
+                <div style={{ textAlign:"center", marginBottom:52 }}>
+                  <div style={{ fontSize:11, color:"#D4A574", textTransform:"uppercase", letterSpacing:"2px", fontWeight:600, marginBottom:12 }}>{T.features_badge}</div>
+                  <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:"clamp(26px,3.5vw,38px)", fontWeight:900, color:ST.text }}>{T.features_title}</h2>
+                </div>
+                <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(300px,1fr))", gap:22 }}>
+                  {T.features_items.map(f=>(
+                    <div key={f.title} style={{ background:ST.cardBg, border:`1px solid ${ST.cardBorder}`, borderRadius:26, padding:"36px 32px", backdropFilter:"blur(8px)", transition:"all .3s", boxShadow:"0 8px 32px rgba(0,0,0,.12)" }}
+                      onMouseEnter={e=>{e.currentTarget.style.borderColor="rgba(212,165,116,.25)";e.currentTarget.style.transform="translateY(-5px)";e.currentTarget.style.boxShadow="0 24px 64px rgba(0,0,0,.2)";}}
+                      onMouseLeave={e=>{e.currentTarget.style.borderColor=ST.cardBorder;e.currentTarget.style.transform="none";e.currentTarget.style.boxShadow="0 8px 32px rgba(0,0,0,.12)";}}>
+                      <div style={{ width:54, height:54, borderRadius:18, background:"rgba(212,165,116,.1)", border:"1px solid rgba(212,165,116,.18)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:26, marginBottom:22 }}>{f.icon}</div>
+                      <div style={{ fontFamily:"'Playfair Display',serif", fontWeight:700, fontSize:20, color:ST.text, marginBottom:12 }}>{f.title}</div>
+                      <div style={{ fontSize:14, color:ST.textMuted, lineHeight:1.75 }}>{f.desc}</div>
+                    </div>
+                  ))}
+                </div>
               </div>
             </section>
 
             {/* ── TESTIMONIALS ── */}
-            <section style={{ background:"#0F1B2D", padding:"88px 32px" }}>
-              <div style={{ maxWidth:760, margin:"0 auto", textAlign:"center" }}>
+            <section style={{ background:ST.bg2, padding:"88px 32px" }}>
+              <div style={{ maxWidth:760, margin:"0 auto", textAlign:"center", direction:isRTL?"rtl":"ltr" }}>
                 <div style={{ display:"flex", justifyContent:"center", alignItems:"center", gap:16, marginBottom:28 }}>
                   <div style={{ display:"flex" }}>
                     {["👩","👨","👩‍🦱"].map((a,i)=>(
-                      <div key={i} style={{ width:42, height:42, borderRadius:"50%", background:`hsl(${220+i*30},60%,${30+i*5}%)`, border:"3px solid #0F1B2D", display:"flex", alignItems:"center", justifyContent:"center", fontSize:20, marginLeft:i?-12:0, position:"relative", zIndex:3-i }}>{a}</div>
+                      <div key={i} style={{ width:42, height:42, borderRadius:"50%", background:`hsl(${220+i*30},60%,${30+i*5}%)`, border:`3px solid ${ST.bg2}`, display:"flex", alignItems:"center", justifyContent:"center", fontSize:20, marginLeft:i?-12:0, position:"relative", zIndex:3-i }}>{a}</div>
                     ))}
                   </div>
-                  <div style={{ textAlign:"left" }}>
-                    <div style={{ fontSize:24, fontWeight:800, color:"#D4A574" }}>4,9/5 ⭐</div>
-                    <div style={{ fontSize:12, color:"#94A3B8" }}>+10 000 voyageurs satisfaits</div>
+                  <div style={{ textAlign:isRTL?"right":"left" }}>
+                    <div style={{ fontSize:24, fontWeight:800, color:"#D4A574" }}>{T.testimonial_rating}</div>
+                    <div style={{ fontSize:12, color:ST.textMuted }}>{T.testimonial_count}</div>
                   </div>
                 </div>
-                <blockquote style={{ fontFamily:"'Playfair Display',serif", fontSize:"clamp(18px,2.5vw,23px)", fontStyle:"italic", color:"#F8FAFC", lineHeight:1.7, marginBottom:20 }}>
-                  "Un voyage inoubliable grâce à un itinéraire parfaitement organisé.<br/>Chaque détail était parfait !"
+                <blockquote style={{ fontFamily:"'Playfair Display',serif", fontSize:"clamp(18px,2.5vw,23px)", fontStyle:"italic", color:ST.text, lineHeight:1.7, marginBottom:20 }}>
+                  "{T.testimonial_quote.split("\n").map((l,i)=><span key={i}>{l}{i===0&&<br/>}</span>)}"
                 </blockquote>
-                <div style={{ fontSize:14, color:"#94A3B8" }}>— Marie L., Paris → Tokyo</div>
+                <div style={{ fontSize:14, color:ST.textMuted }}>{T.testimonial_author}</div>
               </div>
             </section>
 
             {/* ── À PROPOS ── */}
-            <section ref={aboutRef} style={{ background:"#07111F", padding:"88px 32px" }}>
-              <div style={{ maxWidth:880, margin:"0 auto", textAlign:"center" }}>
-                <div style={{ fontSize:13, fontWeight:700, letterSpacing:"2px", color:"#D4A574", textTransform:"uppercase", marginBottom:14 }}>À propos</div>
-                <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:"clamp(28px,4vw,42px)", fontWeight:900, color:"#F8FAFC", marginBottom:24 }}>Planifiez le voyage de vos rêves, simplement</h2>
-                <p style={{ fontSize:16, color:"#94A3B8", lineHeight:1.85, marginBottom:18 }}>
-                  VoyagesPro est né d'une conviction simple : organiser un voyage devrait être un plaisir, pas une corvée. Trop souvent, préparer un séjour demande des heures de recherche sur des dizaines de sites différents pour comparer les attractions, trouver de bons restaurants et bâtir un programme cohérent. Nous avons voulu réunir tout cela en un seul endroit, gratuit et accessible à tous.
-                </p>
-                <p style={{ fontSize:16, color:"#94A3B8", lineHeight:1.85 }}>
-                  En quelques clics, indiquez votre destination, vos dates et votre budget : VoyagesPro génère instantanément un itinéraire jour par jour avec les incontournables, des suggestions de restaurants locaux et des recommandations d'hébergements adaptées. Que vous prépariez un week-end à Paris, une lune de miel à Bali ou un grand voyage à Tokyo, notre outil vous fait gagner un temps précieux pour que vous puissiez vous concentrer sur l'essentiel : profiter.
-                </p>
+            <section ref={aboutRef} style={{ background:ST.bg, padding:"88px 32px" }}>
+              <div style={{ maxWidth:880, margin:"0 auto", textAlign:"center", direction:isRTL?"rtl":"ltr" }}>
+                <div style={{ fontSize:13, fontWeight:700, letterSpacing:"2px", color:"#D4A574", textTransform:"uppercase", marginBottom:14 }}>{T.about_badge}</div>
+                <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:"clamp(28px,4vw,42px)", fontWeight:900, color:ST.text, marginBottom:24 }}>{T.about_title}</h2>
+                <p style={{ fontSize:16, color:ST.textMuted, lineHeight:1.85, marginBottom:18 }}>{T.about_p1}</p>
+                <p style={{ fontSize:16, color:ST.textMuted, lineHeight:1.85 }}>{T.about_p2}</p>
               </div>
             </section>
 
             {/* ── GUIDES DE DESTINATIONS ── */}
-            <section ref={guidesRef} style={{ background:"#0F1B2D", padding:"88px 32px" }}>
-              <div style={{ maxWidth:1100, margin:"0 auto" }}>
+            <section ref={guidesRef} style={{ background:ST.bg2, padding:"88px 32px" }}>
+              <div style={{ maxWidth:1100, margin:"0 auto", direction:isRTL?"rtl":"ltr" }}>
                 <div style={{ textAlign:"center", marginBottom:54 }}>
-                  <div style={{ fontSize:13, fontWeight:700, letterSpacing:"2px", color:"#D4A574", textTransform:"uppercase", marginBottom:14 }}>Guides de voyage</div>
-                  <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:"clamp(28px,4vw,42px)", fontWeight:900, color:"#F8FAFC", marginBottom:16 }}>Nos destinations à la loupe</h2>
-                  <p style={{ fontSize:16, color:"#94A3B8", lineHeight:1.8, maxWidth:640, margin:"0 auto" }}>Découvrez l'essence de chaque destination, ses incontournables et la meilleure période pour la visiter.</p>
+                  <div style={{ fontSize:13, fontWeight:700, letterSpacing:"2px", color:"#D4A574", textTransform:"uppercase", marginBottom:14 }}>{T.guides_badge}</div>
+                  <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:"clamp(28px,4vw,42px)", fontWeight:900, color:ST.text, marginBottom:16 }}>{T.guides_title}</h2>
+                  <p style={{ fontSize:16, color:ST.textMuted, lineHeight:1.8, maxWidth:640, margin:"0 auto" }}>{T.guides_desc}</p>
                 </div>
                 <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(320px,1fr))", gap:24 }}>
                   {DEST_GUIDES.map(g => (
-                    <article key={g.id} style={{ background:"#07111F", border:"1px solid rgba(255,255,255,.06)", borderRadius:18, overflow:"hidden", display:"flex", flexDirection:"column" }}>
+                    <article key={g.id} style={{ background:ST.cardBg, border:`1px solid ${ST.cardBorder}`, borderRadius:18, overflow:"hidden", display:"flex", flexDirection:"column" }}>
                       <div style={{ height:160, backgroundColor:"#0A1426", backgroundImage:`url(${heroImgs[g.id]||DESTINATIONS.find(d=>d.id===g.id)?.photo})`, backgroundSize:"cover", backgroundPosition:"center" }}/>
                       <div style={{ padding:"24px 22px" }}>
-                        <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:21, fontWeight:700, color:"#F8FAFC", marginBottom:12 }}>{g.flag} {g.title}</h3>
-                        <p style={{ fontSize:14, color:"#94A3B8", lineHeight:1.75, marginBottom:18 }}>{g.text}</p>
+                        <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:21, fontWeight:700, color:ST.text, marginBottom:12 }}>{g.flag} {g.title}</h3>
+                        <p style={{ fontSize:14, color:ST.textMuted, lineHeight:1.75, marginBottom:18 }}>{g.text}</p>
                         <button onClick={()=>{ setDestination(DESTINATIONS.find(d=>d.id===g.id)||null); setStep(2); window.scrollTo({top:0,behavior:"smooth"}); }}
                           style={{ background:"transparent", border:"1px solid rgba(212,165,116,.35)", color:"#D4A574", padding:"9px 18px", borderRadius:10, fontSize:13, fontWeight:600, cursor:"pointer", fontFamily:"'Inter',sans-serif", transition:"all .2s" }}
                           onMouseEnter={e=>{e.currentTarget.style.background="rgba(212,165,116,.1)";}} onMouseLeave={e=>{e.currentTarget.style.background="transparent";}}>
-                          Planifier ce voyage →
+                          {T.guides_btn}
                         </button>
                       </div>
                     </article>
@@ -1499,21 +1694,21 @@ export default function TravelPlanner() {
             </section>
 
             {/* ── FAQ ── */}
-            <section ref={faqRef} style={{ background:"#07111F", padding:"88px 32px" }}>
-              <div style={{ maxWidth:780, margin:"0 auto" }}>
+            <section ref={faqRef} style={{ background:ST.bg, padding:"88px 32px" }}>
+              <div style={{ maxWidth:780, margin:"0 auto", direction:isRTL?"rtl":"ltr" }}>
                 <div style={{ textAlign:"center", marginBottom:48 }}>
-                  <div style={{ fontSize:13, fontWeight:700, letterSpacing:"2px", color:"#D4A574", textTransform:"uppercase", marginBottom:14 }}>Questions fréquentes</div>
-                  <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:"clamp(28px,4vw,42px)", fontWeight:900, color:"#F8FAFC" }}>Tout ce qu'il faut savoir</h2>
+                  <div style={{ fontSize:13, fontWeight:700, letterSpacing:"2px", color:"#D4A574", textTransform:"uppercase", marginBottom:14 }}>{T.faq_badge}</div>
+                  <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:"clamp(28px,4vw,42px)", fontWeight:900, color:ST.text }}>{T.faq_title}</h2>
                 </div>
                 <div>
                   {FAQ_ITEMS.map(([q,a],i)=>(
-                    <div key={i} style={{ borderBottom:"1px solid rgba(255,255,255,.08)" }}>
-                      <button onClick={()=>setOpenFaq(openFaq===i?null:i)} style={{ width:"100%", background:"transparent", border:"none", padding:"22px 4px", display:"flex", justifyContent:"space-between", alignItems:"center", cursor:"pointer", textAlign:"left", gap:16 }}>
-                        <span style={{ fontSize:16, fontWeight:600, color:"#F8FAFC", fontFamily:"'Inter',sans-serif" }}>{q}</span>
+                    <div key={i} style={{ borderBottom:`1px solid ${ST.cardBorder}` }}>
+                      <button onClick={()=>setOpenFaq(openFaq===i?null:i)} style={{ width:"100%", background:"transparent", border:"none", padding:"22px 4px", display:"flex", justifyContent:"space-between", alignItems:"center", cursor:"pointer", textAlign:isRTL?"right":"left", gap:16 }}>
+                        <span style={{ fontSize:16, fontWeight:600, color:ST.text, fontFamily:"'Inter',sans-serif" }}>{q}</span>
                         <span style={{ fontSize:22, color:"#D4A574", flexShrink:0, transition:"transform .2s", transform:openFaq===i?"rotate(45deg)":"none" }}>+</span>
                       </button>
                       {openFaq===i && (
-                        <p style={{ fontSize:15, color:"#94A3B8", lineHeight:1.8, padding:"0 4px 24px" }}>{a}</p>
+                        <p style={{ fontSize:15, color:ST.textMuted, lineHeight:1.8, padding:"0 4px 24px" }}>{a}</p>
                       )}
                     </div>
                   ))}
@@ -1526,17 +1721,17 @@ export default function TravelPlanner() {
               <div style={{ position:"absolute", inset:0, backgroundColor:"#0A1426", backgroundImage:`url(${heroImgs["bali"]||heroImgs["santorini"]||DESTINATIONS.find(d=>d.id==="bali")?.photo})`, backgroundSize:"cover", backgroundPosition:"center" }}/>
               <div style={{ position:"absolute", inset:0, background:"linear-gradient(135deg,rgba(7,17,31,.88),rgba(15,27,45,.75))" }}/>
               <div style={{ position:"relative", zIndex:1, textAlign:"center", padding:"0 24px" }}>
-                <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:"clamp(28px,4vw,48px)", fontWeight:900, color:"#F8FAFC", marginBottom:14 }}>Prêt à vivre l'aventure ?</h2>
-                <p style={{ fontSize:16, color:"rgba(248,250,252,.68)", marginBottom:30 }}>Créez votre voyage de rêve en quelques clics.</p>
+                <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:"clamp(28px,4vw,48px)", fontWeight:900, color:"#F8FAFC", marginBottom:14 }}>{T.cta_title}</h2>
+                <p style={{ fontSize:16, color:"rgba(248,250,252,.68)", marginBottom:30 }}>{T.cta_desc}</p>
                 <button onClick={()=>destRef.current?.scrollIntoView({behavior:"smooth"})} style={{ background:"linear-gradient(135deg,#D4A574,#B8834A)", color:"white", border:"none", padding:"16px 40px", borderRadius:14, fontSize:16, fontWeight:700, cursor:"pointer", fontFamily:"'Inter',sans-serif", boxShadow:"0 8px 32px rgba(212,165,116,.4)", transition:"all .25s" }}
                   onMouseEnter={e=>e.currentTarget.style.transform="translateY(-2px)"} onMouseLeave={e=>e.currentTarget.style.transform="none"}>
-                  Commencer maintenant →
+                  {T.cta_btn}
                 </button>
               </div>
             </section>
 
             {/* ── FOOTER ── */}
-            <footer style={{ background:"#060D1A", borderTop:"1px solid rgba(255,255,255,.06)", padding:"68px 32px 32px" }}>
+            <footer style={{ background:ST.footerBg, borderTop:`1px solid ${ST.divider}`, padding:"68px 32px 32px", direction:isRTL?"rtl":"ltr" }}>
               <div style={{ maxWidth:1200, margin:"0 auto" }}>
                 <div style={{ display:"grid", gridTemplateColumns:"2fr 1fr 1fr 1.2fr", gap:44, marginBottom:52 }}>
                   <div>
@@ -1544,44 +1739,45 @@ export default function TravelPlanner() {
                       <svg width="26" height="26" viewBox="0 0 44 44" fill="none"><circle cx="22" cy="22" r="19" stroke="#C4B5FD" strokeWidth="2" fill="none"/><ellipse cx="22" cy="22" rx="10" ry="19" stroke="#C4B5FD" strokeWidth="1.5" fill="none"/><line x1="3" y1="22" x2="41" y2="22" stroke="#C4B5FD" strokeWidth="1.5"/><path d="M30 12l-12 9 2 1-3 6 5-2 2 4 1-6 5-1z" fill="#D4A574"/></svg>
                       <div style={{ fontFamily:"'Playfair Display',serif", fontSize:17, fontWeight:900, color:"#F8FAFC" }}>VoyagesPro</div>
                     </div>
-                    <p style={{ fontSize:13, color:"#94A3B8", lineHeight:1.75, maxWidth:240, marginBottom:22 }}>Votre partenaire pour des voyages inoubliables, personnalisés et sans stress.</p>
+                    <p style={{ fontSize:13, color:"rgba(255,255,255,.55)", lineHeight:1.75, maxWidth:240, marginBottom:22 }}>{T.footer_tagline}</p>
                     <div style={{ display:"flex", gap:10 }}>
                       {["📷","📘","🐦"].map((ic,i)=>(
-                        <div key={i} style={{ width:36, height:36, borderRadius:10, background:"rgba(255,255,255,.05)", border:"1px solid rgba(255,255,255,.08)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:15, cursor:"pointer", transition:"all .2s" }}
-                          onMouseEnter={e=>e.currentTarget.style.borderColor="rgba(212,165,116,.3)"} onMouseLeave={e=>e.currentTarget.style.borderColor="rgba(255,255,255,.08)"}>{ic}</div>
+                        <div key={i} style={{ width:36, height:36, borderRadius:10, background:ST.socialBg, border:`1px solid ${ST.socialBorder}`, display:"flex", alignItems:"center", justifyContent:"center", fontSize:15, cursor:"pointer", transition:"all .2s" }}
+                          onMouseEnter={e=>e.currentTarget.style.borderColor="rgba(212,165,116,.3)"} onMouseLeave={e=>e.currentTarget.style.borderColor=ST.socialBorder}>{ic}</div>
                       ))}
                     </div>
                   </div>
                   <div>
-                    <div style={{ fontWeight:700, fontSize:13, color:"#F8FAFC", marginBottom:20, letterSpacing:".5px" }}>Destinations</div>
-                    {["Europe","Asie","Afrique","Amérique","Océanie"].map(l=>(
-                      <div key={l} style={{ fontSize:13, color:"#94A3B8", marginBottom:11, cursor:"pointer", transition:"color .15s" }} onMouseEnter={e=>e.target.style.color="#D4A574"} onMouseLeave={e=>e.target.style.color="#94A3B8"}>{l}</div>
+                    <div style={{ fontWeight:700, fontSize:13, color:"#F8FAFC", marginBottom:20, letterSpacing:".5px" }}>{T.footer_dest}</div>
+                    {T.footer_continents.map(l=>(
+                      <div key={l} style={{ fontSize:13, color:"rgba(255,255,255,.5)", marginBottom:11, cursor:"pointer", transition:"color .15s" }} onMouseEnter={e=>e.target.style.color="#D4A574"} onMouseLeave={e=>e.target.style.color="rgba(255,255,255,.5)"}>{l}</div>
                     ))}
                   </div>
                   <div>
-                    <div style={{ fontWeight:700, fontSize:13, color:"#F8FAFC", marginBottom:20, letterSpacing:".5px" }}>Informations</div>
-                    {[
-                      ["À propos", ()=>aboutRef.current?.scrollIntoView({behavior:"smooth"})],
-                      ["Guides de voyage", ()=>guidesRef.current?.scrollIntoView({behavior:"smooth"})],
-                      ["FAQ", ()=>faqRef.current?.scrollIntoView({behavior:"smooth"})],
-                      ["Contact", ()=>{window.location.href="mailto:mouad.ouhaddou@gmail.com";}],
-                      ["Mentions légales & CGU", ()=>setShowLegal(true)],
-                    ].map(([l,fn])=>(
-                      <div key={l} onClick={fn} style={{ fontSize:13, color:"#94A3B8", marginBottom:11, cursor:"pointer", transition:"color .15s" }} onMouseEnter={e=>e.target.style.color="#D4A574"} onMouseLeave={e=>e.target.style.color="#94A3B8"}>{l}</div>
-                    ))}
-                    <div style={{ fontSize:13, color:"#94A3B8", cursor:"pointer", transition:"color .15s" }} onClick={()=>setShowPrivacy(true)} onMouseEnter={e=>e.target.style.color="#D4A574"} onMouseLeave={e=>e.target.style.color="#94A3B8"}>Confidentialité</div>
+                    <div style={{ fontWeight:700, fontSize:13, color:"#F8FAFC", marginBottom:20, letterSpacing:".5px" }}>{T.footer_info}</div>
+                    {T.footer_links_labels.map((l,idx)=>{
+                      const fns=[
+                        ()=>aboutRef.current?.scrollIntoView({behavior:"smooth"}),
+                        ()=>guidesRef.current?.scrollIntoView({behavior:"smooth"}),
+                        ()=>faqRef.current?.scrollIntoView({behavior:"smooth"}),
+                        ()=>{window.location.href="mailto:mouad.ouhaddou@gmail.com";},
+                        ()=>setShowLegal(true),
+                      ];
+                      return <div key={l} onClick={fns[idx]} style={{ fontSize:13, color:"rgba(255,255,255,.5)", marginBottom:11, cursor:"pointer", transition:"color .15s" }} onMouseEnter={e=>e.target.style.color="#D4A574"} onMouseLeave={e=>e.target.style.color="rgba(255,255,255,.5)"}>{l}</div>;
+                    })}
+                    <div style={{ fontSize:13, color:"rgba(255,255,255,.5)", cursor:"pointer", transition:"color .15s" }} onClick={()=>setShowPrivacy(true)} onMouseEnter={e=>e.target.style.color="#D4A574"} onMouseLeave={e=>e.target.style.color="rgba(255,255,255,.5)"}>{T.footer_privacy}</div>
                   </div>
                   <div>
-                    <div style={{ fontWeight:700, fontSize:13, color:"#F8FAFC", marginBottom:10, letterSpacing:".5px" }}>Newsletter</div>
-                    <div style={{ fontSize:13, color:"#94A3B8", marginBottom:16, lineHeight:1.65 }}>Recevez nos meilleures offres de voyage.</div>
+                    <div style={{ fontWeight:700, fontSize:13, color:"#F8FAFC", marginBottom:10, letterSpacing:".5px" }}>{T.footer_newsletter}</div>
+                    <div style={{ fontSize:13, color:"rgba(255,255,255,.5)", marginBottom:16, lineHeight:1.65 }}>{T.footer_newsletter_desc}</div>
                     <div style={{ display:"flex" }}>
-                      <input placeholder="Votre email" style={{ flex:1, borderRadius:"12px 0 0 12px", borderRight:"none", width:"auto" }}/>
-                      <button style={{ background:"linear-gradient(135deg,#D4A574,#C49160)", color:"white", border:"none", padding:"12px 18px", borderRadius:"0 12px 12px 0", cursor:"pointer", fontSize:16 }}>→</button>
+                      <input placeholder={T.footer_newsletter_ph} style={{ flex:1, borderRadius:"12px 0 0 12px", borderRight:"none", width:"auto" }}/>
+                      <button style={{ background:"linear-gradient(135deg,#D4A574,#C49160)", color:"white", border:"none", padding:"12px 18px", borderRadius:"0 12px 12px 0", cursor:"pointer", fontSize:16 }}>{isRTL?"←":"→"}</button>
                     </div>
                   </div>
                 </div>
-                <div style={{ borderTop:"1px solid rgba(255,255,255,.06)", paddingTop:26, display:"flex", justifyContent:"space-between", alignItems:"center", flexWrap:"wrap", gap:12 }}>
-                  <div style={{ fontSize:12, color:"rgba(148,163,184,.45)" }}>© 2026 VoyagesPro. Tous droits réservés.</div>
+                <div style={{ borderTop:`1px solid ${ST.divider}`, paddingTop:26, display:"flex", justifyContent:"space-between", alignItems:"center", flexWrap:"wrap", gap:12 }}>
+                  <div style={{ fontSize:12, color:ST.copyright }}>{T.footer_copyright}</div>
                   <AdBanner slot="2222222222" />
                 </div>
               </div>
