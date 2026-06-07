@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://mouadovic22.github.io/voyagepro/sitemap.xml
+Sitemap: https://voyagespro.fr/sitemap.xml
