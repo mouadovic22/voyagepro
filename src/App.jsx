@@ -1284,10 +1284,16 @@ export default function TravelPlanner() {
   const reset = () => { setStep(1); setOrigin(""); setDestination(null); setBudget(""); setStartDate(""); setEndDate(""); setAdults(2); setChildren(0); setSearch(""); setContinent("tous"); };
 
 
+  const isLight = theme === "light";
+  const inputText = isLight ? "#1A1208" : "#F8FAFC";
+  const inputBg = isLight ? "rgba(26,18,8,.04)" : "rgba(255,255,255,.06)";
+  const inputBorder = isLight ? "rgba(26,18,8,.16)" : "rgba(255,255,255,.1)";
+  const inputPlaceholder = isLight ? "rgba(26,18,8,.42)" : "rgba(248,250,252,.38)";
+  const dateIcon = isLight ? "opacity(.6)" : "invert(1) opacity(.4)";
   const css = `
     @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600;700&display=swap');
     *{box-sizing:border-box;margin:0;padding:0;}
-    body{background:#07111F;font-family:'Inter','DM Sans',sans-serif;color:#F8FAFC;}
+    body{background:${isLight ? "#FAF6F0" : "#07111F"};font-family:'Inter','DM Sans',sans-serif;color:${inputText};}
     ::-webkit-scrollbar{width:6px;}::-webkit-scrollbar-thumb{background:rgba(212,165,116,.25);border-radius:3px;}
     @keyframes fadeIn{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
     @keyframes heroFade{from{opacity:0}to{opacity:1}}
@@ -1300,10 +1306,13 @@ export default function TravelPlanner() {
     .bpdf:disabled{opacity:.5;cursor:not-allowed;transform:none;}
     .sp{width:14px;height:14px;border:2px solid rgba(255,255,255,.3);border-top-color:white;border-radius:50%;display:inline-block;animation:spin 0.8s linear infinite;}
     @keyframes spin{to{transform:rotate(360deg)}}
-    input{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:12px;color:#F8FAFC;padding:12px 14px;font-size:14px;font-family:'Inter',sans-serif;outline:none;transition:border-color .2s;width:100%;}
+    input{background:${inputBg};border:1px solid ${inputBorder};border-radius:12px;color:${inputText};padding:12px 14px;font-size:14px;font-family:'Inter',sans-serif;outline:none;transition:border-color .2s;width:100%;color-scheme:${isLight ? "light" : "dark"};}
     input:focus{border-color:#D4A574;}
-    input::placeholder{color:rgba(248,250,252,.38);}
-    input[type=date]::-webkit-calendar-picker-indicator{filter:invert(1) opacity(.4);cursor:pointer;}
+    input::placeholder{color:${inputPlaceholder};}
+    input[type=date]{color:${inputText};}
+    input[type=date]::-webkit-datetime-edit{color:${inputText};}
+    input[type=date]::-webkit-datetime-edit-text,input[type=date]::-webkit-datetime-edit-month-field,input[type=date]::-webkit-datetime-edit-day-field,input[type=date]::-webkit-datetime-edit-year-field{color:${inputText};}
+    input[type=date]::-webkit-calendar-picker-indicator{filter:${dateIcon};cursor:pointer;}
     ::-webkit-scrollbar-track{background:transparent;}
   `;
 
