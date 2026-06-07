@@ -961,6 +961,62 @@ function PrivacyModal({ onClose }) {
   );
 }
 
+const DEST_GUIDES = [
+  { id:"paris", flag:"🇫🇷", name:"Paris", title:"Paris, la Ville Lumière",
+    text:"Capitale mondiale de l'art de vivre, Paris séduit par ses musées d'exception comme le Louvre et le musée d'Orsay, ses avenues haussmanniennes et la silhouette intemporelle de la tour Eiffel. Flânez le long de la Seine, explorez Montmartre et ses ruelles d'artistes, puis savourez la gastronomie française dans un bistrot du Marais. La meilleure période s'étend d'avril à juin et de septembre à octobre, lorsque la ville révèle toute sa douceur." },
+  { id:"tokyo", flag:"🇯🇵", name:"Tokyo", title:"Tokyo, entre tradition et futur",
+    text:"Mégapole fascinante où temples millénaires côtoient gratte-ciel ultramodernes, Tokyo ne dort jamais. Perdez-vous dans l'effervescence de Shibuya, recueillez-vous au sanctuaire Meiji, dégustez les meilleurs sushis du marché de Toyosu et plongez dans la culture pop d'Akihabara. Au printemps, les cerisiers en fleurs transforment la ville en tableau poétique. Un voyage à Tokyo est une immersion sensorielle inoubliable." },
+  { id:"marrakech", flag:"🇲🇦", name:"Marrakech", title:"Marrakech, la perle du Sud",
+    text:"Ville impériale aux mille couleurs, Marrakech enchante par sa médina classée à l'UNESCO, la place Jemaa el-Fna animée jour et nuit, et ses jardins luxuriants comme le jardin Majorelle. Perdez-vous dans les souks parfumés d'épices, séjournez dans un riad traditionnel et offrez-vous une escapade dans le désert ou l'Atlas. Le printemps et l'automne offrent un climat idéal pour découvrir la ville ocre." },
+  { id:"dubai", flag:"🇦🇪", name:"Dubaï", title:"Dubaï, le luxe à l'état pur",
+    text:"Symbole de démesure et d'innovation, Dubaï impressionne avec Burj Khalifa, la plus haute tour du monde, ses îles artificielles et ses centres commerciaux gigantesques. Entre safari dans les dunes dorées, plages paradisiaques et restaurants étoilés, la ville mêle modernité futuriste et traditions bédouines. La saison idéale court de novembre à mars, loin des chaleurs estivales extrêmes." },
+  { id:"bali", flag:"🇮🇩", name:"Bali", title:"Bali, l'île des dieux",
+    text:"Véritable paradis tropical, Bali conjugue rizières en terrasses, temples sacrés et plages de rêve. Méditez à Ubud au cœur de la jungle, surfez sur les vagues de Canggu, admirez les couchers de soleil sur le temple de Tanah Lot et ressourcez-vous dans un spa balinais. Île de spiritualité et de douceur de vivre, Bali se visite idéalement entre avril et octobre, durant la saison sèche." },
+  { id:"newyork", flag:"🇺🇸", name:"New York", title:"New York, la ville qui ne dort jamais",
+    text:"Capitale culturelle et financière, New York est une énergie à elle seule. Contemplez la skyline depuis l'Empire State Building, promenez-vous dans Central Park, traversez le pont de Brooklyn et laissez-vous happer par l'effervescence de Times Square. Entre comédies musicales à Broadway, musées de renommée mondiale et quartiers cosmopolites, la Grosse Pomme se découvre toute l'année, avec une magie particulière à l'automne et pendant les fêtes." },
+];
+
+const FAQ_ITEMS = [
+  ["VoyagesPro est-il vraiment gratuit ?", "Oui, VoyagesPro est 100 % gratuit et le restera. Vous pouvez planifier autant de voyages que vous le souhaitez, consulter les itinéraires et exporter votre programme en PDF sans aucun frais ni abonnement."],
+  ["Dois-je créer un compte pour utiliser le site ?", "Non, aucune inscription n'est requise. VoyagesPro fonctionne directement dans votre navigateur : choisissez votre destination, vos dates et votre budget, et obtenez instantanément votre programme personnalisé."],
+  ["Comment VoyagesPro crée-t-il mon itinéraire ?", "Notre outil génère un programme jour par jour adapté à votre destination, à la durée de votre séjour et à votre budget. Chaque journée comprend des attractions incontournables, des suggestions de restaurants et des recommandations d'hébergements."],
+  ["Combien de destinations sont disponibles ?", "VoyagesPro propose 50 destinations parmi les plus prisées au monde, réparties sur tous les continents : Europe, Asie, Afrique, Amériques et Océanie, de Paris à Tokyo en passant par Marrakech, Dubaï et Bali."],
+  ["Puis-je exporter mon programme de voyage ?", "Absolument. Une fois votre itinéraire généré, vous pouvez l'exporter en PDF en un clic pour le consulter hors ligne, l'imprimer ou le partager avec vos compagnons de voyage."],
+  ["VoyagesPro réserve-t-il les hôtels et les vols ?", "VoyagesPro est un outil de planification : il vous oriente vers les meilleures attractions, restaurants et hôtels, et vous propose des liens vers des partenaires de confiance pour effectuer vos réservations en toute sérénité."],
+  ["Sur quels appareils puis-je utiliser VoyagesPro ?", "VoyagesPro est accessible depuis n'importe quel appareil disposant d'un navigateur web : ordinateur, tablette ou smartphone. L'interface s'adapte automatiquement à votre écran."],
+  ["Les informations sont-elles à jour ?", "Nous sélectionnons des lieux et attractions reconnus et durables. Nous vous recommandons toutefois de vérifier les horaires et conditions d'accès directement auprès des établissements avant votre départ."],
+];
+
+function LegalModal({ onClose }) {
+  return (
+    <div onClick={onClose} style={{ position:"fixed", inset:0, background:"rgba(0,0,0,.7)", zIndex:9999, display:"flex", alignItems:"center", justifyContent:"center", padding:20 }}>
+      <div onClick={e=>e.stopPropagation()} style={{ background:"#0F1A2E", border:"1px solid #1E3A5F", borderRadius:18, padding:"32px 28px", maxWidth:600, width:"100%", maxHeight:"82vh", overflowY:"auto", color:"#CBD5E1" }}>
+        <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:20 }}>
+          <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:22, fontWeight:700, color:"#F1F5F9" }}>📋 Mentions légales & CGU</h2>
+          <button onClick={onClose} style={{ background:"transparent", border:"none", color:"#D4A574", fontSize:22, cursor:"pointer", lineHeight:1 }}>×</button>
+        </div>
+        <p style={{ fontSize:12, color:"#64748B", marginBottom:20 }}>Dernière mise à jour : 7 juin 2026</p>
+        {[
+          ["Éditeur du site", "Le site VoyagesPro (voyagespro.fr) est édité par un éditeur indépendant. Contact : mouad.ouhaddou@gmail.com"],
+          ["Hébergement", "Le site est hébergé par GitHub Pages (GitHub Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis)."],
+          ["Objet du service", "VoyagesPro est un outil gratuit de planification de voyage. Il génère des suggestions d'itinéraires, d'attractions, de restaurants et d'hébergements à titre informatif. VoyagesPro n'est pas une agence de voyage et ne procède à aucune réservation."],
+          ["Propriété intellectuelle", "Les contenus, textes et éléments graphiques du site sont protégés. Les photographies des destinations proviennent de sources libres (Wikimedia Commons, Unsplash) et restent la propriété de leurs auteurs respectifs."],
+          ["Responsabilité", "Les informations fournies (horaires, tarifs, disponibilités) sont données à titre indicatif et peuvent évoluer. VoyagesPro ne saurait être tenu responsable d'éventuelles inexactitudes. Vérifiez toujours les informations auprès des établissements avant votre voyage."],
+          ["Liens partenaires", "Le site peut contenir des liens vers des services tiers (réservation d'hôtels, vols, activités). VoyagesPro n'est pas responsable du contenu ni des pratiques de ces sites externes."],
+          ["Publicité", "Ce site affiche des publicités via Google AdSense afin de financer son fonctionnement gratuit. Consultez notre politique de confidentialité pour en savoir plus sur la gestion des cookies."],
+          ["Droit applicable", "Les présentes conditions sont régies par le droit français. Pour toute question, contactez-nous à mouad.ouhaddou@gmail.com."],
+        ].map(([title, text]) => (
+          <div key={title} style={{ marginBottom:18 }}>
+            <div style={{ fontWeight:700, fontSize:14, color:"#D4A574", marginBottom:6 }}>{title}</div>
+            <p style={{ fontSize:13, lineHeight:1.7 }}>{text}</p>
+          </div>
+        ))}
+        <button onClick={onClose} style={{ marginTop:10, width:"100%", padding:"11px 0", borderRadius:10, background:"linear-gradient(135deg,#D4A574,#C49160)", color:"white", border:"none", fontSize:14, fontWeight:600, cursor:"pointer", fontFamily:"'Inter',sans-serif" }}>J'ai compris</button>
+      </div>
+    </div>
+  );
+}
+
 export default function TravelPlanner() {
   const [step, setStep] = useState(1);
   const [origin, setOrigin] = useState("");
@@ -979,10 +1035,15 @@ export default function TravelPlanner() {
   const [hoveredId, setHoveredId] = useState(null);
   const [pdfLoading, setPdfLoading] = useState(false);
   const [showPrivacy, setShowPrivacy] = useState(false);
+  const [showLegal, setShowLegal] = useState(false);
+  const [openFaq, setOpenFaq] = useState(null);
   const [heroIdx, setHeroIdx] = useState(0);
   const [heroImgs, setHeroImgs] = useState({});
   const [showTravelers, setShowTravelers] = useState(false);
   const destRef = useRef(null);
+  const aboutRef = useRef(null);
+  const guidesRef = useRef(null);
+  const faqRef = useRef(null);
   const heroDests = ['santorini','bali','kyoto','paris'].map(id=>DESTINATIONS.find(d=>d.id===id)).filter(Boolean);
   useEffect(()=>{
     if(step!==1) return;
@@ -1053,6 +1114,7 @@ export default function TravelPlanner() {
     <>
       <style>{css}</style>
       {showPrivacy && <PrivacyModal onClose={()=>setShowPrivacy(false)} />}
+      {showLegal && <LegalModal onClose={()=>setShowLegal(false)} />}
 
       {/* Floating sticky CTA when origin + destination selected */}
       {step===1 && origin && destination && (
@@ -1395,6 +1457,70 @@ export default function TravelPlanner() {
               </div>
             </section>
 
+            {/* ── À PROPOS ── */}
+            <section ref={aboutRef} style={{ background:"#07111F", padding:"88px 32px" }}>
+              <div style={{ maxWidth:880, margin:"0 auto", textAlign:"center" }}>
+                <div style={{ fontSize:13, fontWeight:700, letterSpacing:"2px", color:"#D4A574", textTransform:"uppercase", marginBottom:14 }}>À propos</div>
+                <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:"clamp(28px,4vw,42px)", fontWeight:900, color:"#F8FAFC", marginBottom:24 }}>Planifiez le voyage de vos rêves, simplement</h2>
+                <p style={{ fontSize:16, color:"#94A3B8", lineHeight:1.85, marginBottom:18 }}>
+                  VoyagesPro est né d'une conviction simple : organiser un voyage devrait être un plaisir, pas une corvée. Trop souvent, préparer un séjour demande des heures de recherche sur des dizaines de sites différents pour comparer les attractions, trouver de bons restaurants et bâtir un programme cohérent. Nous avons voulu réunir tout cela en un seul endroit, gratuit et accessible à tous.
+                </p>
+                <p style={{ fontSize:16, color:"#94A3B8", lineHeight:1.85 }}>
+                  En quelques clics, indiquez votre destination, vos dates et votre budget : VoyagesPro génère instantanément un itinéraire jour par jour avec les incontournables, des suggestions de restaurants locaux et des recommandations d'hébergements adaptées. Que vous prépariez un week-end à Paris, une lune de miel à Bali ou un grand voyage à Tokyo, notre outil vous fait gagner un temps précieux pour que vous puissiez vous concentrer sur l'essentiel : profiter.
+                </p>
+              </div>
+            </section>
+
+            {/* ── GUIDES DE DESTINATIONS ── */}
+            <section ref={guidesRef} style={{ background:"#0F1B2D", padding:"88px 32px" }}>
+              <div style={{ maxWidth:1100, margin:"0 auto" }}>
+                <div style={{ textAlign:"center", marginBottom:54 }}>
+                  <div style={{ fontSize:13, fontWeight:700, letterSpacing:"2px", color:"#D4A574", textTransform:"uppercase", marginBottom:14 }}>Guides de voyage</div>
+                  <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:"clamp(28px,4vw,42px)", fontWeight:900, color:"#F8FAFC", marginBottom:16 }}>Nos destinations à la loupe</h2>
+                  <p style={{ fontSize:16, color:"#94A3B8", lineHeight:1.8, maxWidth:640, margin:"0 auto" }}>Découvrez l'essence de chaque destination, ses incontournables et la meilleure période pour la visiter.</p>
+                </div>
+                <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(320px,1fr))", gap:24 }}>
+                  {DEST_GUIDES.map(g => (
+                    <article key={g.id} style={{ background:"#07111F", border:"1px solid rgba(255,255,255,.06)", borderRadius:18, overflow:"hidden", display:"flex", flexDirection:"column" }}>
+                      <div style={{ height:160, backgroundColor:"#0A1426", backgroundImage:`url(${heroImgs[g.id]||DESTINATIONS.find(d=>d.id===g.id)?.photo})`, backgroundSize:"cover", backgroundPosition:"center" }}/>
+                      <div style={{ padding:"24px 22px" }}>
+                        <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:21, fontWeight:700, color:"#F8FAFC", marginBottom:12 }}>{g.flag} {g.title}</h3>
+                        <p style={{ fontSize:14, color:"#94A3B8", lineHeight:1.75, marginBottom:18 }}>{g.text}</p>
+                        <button onClick={()=>{ setDestination(DESTINATIONS.find(d=>d.id===g.id)||null); setStep(2); window.scrollTo({top:0,behavior:"smooth"}); }}
+                          style={{ background:"transparent", border:"1px solid rgba(212,165,116,.35)", color:"#D4A574", padding:"9px 18px", borderRadius:10, fontSize:13, fontWeight:600, cursor:"pointer", fontFamily:"'Inter',sans-serif", transition:"all .2s" }}
+                          onMouseEnter={e=>{e.currentTarget.style.background="rgba(212,165,116,.1)";}} onMouseLeave={e=>{e.currentTarget.style.background="transparent";}}>
+                          Planifier ce voyage →
+                        </button>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              </div>
+            </section>
+
+            {/* ── FAQ ── */}
+            <section ref={faqRef} style={{ background:"#07111F", padding:"88px 32px" }}>
+              <div style={{ maxWidth:780, margin:"0 auto" }}>
+                <div style={{ textAlign:"center", marginBottom:48 }}>
+                  <div style={{ fontSize:13, fontWeight:700, letterSpacing:"2px", color:"#D4A574", textTransform:"uppercase", marginBottom:14 }}>Questions fréquentes</div>
+                  <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:"clamp(28px,4vw,42px)", fontWeight:900, color:"#F8FAFC" }}>Tout ce qu'il faut savoir</h2>
+                </div>
+                <div>
+                  {FAQ_ITEMS.map(([q,a],i)=>(
+                    <div key={i} style={{ borderBottom:"1px solid rgba(255,255,255,.08)" }}>
+                      <button onClick={()=>setOpenFaq(openFaq===i?null:i)} style={{ width:"100%", background:"transparent", border:"none", padding:"22px 4px", display:"flex", justifyContent:"space-between", alignItems:"center", cursor:"pointer", textAlign:"left", gap:16 }}>
+                        <span style={{ fontSize:16, fontWeight:600, color:"#F8FAFC", fontFamily:"'Inter',sans-serif" }}>{q}</span>
+                        <span style={{ fontSize:22, color:"#D4A574", flexShrink:0, transition:"transform .2s", transform:openFaq===i?"rotate(45deg)":"none" }}>+</span>
+                      </button>
+                      {openFaq===i && (
+                        <p style={{ fontSize:15, color:"#94A3B8", lineHeight:1.8, padding:"0 4px 24px" }}>{a}</p>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
+
             {/* ── CTA BANNER ── */}
             <section style={{ position:"relative", height:330, overflow:"hidden", display:"flex", alignItems:"center", justifyContent:"center" }}>
               <div style={{ position:"absolute", inset:0, backgroundColor:"#0A1426", backgroundImage:`url(${heroImgs["bali"]||heroImgs["santorini"]||DESTINATIONS.find(d=>d.id==="bali")?.photo})`, backgroundSize:"cover", backgroundPosition:"center" }}/>
@@ -1434,8 +1560,14 @@ export default function TravelPlanner() {
                   </div>
                   <div>
                     <div style={{ fontWeight:700, fontSize:13, color:"#F8FAFC", marginBottom:20, letterSpacing:".5px" }}>Informations</div>
-                    {["À propos","FAQ","Contact","Conditions générales"].map(l=>(
-                      <div key={l} style={{ fontSize:13, color:"#94A3B8", marginBottom:11, cursor:"pointer", transition:"color .15s" }} onMouseEnter={e=>e.target.style.color="#D4A574"} onMouseLeave={e=>e.target.style.color="#94A3B8"}>{l}</div>
+                    {[
+                      ["À propos", ()=>aboutRef.current?.scrollIntoView({behavior:"smooth"})],
+                      ["Guides de voyage", ()=>guidesRef.current?.scrollIntoView({behavior:"smooth"})],
+                      ["FAQ", ()=>faqRef.current?.scrollIntoView({behavior:"smooth"})],
+                      ["Contact", ()=>{window.location.href="mailto:mouad.ouhaddou@gmail.com";}],
+                      ["Mentions légales & CGU", ()=>setShowLegal(true)],
+                    ].map(([l,fn])=>(
+                      <div key={l} onClick={fn} style={{ fontSize:13, color:"#94A3B8", marginBottom:11, cursor:"pointer", transition:"color .15s" }} onMouseEnter={e=>e.target.style.color="#D4A574"} onMouseLeave={e=>e.target.style.color="#94A3B8"}>{l}</div>
                     ))}
                     <div style={{ fontSize:13, color:"#94A3B8", cursor:"pointer", transition:"color .15s" }} onClick={()=>setShowPrivacy(true)} onMouseEnter={e=>e.target.style.color="#D4A574"} onMouseLeave={e=>e.target.style.color="#94A3B8"}>Confidentialité</div>
                   </div>
