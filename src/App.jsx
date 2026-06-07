@@ -21,6 +21,19 @@ const WIKI_TITLES = {
   sofia:"Sofia",zagreb:"Zagreb",valletta:"Valletta"
 };
 
+const BOOK = {
+  flights:     (from, to)   => `https://www.google.com/travel/flights?q=vols+de+${encodeURIComponent(from)}+à+${encodeURIComponent(to)}`,
+  skyscanner:  (from, to)   => `https://www.skyscanner.fr/transport/vols/${encodeURIComponent(from.toLowerCase().replace(/ /g,"-"))}/${encodeURIComponent(to.toLowerCase().replace(/ /g,"-"))}/`,
+  kayak:       (from, to)   => `https://www.kayak.fr/flights/${encodeURIComponent(from)}-${encodeURIComponent(to)}`,
+  booking:     (city, name) => `https://www.booking.com/searchresults.fr.html?ss=${encodeURIComponent(name||city)}&lang=fr`,
+  airbnb:      (city)       => `https://www.airbnb.fr/s/${encodeURIComponent(city)}/homes`,
+  getyourguide:(name, city) => `https://www.getyourguide.fr/s/?q=${encodeURIComponent(name+" "+city)}&locale_autoredirect_optout=true`,
+  viator:      (name, city) => `https://www.viator.com/fr-FR/search?text=${encodeURIComponent(name+" "+city)}`,
+  thefork:     (name, city) => `https://www.thefork.fr/recherche?q=${encodeURIComponent(name)}&cityName=${encodeURIComponent(city)}`,
+  tripadvisor: (name, city) => `https://www.tripadvisor.fr/Search?q=${encodeURIComponent(name+" "+city)}&searchSessionId=x`,
+  maps:        (name, city) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(name+" "+city)}`,
+};
+
 const wikiError = e => {
   if (e.target.dataset.tried) { e.target.style.opacity=0; return; }
   e.target.dataset.tried = '1';
@@ -1175,17 +1188,42 @@ export default function TravelPlanner() {
                 </div>
               </div>
 
+              {/* ── QUICK BOOKING BAR ── */}
+              <div style={{ background:"linear-gradient(135deg,rgba(14,165,233,.12),rgba(99,102,241,.08))", border:"1px solid rgba(14,165,233,.25)", borderRadius:14, padding:"14px 18px", marginBottom:18 }}>
+                <div style={{ fontSize:11, color:"#7DD3FC", textTransform:"uppercase", letterSpacing:"1px", fontWeight:600, marginBottom:11 }}>🔗 Réserver maintenant — {destination.name}</div>
+                <div style={{ display:"flex", gap:9, flexWrap:"wrap" }}>
+                  {[
+                    { label:"✈️ Google Flights", color:"#0EA5E9", url:BOOK.flights(origin, destination.name) },
+                    { label:"🔍 Skyscanner",     color:"#00A3BE", url:BOOK.skyscanner(origin, destination.name) },
+                    { label:"💺 Kayak",           color:"#FF690F", url:BOOK.kayak(origin, destination.name) },
+                    { label:"🏨 Booking.com",     color:"#003580", url:BOOK.booking(destination.name) },
+                    { label:"🏠 Airbnb",          color:"#FF5A5F", url:BOOK.airbnb(destination.name) },
+                  ].map(({label,color,url})=>(
+                    <a key={label} href={url} target="_blank" rel="noopener noreferrer" style={{ display:"inline-flex", alignItems:"center", gap:6, padding:"8px 14px", borderRadius:20, background:color, color:"white", fontSize:12, fontWeight:600, textDecoration:"none", transition:"opacity .15s", fontFamily:"'DM Sans',sans-serif" }}
+                      onMouseEnter={e=>e.currentTarget.style.opacity=".85"} onMouseLeave={e=>e.currentTarget.style.opacity="1"}>
+                      {label}
+                    </a>
+                  ))}
+                </div>
+              </div>
+
               {/* Hotel banner */}
-              <div style={{ background:TH.hotelBg, border:`1px solid ${TH.hotelBorder}`, borderRadius:13, padding:"13px 18px", marginBottom:18, display:"flex", alignItems:"center", gap:12 }}>
-                <span style={{ fontSize:32 }}>🏨</span>
-                <div>
-                  <div style={{ fontSize:10, color:"#7DD3FC", textTransform:"uppercase", letterSpacing:"1px", marginBottom:3 }}>{T.recommended}</div>
-                  <div style={{ fontSize:17, fontWeight:700, marginBottom:3, color:TH.text }}>{data.hotels[budget]?.[0]?.name}</div>
-                  <div style={{ display:"flex", gap:8, alignItems:"center" }}>
-                    <span>{Array.from({length:data.hotels[budget]?.[0]?.stars||0},(_,i)=><span key={i} style={{color:"#F59E0B"}}>★</span>)}</span>
-                    <span style={{ fontSize:12, color:TH.text2 }}>· {data.hotels[budget]?.[0]?.price}</span>
+              <div style={{ background:TH.hotelBg, border:`1px solid ${TH.hotelBorder}`, borderRadius:13, padding:"13px 18px", marginBottom:18, display:"flex", alignItems:"center", justifyContent:"space-between", gap:12, flexWrap:"wrap" }}>
+                <div style={{ display:"flex", alignItems:"center", gap:12 }}>
+                  <span style={{ fontSize:32 }}>🏨</span>
+                  <div>
+                    <div style={{ fontSize:10, color:"#7DD3FC", textTransform:"uppercase", letterSpacing:"1px", marginBottom:3 }}>{T.recommended}</div>
+                    <div style={{ fontSize:17, fontWeight:700, marginBottom:3, color:TH.text }}>{data.hotels[budget]?.[0]?.name}</div>
+                    <div style={{ display:"flex", gap:8, alignItems:"center" }}>
+                      <span>{Array.from({length:data.hotels[budget]?.[0]?.stars||0},(_,i)=><span key={i} style={{color:"#F59E0B"}}>★</span>)}</span>
+                      <span style={{ fontSize:12, color:TH.text2 }}>· {data.hotels[budget]?.[0]?.price}</span>
+                    </div>
                   </div>
                 </div>
+                <a href={BOOK.booking(destination.name, data.hotels[budget]?.[0]?.name)} target="_blank" rel="noopener noreferrer"
+                  style={{ display:"inline-flex", alignItems:"center", gap:6, padding:"9px 18px", borderRadius:10, background:"#003580", color:"white", fontSize:13, fontWeight:600, textDecoration:"none", fontFamily:"'DM Sans',sans-serif", whiteSpace:"nowrap" }}>
+                  🏨 Réserver sur Booking
+                </a>
               </div>
 
               {/* Tabs */}
@@ -1210,9 +1248,19 @@ export default function TravelPlanner() {
                           <span style={{ padding:"3px 8px", borderRadius:20, fontSize:10, fontWeight:600, background:"rgba(14,165,233,.15)", color:"#7DD3FC", flexShrink:0, marginLeft:6 }}>{a.type}</span>
                         </div>
                         <div style={{ fontSize:12, color:"rgba(148,163,184,.7)", marginBottom:8 }}>⏱ {a.duration}</div>
-                        <div style={{ background:TH.inputBg, borderRadius:8, padding:"7px 10px" }}>
+                        <div style={{ background:TH.inputBg, borderRadius:8, padding:"7px 10px", marginBottom:10 }}>
                           <div style={{ fontSize:10, color:BUDGET_LABELS[budget].color, fontWeight:600, textTransform:"uppercase", letterSpacing:"1px", marginBottom:2 }}>{BUDGET_LABELS[budget].icon} Prix</div>
                           <div style={{ fontSize:13, fontWeight:600 }}>{a.budget[budget]}</div>
+                        </div>
+                        <div style={{ display:"flex", gap:7 }}>
+                          <a href={BOOK.getyourguide(a.name, destination.name)} target="_blank" rel="noopener noreferrer"
+                            style={{ flex:1, display:"flex", alignItems:"center", justifyContent:"center", gap:5, padding:"7px 0", borderRadius:8, background:"#FF6B35", color:"white", fontSize:11, fontWeight:600, textDecoration:"none", fontFamily:"'DM Sans',sans-serif" }}>
+                            🎟 GetYourGuide
+                          </a>
+                          <a href={BOOK.maps(a.name, destination.name)} target="_blank" rel="noopener noreferrer"
+                            style={{ flex:1, display:"flex", alignItems:"center", justifyContent:"center", gap:5, padding:"7px 0", borderRadius:8, background:"rgba(14,165,233,.15)", color:"#7DD3FC", fontSize:11, fontWeight:600, textDecoration:"none", fontFamily:"'DM Sans',sans-serif", border:"1px solid rgba(14,165,233,.25)" }}>
+                            📍 Google Maps
+                          </a>
                         </div>
                       </div>
                     ))}
@@ -1235,12 +1283,28 @@ export default function TravelPlanner() {
                           </div>
                           <div style={{ fontSize:12, color:"rgba(148,163,184,.7)", marginBottom:8 }}>{r.type}</div>
                           {price ? (
-                            <div style={{ background:"rgba(249,115,22,.1)", border:"1px solid rgba(249,115,22,.2)", borderRadius:8, padding:"7px 10px" }}>
+                            <div style={{ background:"rgba(249,115,22,.1)", border:"1px solid rgba(249,115,22,.2)", borderRadius:8, padding:"7px 10px", marginBottom:10 }}>
                               <span style={{ fontSize:12, color:"#FB923C", fontWeight:600 }}>💰 </span>
                               <span style={{ fontSize:13, fontWeight:600 }}>{price}</span>
                             </div>
                           ) : (
-                            <div style={{ fontSize:11, color:"rgba(239,68,68,.6)" }}>Non disponible pour ce budget</div>
+                            <div style={{ fontSize:11, color:"rgba(239,68,68,.6)", marginBottom:10 }}>Non disponible pour ce budget</div>
+                          )}
+                          {price && (
+                            <div style={{ display:"flex", gap:7 }}>
+                              <a href={BOOK.thefork(r.name, destination.name)} target="_blank" rel="noopener noreferrer"
+                                style={{ flex:1, display:"flex", alignItems:"center", justifyContent:"center", gap:5, padding:"7px 0", borderRadius:8, background:"#00B551", color:"white", fontSize:11, fontWeight:600, textDecoration:"none", fontFamily:"'DM Sans',sans-serif" }}>
+                                🍴 TheFork
+                              </a>
+                              <a href={BOOK.tripadvisor(r.name, destination.name)} target="_blank" rel="noopener noreferrer"
+                                style={{ flex:1, display:"flex", alignItems:"center", justifyContent:"center", gap:5, padding:"7px 0", borderRadius:8, background:"#34E0A1", color:"#1a1a1a", fontSize:11, fontWeight:600, textDecoration:"none", fontFamily:"'DM Sans',sans-serif" }}>
+                                ⭐ TripAdvisor
+                              </a>
+                              <a href={BOOK.maps(r.name, destination.name)} target="_blank" rel="noopener noreferrer"
+                                style={{ display:"flex", alignItems:"center", justifyContent:"center", padding:"7px 10px", borderRadius:8, background:"rgba(249,115,22,.15)", color:"#FB923C", fontSize:14, textDecoration:"none", border:"1px solid rgba(249,115,22,.25)" }}>
+                                📍
+                              </a>
+                            </div>
                           )}
                         </div>
                       );
@@ -1293,7 +1357,24 @@ export default function TravelPlanner() {
               {activeTab==="transport" && (
                 <div>
                   <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:19, fontWeight:700, marginBottom:6, color:TH.text }}>{T.transport_title} — {destination.name}</h3>
-                  <p style={{ fontSize:13, color:TH.text2, marginBottom:16 }}>Options de transport depuis {origin} vers {destination.name}</p>
+                  <p style={{ fontSize:13, color:TH.text2, marginBottom:14 }}>Options de transport depuis {origin} vers {destination.name}</p>
+
+                  {/* Flight booking buttons */}
+                  <div style={{ background:"linear-gradient(135deg,rgba(14,165,233,.1),rgba(14,165,233,.04))", border:"1px solid rgba(14,165,233,.2)", borderRadius:13, padding:"14px 16px", marginBottom:20 }}>
+                    <div style={{ fontSize:11, color:"#7DD3FC", fontWeight:600, textTransform:"uppercase", letterSpacing:"1px", marginBottom:10 }}>✈️ Comparer & Réserver votre vol</div>
+                    <div style={{ display:"flex", gap:9, flexWrap:"wrap" }}>
+                      {[
+                        { label:"Google Flights", icon:"✈️", color:"#0EA5E9", url:BOOK.flights(origin, destination.name) },
+                        { label:"Skyscanner",     icon:"🔍", color:"#00A3BE", url:BOOK.skyscanner(origin, destination.name) },
+                        { label:"Kayak",           icon:"🛫", color:"#FF690F", url:BOOK.kayak(origin, destination.name) },
+                      ].map(({label,icon,color,url})=>(
+                        <a key={label} href={url} target="_blank" rel="noopener noreferrer"
+                          style={{ display:"inline-flex", alignItems:"center", gap:7, padding:"10px 18px", borderRadius:10, background:color, color:"white", fontSize:13, fontWeight:600, textDecoration:"none", fontFamily:"'DM Sans',sans-serif" }}>
+                          {icon} {label}
+                        </a>
+                      ))}
+                    </div>
+                  </div>
 
                   {/* City-specific transport */}
                   <div style={{ display:"flex", flexDirection:"column", gap:11, marginBottom:22 }}>
@@ -1340,7 +1421,20 @@ export default function TravelPlanner() {
               {activeTab==="hotels" && (
                 <div>
                   <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:19, fontWeight:700, marginBottom:6, color:TH.text }}>🏨 {T.hotel_options} — {destination.name}</h3>
-                  <p style={{ fontSize:13, color:TH.text2, marginBottom:18 }}>Tous les hébergements disponibles par catégorie de budget</p>
+                  <p style={{ fontSize:13, color:TH.text2, marginBottom:12 }}>Tous les hébergements disponibles par catégorie de budget</p>
+                  {/* Quick hotel booking links */}
+                  <div style={{ display:"flex", gap:9, flexWrap:"wrap", marginBottom:20 }}>
+                    {[
+                      { label:"Booking.com", color:"#003580", url:BOOK.booking(destination.name) },
+                      { label:"Airbnb",      color:"#FF5A5F", url:BOOK.airbnb(destination.name) },
+                      { label:"Hotels.com",  color:"#D9000D", url:`https://fr.hotels.com/search.do?q-destination=${encodeURIComponent(destination.name)}` },
+                    ].map(({label,color,url})=>(
+                      <a key={label} href={url} target="_blank" rel="noopener noreferrer"
+                        style={{ display:"inline-flex", alignItems:"center", gap:6, padding:"8px 16px", borderRadius:20, background:color, color:"white", fontSize:12, fontWeight:600, textDecoration:"none", fontFamily:"'DM Sans',sans-serif" }}>
+                        🏨 {label}
+                      </a>
+                    ))}
+                  </div>
                   <div style={{ display:"flex", flexDirection:"column", gap:20 }}>
                     {["serré","moyen","riche"].map(tier=>{
                       const list = data.hotels[tier] || [];
@@ -1364,7 +1458,17 @@ export default function TravelPlanner() {
                                   <span style={{ color:"#F59E0B", fontSize:14 }}>{"★".repeat(h.stars)}{"☆".repeat(Math.max(0,5-h.stars))}</span>
                                   <span style={{ fontSize:11, color:TH.text2 }}>{h.stars} {T.stars}{h.stars>1?"s":""}</span>
                                 </div>
-                                <div style={{ background:`rgba(${tier==="serré"?"45,212,191":tier==="moyen"?"245,158,11":"139,92,246"},.1)`, border:`1px solid rgba(${tier==="serré"?"45,212,191":tier==="moyen"?"245,158,11":"139,92,246"},.2)`, borderRadius:8, padding:"6px 10px", fontSize:13, fontWeight:600, color:bl.color }}>💰 {h.price}</div>
+                                <div style={{ background:`rgba(${tier==="serré"?"45,212,191":tier==="moyen"?"245,158,11":"139,92,246"},.1)`, border:`1px solid rgba(${tier==="serré"?"45,212,191":tier==="moyen"?"245,158,11":"139,92,246"},.2)`, borderRadius:8, padding:"6px 10px", fontSize:13, fontWeight:600, color:bl.color, marginBottom:10 }}>💰 {h.price}</div>
+                                <div style={{ display:"flex", gap:7 }}>
+                                  <a href={BOOK.booking(destination.name, h.name)} target="_blank" rel="noopener noreferrer"
+                                    style={{ flex:1, display:"flex", alignItems:"center", justifyContent:"center", gap:5, padding:"7px 0", borderRadius:8, background:"#003580", color:"white", fontSize:11, fontWeight:600, textDecoration:"none", fontFamily:"'DM Sans',sans-serif" }}>
+                                    🏨 Booking
+                                  </a>
+                                  <a href={BOOK.airbnb(destination.name)} target="_blank" rel="noopener noreferrer"
+                                    style={{ flex:1, display:"flex", alignItems:"center", justifyContent:"center", gap:5, padding:"7px 0", borderRadius:8, background:"#FF5A5F", color:"white", fontSize:11, fontWeight:600, textDecoration:"none", fontFamily:"'DM Sans',sans-serif" }}>
+                                    🏠 Airbnb
+                                  </a>
+                                </div>
                               </div>
                             ))}
                           </div>
