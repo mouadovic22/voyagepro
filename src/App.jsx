@@ -225,6 +225,14 @@ const LANG = {
     guides_badge:"Guides de voyage", guides_title:"Nos destinations à la loupe",
     guides_desc:"Découvrez l'essence de chaque destination, ses incontournables et la meilleure période pour la visiter.",
     guides_btn:"Planifier ce voyage →",
+    guides_items:[
+      {title:"Paris, la Ville Lumière", text:"Capitale mondiale de l'art de vivre, Paris séduit par ses musées d'exception comme le Louvre et le musée d'Orsay, ses avenues haussmanniennes et la silhouette intemporelle de la tour Eiffel. Flânez le long de la Seine, explorez Montmartre et ses ruelles d'artistes, puis savourez la gastronomie française dans un bistrot du Marais. La meilleure période s'étend d'avril à juin et de septembre à octobre, lorsque la ville révèle toute sa douceur."},
+      {title:"Tokyo, entre tradition et futur", text:"Mégapole fascinante où temples millénaires côtoient gratte-ciel ultramodernes, Tokyo ne dort jamais. Perdez-vous dans l'effervescence de Shibuya, recueillez-vous au sanctuaire Meiji, dégustez les meilleurs sushis du marché de Toyosu et plongez dans la culture pop d'Akihabara. Au printemps, les cerisiers en fleurs transforment la ville en tableau poétique. Un voyage à Tokyo est une immersion sensorielle inoubliable."},
+      {title:"Marrakech, la perle du Sud", text:"Ville impériale aux mille couleurs, Marrakech enchante par sa médina classée à l'UNESCO, la place Jemaa el-Fna animée jour et nuit, et ses jardins luxuriants comme le jardin Majorelle. Perdez-vous dans les souks parfumés d'épices, séjournez dans un riad traditionnel et offrez-vous une escapade dans le désert ou l'Atlas. Le printemps et l'automne offrent un climat idéal pour découvrir la ville ocre."},
+      {title:"Dubaï, le luxe à l'état pur", text:"Symbole de démesure et d'innovation, Dubaï impressionne avec Burj Khalifa, la plus haute tour du monde, ses îles artificielles et ses centres commerciaux gigantesques. Entre safari dans les dunes dorées, plages paradisiaques et restaurants étoilés, la ville mêle modernité futuriste et traditions bédouines. La saison idéale court de novembre à mars, loin des chaleurs estivales extrêmes."},
+      {title:"Bali, l'île des dieux", text:"Véritable paradis tropical, Bali conjugue rizières en terrasses, temples sacrés et plages de rêve. Méditez à Ubud au cœur de la jungle, surfez sur les vagues de Canggu, admirez les couchers de soleil sur le temple de Tanah Lot et ressourcez-vous dans un spa balinais. Île de spiritualité et de douceur de vivre, Bali se visite idéalement entre avril et octobre, durant la saison sèche."},
+      {title:"New York, la ville qui ne dort jamais", text:"Capitale culturelle et financière, New York est une énergie à elle seule. Contemplez la skyline depuis l'Empire State Building, promenez-vous dans Central Park, traversez le pont de Brooklyn et laissez-vous happer par l'effervescence de Times Square. Entre comédies musicales à Broadway, musées de renommée mondiale et quartiers cosmopolites, la Grosse Pomme se découvre toute l'année, avec une magie particulière à l'automne et pendant les fêtes."},
+    ],
     faq_badge:"Questions fréquentes", faq_title:"Tout ce qu'il faut savoir",
     footer_tagline:"Votre partenaire pour des voyages inoubliables, personnalisés et sans stress.",
     footer_dest:"Destinations",
@@ -303,6 +311,14 @@ const LANG = {
     guides_badge:"Travel guides", guides_title:"Our destinations in detail",
     guides_desc:"Discover the essence of each destination, its highlights and the best time to visit.",
     guides_btn:"Plan this trip →",
+    guides_items:[
+      {title:"Paris, the City of Light", text:"The world capital of art de vivre, Paris captivates with its exceptional museums like the Louvre and Musée d'Orsay, its Haussmann avenues and the timeless Eiffel Tower silhouette. Stroll along the Seine, explore Montmartre's artist lanes, then savor French cuisine in a Marais bistro. Best visited April to June and September to October, when the city is at its most charming."},
+      {title:"Tokyo, between tradition and future", text:"A fascinating megalopolis where ancient temples stand beside ultra-modern skyscrapers, Tokyo never sleeps. Get lost in Shibuya's buzz, find peace at Meiji Shrine, taste the finest sushi at Toyosu market and dive into Akihabara pop culture. In spring, cherry blossoms transform the city into a poetic tableau — an unforgettable sensory journey."},
+      {title:"Marrakech, Pearl of the South", text:"An imperial city of a thousand colors, Marrakech enchants with its UNESCO-listed medina, Jemaa el-Fna square alive day and night, and lush gardens like the Majorelle Garden. Wander spice-scented souks, stay in a traditional riad and escape to the desert or Atlas Mountains. Spring and autumn offer the ideal climate for the ochre city."},
+      {title:"Dubai, pure luxury", text:"A symbol of ambition and innovation, Dubai impresses with the Burj Khalifa, the world's tallest tower, artificial islands and vast malls. Between golden dune safaris, paradise beaches and starred restaurants, the city blends futuristic modernity with Bedouin heritage. Best time to visit: November to March, away from extreme summer heat."},
+      {title:"Bali, Island of the Gods", text:"A true tropical paradise, Bali combines terraced rice fields, sacred temples and dream beaches. Meditate in Ubud's jungle, surf Canggu's waves, admire sunsets over Tanah Lot temple and rejuvenate in a Balinese spa. An island of spirituality and gentle living, best visited April to October during the dry season."},
+      {title:"New York, the city that never sleeps", text:"Cultural and financial capital, New York is an energy unto itself. Admire the skyline from the Empire State Building, stroll Central Park, cross the Brooklyn Bridge and let Times Square sweep you away. With Broadway musicals, world-class museums and cosmopolitan neighborhoods, the Big Apple enchants year-round, with special magic in autumn and the holiday season."},
+    ],
     faq_badge:"FAQ", faq_title:"Everything you need to know",
     footer_tagline:"Your partner for unforgettable, personalized and stress-free travels.",
     footer_dest:"Destinations",
@@ -381,6 +397,14 @@ const LANG = {
     guides_badge:"أدلة السفر", guides_title:"وجهاتنا بالتفصيل",
     guides_desc:"اكتشف جوهر كل وجهة ومعالمها وأفضل وقت لزيارتها.",
     guides_btn:"خطط لهذه الرحلة ←",
+    guides_items:[
+      {title:"باريس، مدينة النور", text:"عاصمة فن العيش في العالم، تأسر باريس بمتاحفها الاستثنائية كاللوفر وأورسيه وشوارعها الهوسمانية والصورة الخالدة لبرج إيفل. تجوّل على ضفاف السين، استكشف مونمارتر وأزقتها الفنية وتذوّق المطبخ الفرنسي في مقهى بالمارية. أفضل موسم للزيارة: من أبريل إلى يونيو ومن سبتمبر إلى أكتوبر."},
+      {title:"طوكيو، بين التقاليد والمستقبل", text:"مدينة عملاقة رائعة تتجاور فيها المعابد الألفية وناطحات السحاب الحديثة، طوكيو لا تنام أبداً. تيه في صخب شيبويا، تأمّل في ضريح ميجي، تذوّق أفضل سوشي في سوق تويوسو وانغمس في ثقافة أكيهابارا. في الربيع تتحول المدينة بأزهار الكرز إلى لوحة شعرية — تجربة حسية لا تُنسى."},
+      {title:"مراكش، لؤلؤة الجنوب", text:"مدينة إمبراطورية بألف لون، تسحرك مراكش بمدينتها القديمة المدرجة في اليونسكو وساحة جامع الفنا المتحركة ليلاً ونهاراً وحدائقها كحديقة ماجوريل. تيه في الأسواق العطرة، أقم في رياض تقليدي وتمتع بتجربة في الصحراء أو الأطلس. الربيع والخريف موسمان مثاليان للمدينة الحمراء."},
+      {title:"دبي، الفخامة في أوجها", text:"رمز الطموح والابتكار، تبهر دبي ببرج خليفة أطول أبراج العالم وجزرها الاصطناعية ومراكزها التجارية العملاقة. بين سفاري الكثبان وشواطئ الأحلام والمطاعم المرموقة، تمزج المدينة بين حداثة مستقبلية وتراث بدوي أصيل. أفضل موسم: من نوفمبر إلى مارس."},
+      {title:"بالي، جزيرة الآلهة", text:"جنة استوائية حقيقية تجمع حقول الأرز المدرجة والمعابد المقدسة والشواطئ الخلابة. تأمّل في أوبود في قلب الغابة، اركب أمواج كانغو، أعجب بغروب الشمس على معبد تاناه لوت وجدّد نشاطك في منتجع بالينيزي. جزيرة الروحانية والعيش الهادئ، تُزار مثالياً من أبريل إلى أكتوبر."},
+      {title:"نيويورك، المدينة التي لا تنام", text:"العاصمة الثقافية والمالية، نيويورك طاقة بحد ذاتها. أعجب بأفق المدينة من إمباير ستيت بيلدينغ، تجوّل في سنترال بارك، اعبر جسر بروكلين ودعك تبتلعك إثارة تايمز سكوير. بين عروض برودواي والمتاحف العالمية والأحياء الكوزموبوليتانية، تكشف التفاحة الكبرى سحرها طوال العام مع بهجة خاصة في الخريف والأعياد."},
+    ],
     faq_badge:"الأسئلة الشائعة", faq_title:"كل ما تحتاج معرفته",
     footer_tagline:"رفيقك لرحلات لا تُنسى، مخصصة وخالية من التوتر.",
     footer_dest:"الوجهات",
@@ -1694,12 +1718,14 @@ export default function TravelPlanner() {
                   <p style={{ fontSize:16, color:ST.textMuted, lineHeight:1.8, maxWidth:640, margin:"0 auto" }}>{T.guides_desc}</p>
                 </div>
                 <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(320px,1fr))", gap:24 }}>
-                  {DEST_GUIDES.map(g => (
+                  {DEST_GUIDES.map((g,i) => (
                     <article key={g.id} style={{ background:ST.cardBg, border:`1px solid ${ST.cardBorder}`, borderRadius:18, overflow:"hidden", display:"flex", flexDirection:"column" }}>
-                      <div style={{ height:160, backgroundColor:"#0A1426", backgroundImage:`url(${heroImgs[g.id]||DESTINATIONS.find(d=>d.id===g.id)?.photo})`, backgroundSize:"cover", backgroundPosition:"center" }}/>
+                      <div style={{ height:160, backgroundColor:"#0A1426", overflow:"hidden" }}>
+                        <img src={heroImgs[g.id]||DESTINATIONS.find(d=>d.id===g.id)?.photo} alt={g.name} data-id={g.id} onError={wikiError} style={{ width:"100%", height:"100%", objectFit:"cover" }}/>
+                      </div>
                       <div style={{ padding:"24px 22px" }}>
-                        <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:21, fontWeight:700, color:ST.text, marginBottom:12 }}>{g.flag} {g.title}</h3>
-                        <p style={{ fontSize:14, color:ST.textMuted, lineHeight:1.75, marginBottom:18 }}>{g.text}</p>
+                        <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:21, fontWeight:700, color:ST.text, marginBottom:12 }}>{g.flag} {T.guides_items[i].title}</h3>
+                        <p style={{ fontSize:14, color:ST.textMuted, lineHeight:1.75, marginBottom:18 }}>{T.guides_items[i].text}</p>
                         <button onClick={()=>{ setDestination(DESTINATIONS.find(d=>d.id===g.id)||null); setStep(2); window.scrollTo({top:0,behavior:"smooth"}); }}
                           style={{ background:"transparent", border:"1px solid rgba(212,165,116,.35)", color:"#D4A574", padding:"9px 18px", borderRadius:10, fontSize:13, fontWeight:600, cursor:"pointer", fontFamily:"'Inter',sans-serif", transition:"all .2s" }}
                           onMouseEnter={e=>{e.currentTarget.style.background="rgba(212,165,116,.1)";}} onMouseLeave={e=>{e.currentTarget.style.background="transparent";}}>
