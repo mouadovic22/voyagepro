@@ -168,6 +168,8 @@ const LANG = {
     adults:"Adultes", children:"Enfants", budget_type:"Type de budget",
     generate:"🗺️ Générer mon programme", back:"← Retour",
     dl_pdf:"Télécharger PDF", modify:"✏️ Modifier",
+    step_dest:"Destination", step_settings:"Paramètres", step_program:"Programme",
+    home_btn:"Accueil", book_section:"Réserver", generating:"Génération…",
     tabs:["🗺 Attractions","🍽 Restaurants","📅 Itinéraire","🗾 Carte","✈️ Transport","🏨 Hébergements"],
     tab_keys:["attractions","restaurants","itinerary","map","transport","hotels"],
     recommended:"Hébergement recommandé", transport_title:"Transport & Conseils",
@@ -244,6 +246,8 @@ const LANG = {
     adults:"Adults", children:"Children", budget_type:"Budget type",
     generate:"🗺️ Generate my itinerary", back:"← Back",
     dl_pdf:"Download PDF", modify:"✏️ Edit",
+    step_dest:"Destination", step_settings:"Settings", step_program:"Itinerary",
+    home_btn:"Home", book_section:"Book", generating:"Generating…",
     tabs:["🗺 Attractions","🍽 Restaurants","📅 Itinerary","🗾 Map","✈️ Transport","🏨 Accommodation"],
     tab_keys:["attractions","restaurants","itinerary","map","transport","hotels"],
     recommended:"Recommended accommodation", transport_title:"Transport & Tips",
@@ -320,6 +324,8 @@ const LANG = {
     adults:"البالغون", children:"الأطفال", budget_type:"نوع الميزانية",
     generate:"🗺️ إنشاء برنامجي", back:"→ رجوع",
     dl_pdf:"تحميل PDF", modify:"✏️ تعديل",
+    step_dest:"الوجهة", step_settings:"الإعدادات", step_program:"البرنامج",
+    home_btn:"الرئيسية", book_section:"احجز", generating:"جارٍ…",
     tabs:["🗺 المعالم","🍽 المطاعم","📅 البرنامج","🗾 الخريطة","✈️ النقل","🏨 الإقامة"],
     tab_keys:["attractions","restaurants","itinerary","map","transport","hotels"],
     recommended:"الإقامة الموصى بها", transport_title:"النقل والنصائح",
@@ -1246,11 +1252,15 @@ export default function TravelPlanner() {
     const t = setInterval(()=>setHeroIdx(i=>(i+1)%heroDests.length), 5500);
     return ()=>clearInterval(t);
   },[step]);
-  // Preload premium full-resolution hero images from Wikipedia
+  // Preload Wikipedia images for hero slideshow + all featured + guide destinations
   useEffect(()=>{
-    heroDests.forEach(d=>{
-      if(heroImgs[d.id]) return;
-      fetchWikiImage(d.id, d.name, 2000).then(src=>{ if(src) setHeroImgs(p=>({...p,[d.id]:src})); });
+    const priorityIds = [...new Set([...heroDests.map(d=>d.id), ...FEATURED_IDS, ...DEST_GUIDES.map(g=>g.id)])];
+    priorityIds.forEach((id,i)=>{
+      const d = DESTINATIONS.find(dest=>dest.id===id);
+      if(!d || heroImgs[id]) return;
+      setTimeout(()=>{
+        fetchWikiImage(d.id, d.name, 2000).then(src=>{ if(src) setHeroImgs(p=>({...p,[d.id]:src})); });
+      }, i*120);
     });
   // eslint-disable-next-line
   },[]);
@@ -1577,7 +1587,7 @@ export default function TravelPlanner() {
                       <div key={dest.id} onClick={()=>setDestination(sel?null:dest)} style={{ position:"relative", borderRadius:16, overflow:"hidden", cursor:"pointer", aspectRatio:"4/3", backgroundColor:CONTINENT_BG[dest.continent]||"#0D0A28", border:sel?"2px solid #D4A574":"2px solid transparent", boxShadow:sel?"0 0 0 1px rgba(212,165,116,.3)":"none", transition:"all .2s" }}
                         onMouseEnter={e=>{if(!sel){e.currentTarget.style.transform="translateY(-2px)";e.currentTarget.style.boxShadow="0 10px 28px rgba(0,0,0,.45)";}}}
                         onMouseLeave={e=>{if(!sel){e.currentTarget.style.transform="none";e.currentTarget.style.boxShadow="none";}}}>
-                        <img src={dest.photo} alt={dest.name} data-id={dest.id} loading="lazy" onError={wikiError} style={{ width:"100%", height:"100%", objectFit:"cover" }}/>
+                        <img src={heroImgs[dest.id]||dest.photo} alt={dest.name} data-id={dest.id} loading="lazy" onError={wikiError} style={{ width:"100%", height:"100%", objectFit:"cover" }}/>
                         <div style={{ position:"absolute", inset:0, background:"linear-gradient(to top,rgba(0,0,0,.88) 0%,transparent 60%)" }}/>
                         {sel&&<div style={{ position:"absolute", top:8, right:8, width:24, height:24, borderRadius:"50%", background:"#D4A574", display:"flex", alignItems:"center", justifyContent:"center", fontSize:11, fontWeight:700, color:"white", zIndex:2 }}>✓</div>}
                         <div style={{ position:"absolute", bottom:0, left:0, right:0, padding:"10px 10px 9px" }}>
@@ -1801,11 +1811,11 @@ export default function TravelPlanner() {
           <div style={{ paddingTop:88, minHeight:"100vh" }}>
             <div style={{ maxWidth:820, margin:"0 auto", padding:"40px 28px 80px" }}>
               <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:36, fontSize:13 }}>
-                <span onClick={()=>setStep(1)} style={{ color:"#D4A574", cursor:"pointer", fontWeight:500 }}>Destination</span>
+                <span onClick={()=>setStep(1)} style={{ color:"#D4A574", cursor:"pointer", fontWeight:500 }}>{T.step_dest}</span>
                 <span style={{ color:"rgba(255,255,255,.2)" }}>›</span>
-                <span style={{ color:"#F8FAFC", fontWeight:700 }}>Paramètres</span>
+                <span style={{ color:"#F8FAFC", fontWeight:700 }}>{T.step_settings}</span>
                 <span style={{ color:"rgba(255,255,255,.2)" }}>›</span>
-                <span style={{ color:"rgba(148,163,184,.5)" }}>Programme</span>
+                <span style={{ color:"rgba(148,163,184,.5)" }}>{T.step_program}</span>
               </div>
 
               <div style={{ background:"rgba(212,165,116,.05)", border:"1px solid rgba(212,165,116,.16)", borderRadius:22, padding:"22px 26px", marginBottom:32, display:"flex", alignItems:"center", gap:18 }}>
@@ -1819,7 +1829,7 @@ export default function TravelPlanner() {
               <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:28, fontWeight:700, marginBottom:28, color:"#F8FAFC" }}>{T.configure}</h2>
 
               <div style={{ background:"rgba(15,27,45,.65)", border:"1px solid rgba(255,255,255,.07)", borderRadius:22, padding:"26px", marginBottom:16, backdropFilter:"blur(8px)" }}>
-                <div style={{ fontSize:11, color:"#D4A574", textTransform:"uppercase", letterSpacing:"1.5px", fontWeight:600, marginBottom:18 }}>📅 Dates du voyage</div>
+                <div style={{ fontSize:11, color:"#D4A574", textTransform:"uppercase", letterSpacing:"1.5px", fontWeight:600, marginBottom:18 }}>{T.lbl_dates}</div>
                 <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:16 }}>
                   <div><label style={{ display:"block", marginBottom:7, fontSize:12, color:"#94A3B8" }}>{T.dep_date}</label><input type="date" value={startDate} min={new Date().toISOString().split("T")[0]} onChange={e=>setStartDate(e.target.value)}/></div>
                   <div><label style={{ display:"block", marginBottom:7, fontSize:12, color:"#94A3B8" }}>{T.ret_date}</label><input type="date" value={endDate} min={startDate||new Date().toISOString().split("T")[0]} onChange={e=>setEndDate(e.target.value)}/></div>
@@ -1828,7 +1838,7 @@ export default function TravelPlanner() {
               </div>
 
               <div style={{ background:"rgba(15,27,45,.65)", border:"1px solid rgba(255,255,255,.07)", borderRadius:22, padding:"26px", marginBottom:16, backdropFilter:"blur(8px)" }}>
-                <div style={{ fontSize:11, color:"#D4A574", textTransform:"uppercase", letterSpacing:"1.5px", fontWeight:600, marginBottom:18 }}>👥 Voyageurs</div>
+                <div style={{ fontSize:11, color:"#D4A574", textTransform:"uppercase", letterSpacing:"1.5px", fontWeight:600, marginBottom:18 }}>{T.lbl_travelers}</div>
                 <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:20 }}>
                   {[[`👤 ${T.adults}`,adults,setAdults,1],[`👶 ${T.children}`,children,setChildren,0]].map(([lbl,val,set,min])=>(
                     <div key={lbl}>
@@ -1878,15 +1888,15 @@ export default function TravelPlanner() {
                   ))}
                 </div>
                 <div style={{ display:"flex", gap:8, flexWrap:"wrap" }}>
-                  <button className="bpdf" onClick={handlePDF} disabled={pdfLoading}>{pdfLoading?<span className="sp"/>:"📥"} {pdfLoading?"Génération…":T.dl_pdf}</button>
+                  <button className="bpdf" onClick={handlePDF} disabled={pdfLoading}>{pdfLoading?<span className="sp"/>:"📥"} {pdfLoading?T.generating:T.dl_pdf}</button>
                   <button onClick={()=>setStep(2)} style={{ background:"rgba(255,255,255,.06)", border:"1px solid rgba(255,255,255,.1)", color:"#94A3B8", padding:"9px 16px", borderRadius:10, cursor:"pointer", fontSize:13, fontFamily:"'Inter',sans-serif" }}>{T.modify}</button>
-                  <button onClick={reset} style={{ background:"linear-gradient(135deg,#D4A574,#C49160)", border:"none", color:"white", padding:"9px 18px", borderRadius:10, cursor:"pointer", fontSize:13, fontWeight:700, fontFamily:"'Inter',sans-serif", display:"flex", alignItems:"center", gap:6 }}>🏠 Accueil</button>
+                  <button onClick={reset} style={{ background:"linear-gradient(135deg,#D4A574,#C49160)", border:"none", color:"white", padding:"9px 18px", borderRadius:10, cursor:"pointer", fontSize:13, fontWeight:700, fontFamily:"'Inter',sans-serif", display:"flex", alignItems:"center", gap:6 }}>🏠 {T.home_btn}</button>
                 </div>
               </div>
 
               {/* Quick booking */}
               <div style={{ background:"rgba(14,165,233,.06)", border:"1px solid rgba(14,165,233,.14)", borderRadius:16, padding:"14px 20px", marginBottom:18 }}>
-                <div style={{ fontSize:11, color:"#C4B5FD", textTransform:"uppercase", letterSpacing:"1px", fontWeight:600, marginBottom:11 }}>🔗 Réserver — {destination.name}</div>
+                <div style={{ fontSize:11, color:"#C4B5FD", textTransform:"uppercase", letterSpacing:"1px", fontWeight:600, marginBottom:11 }}>🔗 {T.book_section} — {destination.name}</div>
                 <div style={{ display:"flex", gap:9, flexWrap:"wrap" }}>
                   {[{label:"✈️ Google Flights",color:"#0EA5E9",url:BOOK.flights(origin,destination.name)},{label:"🔍 Skyscanner",color:"#00A3BE",url:BOOK.skyscanner(origin,destination.name)},{label:"💺 Kayak",color:"#FF690F",url:BOOK.kayak(origin,destination.name)},{label:"🏨 Booking.com",color:"#003580",url:BOOK.booking(destination.name)},{label:"🏠 Airbnb",color:"#FF5A5F",url:BOOK.airbnb(destination.name)}].map(({label,color,url})=>(
                     <a key={label} href={url} target="_blank" rel="noopener noreferrer" style={{ display:"inline-flex", alignItems:"center", gap:6, padding:"8px 14px", borderRadius:20, background:color, color:"white", fontSize:12, fontWeight:600, textDecoration:"none", transition:"opacity .15s" }}
