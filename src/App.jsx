@@ -965,6 +965,14 @@ export default function TravelPlanner() {
   const [hoveredId, setHoveredId] = useState(null);
   const [pdfLoading, setPdfLoading] = useState(false);
   const [showPrivacy, setShowPrivacy] = useState(false);
+  const [heroIdx, setHeroIdx] = useState(0);
+  const destRef = useRef(null);
+  const heroDests = ['santorini','bali','kyoto','paris'].map(id=>DESTINATIONS.find(d=>d.id===id)).filter(Boolean);
+  useEffect(()=>{
+    if(step!==1) return;
+    const t = setInterval(()=>setHeroIdx(i=>(i+1)%heroDests.length), 5000);
+    return ()=>clearInterval(t);
+  },[step]);
 
   const T = LANG[lang];
   const TH = THEMES[theme];
@@ -993,604 +1001,694 @@ export default function TravelPlanner() {
 
   const reset = () => { setStep(1); setOrigin(""); setDestination(null); setBudget(""); setStartDate(""); setEndDate(""); setAdults(2); setChildren(0); setSearch(""); setContinent("tous"); };
 
+
   const css = `
-    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600;700&display=swap');
     *{box-sizing:border-box;margin:0;padding:0;}
-    body{background:${TH.bg};font-family:'DM Sans',sans-serif;color:${TH.text};}
-    ::-webkit-scrollbar{width:6px;}::-webkit-scrollbar-thumb{background:rgba(128,128,128,.3);border-radius:3px;}
-    .bp{background:linear-gradient(135deg,#6D28D9,#8B5CF6);color:white;border:none;padding:13px 30px;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif;}
-    .bp:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(139,92,246,.4);}
+    body{background:#07111F;font-family:'Inter','DM Sans',sans-serif;color:#F8FAFC;}
+    ::-webkit-scrollbar{width:6px;}::-webkit-scrollbar-thumb{background:rgba(212,165,116,.25);border-radius:3px;}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+    @keyframes heroFade{from{opacity:0}to{opacity:1}}
+    .fade-in{animation:fadeIn .7s ease forwards;}
+    .bp{background:linear-gradient(135deg,#6D28D9,#8B5CF6);color:white;border:none;padding:14px 32px;border-radius:14px;font-size:15px;font-weight:700;cursor:pointer;transition:all .25s;font-family:'Inter',sans-serif;letter-spacing:.3px;}
+    .bp:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(139,92,246,.4);}
     .bp:disabled{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none;}
-    .bpdf{background:linear-gradient(135deg,#F59E0B,#FBBF24);color:white;border:none;padding:11px 22px;border-radius:11px;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif;display:flex;align-items:center;gap:8px;}
-    .bpdf:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(245,158,11,.4);}
+    .bpdf{background:linear-gradient(135deg,#D4A574,#C49160);color:white;border:none;padding:11px 22px;border-radius:11px;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif;display:flex;align-items:center;gap:8px;}
+    .bpdf:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(212,165,116,.4);}
     .bpdf:disabled{opacity:.5;cursor:not-allowed;transform:none;}
-    .card{background:${TH.card};border:1px solid ${TH.cardBorder};border-radius:16px;padding:20px;transition:border-color .2s,background .2s;color:${TH.text};}
-    .card:hover{border-color:${TH.cardHover};}
-    input{background:${TH.inputBg};border:1px solid ${TH.inputBorder};border-radius:10px;color:${TH.text};padding:11px 14px;font-size:14px;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .2s;width:100%;}
-    input:focus{border-color:#8B5CF6;}
-    input[type=date]::-webkit-calendar-picker-indicator{filter:${theme==='dark'?'invert(1) opacity(.5)':'opacity(.5)'};cursor:pointer;}
-    .tab{padding:10px 18px;border-radius:8px;border:none;cursor:pointer;font-size:13px;font-weight:500;font-family:'DM Sans',sans-serif;transition:all .2s;}
-    .dc{cursor:pointer;padding:13px;border-radius:12px;border:1px solid ${TH.cardBorder};background:${TH.card};transition:all .15s;}
-    .dc:hover{border-color:rgba(139,92,246,.4);background:rgba(139,92,246,.07);}
-    .dc.sel{border:2px solid #8B5CF6;background:rgba(139,92,246,.12);}
-    @keyframes spin{to{transform:rotate(360deg)}}
     .sp{width:14px;height:14px;border:2px solid rgba(255,255,255,.3);border-top-color:white;border-radius:50%;display:inline-block;animation:spin 0.8s linear infinite;}
-    .pcard{position:relative;border-radius:14px;overflow:hidden;cursor:pointer;aspect-ratio:4/3;transition:box-shadow .2s,transform .2s;}
-    .pcard:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(139,92,246,.25);}
-    .pcard img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .45s ease;}
-    .pcard:hover img{transform:scale(1.08);}
-    .pcard-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.85) 0%,rgba(0,0,0,.15) 55%,transparent 100%);}
-    .pcard-text{position:absolute;bottom:0;left:0;right:0;padding:10px 10px 9px;}
-    .cfbtn{padding:8px 16px;border-radius:20px;border:1px solid ${TH.cardBorder};background:${TH.card};color:${TH.text2};font-size:12px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .18s;white-space:nowrap;}
-    .cfbtn:hover{border-color:rgba(139,92,246,.5);background:rgba(139,92,246,.1);color:#A78BFA;}
-    .cfbtn.act{border-color:#8B5CF6;background:rgba(139,92,246,.18);color:#C4B5FD;font-weight:700;}
-    .feat-strip{display:flex;gap:10px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none;}
-    .feat-strip::-webkit-scrollbar{display:none;}
-    .feat-card{position:relative;border-radius:12px;overflow:hidden;cursor:pointer;flex-shrink:0;width:130px;height:90px;transition:transform .2s;}
-    .feat-card:hover{transform:translateY(-2px);}
-    .feat-card img{width:100%;height:100%;object-fit:cover;transition:transform .4s;}
-    .feat-card:hover img{transform:scale(1.1);}
-    .feat-card-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.7),transparent);}
-    .feat-card-lbl{position:absolute;bottom:6px;left:8px;font-size:11px;font-weight:700;color:white;}
-    label{color:${TH.text2};}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    input{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:12px;color:#F8FAFC;padding:12px 14px;font-size:14px;font-family:'Inter',sans-serif;outline:none;transition:border-color .2s;width:100%;}
+    input:focus{border-color:#D4A574;}
+    input::placeholder{color:rgba(248,250,252,.38);}
+    input[type=date]::-webkit-calendar-picker-indicator{filter:invert(1) opacity(.4);cursor:pointer;}
+    ::-webkit-scrollbar-track{background:transparent;}
   `;
 
   return (
     <>
       <style>{css}</style>
       {showPrivacy && <PrivacyModal onClose={()=>setShowPrivacy(false)} />}
-      <div dir={isRTL ? "rtl" : "ltr"} style={{ minHeight:"100vh", background:TH.bg2, color:TH.text }}>
 
-        {/* HEADER */}
-        <div style={{ background:TH.headerBg, borderBottom:`1px solid ${TH.headerBorder}`, padding:"18px 0 14px" }}>
-          <div style={{ maxWidth:1140, margin:"0 auto", padding:"0 24px" }}>
-            <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:6 }}>
-              <div style={{ display:"flex", alignItems:"center", gap:14 }}>
-                <svg width="42" height="42" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <defs>
-                    <linearGradient id="lg1" x1="0" y1="0" x2="44" y2="44" gradientUnits="userSpaceOnUse">
-                      <stop offset="0%" stopColor="#E9D5FF"/><stop offset="100%" stopColor="#8B5CF6"/>
-                    </linearGradient>
-                    <linearGradient id="lg2" x1="0" y1="0" x2="44" y2="44" gradientUnits="userSpaceOnUse">
-                      <stop offset="0%" stopColor="#FCD34D"/><stop offset="100%" stopColor="#F59E0B"/>
-                    </linearGradient>
-                  </defs>
-                  <circle cx="22" cy="22" r="19" stroke="url(#lg1)" strokeWidth="2" fill="none"/>
-                  <ellipse cx="22" cy="22" rx="10" ry="19" stroke="url(#lg1)" strokeWidth="1.5" fill="none"/>
-                  <line x1="3" y1="22" x2="41" y2="22" stroke="url(#lg1)" strokeWidth="1.5"/>
-                  <line x1="3" y1="15" x2="41" y2="15" stroke="url(#lg1)" strokeWidth="1" opacity="0.5"/>
-                  <line x1="3" y1="29" x2="41" y2="29" stroke="url(#lg1)" strokeWidth="1" opacity="0.5"/>
-                  <path d="M30 12l-12 9 2 1-3 6 5-2 2 4 1-6 5-1z" fill="url(#lg2)"/>
-                </svg>
-                <div>
-                  <div style={{ fontFamily:"'Playfair Display',serif", fontSize:26, fontWeight:900, background:"linear-gradient(135deg,#E9D5FF,#C4B5FD,#A78BFA)", WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent", letterSpacing:"-0.5px" }}>VoyagesPro</div>
-                  <div style={{ fontSize:10, color:TH.text3, letterSpacing:"2.5px", textTransform:"uppercase" }}>50 destinations · Export PDF</div>
-                </div>
-              </div>
-              <div style={{ display:"flex", gap:8, alignItems:"center" }}>
-                {/* Language switcher */}
-                <div style={{ display:"flex", gap:4 }}>
-                  {["fr","en","ar"].map(l=>(
-                    <button key={l} onClick={()=>setLang(l)} style={{ padding:"5px 10px", borderRadius:7, border:`1px solid ${lang===l?"#8B5CF6":TH.cardBorder}`, background:lang===l?"rgba(139,92,246,.18)":TH.card, color:lang===l?"#C4B5FD":TH.text2, fontSize:11, fontWeight:lang===l?700:500, cursor:"pointer", fontFamily:"'DM Sans',sans-serif", textTransform:"uppercase", letterSpacing:"1px" }}>{l}</button>
-                  ))}
-                </div>
-                {/* Theme toggle */}
-                <button onClick={()=>setTheme(t=>t==="dark"?"light":"dark")} style={{ padding:"6px 12px", borderRadius:8, border:`1px solid ${TH.cardBorder}`, background:TH.card, color:TH.text2, fontSize:16, cursor:"pointer", display:"flex", alignItems:"center", gap:6, fontFamily:"'DM Sans',sans-serif" }}>
-                  {theme==="dark"?"☀️":"🌙"}<span style={{ fontSize:11, fontWeight:500 }}>{theme==="dark"?"Clair":"Sombre"}</span>
-                </button>
-              </div>
-            </div>
-            <div style={{ display:"flex", gap:6, marginTop:12, flexWrap:"wrap" }}>
-              {[[T.tabs?.[0]?.replace(/[^\w\s]/g,"").trim()||"Destination","Destination"],[T.configure||"Paramètres","Paramètres"],["Programme","Programme"]].map(([,l],i) => {
-                const labels = [T.tabs?.[0]?.split(" ").slice(1).join(" ")||"Destination", T.configure?.split(" ")[0]||"Paramètres", "Programme"];
-                const label = ["Destination","Paramètres","Programme"][i];
-                return (
-                  <div key={i} style={{ display:"flex", alignItems:"center", gap:6 }}>
-                    <div style={{ width:24, height:24, borderRadius:"50%", background:step>=i+1?"linear-gradient(135deg,#6D28D9,#8B5CF6)":TH.card, display:"flex", alignItems:"center", justifyContent:"center", fontSize:11, fontWeight:700, color:step>=i+1?"white":TH.text3, border:step===i+1?"2px solid #A78BFA":"2px solid transparent" }}>{i+1}</div>
-                    <span style={{ fontSize:12, color:step>=i+1?"#C4B5FD":TH.text3, fontWeight:step===i+1?600:400 }}>{label}</span>
-                    {i<2 && <div style={{ width:14, height:1, background:TH.cardBorder, margin:"0 4px" }}/>}
-                  </div>
-                );
-              })}
+      {/* Floating sticky CTA when origin + destination selected */}
+      {step===1 && origin && destination && (
+        <div style={{ position:"fixed", bottom:0, left:0, right:0, zIndex:300, background:"rgba(7,17,31,.96)", backdropFilter:"blur(16px)", borderTop:"1px solid rgba(212,165,116,.2)", padding:"14px 28px", display:"flex", alignItems:"center", justifyContent:"space-between", boxShadow:"0 -8px 40px rgba(0,0,0,.5)", flexWrap:"wrap", gap:12 }}>
+          <div style={{ display:"flex", alignItems:"center", gap:14 }}>
+            <span style={{ fontSize:28 }}>{destination.emoji}</span>
+            <div>
+              <div style={{ fontSize:11, color:"#94A3B8", marginBottom:2 }}>{origin} → {destination.name}</div>
+              <div style={{ fontSize:15, fontWeight:700, color:"#F8FAFC" }}>{destination.name} {destination.flag} · {destination.country}</div>
             </div>
           </div>
+          <button onClick={()=>setStep(2)} style={{ background:"linear-gradient(135deg,#D4A574,#C49160)", color:"white", border:"none", padding:"13px 32px", borderRadius:14, fontSize:15, fontWeight:700, cursor:"pointer", fontFamily:"'Inter',sans-serif", boxShadow:"0 6px 24px rgba(212,165,116,.4)", transition:"all .2s" }}
+            onMouseEnter={e=>e.currentTarget.style.transform="translateY(-1px)"} onMouseLeave={e=>e.currentTarget.style.transform="none"}>
+            Continuer →
+          </button>
         </div>
+      )}
 
-        <div style={{ maxWidth:1140, margin:"0 auto", padding:"26px 24px" }}>
+      <div dir={isRTL?"rtl":"ltr"} style={{ background:"#07111F", color:"#F8FAFC", minHeight:"100vh", fontFamily:"'Inter','DM Sans',sans-serif" }}>
 
-          {/* ── STEP 1 ── */}
-          {step===1 && (
+        {/* ════════ FIXED HEADER ════════ */}
+        <header style={{ position:"fixed", top:0, left:0, right:0, zIndex:200, transition:"background .4s,border .4s", background:step===1?"rgba(7,17,31,0)":"rgba(7,17,31,.96)", backdropFilter:step===1?"none":"blur(20px)", borderBottom:step===1?"none":"1px solid rgba(255,255,255,.07)", padding:"0 32px", height:68, display:"flex", alignItems:"center", justifyContent:"space-between" }}>
+          {/* Logo */}
+          <div style={{ display:"flex", alignItems:"center", gap:12, cursor:"pointer" }} onClick={step>1?reset:undefined}>
+            <svg width="36" height="36" viewBox="0 0 44 44" fill="none">
+              <defs>
+                <linearGradient id="hl1" x1="0" y1="0" x2="44" y2="44" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stopColor="#E9D5FF"/><stop offset="100%" stopColor="#8B5CF6"/>
+                </linearGradient>
+                <linearGradient id="hl2" x1="0" y1="0" x2="44" y2="44" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stopColor="#FCD34D"/><stop offset="100%" stopColor="#D4A574"/>
+                </linearGradient>
+              </defs>
+              <circle cx="22" cy="22" r="19" stroke="url(#hl1)" strokeWidth="2" fill="none"/>
+              <ellipse cx="22" cy="22" rx="10" ry="19" stroke="url(#hl1)" strokeWidth="1.5" fill="none"/>
+              <line x1="3" y1="22" x2="41" y2="22" stroke="url(#hl1)" strokeWidth="1.5"/>
+              <line x1="3" y1="15" x2="41" y2="15" stroke="url(#hl1)" strokeWidth="1" opacity="0.5"/>
+              <line x1="3" y1="29" x2="41" y2="29" stroke="url(#hl1)" strokeWidth="1" opacity="0.5"/>
+              <path d="M30 12l-12 9 2 1-3 6 5-2 2 4 1-6 5-1z" fill="url(#hl2)"/>
+            </svg>
             <div>
-              {/* HERO BANNER */}
-              <div style={{ borderRadius:20, overflow:"hidden", marginBottom:26, position:"relative", background:TH.heroBg, padding:"36px 32px 32px" }}>
-                <div style={{ position:"absolute", top:0, [isRTL?"left":"right"]:0, bottom:0, width:"48%", display:"flex", gap:2, overflow:"hidden" }}>
-                  <div style={{ flex:1, display:"flex", flexDirection:"column", gap:2 }}>
-                    {[DESTINATIONS[0],DESTINATIONS[7],DESTINATIONS[24]].map(d=>(
-                      <div key={d.id} style={{ flex:1, backgroundImage:`url(${d.photo})`, backgroundSize:"cover", backgroundPosition:"center", opacity:.45 }}/>
-                    ))}
-                  </div>
-                  <div style={{ flex:1, display:"flex", flexDirection:"column", gap:2 }}>
-                    {[DESTINATIONS[4],DESTINATIONS[6]].map(d=>(
-                      <div key={d.id} style={{ flex:1, backgroundImage:`url(${d.photo})`, backgroundSize:"cover", backgroundPosition:"center", opacity:.45 }}/>
-                    ))}
-                  </div>
-                  <div style={{ position:"absolute", top:0, left:0, bottom:0, right:0, background:`linear-gradient(to ${isRTL?"left":"right"},${theme==="dark"?"#160D35":"#3B0764"} 10%,rgba(22,13,53,.4) 60%,transparent 100%)` }}/>
-                </div>
-                <div style={{ position:"relative", zIndex:1, maxWidth:500 }}>
-                  <div style={{ fontSize:10, letterSpacing:"3px", color:"#C4B5FD", textTransform:"uppercase", marginBottom:10 }}>✈ Planificateur de voyage intelligent</div>
-                  <h1 style={{ fontFamily:"'Playfair Display',serif", fontSize:34, fontWeight:900, lineHeight:1.18, marginBottom:12, background:"linear-gradient(135deg,#fff 40%,#C4B5FD)", WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent" }}>
-                    {T.hero_title}
-                  </h1>
-                  <p style={{ fontSize:14, color:"rgba(148,163,184,.8)", marginBottom:20, lineHeight:1.65 }}>{T.hero_sub}</p>
-                  <div style={{ display:"flex", gap:16, flexWrap:"wrap" }}>
-                    {[["🗺️","50 destinations"],["🏨","Hôtels inclus"],["📅","Itinéraire auto"],["📥","Export PDF"]].map(([ic,txt])=>(
-                      <div key={txt} style={{ display:"flex", alignItems:"center", gap:5, fontSize:12, color:"#C4B5FD" }}><span>{ic}</span><span>{txt}</span></div>
-                    ))}
-                  </div>
-                </div>
-              </div>
+              <div style={{ fontFamily:"'Playfair Display',serif", fontSize:20, fontWeight:900, background:"linear-gradient(135deg,#E9D5FF,#C4B5FD)", WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent", letterSpacing:"-0.5px" }}>VoyagesPro</div>
+              <div style={{ fontSize:9, color:"rgba(148,163,184,.55)", letterSpacing:"2.5px", textTransform:"uppercase" }}>50 destinations · Export PDF</div>
+            </div>
+          </div>
 
-              {/* ORIGIN */}
-              <div style={{ marginBottom:18 }}>
-                <label style={{ display:"block", marginBottom:7, fontSize:12, fontWeight:600, color:"#C4B5FD", textTransform:"uppercase", letterSpacing:"1px" }}>🛫 {T.depart}</label>
-                <CitySelect value={origin} onChange={setOrigin} options={ORIGINS} placeholder="— Choisir une ville —" TH={TH} />
-              </div>
+          {/* Nav links — step 1 only */}
+          {step===1 && (
+            <nav style={{ display:"flex", gap:28 }}>
+              {["Destinations","Hôtels","Itinéraires","À propos"].map(link=>(
+                <span key={link} style={{ fontSize:13, color:"rgba(248,250,252,.65)", cursor:"pointer", fontWeight:500 }}
+                  onMouseEnter={e=>e.target.style.color="#F8FAFC"} onMouseLeave={e=>e.target.style.color="rgba(248,250,252,.65)"}>{link}</span>
+              ))}
+            </nav>
+          )}
 
-              {/* SEARCH */}
-              <div style={{ marginBottom:14 }}>
-                <label style={{ display:"block", marginBottom:7, fontSize:12, fontWeight:600, color:"#C4B5FD", textTransform:"uppercase", letterSpacing:"1px" }}>🔍 {T.search_ph.split(",")[0]}…</label>
-                <div style={{ display:"flex", gap:10, alignItems:"center" }}>
-                  <div style={{ position:"relative", flex:1, maxWidth:380 }}>
-                    <span style={{ position:"absolute", [isRTL?"right":"left"]:12, top:"50%", transform:"translateY(-50%)", fontSize:15, opacity:.5 }}>🔍</span>
-                    <input value={search} onChange={e=>{setSearch(e.target.value);setContinent("tous");}} placeholder={T.search_ph} style={{ [isRTL?"paddingRight":"paddingLeft"]:36, width:"100%" }}/>
-                    {search && <button onClick={()=>setSearch("")} style={{ position:"absolute", [isRTL?"left":"right"]:10, top:"50%", transform:"translateY(-50%)", background:"none", border:"none", color:TH.text3, cursor:"pointer", fontSize:16, lineHeight:1 }}>×</button>}
-                  </div>
-                  <span style={{ fontSize:12, color:TH.text3, whiteSpace:"nowrap" }}>{filtered.length} {T.results}{filtered.length!==1?"s":""}</span>
+          {/* Controls */}
+          <div style={{ display:"flex", gap:8, alignItems:"center" }}>
+            {step>=2 && (
+              <button onClick={step===3?reset:()=>setStep(1)} style={{ background:"transparent", border:"1px solid rgba(255,255,255,.1)", color:"#94A3B8", padding:"7px 16px", borderRadius:9, fontSize:12, cursor:"pointer", fontFamily:"'Inter',sans-serif", marginRight:4 }}>
+                ← {step===3?"Accueil":"Retour"}
+              </button>
+            )}
+            {["fr","en","ar"].map(l=>(
+              <button key={l} onClick={()=>setLang(l)} style={{ padding:"5px 9px", borderRadius:7, border:`1px solid ${lang===l?"#D4A574":"rgba(255,255,255,.1)"}`, background:lang===l?"rgba(212,165,116,.1)":"transparent", color:lang===l?"#D4A574":"rgba(148,163,184,.7)", fontSize:10, fontWeight:lang===l?700:500, cursor:"pointer", fontFamily:"'Inter',sans-serif", textTransform:"uppercase", letterSpacing:"1px" }}>{l}</button>
+            ))}
+            <button onClick={()=>setTheme(t=>t==="dark"?"light":"dark")} style={{ padding:"7px 10px", borderRadius:8, border:"1px solid rgba(255,255,255,.1)", background:"rgba(255,255,255,.04)", color:"#94A3B8", fontSize:15, cursor:"pointer" }}>
+              {theme==="dark"?"☀️":"🌙"}
+            </button>
+          </div>
+        </header>
+
+        {/* ════════════════════════════════════ */}
+        {/* STEP 1 — LANDING PAGE               */}
+        {/* ════════════════════════════════════ */}
+        {step===1 && (
+          <>
+            {/* ── HERO ── */}
+            <section style={{ position:"relative", height:"100vh", minHeight:600, overflow:"hidden", display:"flex", alignItems:"center", justifyContent:"center" }}>
+              {heroDests.map((d,i)=>(
+                <div key={d.id} style={{ position:"absolute", inset:0, backgroundImage:`url(${d.photo})`, backgroundSize:"cover", backgroundPosition:"center top", opacity:heroIdx===i?1:0, transition:"opacity 1.8s ease", zIndex:0 }}/>
+              ))}
+              <div style={{ position:"absolute", inset:0, background:"linear-gradient(180deg,rgba(5,10,20,.18) 0%,rgba(5,10,20,.55) 50%,rgba(7,17,31,.97) 100%)", zIndex:1 }}/>
+              <div style={{ position:"relative", zIndex:2, textAlign:"center", maxWidth:800, padding:"0 28px", marginTop:68 }}>
+                <div style={{ display:"inline-flex", alignItems:"center", gap:8, background:"rgba(212,165,116,.1)", border:"1px solid rgba(212,165,116,.22)", borderRadius:30, padding:"7px 20px", fontSize:11, color:"#D4A574", fontWeight:600, letterSpacing:"1.8px", textTransform:"uppercase", marginBottom:30 }}>
+                  ✦ Planificateur de voyage intelligent
                 </div>
-              </div>
-
-              {/* FEATURED QUICK-PICKS (shown when search is empty) */}
-              {!search && (
-                <div style={{ marginBottom:16 }}>
-                  <div style={{ fontSize:11, color:TH.text3, textTransform:"uppercase", letterSpacing:"1px", marginBottom:8 }}>{T.trending}</div>
-                  <div className="feat-strip">
-                    {FEATURED_IDS.map(id=>{
-                      const d = DESTINATIONS.find(x=>x.id===id);
-                      return (
-                        <div key={id} className="feat-card" onClick={()=>setDestination(d)} style={{ outline:destination?.id===id?"2px solid #8B5CF6":"none", outlineOffset:2 }}>
-                          <img src={d.photo} alt={d.name} data-id={d.id} onError={wikiError}/>
-                          <div className="feat-card-ov"/>
-                          <div className="feat-card-lbl">{d.emoji} {d.name}</div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
-
-              {/* CONTINENT FILTERS */}
-              <div style={{ display:"flex", gap:7, flexWrap:"wrap", marginBottom:16 }}>
-                {CONTINENTS.map(c=>(
-                  <button key={c.id} onClick={()=>setContinent(c.id)} className={`cfbtn${continent===c.id?" act":""}`}>
-                    {c.icon} {c.label}
+                <h1 style={{ fontFamily:"'Playfair Display',serif", fontSize:"clamp(44px,7.5vw,82px)", fontWeight:900, lineHeight:1.05, marginBottom:22, color:"#F8FAFC" }}>
+                  Créez votre<br/>voyage <span style={{ background:"linear-gradient(135deg,#D4A574,#F0C896)", WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent" }}>idéal</span>
+                </h1>
+                <p style={{ fontSize:"clamp(15px,2vw,18px)", color:"rgba(248,250,252,.68)", lineHeight:1.7, marginBottom:38, maxWidth:560, margin:"0 auto 38px" }}>
+                  Des itinéraires personnalisés, des hôtels d'exception<br/>et des expériences uniques, rien que pour vous.
+                </p>
+                <div style={{ display:"flex", gap:14, justifyContent:"center", flexWrap:"wrap" }}>
+                  <button onClick={()=>destRef.current?.scrollIntoView({behavior:"smooth",block:"start"})} style={{ background:"linear-gradient(135deg,#D4A574,#B8834A)", color:"white", border:"none", padding:"15px 34px", borderRadius:14, fontSize:15, fontWeight:700, cursor:"pointer", fontFamily:"'Inter',sans-serif", boxShadow:"0 8px 30px rgba(212,165,116,.35)", transition:"all .25s" }}
+                    onMouseEnter={e=>e.currentTarget.style.transform="translateY(-2px)"} onMouseLeave={e=>e.currentTarget.style.transform="none"}>
+                    Commencer mon voyage →
                   </button>
+                  <button onClick={()=>destRef.current?.scrollIntoView({behavior:"smooth",block:"start"})} style={{ background:"rgba(255,255,255,.07)", color:"#F8FAFC", border:"1px solid rgba(255,255,255,.16)", padding:"15px 28px", borderRadius:14, fontSize:15, fontWeight:500, cursor:"pointer", fontFamily:"'Inter',sans-serif", backdropFilter:"blur(8px)", transition:"all .25s" }}
+                    onMouseEnter={e=>e.currentTarget.style.background="rgba(255,255,255,.13)"} onMouseLeave={e=>e.currentTarget.style.background="rgba(255,255,255,.07)"}>
+                    ▶ Découvrir les destinations
+                  </button>
+                </div>
+              </div>
+              {/* Image dots */}
+              <div style={{ position:"absolute", bottom:30, left:"50%", transform:"translateX(-50%)", display:"flex", gap:8, zIndex:2 }}>
+                {heroDests.map((_,i)=>(
+                  <div key={i} onClick={()=>setHeroIdx(i)} style={{ width:heroIdx===i?28:8, height:8, borderRadius:4, background:heroIdx===i?"#D4A574":"rgba(255,255,255,.3)", cursor:"pointer", transition:"all .35s" }}/>
                 ))}
               </div>
+            </section>
 
-              {/* DESTINATION PHOTO GRID */}
-              <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(185px,1fr))", gap:10, marginBottom:26, maxHeight:540, overflowY:"auto", paddingRight:4 }}>
-                {filtered.map(dest=>(
-                  <div
-                    key={dest.id}
-                    className="pcard"
-                    onClick={()=>setDestination(dest)}
-                    onMouseEnter={()=>setHoveredId(dest.id)}
-                    onMouseLeave={()=>setHoveredId(null)}
-                    style={{
-                      backgroundColor: CONTINENT_BG[dest.continent] || "#0D0A28",
-                      boxShadow: destination?.id===dest.id ? "0 0 0 2.5px #8B5CF6" : hoveredId===dest.id ? "0 0 0 1.5px rgba(139,92,246,.35)" : "none",
-                    }}
-                  >
-                    <img src={dest.photo} alt={dest.name} data-id={dest.id} loading="lazy" onError={wikiError}/>
-                    <div className="pcard-overlay"/>
-                    {destination?.id===dest.id && (
-                      <div style={{ position:"absolute", top:8, right:8, width:22, height:22, borderRadius:"50%", background:"#8B5CF6", display:"flex", alignItems:"center", justifyContent:"center", fontSize:11, fontWeight:700, color:"white", zIndex:2 }}>✓</div>
-                    )}
-                    <div className="pcard-text">
-                      <div style={{ fontSize:11, marginBottom:1, opacity:.9 }}>{dest.emoji}</div>
-                      <div style={{ fontWeight:700, fontSize:13, color:"white", lineHeight:1.2, marginBottom:2 }}>{dest.name} {dest.flag}</div>
-                      <div style={{ fontSize:10, color:"rgba(255,255,255,.65)" }}>{dest.country} · 🌡 {dest.temp}</div>
-                    </div>
+            {/* ── GLASSMORPHISM SEARCH BAR ── */}
+            <div style={{ position:"relative", zIndex:50, padding:"0 28px", marginTop:-50 }}>
+              <div style={{ maxWidth:1060, margin:"0 auto", background:"rgba(10,20,38,.88)", backdropFilter:"blur(28px)", border:"1px solid rgba(255,255,255,.08)", borderRadius:24, padding:"22px 28px", boxShadow:"0 24px 72px rgba(0,0,0,.55)" }}>
+                <div style={{ display:"flex", gap:0, alignItems:"stretch", flexWrap:"wrap" }}>
+                  <div style={{ flex:"2 1 210px", borderRight:"1px solid rgba(255,255,255,.08)", paddingRight:22, marginRight:22 }}>
+                    <div style={{ fontSize:10, color:"#D4A574", textTransform:"uppercase", letterSpacing:"1.5px", fontWeight:600, marginBottom:7 }}>🛫 Où souhaitez-vous partir ?</div>
+                    <CitySelect value={origin} onChange={setOrigin} options={ORIGINS} placeholder="Ville de départ…" TH={{ inputBg:"transparent", inputBorder:"transparent", text:"#F8FAFC", text3:"rgba(248,250,252,.4)", bg:"#0A1426" }} />
                   </div>
-                ))}
-                {filtered.length===0 && (
-                  <div style={{ gridColumn:"1/-1", textAlign:"center", padding:"40px 20px", color:TH.text3 }}>
-                    <div style={{ fontSize:32, marginBottom:8 }}>🔍</div>
-                    <div>{T.no_dest} « {search} »</div>
+                  <div style={{ flex:"1 1 120px", borderRight:"1px solid rgba(255,255,255,.08)", paddingRight:20, marginRight:20 }}>
+                    <div style={{ fontSize:10, color:"#D4A574", textTransform:"uppercase", letterSpacing:"1.5px", fontWeight:600, marginBottom:7 }}>📅 Dates</div>
+                    <div style={{ fontSize:13, color:startDate?"#F8FAFC":"rgba(248,250,252,.38)", paddingTop:11 }}>{startDate||"Sélectionnez vos dates"}</div>
+                  </div>
+                  <div style={{ flex:"1 1 110px", borderRight:"1px solid rgba(255,255,255,.08)", paddingRight:20, marginRight:20 }}>
+                    <div style={{ fontSize:10, color:"#D4A574", textTransform:"uppercase", letterSpacing:"1.5px", fontWeight:600, marginBottom:7 }}>👤 Voyageurs</div>
+                    <div style={{ fontSize:13, color:"#F8FAFC", paddingTop:11 }}>{adults+children} voyageur{adults+children>1?"s":""}</div>
+                  </div>
+                  <div style={{ flex:"1 1 110px", paddingRight:16 }}>
+                    <div style={{ fontSize:10, color:"#D4A574", textTransform:"uppercase", letterSpacing:"1.5px", fontWeight:600, marginBottom:7 }}>💰 Budget</div>
+                    <div style={{ fontSize:13, color:budget?BUDGET_LABELS[budget].color:"rgba(248,250,252,.38)", paddingTop:11 }}>{budget?`${BUDGET_LABELS[budget].icon} ${BUDGET_LABELS[budget].label}`:"Tous budgets"}</div>
+                  </div>
+                  <div style={{ display:"flex", alignItems:"center" }}>
+                    <button onClick={()=>destRef.current?.scrollIntoView({behavior:"smooth",block:"start"})} style={{ background:"linear-gradient(135deg,#0EA5E9,#0284C7)", color:"white", border:"none", padding:"14px 22px", borderRadius:14, fontSize:14, fontWeight:700, cursor:"pointer", fontFamily:"'Inter',sans-serif", whiteSpace:"nowrap", boxShadow:"0 4px 20px rgba(14,165,233,.3)", transition:"box-shadow .2s" }}
+                      onMouseEnter={e=>e.currentTarget.style.boxShadow="0 6px 28px rgba(14,165,233,.5)"} onMouseLeave={e=>e.currentTarget.style.boxShadow="0 4px 20px rgba(14,165,233,.3)"}>
+                      Rechercher 🔍
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* ── FEATURED DESTINATIONS horizontal ── */}
+            <section style={{ padding:"76px 0 48px" }}>
+              <div style={{ maxWidth:1200, margin:"0 auto", padding:"0 32px" }}>
+                <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-end", marginBottom:34 }}>
+                  <div>
+                    <div style={{ fontSize:11, color:"#D4A574", textTransform:"uppercase", letterSpacing:"2px", fontWeight:600, marginBottom:10 }}>✦ Destinations populaires</div>
+                    <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:"clamp(26px,3.5vw,40px)", fontWeight:900, color:"#F8FAFC", lineHeight:1.12 }}>Explorez les plus belles<br/>destinations</h2>
+                  </div>
+                  <button onClick={()=>destRef.current?.scrollIntoView({behavior:"smooth"})} style={{ background:"transparent", border:"1px solid rgba(255,255,255,.12)", color:"#94A3B8", padding:"10px 20px", borderRadius:12, fontSize:13, cursor:"pointer", fontFamily:"'Inter',sans-serif", whiteSpace:"nowrap", transition:"all .2s" }}
+                    onMouseEnter={e=>{e.currentTarget.style.borderColor="rgba(212,165,116,.3)";e.currentTarget.style.color="#D4A574";}} onMouseLeave={e=>{e.currentTarget.style.borderColor="rgba(255,255,255,.12)";e.currentTarget.style.color="#94A3B8";}}>
+                    Voir toutes les destinations ▾
+                  </button>
+                </div>
+                <div style={{ display:"flex", gap:16, overflowX:"auto", paddingBottom:8, scrollbarWidth:"none", WebkitScrollSnapType:"x mandatory" }}>
+                  {['paris','tokyo','bali','santorini','marrakech','kyoto'].map(id=>{
+                    const d=DESTINATIONS.find(dest=>dest.id===id);
+                    if(!d) return null;
+                    const sel=destination?.id===id;
+                    return (
+                      <div key={id} onClick={()=>setDestination(sel?null:d)} style={{ flex:"0 0 195px", position:"relative", borderRadius:24, overflow:"hidden", cursor:"pointer", aspectRatio:"4/5", border:sel?"2px solid #D4A574":"2px solid transparent", boxShadow:sel?"0 0 0 1px rgba(212,165,116,.35),0 20px 56px rgba(0,0,0,.55)":"0 8px 32px rgba(0,0,0,.35)", transition:"all .35s", transform:sel?"translateY(-6px)":"none" }}
+                        onMouseEnter={e=>{if(!sel){e.currentTarget.style.transform="translateY(-5px)";e.currentTarget.style.boxShadow="0 24px 60px rgba(0,0,0,.55)";}}}
+                        onMouseLeave={e=>{if(!sel){e.currentTarget.style.transform="none";e.currentTarget.style.boxShadow="0 8px 32px rgba(0,0,0,.35)";}}}
+                      >
+                        <img src={d.photo} alt={d.name} data-id={d.id} onError={wikiError} style={{ width:"100%", height:"100%", objectFit:"cover", transition:"transform .55s" }}
+                          onMouseEnter={e=>e.target.style.transform="scale(1.08)"} onMouseLeave={e=>e.target.style.transform="scale(1)"}/>
+                        <div style={{ position:"absolute", inset:0, background:"linear-gradient(to top,rgba(0,0,0,.9) 0%,rgba(0,0,0,.1) 55%,transparent 100%)" }}/>
+                        {sel&&<div style={{ position:"absolute", top:14, right:14, width:30, height:30, borderRadius:"50%", background:"#D4A574", display:"flex", alignItems:"center", justifyContent:"center", fontSize:13, color:"white", fontWeight:800 }}>✓</div>}
+                        <div style={{ position:"absolute", bottom:0, left:0, right:0, padding:"20px 16px 16px" }}>
+                          <div style={{ fontFamily:"'Playfair Display',serif", fontWeight:700, fontSize:18, color:"#F8FAFC", marginBottom:4 }}>{d.name}</div>
+                          <div style={{ fontSize:12, color:"rgba(255,255,255,.6)", marginBottom:8, display:"flex", alignItems:"center", gap:4 }}>📍 {d.country}</div>
+                          <div style={{ fontSize:11, color:"#D4A574", fontWeight:600 }}>120+ hôtels</div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </section>
+
+            {/* ── FULL DESTINATION SEARCH GRID ── */}
+            <section ref={destRef} style={{ padding:"0 32px 80px", maxWidth:1200, margin:"0 auto" }}>
+              <div style={{ background:"rgba(15,27,45,.55)", border:"1px solid rgba(255,255,255,.07)", borderRadius:28, padding:"32px 28px", backdropFilter:"blur(12px)" }}>
+                <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:22, fontWeight:700, color:"#F8FAFC", marginBottom:22 }}>Choisissez votre destination</h3>
+                <div style={{ marginBottom:18 }}>
+                  <label style={{ display:"block", marginBottom:8, fontSize:11, fontWeight:600, color:"#D4A574", textTransform:"uppercase", letterSpacing:"1.5px" }}>🛫 {T.depart}</label>
+                  <CitySelect value={origin} onChange={setOrigin} options={ORIGINS} placeholder="— Choisir votre ville de départ —" TH={TH} />
+                </div>
+                <div style={{ marginBottom:18 }}>
+                  <label style={{ display:"block", marginBottom:8, fontSize:11, fontWeight:600, color:"#D4A574", textTransform:"uppercase", letterSpacing:"1.5px" }}>🔍 Rechercher une destination</label>
+                  <div style={{ display:"flex", gap:10, alignItems:"center" }}>
+                    <div style={{ position:"relative", flex:1, maxWidth:440 }}>
+                      <span style={{ position:"absolute", left:14, top:"50%", transform:"translateY(-50%)", fontSize:14, opacity:.4 }}>🔍</span>
+                      <input value={search} onChange={e=>{setSearch(e.target.value);setContinent("tous");}} placeholder={T.search_ph} style={{ paddingLeft:42 }}/>
+                      {search&&<button onClick={()=>setSearch("")} style={{ position:"absolute", right:12, top:"50%", transform:"translateY(-50%)", background:"none", border:"none", color:"#94A3B8", cursor:"pointer", fontSize:20 }}>×</button>}
+                    </div>
+                    <span style={{ fontSize:12, color:"#94A3B8", whiteSpace:"nowrap" }}>{filtered.length} {T.results}{filtered.length!==1?"s":""}</span>
+                  </div>
+                </div>
+                <div style={{ display:"flex", gap:8, flexWrap:"wrap", marginBottom:20 }}>
+                  {CONTINENTS.map(c=>(
+                    <button key={c.id} onClick={()=>setContinent(c.id)} style={{ padding:"7px 16px", borderRadius:20, border:`1px solid ${continent===c.id?"#D4A574":"rgba(255,255,255,.1)"}`, background:continent===c.id?"rgba(212,165,116,.1)":"rgba(255,255,255,.03)", color:continent===c.id?"#D4A574":"#94A3B8", fontSize:12, fontWeight:continent===c.id?700:500, cursor:"pointer", fontFamily:"'Inter',sans-serif", transition:"all .18s" }}>
+                      {c.icon} {c.label}
+                    </button>
+                  ))}
+                </div>
+                <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(170px,1fr))", gap:12, maxHeight:520, overflowY:"auto", paddingRight:4 }}>
+                  {filtered.map(dest=>{
+                    const sel=destination?.id===dest.id;
+                    return (
+                      <div key={dest.id} onClick={()=>setDestination(sel?null:dest)} style={{ position:"relative", borderRadius:16, overflow:"hidden", cursor:"pointer", aspectRatio:"4/3", backgroundColor:CONTINENT_BG[dest.continent]||"#0D0A28", border:sel?"2px solid #D4A574":"2px solid transparent", boxShadow:sel?"0 0 0 1px rgba(212,165,116,.3)":"none", transition:"all .2s" }}
+                        onMouseEnter={e=>{if(!sel){e.currentTarget.style.transform="translateY(-2px)";e.currentTarget.style.boxShadow="0 10px 28px rgba(0,0,0,.45)";}}}
+                        onMouseLeave={e=>{if(!sel){e.currentTarget.style.transform="none";e.currentTarget.style.boxShadow="none";}}}>
+                        <img src={dest.photo} alt={dest.name} data-id={dest.id} loading="lazy" onError={wikiError} style={{ width:"100%", height:"100%", objectFit:"cover" }}/>
+                        <div style={{ position:"absolute", inset:0, background:"linear-gradient(to top,rgba(0,0,0,.88) 0%,transparent 60%)" }}/>
+                        {sel&&<div style={{ position:"absolute", top:8, right:8, width:24, height:24, borderRadius:"50%", background:"#D4A574", display:"flex", alignItems:"center", justifyContent:"center", fontSize:11, fontWeight:700, color:"white", zIndex:2 }}>✓</div>}
+                        <div style={{ position:"absolute", bottom:0, left:0, right:0, padding:"10px 10px 9px" }}>
+                          <div style={{ fontWeight:700, fontSize:13, color:"white", lineHeight:1.2, marginBottom:2 }}>{dest.name} {dest.flag}</div>
+                          <div style={{ fontSize:10, color:"rgba(255,255,255,.6)" }}>{dest.country} · 🌡 {dest.temp}</div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                  {filtered.length===0&&(
+                    <div style={{ gridColumn:"1/-1", textAlign:"center", padding:"40px", color:"#94A3B8" }}>
+                      <div style={{ fontSize:32, marginBottom:8 }}>🔍</div>
+                      <div>{T.no_dest} « {search} »</div>
+                    </div>
+                  )}
+                </div>
+                {destination&&(
+                  <div style={{ marginTop:18, padding:"12px 20px", borderRadius:14, background:"rgba(212,165,116,.08)", border:"1px solid rgba(212,165,116,.22)", fontSize:13, color:"#D4A574", display:"inline-flex", alignItems:"center", gap:10 }}>
+                    {destination.emoji} <strong>{destination.name}</strong> {destination.flag} sélectionné{!origin?" · Choisissez aussi votre ville de départ":""}
                   </div>
                 )}
               </div>
+            </section>
 
-              {destination && (
-                <div style={{ marginBottom:16, padding:"10px 16px", borderRadius:10, background:"rgba(139,92,246,.1)", border:"1px solid rgba(139,92,246,.25)", fontSize:13, color:"#C4B5FD", display:"inline-flex", alignItems:"center", gap:8 }}>
-                  {destination.emoji} <strong>{destination.name}</strong> {destination.flag} {T.selected}{origin ? "" : ` ${T.also_choose}`}
+            {/* ── PASSION THEMES ── */}
+            <section style={{ background:"#0F1B2D", padding:"88px 32px" }}>
+              <div style={{ maxWidth:1200, margin:"0 auto" }}>
+                <div style={{ textAlign:"center", marginBottom:56 }}>
+                  <div style={{ fontSize:11, color:"#D4A574", textTransform:"uppercase", letterSpacing:"2px", fontWeight:600, marginBottom:12 }}>✦ Voyagez selon vos envies</div>
+                  <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:"clamp(26px,3.5vw,38px)", fontWeight:900, color:"#F8FAFC" }}>Des voyages pour chaque passion</h2>
                 </div>
-              )}
-
-              <button className="bp" disabled={!origin||!destination} onClick={()=>setStep(2)}>{T.continue}</button>
-            </div>
-          )}
-
-          {/* ── STEP 2 ── */}
-          {step===2 && (
-            <div>
-              <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:6 }}>
-                <button onClick={()=>setStep(1)} style={{ background:"transparent", border:"none", color:"#C4B5FD", cursor:"pointer", fontSize:13, padding:0 }}>{T.back}</button>
-                <div style={{ width:1, height:13, background:TH.cardBorder }}/>
-                <span style={{ color:TH.text2, fontSize:13 }}>{origin} → {destination.name} {destination.flag}</span>
+                <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(175px,1fr))", gap:16 }}>
+                  {[{emoji:"🏝",label:"Plage",desc:"Se détendre au soleil"},{emoji:"🏔",label:"Nature",desc:"Aventures & paysages"},{emoji:"🏛",label:"Culture",desc:"Histoire & patrimoine"},{emoji:"🍽",label:"Gastronomie",desc:"Saveurs du monde"},{emoji:"💎",label:"Luxe",desc:"Expériences d'exception"},{emoji:"🧭",label:"Aventure",desc:"Sensations fortes"}].map(t=>(
+                    <div key={t.label} style={{ background:"rgba(255,255,255,.03)", border:"1px solid rgba(255,255,255,.07)", borderRadius:22, padding:"30px 20px", textAlign:"center", cursor:"pointer", transition:"all .28s" }}
+                      onMouseEnter={e=>{e.currentTarget.style.background="rgba(212,165,116,.07)";e.currentTarget.style.borderColor="rgba(212,165,116,.22)";e.currentTarget.style.transform="translateY(-5px)";}}
+                      onMouseLeave={e=>{e.currentTarget.style.background="rgba(255,255,255,.03)";e.currentTarget.style.borderColor="rgba(255,255,255,.07)";e.currentTarget.style.transform="none";}}>
+                      <div style={{ fontSize:36, marginBottom:14 }}>{t.emoji}</div>
+                      <div style={{ fontFamily:"'Playfair Display',serif", fontWeight:700, fontSize:16, color:"#F8FAFC", marginBottom:7 }}>{t.label}</div>
+                      <div style={{ fontSize:12, color:"#94A3B8", lineHeight:1.6 }}>{t.desc}</div>
+                    </div>
+                  ))}
+                </div>
               </div>
-              <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:24, fontWeight:700, marginBottom:20, color:TH.text }}>{T.configure}</h2>
+            </section>
 
-              <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:13, marginBottom:20 }}>
-                <div><label style={{ display:"block", marginBottom:6, fontSize:12, fontWeight:600, color:"#C4B5FD", textTransform:"uppercase", letterSpacing:"1px" }}>📅 {T.dep_date}</label><input type="date" value={startDate} min={new Date().toISOString().split("T")[0]} onChange={e=>setStartDate(e.target.value)}/></div>
-                <div><label style={{ display:"block", marginBottom:6, fontSize:12, fontWeight:600, color:"#C4B5FD", textTransform:"uppercase", letterSpacing:"1px" }}>📅 {T.ret_date}</label><input type="date" value={endDate} min={startDate||new Date().toISOString().split("T")[0]} onChange={e=>setEndDate(e.target.value)}/></div>
+            {/* ── FEATURES ── */}
+            <section style={{ padding:"88px 32px", maxWidth:1200, margin:"0 auto" }}>
+              <div style={{ textAlign:"center", marginBottom:52 }}>
+                <div style={{ fontSize:11, color:"#D4A574", textTransform:"uppercase", letterSpacing:"2px", fontWeight:600, marginBottom:12 }}>✦ Pourquoi choisir VoyagesPro ?</div>
+                <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:"clamp(26px,3.5vw,38px)", fontWeight:900, color:"#F8FAFC" }}>Une expérience sur-mesure</h2>
               </div>
-              {nights>0 && <div style={{ background:"rgba(139,92,246,.1)", border:"1px solid rgba(139,92,246,.25)", borderRadius:9, padding:"8px 14px", marginBottom:18, fontSize:13, color:"#C4B5FD", display:"inline-block" }}>✨ <strong>{T.nights(nights)}</strong> à {destination.name}</div>}
+              <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(300px,1fr))", gap:22 }}>
+                {[{icon:"✈️",title:"Itinéraires intelligents",desc:"Notre IA crée des itinéraires personnalisés selon vos goûts, votre budget et vos envies."},{icon:"🏨",title:"Hôtels sélectionnés",desc:"Une sélection rigoureuse des meilleurs hôtels pour un confort et un service d'exception."},{icon:"📄",title:"Export PDF premium",desc:"Exportez votre itinéraire complet en PDF pour l'emporter partout avec vous."}].map(f=>(
+                  <div key={f.title} style={{ background:"rgba(15,27,45,.65)", border:"1px solid rgba(255,255,255,.07)", borderRadius:26, padding:"36px 32px", backdropFilter:"blur(8px)", transition:"all .3s", boxShadow:"0 8px 32px rgba(0,0,0,.2)" }}
+                    onMouseEnter={e=>{e.currentTarget.style.borderColor="rgba(212,165,116,.2)";e.currentTarget.style.transform="translateY(-5px)";e.currentTarget.style.boxShadow="0 24px 64px rgba(0,0,0,.4)";}}
+                    onMouseLeave={e=>{e.currentTarget.style.borderColor="rgba(255,255,255,.07)";e.currentTarget.style.transform="none";e.currentTarget.style.boxShadow="0 8px 32px rgba(0,0,0,.2)";}}>
+                    <div style={{ width:54, height:54, borderRadius:18, background:"rgba(212,165,116,.1)", border:"1px solid rgba(212,165,116,.18)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:26, marginBottom:22 }}>{f.icon}</div>
+                    <div style={{ fontFamily:"'Playfair Display',serif", fontWeight:700, fontSize:20, color:"#F8FAFC", marginBottom:12 }}>{f.title}</div>
+                    <div style={{ fontSize:14, color:"#94A3B8", lineHeight:1.75 }}>{f.desc}</div>
+                  </div>
+                ))}
+              </div>
+            </section>
 
-              <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:13, marginBottom:20 }}>
-                {[[`👤 ${T.adults}`,adults,setAdults,1],[`👶 ${T.children}`,children,setChildren,0]].map(([lbl,val,set,min]) => (
-                  <div key={lbl}><label style={{ display:"block", marginBottom:6, fontSize:12, fontWeight:600, color:"#C4B5FD", textTransform:"uppercase", letterSpacing:"1px" }}>{lbl}</label>
-                    <div style={{ display:"flex", gap:8, alignItems:"center" }}>
-                      <button onClick={()=>set(Math.max(min,val-1))} style={{ width:32, height:32, borderRadius:8, border:`1px solid ${TH.cardBorder}`, background:TH.card, color:TH.text, cursor:"pointer", fontSize:18 }}>−</button>
-                      <span style={{ fontSize:18, fontWeight:700, minWidth:28, textAlign:"center", color:TH.text }}>{val}</span>
-                      <button onClick={()=>set(val+1)} style={{ width:32, height:32, borderRadius:8, border:`1px solid ${TH.cardBorder}`, background:TH.card, color:TH.text, cursor:"pointer", fontSize:18 }}>+</button>
+            {/* ── TESTIMONIALS ── */}
+            <section style={{ background:"#0F1B2D", padding:"88px 32px" }}>
+              <div style={{ maxWidth:760, margin:"0 auto", textAlign:"center" }}>
+                <div style={{ display:"flex", justifyContent:"center", alignItems:"center", gap:16, marginBottom:28 }}>
+                  <div style={{ display:"flex" }}>
+                    {["👩","👨","👩‍🦱"].map((a,i)=>(
+                      <div key={i} style={{ width:42, height:42, borderRadius:"50%", background:`hsl(${220+i*30},60%,${30+i*5}%)`, border:"3px solid #0F1B2D", display:"flex", alignItems:"center", justifyContent:"center", fontSize:20, marginLeft:i?-12:0, position:"relative", zIndex:3-i }}>{a}</div>
+                    ))}
+                  </div>
+                  <div style={{ textAlign:"left" }}>
+                    <div style={{ fontSize:24, fontWeight:800, color:"#D4A574" }}>4,9/5 ⭐</div>
+                    <div style={{ fontSize:12, color:"#94A3B8" }}>+10 000 voyageurs satisfaits</div>
+                  </div>
+                </div>
+                <blockquote style={{ fontFamily:"'Playfair Display',serif", fontSize:"clamp(18px,2.5vw,23px)", fontStyle:"italic", color:"#F8FAFC", lineHeight:1.7, marginBottom:20 }}>
+                  "Un voyage inoubliable grâce à un itinéraire parfaitement organisé.<br/>Chaque détail était parfait !"
+                </blockquote>
+                <div style={{ fontSize:14, color:"#94A3B8" }}>— Marie L., Paris → Tokyo</div>
+              </div>
+            </section>
+
+            {/* ── CTA BANNER ── */}
+            <section style={{ position:"relative", height:330, overflow:"hidden", display:"flex", alignItems:"center", justifyContent:"center" }}>
+              <div style={{ position:"absolute", inset:0, backgroundImage:`url(${DESTINATIONS.find(d=>d.id==="bali")?.photo||DESTINATIONS[7]?.photo})`, backgroundSize:"cover", backgroundPosition:"center" }}/>
+              <div style={{ position:"absolute", inset:0, background:"linear-gradient(135deg,rgba(7,17,31,.88),rgba(15,27,45,.75))" }}/>
+              <div style={{ position:"relative", zIndex:1, textAlign:"center", padding:"0 24px" }}>
+                <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:"clamp(28px,4vw,48px)", fontWeight:900, color:"#F8FAFC", marginBottom:14 }}>Prêt à vivre l'aventure ?</h2>
+                <p style={{ fontSize:16, color:"rgba(248,250,252,.68)", marginBottom:30 }}>Créez votre voyage de rêve en quelques clics.</p>
+                <button onClick={()=>destRef.current?.scrollIntoView({behavior:"smooth"})} style={{ background:"linear-gradient(135deg,#D4A574,#B8834A)", color:"white", border:"none", padding:"16px 40px", borderRadius:14, fontSize:16, fontWeight:700, cursor:"pointer", fontFamily:"'Inter',sans-serif", boxShadow:"0 8px 32px rgba(212,165,116,.4)", transition:"all .25s" }}
+                  onMouseEnter={e=>e.currentTarget.style.transform="translateY(-2px)"} onMouseLeave={e=>e.currentTarget.style.transform="none"}>
+                  Commencer maintenant →
+                </button>
+              </div>
+            </section>
+
+            {/* ── FOOTER ── */}
+            <footer style={{ background:"#060D1A", borderTop:"1px solid rgba(255,255,255,.06)", padding:"68px 32px 32px" }}>
+              <div style={{ maxWidth:1200, margin:"0 auto" }}>
+                <div style={{ display:"grid", gridTemplateColumns:"2fr 1fr 1fr 1.2fr", gap:44, marginBottom:52 }}>
+                  <div>
+                    <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:18 }}>
+                      <svg width="26" height="26" viewBox="0 0 44 44" fill="none"><circle cx="22" cy="22" r="19" stroke="#C4B5FD" strokeWidth="2" fill="none"/><ellipse cx="22" cy="22" rx="10" ry="19" stroke="#C4B5FD" strokeWidth="1.5" fill="none"/><line x1="3" y1="22" x2="41" y2="22" stroke="#C4B5FD" strokeWidth="1.5"/><path d="M30 12l-12 9 2 1-3 6 5-2 2 4 1-6 5-1z" fill="#D4A574"/></svg>
+                      <div style={{ fontFamily:"'Playfair Display',serif", fontSize:17, fontWeight:900, color:"#F8FAFC" }}>VoyagesPro</div>
+                    </div>
+                    <p style={{ fontSize:13, color:"#94A3B8", lineHeight:1.75, maxWidth:240, marginBottom:22 }}>Votre partenaire pour des voyages inoubliables, personnalisés et sans stress.</p>
+                    <div style={{ display:"flex", gap:10 }}>
+                      {["📷","📘","🐦"].map((ic,i)=>(
+                        <div key={i} style={{ width:36, height:36, borderRadius:10, background:"rgba(255,255,255,.05)", border:"1px solid rgba(255,255,255,.08)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:15, cursor:"pointer", transition:"all .2s" }}
+                          onMouseEnter={e=>e.currentTarget.style.borderColor="rgba(212,165,116,.3)"} onMouseLeave={e=>e.currentTarget.style.borderColor="rgba(255,255,255,.08)"}>{ic}</div>
+                      ))}
                     </div>
                   </div>
-                ))}
-              </div>
-
-              <label style={{ display:"block", marginBottom:11, fontSize:12, fontWeight:600, color:"#C4B5FD", textTransform:"uppercase", letterSpacing:"1px" }}>💰 {T.budget_type}</label>
-              <div style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:10, marginBottom:26 }}>
-                {Object.entries(BUDGET_LABELS).map(([key,val]) => (
-                  <div key={key} onClick={()=>setBudget(key)} className="card" style={{ cursor:"pointer", textAlign:"center", padding:"16px 10px", border:budget===key?`2px solid ${val.color}`:`1px solid ${TH.cardBorder}`, background:budget===key?`rgba(${key==="serré"?"45,212,191":key==="moyen"?"245,158,11":"139,92,246"},.08)`:TH.card }}>
-                    <div style={{ fontSize:26, marginBottom:5 }}>{val.icon}</div>
-                    <div style={{ fontWeight:700, fontSize:14, marginBottom:3, color:budget===key?val.color:TH.text }}>{val.label}</div>
-                    <div style={{ fontSize:11, color:TH.text2 }}>{val.desc}</div>
+                  <div>
+                    <div style={{ fontWeight:700, fontSize:13, color:"#F8FAFC", marginBottom:20, letterSpacing:".5px" }}>Destinations</div>
+                    {["Europe","Asie","Afrique","Amérique","Océanie"].map(l=>(
+                      <div key={l} style={{ fontSize:13, color:"#94A3B8", marginBottom:11, cursor:"pointer", transition:"color .15s" }} onMouseEnter={e=>e.target.style.color="#D4A574"} onMouseLeave={e=>e.target.style.color="#94A3B8"}>{l}</div>
+                    ))}
                   </div>
-                ))}
+                  <div>
+                    <div style={{ fontWeight:700, fontSize:13, color:"#F8FAFC", marginBottom:20, letterSpacing:".5px" }}>Informations</div>
+                    {["À propos","FAQ","Contact","Conditions générales"].map(l=>(
+                      <div key={l} style={{ fontSize:13, color:"#94A3B8", marginBottom:11, cursor:"pointer", transition:"color .15s" }} onMouseEnter={e=>e.target.style.color="#D4A574"} onMouseLeave={e=>e.target.style.color="#94A3B8"}>{l}</div>
+                    ))}
+                    <div style={{ fontSize:13, color:"#94A3B8", cursor:"pointer", transition:"color .15s" }} onClick={()=>setShowPrivacy(true)} onMouseEnter={e=>e.target.style.color="#D4A574"} onMouseLeave={e=>e.target.style.color="#94A3B8"}>Confidentialité</div>
+                  </div>
+                  <div>
+                    <div style={{ fontWeight:700, fontSize:13, color:"#F8FAFC", marginBottom:10, letterSpacing:".5px" }}>Newsletter</div>
+                    <div style={{ fontSize:13, color:"#94A3B8", marginBottom:16, lineHeight:1.65 }}>Recevez nos meilleures offres de voyage.</div>
+                    <div style={{ display:"flex" }}>
+                      <input placeholder="Votre email" style={{ flex:1, borderRadius:"12px 0 0 12px", borderRight:"none", width:"auto" }}/>
+                      <button style={{ background:"linear-gradient(135deg,#D4A574,#C49160)", color:"white", border:"none", padding:"12px 18px", borderRadius:"0 12px 12px 0", cursor:"pointer", fontSize:16 }}>→</button>
+                    </div>
+                  </div>
+                </div>
+                <div style={{ borderTop:"1px solid rgba(255,255,255,.06)", paddingTop:26, display:"flex", justifyContent:"space-between", alignItems:"center", flexWrap:"wrap", gap:12 }}>
+                  <div style={{ fontSize:12, color:"rgba(148,163,184,.45)" }}>© 2026 VoyagesPro. Tous droits réservés.</div>
+                  <AdBanner slot="2222222222" />
+                </div>
               </div>
-              <button className="bp" disabled={!startDate||!endDate||!budget} onClick={handlePlan}>{T.generate}</button>
-            </div>
-          )}
+            </footer>
+          </>
+        )}
 
-          {/* ── STEP 3 ── */}
-          {step===3 && data && (
-            <div>
+        {/* ════════════════════════════════════ */}
+        {/* STEP 2 — CONFIGURE                  */}
+        {/* ════════════════════════════════════ */}
+        {step===2 && (
+          <div style={{ paddingTop:88, minHeight:"100vh" }}>
+            <div style={{ maxWidth:820, margin:"0 auto", padding:"40px 28px 80px" }}>
+              <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:36, fontSize:13 }}>
+                <span onClick={()=>setStep(1)} style={{ color:"#D4A574", cursor:"pointer", fontWeight:500 }}>Destination</span>
+                <span style={{ color:"rgba(255,255,255,.2)" }}>›</span>
+                <span style={{ color:"#F8FAFC", fontWeight:700 }}>Paramètres</span>
+                <span style={{ color:"rgba(255,255,255,.2)" }}>›</span>
+                <span style={{ color:"rgba(148,163,184,.5)" }}>Programme</span>
+              </div>
+
+              <div style={{ background:"rgba(212,165,116,.05)", border:"1px solid rgba(212,165,116,.16)", borderRadius:22, padding:"22px 26px", marginBottom:32, display:"flex", alignItems:"center", gap:18 }}>
+                <span style={{ fontSize:40 }}>{destination?.emoji}</span>
+                <div>
+                  <div style={{ fontFamily:"'Playfair Display',serif", fontSize:24, fontWeight:700, color:"#F8FAFC", marginBottom:4 }}>{destination?.name} {destination?.flag}</div>
+                  <div style={{ fontSize:13, color:"#94A3B8" }}>{origin} → {destination?.name} · {destination?.country} · 🌡 {destination?.temp}</div>
+                </div>
+              </div>
+
+              <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:28, fontWeight:700, marginBottom:28, color:"#F8FAFC" }}>{T.configure}</h2>
+
+              <div style={{ background:"rgba(15,27,45,.65)", border:"1px solid rgba(255,255,255,.07)", borderRadius:22, padding:"26px", marginBottom:16, backdropFilter:"blur(8px)" }}>
+                <div style={{ fontSize:11, color:"#D4A574", textTransform:"uppercase", letterSpacing:"1.5px", fontWeight:600, marginBottom:18 }}>📅 Dates du voyage</div>
+                <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:16 }}>
+                  <div><label style={{ display:"block", marginBottom:7, fontSize:12, color:"#94A3B8" }}>{T.dep_date}</label><input type="date" value={startDate} min={new Date().toISOString().split("T")[0]} onChange={e=>setStartDate(e.target.value)}/></div>
+                  <div><label style={{ display:"block", marginBottom:7, fontSize:12, color:"#94A3B8" }}>{T.ret_date}</label><input type="date" value={endDate} min={startDate||new Date().toISOString().split("T")[0]} onChange={e=>setEndDate(e.target.value)}/></div>
+                </div>
+                {nights>0&&<div style={{ marginTop:14, fontSize:13, color:"#D4A574", background:"rgba(212,165,116,.08)", borderRadius:10, padding:"8px 16px", display:"inline-block" }}>✨ <strong>{T.nights(nights)}</strong> à {destination?.name}</div>}
+              </div>
+
+              <div style={{ background:"rgba(15,27,45,.65)", border:"1px solid rgba(255,255,255,.07)", borderRadius:22, padding:"26px", marginBottom:16, backdropFilter:"blur(8px)" }}>
+                <div style={{ fontSize:11, color:"#D4A574", textTransform:"uppercase", letterSpacing:"1.5px", fontWeight:600, marginBottom:18 }}>👥 Voyageurs</div>
+                <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:20 }}>
+                  {[[`👤 ${T.adults}`,adults,setAdults,1],[`👶 ${T.children}`,children,setChildren,0]].map(([lbl,val,set,min])=>(
+                    <div key={lbl}>
+                      <label style={{ display:"block", marginBottom:12, fontSize:12, color:"#94A3B8" }}>{lbl}</label>
+                      <div style={{ display:"flex", alignItems:"center", gap:14 }}>
+                        <button onClick={()=>set(Math.max(min,val-1))} style={{ width:38, height:38, borderRadius:12, border:"1px solid rgba(255,255,255,.12)", background:"rgba(255,255,255,.05)", color:"#F8FAFC", cursor:"pointer", fontSize:20, display:"flex", alignItems:"center", justifyContent:"center", transition:"all .2s" }}>−</button>
+                        <span style={{ fontSize:20, fontWeight:700, color:"#F8FAFC", minWidth:28, textAlign:"center" }}>{val}</span>
+                        <button onClick={()=>set(val+1)} style={{ width:38, height:38, borderRadius:12, border:"1px solid rgba(255,255,255,.12)", background:"rgba(255,255,255,.05)", color:"#F8FAFC", cursor:"pointer", fontSize:20, display:"flex", alignItems:"center", justifyContent:"center", transition:"all .2s" }}>+</button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div style={{ background:"rgba(15,27,45,.65)", border:"1px solid rgba(255,255,255,.07)", borderRadius:22, padding:"26px", marginBottom:32, backdropFilter:"blur(8px)" }}>
+                <div style={{ fontSize:11, color:"#D4A574", textTransform:"uppercase", letterSpacing:"1.5px", fontWeight:600, marginBottom:18 }}>💰 {T.budget_type}</div>
+                <div style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:14 }}>
+                  {Object.entries(BUDGET_LABELS).map(([key,val])=>(
+                    <div key={key} onClick={()=>setBudget(key)} style={{ cursor:"pointer", borderRadius:18, padding:"20px 14px", textAlign:"center", border:`2px solid ${budget===key?val.color:"rgba(255,255,255,.08)"}`, background:budget===key?`rgba(${key==="serré"?"45,212,191":key==="moyen"?"245,158,11":"139,92,246"},.1)`:"rgba(255,255,255,.03)", transition:"all .22s" }}>
+                      <div style={{ fontSize:30, marginBottom:10 }}>{val.icon}</div>
+                      <div style={{ fontWeight:700, fontSize:14, color:budget===key?val.color:"#F8FAFC", marginBottom:5 }}>{val.label}</div>
+                      <div style={{ fontSize:11, color:"#94A3B8", lineHeight:1.5 }}>{val.desc}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <button className="bp" style={{ width:"100%", padding:"16px", fontSize:16, borderRadius:16, letterSpacing:".5px" }} disabled={!startDate||!endDate||!budget} onClick={handlePlan}>
+                {T.generate} ✨
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* ════════════════════════════════════ */}
+        {/* STEP 3 — RESULTS                    */}
+        {/* ════════════════════════════════════ */}
+        {step===3 && data && (
+          <div style={{ paddingTop:88 }}>
+            <div style={{ maxWidth:1140, margin:"0 auto", padding:"32px 28px 60px" }}>
+
               {/* Summary bar */}
-              <div style={{ background:TH.summaryBg, border:`1px solid ${TH.summaryBorder}`, borderRadius:13, padding:"13px 18px", marginBottom:18, display:"flex", flexWrap:"wrap", gap:12, alignItems:"center", justifyContent:"space-between" }}>
-                <div style={{ display:"flex", gap:14, flexWrap:"wrap" }}>
-                  {[[T.journey,`${origin} → ${destination.name} ${destination.flag}`],[T.stay,T.nights(nights)],[T.travelers,`${adults} adulte${adults>1?"s":""}${children>0?` + ${children} enfant${children>1?"s":""}`:""}`],[T.budget_label,`${BUDGET_LABELS[budget].icon} ${BUDGET_LABELS[budget].label}`]].map(([k,v]) => (
-                    <div key={k}><div style={{ fontSize:10, color:TH.text2, textTransform:"uppercase", letterSpacing:"1px" }}>{k}</div><div style={{ fontSize:14, fontWeight:700, color:k===T.budget_label?BUDGET_LABELS[budget].color:TH.text }}>{v}</div></div>
+              <div style={{ background:"linear-gradient(135deg,rgba(15,27,45,.9),rgba(9,18,32,.9))", border:"1px solid rgba(212,165,116,.14)", borderRadius:22, padding:"18px 24px", marginBottom:20, backdropFilter:"blur(8px)", display:"flex", flexWrap:"wrap", gap:14, alignItems:"center", justifyContent:"space-between" }}>
+                <div style={{ display:"flex", gap:20, flexWrap:"wrap" }}>
+                  {[[T.journey,`${origin} → ${destination.name} ${destination.flag}`],[T.stay,T.nights(nights)],[T.travelers,`${adults} adulte${adults>1?"s":""}${children>0?` + ${children} enfant${children>1?"s":""}`:""}`],[T.budget_label,`${BUDGET_LABELS[budget].icon} ${BUDGET_LABELS[budget].label}`]].map(([k,v])=>(
+                    <div key={k}><div style={{ fontSize:10, color:"#94A3B8", textTransform:"uppercase", letterSpacing:"1px", marginBottom:3 }}>{k}</div><div style={{ fontSize:14, fontWeight:700, color:k===T.budget_label?BUDGET_LABELS[budget].color:"#F8FAFC" }}>{v}</div></div>
                   ))}
                 </div>
                 <div style={{ display:"flex", gap:8, flexWrap:"wrap" }}>
-                  <button className="bpdf" onClick={handlePDF} disabled={pdfLoading}>
-                    {pdfLoading ? <span className="sp"/> : "📥"} {pdfLoading ? "Génération…" : T.dl_pdf}
-                  </button>
-                  <button onClick={reset} style={{ background:TH.btnSecBg, border:`1px solid ${TH.btnSecBorder}`, color:TH.btnSecColor, padding:"8px 13px", borderRadius:8, cursor:"pointer", fontSize:13, fontFamily:"'DM Sans',sans-serif" }}>{T.modify}</button>
-                  <button onClick={reset} style={{ background:"linear-gradient(135deg,#F59E0B,#FCD34D)", border:"none", color:"white", padding:"8px 16px", borderRadius:8, cursor:"pointer", fontSize:13, fontWeight:600, fontFamily:"'DM Sans',sans-serif", display:"flex", alignItems:"center", gap:6 }}>🏠 Accueil</button>
+                  <button className="bpdf" onClick={handlePDF} disabled={pdfLoading}>{pdfLoading?<span className="sp"/>:"📥"} {pdfLoading?"Génération…":T.dl_pdf}</button>
+                  <button onClick={()=>setStep(2)} style={{ background:"rgba(255,255,255,.06)", border:"1px solid rgba(255,255,255,.1)", color:"#94A3B8", padding:"9px 16px", borderRadius:10, cursor:"pointer", fontSize:13, fontFamily:"'Inter',sans-serif" }}>{T.modify}</button>
+                  <button onClick={reset} style={{ background:"linear-gradient(135deg,#D4A574,#C49160)", border:"none", color:"white", padding:"9px 18px", borderRadius:10, cursor:"pointer", fontSize:13, fontWeight:700, fontFamily:"'Inter',sans-serif", display:"flex", alignItems:"center", gap:6 }}>🏠 Accueil</button>
                 </div>
               </div>
 
-              {/* ── QUICK BOOKING BAR ── */}
-              <div style={{ background:"linear-gradient(135deg,rgba(139,92,246,.12),rgba(99,102,241,.08))", border:"1px solid rgba(139,92,246,.25)", borderRadius:14, padding:"14px 18px", marginBottom:18 }}>
-                <div style={{ fontSize:11, color:"#C4B5FD", textTransform:"uppercase", letterSpacing:"1px", fontWeight:600, marginBottom:11 }}>🔗 Réserver maintenant — {destination.name}</div>
+              {/* Quick booking */}
+              <div style={{ background:"rgba(14,165,233,.06)", border:"1px solid rgba(14,165,233,.14)", borderRadius:16, padding:"14px 20px", marginBottom:18 }}>
+                <div style={{ fontSize:11, color:"#C4B5FD", textTransform:"uppercase", letterSpacing:"1px", fontWeight:600, marginBottom:11 }}>🔗 Réserver — {destination.name}</div>
                 <div style={{ display:"flex", gap:9, flexWrap:"wrap" }}>
-                  {[
-                    { label:"✈️ Google Flights", color:"#8B5CF6", url:BOOK.flights(origin, destination.name) },
-                    { label:"🔍 Skyscanner",     color:"#00A3BE", url:BOOK.skyscanner(origin, destination.name) },
-                    { label:"💺 Kayak",           color:"#FF690F", url:BOOK.kayak(origin, destination.name) },
-                    { label:"🏨 Booking.com",     color:"#003580", url:BOOK.booking(destination.name) },
-                    { label:"🏠 Airbnb",          color:"#FF5A5F", url:BOOK.airbnb(destination.name) },
-                  ].map(({label,color,url})=>(
-                    <a key={label} href={url} target="_blank" rel="noopener noreferrer" style={{ display:"inline-flex", alignItems:"center", gap:6, padding:"8px 14px", borderRadius:20, background:color, color:"white", fontSize:12, fontWeight:600, textDecoration:"none", transition:"opacity .15s", fontFamily:"'DM Sans',sans-serif" }}
-                      onMouseEnter={e=>e.currentTarget.style.opacity=".85"} onMouseLeave={e=>e.currentTarget.style.opacity="1"}>
-                      {label}
-                    </a>
+                  {[{label:"✈️ Google Flights",color:"#0EA5E9",url:BOOK.flights(origin,destination.name)},{label:"🔍 Skyscanner",color:"#00A3BE",url:BOOK.skyscanner(origin,destination.name)},{label:"💺 Kayak",color:"#FF690F",url:BOOK.kayak(origin,destination.name)},{label:"🏨 Booking.com",color:"#003580",url:BOOK.booking(destination.name)},{label:"🏠 Airbnb",color:"#FF5A5F",url:BOOK.airbnb(destination.name)}].map(({label,color,url})=>(
+                    <a key={label} href={url} target="_blank" rel="noopener noreferrer" style={{ display:"inline-flex", alignItems:"center", gap:6, padding:"8px 14px", borderRadius:20, background:color, color:"white", fontSize:12, fontWeight:600, textDecoration:"none", transition:"opacity .15s" }}
+                      onMouseEnter={e=>e.currentTarget.style.opacity=".82"} onMouseLeave={e=>e.currentTarget.style.opacity="1"}>{label}</a>
                   ))}
                 </div>
               </div>
 
-              {/* Ad banner between booking links and hotel recommendation */}
               <AdBanner slot="1111111111" />
 
               {/* Hotel banner */}
-              <div style={{ background:TH.hotelBg, border:`1px solid ${TH.hotelBorder}`, borderRadius:13, padding:"13px 18px", marginBottom:18, display:"flex", alignItems:"center", justifyContent:"space-between", gap:12, flexWrap:"wrap" }}>
-                <div style={{ display:"flex", alignItems:"center", gap:12 }}>
-                  <span style={{ fontSize:32 }}>🏨</span>
+              <div style={{ background:"rgba(212,165,116,.05)", border:"1px solid rgba(212,165,116,.15)", borderRadius:18, padding:"16px 22px", marginBottom:20, display:"flex", alignItems:"center", justifyContent:"space-between", gap:12, flexWrap:"wrap" }}>
+                <div style={{ display:"flex", alignItems:"center", gap:14 }}>
+                  <span style={{ fontSize:34 }}>🏨</span>
                   <div>
-                    <div style={{ fontSize:10, color:"#C4B5FD", textTransform:"uppercase", letterSpacing:"1px", marginBottom:3 }}>{T.recommended}</div>
-                    <div style={{ fontSize:17, fontWeight:700, marginBottom:3, color:TH.text }}>{data.hotels[budget]?.[0]?.name}</div>
+                    <div style={{ fontSize:10, color:"#D4A574", textTransform:"uppercase", letterSpacing:"1px", marginBottom:3 }}>{T.recommended}</div>
+                    <div style={{ fontSize:18, fontWeight:700, marginBottom:4, color:"#F8FAFC" }}>{data.hotels[budget]?.[0]?.name}</div>
                     <div style={{ display:"flex", gap:8, alignItems:"center" }}>
-                      <span>{Array.from({length:data.hotels[budget]?.[0]?.stars||0},(_,i)=><span key={i} style={{color:"#F59E0B"}}>★</span>)}</span>
-                      <span style={{ fontSize:12, color:TH.text2 }}>· {data.hotels[budget]?.[0]?.price}</span>
+                      <span style={{ color:"#F59E0B" }}>{"★".repeat(data.hotels[budget]?.[0]?.stars||0)}</span>
+                      <span style={{ fontSize:12, color:"#94A3B8" }}>· {data.hotels[budget]?.[0]?.price}</span>
                     </div>
                   </div>
                 </div>
-                <a href={BOOK.booking(destination.name, data.hotels[budget]?.[0]?.name)} target="_blank" rel="noopener noreferrer"
-                  style={{ display:"inline-flex", alignItems:"center", gap:6, padding:"9px 18px", borderRadius:10, background:"#003580", color:"white", fontSize:13, fontWeight:600, textDecoration:"none", fontFamily:"'DM Sans',sans-serif", whiteSpace:"nowrap" }}>
-                  🏨 Réserver sur Booking
-                </a>
+                <a href={BOOK.booking(destination.name,data.hotels[budget]?.[0]?.name)} target="_blank" rel="noopener noreferrer" style={{ display:"inline-flex", alignItems:"center", gap:8, padding:"11px 22px", borderRadius:12, background:"#003580", color:"white", fontSize:13, fontWeight:700, textDecoration:"none" }}>🏨 Réserver sur Booking</a>
               </div>
 
               {/* Tabs */}
-              <div style={{ display:"flex", gap:7, marginBottom:20, flexWrap:"wrap" }}>
-                {T.tabs.map((label,i) => {
-                  const key = T.tab_keys[i];
-                  return (
-                    <button key={key} onClick={()=>setActiveTab(key)} className="tab" style={{ background:activeTab===key?TH.tabActive:TH.tabInactive, color:activeTab===key?"white":TH.tabInactiveColor, border:activeTab===key?"none":`1px solid ${TH.tabInactiveBorder}` }}>{label}</button>
-                  );
+              <div style={{ display:"flex", gap:6, marginBottom:22, flexWrap:"wrap" }}>
+                {T.tabs.map((label,i)=>{
+                  const key=T.tab_keys[i];const active=activeTab===key;
+                  return <button key={key} onClick={()=>setActiveTab(key)} style={{ padding:"10px 22px", borderRadius:12, border:`1px solid ${active?"transparent":"rgba(255,255,255,.1)"}`, cursor:"pointer", fontSize:13, fontWeight:active?700:500, fontFamily:"'Inter',sans-serif", background:active?"linear-gradient(135deg,#6D28D9,#8B5CF6)":"rgba(255,255,255,.04)", color:active?"white":"#94A3B8", transition:"all .2s" }}>{label}</button>;
                 })}
               </div>
 
-              {/* ATTRACTIONS */}
-              {activeTab==="attractions" && (
-                <div>
-                  <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:19, fontWeight:700, marginBottom:13, color:TH.text }}>Attractions à {destination.name}</h3>
-                  <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(270px,1fr))", gap:11 }}>
-                    {data.attractions.map(a => (
-                      <div key={a.name} className="card" style={{ padding:15 }}>
-                        <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:5 }}>
-                          <div style={{ fontWeight:700, fontSize:14 }}>{a.name}</div>
-                          <span style={{ padding:"3px 8px", borderRadius:20, fontSize:10, fontWeight:600, background:"rgba(139,92,246,.15)", color:"#C4B5FD", flexShrink:0, marginLeft:6 }}>{a.type}</span>
-                        </div>
-                        <div style={{ fontSize:12, color:"rgba(148,163,184,.7)", marginBottom:8 }}>⏱ {a.duration}</div>
-                        <div style={{ background:TH.inputBg, borderRadius:8, padding:"7px 10px", marginBottom:10 }}>
-                          <div style={{ fontSize:10, color:BUDGET_LABELS[budget].color, fontWeight:600, textTransform:"uppercase", letterSpacing:"1px", marginBottom:2 }}>{BUDGET_LABELS[budget].icon} Prix</div>
-                          <div style={{ fontSize:13, fontWeight:600 }}>{a.budget[budget]}</div>
-                        </div>
-                        <div style={{ display:"flex", gap:7 }}>
-                          <a href={BOOK.getyourguide(a.name, destination.name)} target="_blank" rel="noopener noreferrer"
-                            style={{ flex:1, display:"flex", alignItems:"center", justifyContent:"center", gap:5, padding:"7px 0", borderRadius:8, background:"#FF6B35", color:"white", fontSize:11, fontWeight:600, textDecoration:"none", fontFamily:"'DM Sans',sans-serif" }}>
-                            🎟 GetYourGuide
-                          </a>
-                          <a href={BOOK.maps(a.name, destination.name)} target="_blank" rel="noopener noreferrer"
-                            style={{ flex:1, display:"flex", alignItems:"center", justifyContent:"center", gap:5, padding:"7px 0", borderRadius:8, background:"rgba(139,92,246,.15)", color:"#C4B5FD", fontSize:11, fontWeight:600, textDecoration:"none", fontFamily:"'DM Sans',sans-serif", border:"1px solid rgba(139,92,246,.25)" }}>
-                            📍 Google Maps
-                          </a>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
+              {/* Tab content */}
+              <div style={{ background:"rgba(15,27,45,.45)", border:"1px solid rgba(255,255,255,.07)", borderRadius:22, padding:"28px" }}>
 
-              {/* RESTAURANTS */}
-              {activeTab==="restaurants" && (
-                <div>
-                  <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:19, fontWeight:700, marginBottom:13, color:TH.text }}>Restaurants & Cafés à {destination.name}</h3>
-                  <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(270px,1fr))", gap:11 }}>
-                    {data.restaurants.map(r => {
-                      const price = r.budget[budget];
-                      return (
-                        <div key={r.name} className="card" style={{ padding:15, opacity:price?1:0.45 }}>
-                          <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:4 }}>
-                            <div style={{ fontWeight:700, fontSize:14 }}>{r.name}</div>
-                            <span style={{ fontSize:18 }}>🍽</span>
+                {activeTab==="attractions" && (
+                  <div>
+                    <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:20, fontWeight:700, marginBottom:18, color:"#F8FAFC" }}>Attractions à {destination.name}</h3>
+                    <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(270px,1fr))", gap:14 }}>
+                      {data.attractions.map(a=>(
+                        <div key={a.name} style={{ background:"rgba(255,255,255,.04)", border:"1px solid rgba(255,255,255,.07)", borderRadius:18, padding:18 }}>
+                          <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:8 }}>
+                            <div style={{ fontWeight:700, fontSize:14, color:"#F8FAFC" }}>{a.name}</div>
+                            <span style={{ padding:"3px 10px", borderRadius:20, fontSize:10, fontWeight:600, background:"rgba(139,92,246,.15)", color:"#C4B5FD", flexShrink:0, marginLeft:8 }}>{a.type}</span>
                           </div>
-                          <div style={{ fontSize:12, color:"rgba(148,163,184,.7)", marginBottom:8 }}>{r.type}</div>
-                          {price ? (
-                            <div style={{ background:"rgba(249,115,22,.1)", border:"1px solid rgba(249,115,22,.2)", borderRadius:8, padding:"7px 10px", marginBottom:10 }}>
-                              <span style={{ fontSize:12, color:"#FB923C", fontWeight:600 }}>💰 </span>
-                              <span style={{ fontSize:13, fontWeight:600 }}>{price}</span>
-                            </div>
-                          ) : (
-                            <div style={{ fontSize:11, color:"rgba(239,68,68,.6)", marginBottom:10 }}>Non disponible pour ce budget</div>
-                          )}
-                          {price && (
+                          <div style={{ fontSize:12, color:"rgba(148,163,184,.7)", marginBottom:10 }}>⏱ {a.duration}</div>
+                          <div style={{ background:"rgba(255,255,255,.04)", borderRadius:10, padding:"8px 12px", marginBottom:12 }}>
+                            <div style={{ fontSize:10, color:BUDGET_LABELS[budget].color, fontWeight:600, textTransform:"uppercase", letterSpacing:"1px", marginBottom:2 }}>{BUDGET_LABELS[budget].icon} Prix</div>
+                            <div style={{ fontSize:13, fontWeight:600, color:"#F8FAFC" }}>{a.budget[budget]}</div>
+                          </div>
+                          <div style={{ display:"flex", gap:8 }}>
+                            <a href={BOOK.getyourguide(a.name,destination.name)} target="_blank" rel="noopener noreferrer" style={{ flex:1, display:"flex", alignItems:"center", justifyContent:"center", gap:5, padding:"8px 0", borderRadius:10, background:"#FF6B35", color:"white", fontSize:11, fontWeight:600, textDecoration:"none" }}>🎟 GetYourGuide</a>
+                            <a href={BOOK.maps(a.name,destination.name)} target="_blank" rel="noopener noreferrer" style={{ flex:1, display:"flex", alignItems:"center", justifyContent:"center", gap:5, padding:"8px 0", borderRadius:10, background:"rgba(139,92,246,.15)", color:"#C4B5FD", fontSize:11, fontWeight:600, textDecoration:"none", border:"1px solid rgba(139,92,246,.25)" }}>📍 Maps</a>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {activeTab==="restaurants" && (
+                  <div>
+                    <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:20, fontWeight:700, marginBottom:18, color:"#F8FAFC" }}>Restaurants à {destination.name}</h3>
+                    <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(280px,1fr))", gap:14 }}>
+                      {data.restaurants.map(r=>(
+                        <div key={r.name} style={{ background:"rgba(255,255,255,.04)", border:"1px solid rgba(255,255,255,.07)", borderRadius:18, padding:18 }}>
+                          <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:6 }}>
+                            <div style={{ fontWeight:700, fontSize:14, color:"#F8FAFC" }}>{r.name}</div>
+                            <div>{Array.from({length:r.stars||0},(_,i)=><span key={i} style={{color:"#F59E0B",fontSize:12}}>★</span>)}</div>
+                          </div>
+                          <div style={{ fontSize:12, color:"rgba(148,163,184,.7)", marginBottom:6 }}>{r.type}</div>
+                          {r.price&&<div style={{ fontSize:13, fontWeight:600, color:"#D4A574", marginBottom:12 }}>💰 {r.price}</div>}
+                          {r.price&&(
                             <div style={{ display:"flex", gap:7 }}>
-                              <a href={BOOK.thefork(r.name, destination.name)} target="_blank" rel="noopener noreferrer"
-                                style={{ flex:1, display:"flex", alignItems:"center", justifyContent:"center", gap:5, padding:"7px 0", borderRadius:8, background:"#00B551", color:"white", fontSize:11, fontWeight:600, textDecoration:"none", fontFamily:"'DM Sans',sans-serif" }}>
-                                🍴 TheFork
-                              </a>
-                              <a href={BOOK.tripadvisor(r.name, destination.name)} target="_blank" rel="noopener noreferrer"
-                                style={{ flex:1, display:"flex", alignItems:"center", justifyContent:"center", gap:5, padding:"7px 0", borderRadius:8, background:"#34E0A1", color:"#1a1a1a", fontSize:11, fontWeight:600, textDecoration:"none", fontFamily:"'DM Sans',sans-serif" }}>
-                                ⭐ TripAdvisor
-                              </a>
-                              <a href={BOOK.maps(r.name, destination.name)} target="_blank" rel="noopener noreferrer"
-                                style={{ display:"flex", alignItems:"center", justifyContent:"center", padding:"7px 10px", borderRadius:8, background:"rgba(249,115,22,.15)", color:"#FB923C", fontSize:14, textDecoration:"none", border:"1px solid rgba(249,115,22,.25)" }}>
-                                📍
-                              </a>
+                              <a href={BOOK.thefork(r.name,destination.name)} target="_blank" rel="noopener noreferrer" style={{ flex:1, display:"flex", alignItems:"center", justifyContent:"center", gap:5, padding:"7px 0", borderRadius:10, background:"#00B551", color:"white", fontSize:11, fontWeight:600, textDecoration:"none" }}>🍴 TheFork</a>
+                              <a href={BOOK.tripadvisor(r.name,destination.name)} target="_blank" rel="noopener noreferrer" style={{ flex:1, display:"flex", alignItems:"center", justifyContent:"center", gap:5, padding:"7px 0", borderRadius:10, background:"rgba(52,224,161,.1)", color:"#34E0A1", fontSize:11, fontWeight:600, textDecoration:"none", border:"1px solid rgba(52,224,161,.2)" }}>⭐ Tripadvisor</a>
+                              <a href={BOOK.maps(r.name,destination.name)} target="_blank" rel="noopener noreferrer" style={{ padding:"7px 12px", borderRadius:10, background:"rgba(255,255,255,.06)", color:"#94A3B8", fontSize:14, textDecoration:"none", display:"flex", alignItems:"center" }}>📍</a>
                             </div>
                           )}
                         </div>
-                      );
-                    })}
+                      ))}
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
 
-              {/* ITINERARY */}
-              {activeTab==="itinerary" && (
-                <div>
-                  <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:13, flexWrap:"wrap", gap:10 }}>
-                    <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:19, fontWeight:700, color:TH.text }}>Programme — {destination.name}</h3>
-                    <button className="bpdf" onClick={handlePDF} disabled={pdfLoading} style={{ fontSize:12, padding:"9px 18px" }}>
-                      {pdfLoading ? <><span className="sp"/> Génération…</> : "📥 PDF complet"}
-                    </button>
-                  </div>
-                  <div style={{ display:"flex", flexDirection:"column", gap:13 }}>
-                    {itinerary.map(day => (
-                      <div key={day.day} className="card" style={{ padding:"17px 20px" }}>
-                        <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:13, paddingBottom:11, borderBottom:`1px solid ${TH.cardBorder}` }}>
-                          <div style={{ width:34, height:34, borderRadius:"50%", background:"linear-gradient(135deg,#6D28D9,#8B5CF6)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:13, fontWeight:800, color:"white", flexShrink:0 }}>{day.day}</div>
-                          <div><div style={{ fontSize:10, color:"#C4B5FD", textTransform:"uppercase", letterSpacing:"1px" }}>Jour {day.day}</div><div style={{ fontWeight:700, fontSize:14 }}>{day.date}</div></div>
-                        </div>
-                        {[...day.morning,...day.afternoon,...day.evening].map((item,i) => (
-                          <div key={i} style={{ display:"flex", gap:11, marginBottom:9 }}>
-                            <div style={{ fontSize:11, color:"#C4B5FD", fontWeight:600, minWidth:42, paddingTop:2 }}>{item.time}</div>
+                {activeTab==="planning" && (
+                  <div>
+                    <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:20, fontWeight:700, marginBottom:18, color:"#F8FAFC" }}>📅 {T.daily_plan} — {destination.name}</h3>
+                    <div style={{ display:"flex", flexDirection:"column", gap:16 }}>
+                      {itinerary.map(day=>(
+                        <div key={day.day} style={{ background:"rgba(255,255,255,.03)", border:"1px solid rgba(255,255,255,.07)", borderRadius:18, overflow:"hidden" }}>
+                          <div style={{ background:"rgba(212,165,116,.07)", borderBottom:"1px solid rgba(255,255,255,.06)", padding:"14px 22px", display:"flex", alignItems:"center", gap:14 }}>
+                            <div style={{ width:38, height:38, borderRadius:"50%", background:"linear-gradient(135deg,#D4A574,#C49160)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:14, fontWeight:800, color:"white", flexShrink:0 }}>{day.day}</div>
                             <div>
-                              <div style={{ fontSize:13, fontWeight:600, marginBottom:1 }}>{item.activity}</div>
-                              {item.note && <div style={{ fontSize:11, color:"rgba(148,163,184,.65)" }}>{item.note}</div>}
+                              <div style={{ fontSize:10, color:"#D4A574", textTransform:"uppercase", letterSpacing:"1px" }}>Jour {day.day}</div>
+                              <div style={{ fontWeight:700, fontSize:14, color:"#F8FAFC" }}>{day.date}</div>
                             </div>
                           </div>
-                        ))}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* MAP */}
-              {activeTab==="map" && (
-                <div>
-                  <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:19, fontWeight:700, marginBottom:13, color:TH.text }}>Carte — {destination.name}</h3>
-                  <MapView destination={destination} budget={budget}/>
-                  <p style={{ marginTop:10, fontSize:12, color:TH.text2, textAlign:"center" }}>Cliquez sur les marqueurs pour voir les détails et les prix</p>
-                </div>
-              )}
-
-              {/* TRANSPORT */}
-              {activeTab==="transport" && (
-                <div>
-                  <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:19, fontWeight:700, marginBottom:6, color:TH.text }}>{T.transport_title} — {destination.name}</h3>
-                  <p style={{ fontSize:13, color:TH.text2, marginBottom:14 }}>Options de transport depuis {origin} vers {destination.name}</p>
-
-                  {/* Flight booking buttons */}
-                  <div style={{ background:"linear-gradient(135deg,rgba(139,92,246,.1),rgba(245,158,11,.04))", border:"1px solid rgba(139,92,246,.2)", borderRadius:13, padding:"14px 16px", marginBottom:20 }}>
-                    <div style={{ fontSize:11, color:"#C4B5FD", fontWeight:600, textTransform:"uppercase", letterSpacing:"1px", marginBottom:10 }}>✈️ Comparer & Réserver votre vol</div>
-                    <div style={{ display:"flex", gap:9, flexWrap:"wrap" }}>
-                      {[
-                        { label:"Google Flights", icon:"✈️", color:"#8B5CF6", url:BOOK.flights(origin, destination.name) },
-                        { label:"Skyscanner",     icon:"🔍", color:"#00A3BE", url:BOOK.skyscanner(origin, destination.name) },
-                        { label:"Kayak",           icon:"🛫", color:"#FF690F", url:BOOK.kayak(origin, destination.name) },
-                      ].map(({label,icon,color,url})=>(
-                        <a key={label} href={url} target="_blank" rel="noopener noreferrer"
-                          style={{ display:"inline-flex", alignItems:"center", gap:7, padding:"10px 18px", borderRadius:10, background:color, color:"white", fontSize:13, fontWeight:600, textDecoration:"none", fontFamily:"'DM Sans',sans-serif" }}>
-                          {icon} {label}
-                        </a>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* City-specific transport */}
-                  <div style={{ display:"flex", flexDirection:"column", gap:11, marginBottom:22 }}>
-                    {data.transport.map((t,i) => (
-                      <div key={i} className="card" style={{ padding:"17px 20px", display:"flex", gap:13, alignItems:"flex-start", borderLeft:"3px solid #8B5CF6" }}>
-                        <span style={{ fontSize:30, flexShrink:0 }}>{t.mode.split(" ")[0]}</span>
-                        <div style={{ flex:1 }}>
-                          <div style={{ fontWeight:700, fontSize:14, marginBottom:4, color:TH.text }}>{t.mode}</div>
-                          <div style={{ fontSize:13, color:TH.text2, marginBottom:8 }}>{t.info}</div>
-                          <div style={{ background:`rgba(${budget==="serré"?"45,212,191":budget==="moyen"?"245,158,11":"139,92,246"},.1)`, border:`1px solid rgba(${budget==="serré"?"45,212,191":budget==="moyen"?"245,158,11":"139,92,246"},.2)`, borderRadius:8, padding:"6px 12px", display:"inline-block", fontSize:12, fontWeight:600, color:BUDGET_LABELS[budget].color }}>{BUDGET_LABELS[budget].icon} {t.budgetNote}</div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* General transport modes visual grid */}
-                  <div style={{ marginBottom:20 }}>
-                    <div style={{ fontSize:12, fontWeight:600, color:"#C4B5FD", textTransform:"uppercase", letterSpacing:"1px", marginBottom:12 }}>🌐 {T.transport_general}</div>
-                    <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(200px,1fr))", gap:10 }}>
-                      {TRANSPORT_MODES.map(tm=>(
-                        <div key={tm.label} className="card" style={{ padding:"14px 16px", display:"flex", gap:12, alignItems:"flex-start", borderTop:`2px solid ${tm.color}` }}>
-                          <span style={{ fontSize:26, flexShrink:0 }}>{tm.icon}</span>
-                          <div>
-                            <div style={{ fontWeight:700, fontSize:13, marginBottom:4, color:TH.text }}>{tm.label}</div>
-                            <div style={{ fontSize:11, color:TH.text2, lineHeight:1.5 }}>{tm.desc}</div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div style={{ background:TH.card, border:`1px solid ${TH.cardBorder}`, borderRadius:13, padding:"17px 20px" }}>
-                    <h4 style={{ fontWeight:700, marginBottom:11, fontSize:14, color:"#C4B5FD" }}>{T.tips}</h4>
-                    <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:9 }}>
-                      {[["📱","Téléchargez les cartes offline"],["💱",`Monnaie locale : ${destination.currency}`],["🌡",`Température : ${destination.temp}`],["🗣","Apprenez quelques mots locaux"],["🛡","Assurance voyage recommandée"],["📸","Copies numériques des documents"]].map(([e,t]) => (
-                        <div key={t} style={{ display:"flex", gap:7, alignItems:"flex-start", fontSize:12, color:TH.text2 }}><span style={{ flexShrink:0 }}>{e}</span><span>{t}</span></div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* HOTELS */}
-              {activeTab==="hotels" && (
-                <div>
-                  <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:19, fontWeight:700, marginBottom:6, color:TH.text }}>🏨 {T.hotel_options} — {destination.name}</h3>
-                  <p style={{ fontSize:13, color:TH.text2, marginBottom:12 }}>Tous les hébergements disponibles par catégorie de budget</p>
-                  {/* Quick hotel booking links */}
-                  <div style={{ display:"flex", gap:9, flexWrap:"wrap", marginBottom:20 }}>
-                    {[
-                      { label:"Booking.com", color:"#003580", url:BOOK.booking(destination.name) },
-                      { label:"Airbnb",      color:"#FF5A5F", url:BOOK.airbnb(destination.name) },
-                      { label:"Hotels.com",  color:"#D9000D", url:`https://fr.hotels.com/search.do?q-destination=${encodeURIComponent(destination.name)}` },
-                    ].map(({label,color,url})=>(
-                      <a key={label} href={url} target="_blank" rel="noopener noreferrer"
-                        style={{ display:"inline-flex", alignItems:"center", gap:6, padding:"8px 16px", borderRadius:20, background:color, color:"white", fontSize:12, fontWeight:600, textDecoration:"none", fontFamily:"'DM Sans',sans-serif" }}>
-                        🏨 {label}
-                      </a>
-                    ))}
-                  </div>
-                  <div style={{ display:"flex", flexDirection:"column", gap:20 }}>
-                    {["serré","moyen","riche"].map(tier=>{
-                      const list = data.hotels[tier] || [];
-                      const bl = BUDGET_LABELS[tier];
-                      return (
-                        <div key={tier}>
-                          <div style={{ display:"flex", alignItems:"center", gap:9, marginBottom:12, paddingBottom:9, borderBottom:`1px solid ${TH.cardBorder}` }}>
-                            <span style={{ fontSize:22 }}>{bl.icon}</span>
-                            <div style={{ fontWeight:700, fontSize:15, color:bl.color }}>{bl.label}</div>
-                            <span style={{ fontSize:12, color:TH.text2 }}>— {bl.desc}</span>
-                          </div>
-                          <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(250px,1fr))", gap:11 }}>
-                            {list.map((h,i)=>(
-                              <div key={i} className="card" style={{ padding:16, border:tier===budget?`2px solid ${bl.color}`:`1px solid ${TH.cardBorder}`, position:"relative" }}>
-                                {tier===budget && i===0 && (
-                                  <div style={{ position:"absolute", top:10, right:10, background:bl.color, color:"white", fontSize:9, fontWeight:700, padding:"2px 7px", borderRadius:10, textTransform:"uppercase", letterSpacing:"1px" }}>✓ {T.selected}</div>
-                                )}
-                                <div style={{ fontWeight:700, fontSize:14, marginBottom:4, color:TH.text, paddingRight:tier===budget&&i===0?70:0 }}>{h.name}</div>
-                                {h.type && <div style={{ fontSize:11, color:TH.text2, marginBottom:6 }}>{h.type}</div>}
-                                <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:8 }}>
-                                  <span style={{ color:"#F59E0B", fontSize:14 }}>{"★".repeat(h.stars)}{"☆".repeat(Math.max(0,5-h.stars))}</span>
-                                  <span style={{ fontSize:11, color:TH.text2 }}>{h.stars} {T.stars}{h.stars>1?"s":""}</span>
-                                </div>
-                                <div style={{ background:`rgba(${tier==="serré"?"45,212,191":tier==="moyen"?"245,158,11":"139,92,246"},.1)`, border:`1px solid rgba(${tier==="serré"?"45,212,191":tier==="moyen"?"245,158,11":"139,92,246"},.2)`, borderRadius:8, padding:"6px 10px", fontSize:13, fontWeight:600, color:bl.color, marginBottom:10 }}>💰 {h.price}</div>
-                                <div style={{ display:"flex", gap:7 }}>
-                                  <a href={BOOK.booking(destination.name, h.name)} target="_blank" rel="noopener noreferrer"
-                                    style={{ flex:1, display:"flex", alignItems:"center", justifyContent:"center", gap:5, padding:"7px 0", borderRadius:8, background:"#003580", color:"white", fontSize:11, fontWeight:600, textDecoration:"none", fontFamily:"'DM Sans',sans-serif" }}>
-                                    🏨 Booking
-                                  </a>
-                                  <a href={BOOK.airbnb(destination.name)} target="_blank" rel="noopener noreferrer"
-                                    style={{ flex:1, display:"flex", alignItems:"center", justifyContent:"center", gap:5, padding:"7px 0", borderRadius:8, background:"#FF5A5F", color:"white", fontSize:11, fontWeight:600, textDecoration:"none", fontFamily:"'DM Sans',sans-serif" }}>
-                                    🏠 Airbnb
-                                  </a>
+                          <div style={{ padding:"10px 0" }}>
+                            {day.items.map((item,i)=>(
+                              <div key={i} style={{ display:"flex", gap:14, padding:"10px 22px", borderBottom:i<day.items.length-1?"1px solid rgba(255,255,255,.04)":"none" }}>
+                                <div style={{ fontSize:11, color:"#D4A574", fontWeight:600, minWidth:42, paddingTop:2 }}>{item.time}</div>
+                                <div style={{ fontSize:22, flexShrink:0 }}>{item.icon}</div>
+                                <div style={{ flex:1 }}>
+                                  <div style={{ fontWeight:600, fontSize:13, color:"#F8FAFC", marginBottom:3 }}>{item.activity}</div>
+                                  <div style={{ fontSize:12, color:"rgba(148,163,184,.65)", lineHeight:1.5 }}>{item.desc}</div>
                                 </div>
                               </div>
                             ))}
                           </div>
                         </div>
-                      );
-                    })}
+                      ))}
+                    </div>
                   </div>
-                </div>
-              )}
-            </div>
-          )}
-        </div>
+                )}
 
-        <div style={{ borderTop:`1px solid ${TH.cardBorder}` }}>
-          <div style={{ maxWidth:900, margin:"0 auto", padding:"0 24px" }}>
-            <AdBanner slot="2222222222" />
+                {activeTab==="transport" && (
+                  <div>
+                    <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:20, fontWeight:700, marginBottom:16, color:"#F8FAFC" }}>✈️ {T.transport_info} — {origin} → {destination.name}</h3>
+                    <div style={{ background:"rgba(14,165,233,.06)", border:"1px solid rgba(14,165,233,.14)", borderRadius:14, padding:"14px 18px", marginBottom:20 }}>
+                      <div style={{ fontSize:11, color:"#C4B5FD", textTransform:"uppercase", letterSpacing:"1px", fontWeight:600, marginBottom:10 }}>✈️ Réserver votre vol</div>
+                      <div style={{ display:"flex", gap:9, flexWrap:"wrap" }}>
+                        {[{label:"✈️ Google Flights",color:"#0EA5E9",url:BOOK.flights(origin,destination.name)},{label:"🔍 Skyscanner",color:"#00A3BE",url:BOOK.skyscanner(origin,destination.name)},{label:"🛫 Kayak",color:"#FF690F",url:BOOK.kayak(origin,destination.name)}].map(({label,color,url})=>(
+                          <a key={label} href={url} target="_blank" rel="noopener noreferrer" style={{ display:"inline-flex", alignItems:"center", gap:6, padding:"8px 16px", borderRadius:20, background:color, color:"white", fontSize:12, fontWeight:600, textDecoration:"none" }}>{label}</a>
+                        ))}
+                      </div>
+                    </div>
+                    <div style={{ display:"flex", flexDirection:"column", gap:10, marginBottom:22 }}>
+                      {data.transport.map((t,i)=>(
+                        <div key={i} style={{ background:"rgba(255,255,255,.04)", border:"1px solid rgba(255,255,255,.07)", borderRadius:14, padding:"16px 20px", display:"flex", gap:14, alignItems:"flex-start", borderLeft:"3px solid #8B5CF6" }}>
+                          <span style={{ fontSize:28, flexShrink:0 }}>{t.mode.split(" ")[0]}</span>
+                          <div style={{ flex:1 }}>
+                            <div style={{ fontWeight:700, fontSize:14, marginBottom:4, color:"#F8FAFC" }}>{t.mode}</div>
+                            <div style={{ fontSize:13, color:"#94A3B8", marginBottom:8 }}>{t.info}</div>
+                            <div style={{ background:`rgba(${budget==="serré"?"45,212,191":budget==="moyen"?"245,158,11":"139,92,246"},.1)`, border:`1px solid rgba(${budget==="serré"?"45,212,191":budget==="moyen"?"245,158,11":"139,92,246"},.2)`, borderRadius:8, padding:"5px 12px", display:"inline-block", fontSize:12, fontWeight:600, color:BUDGET_LABELS[budget].color }}>{BUDGET_LABELS[budget].icon} {t.budgetNote}</div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                    <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(200px,1fr))", gap:10 }}>
+                      {TRANSPORT_MODES.map(tm=>(
+                        <div key={tm.label} style={{ background:"rgba(255,255,255,.03)", border:`1px solid rgba(255,255,255,.07)`, borderRadius:14, padding:"14px 16px", display:"flex", gap:12, alignItems:"flex-start", borderTop:`2px solid ${tm.color}` }}>
+                          <span style={{ fontSize:24, flexShrink:0 }}>{tm.icon}</span>
+                          <div><div style={{ fontWeight:700, fontSize:13, marginBottom:4, color:"#F8FAFC" }}>{tm.label}</div><div style={{ fontSize:11, color:"#94A3B8", lineHeight:1.5 }}>{tm.desc}</div></div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {activeTab==="hotels" && (
+                  <div>
+                    <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:20, fontWeight:700, marginBottom:8, color:"#F8FAFC" }}>🏨 {T.hotel_options} — {destination.name}</h3>
+                    <p style={{ fontSize:13, color:"#94A3B8", marginBottom:16 }}>Tous les hébergements disponibles par catégorie de budget</p>
+                    <div style={{ display:"flex", gap:9, flexWrap:"wrap", marginBottom:22 }}>
+                      {[{label:"Booking.com",color:"#003580",url:BOOK.booking(destination.name)},{label:"Airbnb",color:"#FF5A5F",url:BOOK.airbnb(destination.name)},{label:"Hotels.com",color:"#D9000D",url:`https://fr.hotels.com/search.do?q-destination=${encodeURIComponent(destination.name)}`}].map(({label,color,url})=>(
+                        <a key={label} href={url} target="_blank" rel="noopener noreferrer" style={{ display:"inline-flex", alignItems:"center", gap:6, padding:"8px 18px", borderRadius:20, background:color, color:"white", fontSize:12, fontWeight:600, textDecoration:"none" }}>🏨 {label}</a>
+                      ))}
+                    </div>
+                    <div style={{ display:"flex", flexDirection:"column", gap:22 }}>
+                      {["serré","moyen","riche"].map(tier=>{
+                        const list=data.hotels[tier]||[];const bl=BUDGET_LABELS[tier];
+                        return (
+                          <div key={tier}>
+                            <div style={{ display:"flex", alignItems:"center", gap:9, marginBottom:14, paddingBottom:10, borderBottom:"1px solid rgba(255,255,255,.06)" }}>
+                              <span style={{ fontSize:22 }}>{bl.icon}</span>
+                              <div style={{ fontWeight:700, fontSize:15, color:bl.color }}>{bl.label}</div>
+                              <span style={{ fontSize:12, color:"#94A3B8" }}>— {bl.desc}</span>
+                            </div>
+                            <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(250px,1fr))", gap:12 }}>
+                              {list.map((h,i)=>(
+                                <div key={i} style={{ background:"rgba(255,255,255,.04)", border:`${tier===budget?"2px solid "+bl.color:"1px solid rgba(255,255,255,.07)"}`, borderRadius:16, padding:18, position:"relative" }}>
+                                  {tier===budget&&i===0&&<div style={{ position:"absolute", top:10, right:10, background:bl.color, color:"white", fontSize:9, fontWeight:700, padding:"2px 8px", borderRadius:10, textTransform:"uppercase" }}>✓ {T.selected}</div>}
+                                  <div style={{ fontWeight:700, fontSize:14, marginBottom:4, color:"#F8FAFC" }}>{h.name}</div>
+                                  {h.type&&<div style={{ fontSize:11, color:"#94A3B8", marginBottom:6 }}>{h.type}</div>}
+                                  <div style={{ color:"#F59E0B", fontSize:13, marginBottom:8 }}>{"★".repeat(h.stars)}{"☆".repeat(Math.max(0,5-h.stars))}</div>
+                                  <div style={{ background:`rgba(${tier==="serré"?"45,212,191":tier==="moyen"?"245,158,11":"139,92,246"},.1)`, border:`1px solid rgba(${tier==="serré"?"45,212,191":tier==="moyen"?"245,158,11":"139,92,246"},.2)`, borderRadius:8, padding:"6px 10px", fontSize:13, fontWeight:600, color:bl.color, marginBottom:12 }}>💰 {h.price}</div>
+                                  <div style={{ display:"flex", gap:7 }}>
+                                    <a href={BOOK.booking(destination.name,h.name)} target="_blank" rel="noopener noreferrer" style={{ flex:1, display:"flex", alignItems:"center", justifyContent:"center", gap:5, padding:"8px 0", borderRadius:10, background:"#003580", color:"white", fontSize:11, fontWeight:600, textDecoration:"none" }}>🏨 Booking</a>
+                                    <a href={BOOK.airbnb(destination.name)} target="_blank" rel="noopener noreferrer" style={{ flex:1, display:"flex", alignItems:"center", justifyContent:"center", gap:5, padding:"8px 0", borderRadius:10, background:"#FF5A5F", color:"white", fontSize:11, fontWeight:600, textDecoration:"none" }}>🏠 Airbnb</a>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <div style={{ textAlign:"center", padding:"32px 0 8px", color:"rgba(148,163,184,.4)", fontSize:11, display:"flex", flexWrap:"wrap", justifyContent:"center", gap:12, alignItems:"center" }}>
+                <span>VoyagesPro · 50+ destinations mondiales ✈️</span>
+                <span>·</span>
+                <button onClick={()=>setShowPrivacy(true)} style={{ background:"none", border:"none", color:"rgba(148,163,184,.4)", fontSize:11, cursor:"pointer", textDecoration:"underline", padding:0 }}>Politique de confidentialité</button>
+                <span>·</span>
+                <span>© 2026 VoyagesPro</span>
+              </div>
+            </div>
           </div>
-          <div style={{ textAlign:"center", padding:"14px 18px 18px", color:TH.text3, fontSize:11, display:"flex", flexWrap:"wrap", justifyContent:"center", alignItems:"center", gap:12 }}>
-            <span>VoyagePro — 50+ destinations mondiales · Planificateur de voyage intelligent ✈️</span>
-            <span style={{ opacity:.4 }}>·</span>
-            <button onClick={()=>setShowPrivacy(true)} style={{ background:"transparent", border:"none", color:TH.text3, fontSize:11, cursor:"pointer", textDecoration:"underline", fontFamily:"'DM Sans',sans-serif", padding:0 }}>Politique de confidentialité</button>
-            <span style={{ opacity:.4 }}>·</span>
-            <span>© 2026 VoyagePro</span>
-          </div>
-        </div>
+        )}
+
       </div>
     </>
   );
