@@ -867,6 +867,49 @@ async function exportToPDF({ destination, origin, budget, startDate, endDate, ad
 }
 
 // ── MAIN APP ──
+function AdBanner({ slot = "1234567890", format = "auto" }) {
+  useEffect(() => {
+    try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch(e) {}
+  }, []);
+  return (
+    <div style={{ margin:"16px 0", textAlign:"center", minHeight:90, background:"rgba(0,0,0,.04)", borderRadius:10, overflow:"hidden" }}>
+      <ins className="adsbygoogle"
+        style={{ display:"block" }}
+        data-ad-client="ca-pub-XXXXXXXXXXXXXXXXX"
+        data-ad-slot={slot}
+        data-ad-format={format}
+        data-full-width-responsive="true" />
+    </div>
+  );
+}
+
+function PrivacyModal({ onClose }) {
+  return (
+    <div onClick={onClose} style={{ position:"fixed", inset:0, background:"rgba(0,0,0,.7)", zIndex:9999, display:"flex", alignItems:"center", justifyContent:"center", padding:20 }}>
+      <div onClick={e=>e.stopPropagation()} style={{ background:"#0F1A2E", border:"1px solid #1E3A5F", borderRadius:18, padding:"32px 28px", maxWidth:560, width:"100%", maxHeight:"80vh", overflowY:"auto", color:"#CBD5E1" }}>
+        <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:20 }}>
+          <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:22, fontWeight:700, color:"#F1F5F9" }}>🔒 Politique de confidentialité</h2>
+          <button onClick={onClose} style={{ background:"transparent", border:"none", color:"#7DD3FC", fontSize:22, cursor:"pointer", lineHeight:1 }}>×</button>
+        </div>
+        <p style={{ fontSize:12, color:"#64748B", marginBottom:20 }}>Dernière mise à jour : 7 juin 2026</p>
+        {[
+          ["Collecte de données", "VoyagePro ne collecte aucune donnée personnelle. L'application fonctionne entièrement dans votre navigateur. Aucun compte ni inscription n'est requis."],
+          ["Cookies publicitaires", "Ce site utilise Google AdSense pour afficher des publicités. Google peut utiliser des cookies pour personnaliser les annonces selon vos centres d'intérêt. Vous pouvez gérer vos préférences sur g.co/adsettings."],
+          ["Services tiers", "Nous utilisons des liens vers Booking.com, Airbnb, GetYourGuide, Skyscanner et d'autres services de voyage. Ces sites ont leurs propres politiques de confidentialité."],
+          ["Données de navigation", "Google Analytics n'est pas utilisé. Aucune donnée de session n'est transmise à des serveurs."],
+          ["Vos droits", "Vous pouvez désactiver les cookies publicitaires dans les paramètres de votre navigateur. Pour toute question : mouad.ouhaddou@gmail.com"],
+        ].map(([title, text]) => (
+          <div key={title} style={{ marginBottom:18 }}>
+            <div style={{ fontWeight:700, fontSize:14, color:"#7DD3FC", marginBottom:6 }}>{title}</div>
+            <p style={{ fontSize:13, lineHeight:1.7 }}>{text}</p>
+          </div>
+        ))}
+        <button onClick={onClose} style={{ marginTop:10, width:"100%", padding:"11px 0", borderRadius:10, background:"linear-gradient(135deg,#1E6FA8,#0EA5E9)", color:"white", border:"none", fontSize:14, fontWeight:600, cursor:"pointer", fontFamily:"'DM Sans',sans-serif" }}>J'ai compris</button>
+      </div>
+    </div>
+  );
+}
+
 export default function TravelPlanner() {
   const [step, setStep] = useState(1);
   const [origin, setOrigin] = useState("");
@@ -884,6 +927,7 @@ export default function TravelPlanner() {
   const [continent, setContinent] = useState("tous");
   const [hoveredId, setHoveredId] = useState(null);
   const [pdfLoading, setPdfLoading] = useState(false);
+  const [showPrivacy, setShowPrivacy] = useState(false);
 
   const T = LANG[lang];
   const TH = THEMES[theme];
@@ -958,6 +1002,7 @@ export default function TravelPlanner() {
   return (
     <>
       <style>{css}</style>
+      {showPrivacy && <PrivacyModal onClose={()=>setShowPrivacy(false)} />}
       <div dir={isRTL ? "rtl" : "ltr"} style={{ minHeight:"100vh", background:TH.bg2, color:TH.text }}>
 
         {/* HEADER */}
@@ -1206,6 +1251,9 @@ export default function TravelPlanner() {
                   ))}
                 </div>
               </div>
+
+              {/* Ad banner between booking links and hotel recommendation */}
+              <AdBanner slot="1111111111" />
 
               {/* Hotel banner */}
               <div style={{ background:TH.hotelBg, border:`1px solid ${TH.hotelBorder}`, borderRadius:13, padding:"13px 18px", marginBottom:18, display:"flex", alignItems:"center", justifyContent:"space-between", gap:12, flexWrap:"wrap" }}>
@@ -1482,8 +1530,17 @@ export default function TravelPlanner() {
           )}
         </div>
 
-        <div style={{ textAlign:"center", padding:"18px", borderTop:`1px solid ${TH.cardBorder}`, color:TH.text3, fontSize:11 }}>
-          VoyagePro — 50+ destinations mondiales · Planificateur de voyage intelligent ✈️
+        <div style={{ borderTop:`1px solid ${TH.cardBorder}` }}>
+          <div style={{ maxWidth:900, margin:"0 auto", padding:"0 24px" }}>
+            <AdBanner slot="2222222222" />
+          </div>
+          <div style={{ textAlign:"center", padding:"14px 18px 18px", color:TH.text3, fontSize:11, display:"flex", flexWrap:"wrap", justifyContent:"center", alignItems:"center", gap:12 }}>
+            <span>VoyagePro — 50+ destinations mondiales · Planificateur de voyage intelligent ✈️</span>
+            <span style={{ opacity:.4 }}>·</span>
+            <button onClick={()=>setShowPrivacy(true)} style={{ background:"transparent", border:"none", color:TH.text3, fontSize:11, cursor:"pointer", textDecoration:"underline", fontFamily:"'DM Sans',sans-serif", padding:0 }}>Politique de confidentialité</button>
+            <span style={{ opacity:.4 }}>·</span>
+            <span>© 2026 VoyagePro</span>
+          </div>
         </div>
       </div>
     </>
