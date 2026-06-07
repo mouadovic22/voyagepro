@@ -21,14 +21,26 @@ const WIKI_TITLES = {
   sofia:"Sofia",zagreb:"Zagreb",valletta:"Valletta"
 };
 
+// ── AFFILIATE IDs ── fill in after registering at each platform
+const AFF = {
+  booking:      "",   // partners.booking.com  → "AID" (ex: "1234567")
+  getyourguide: "",   // partner.getyourguide.com → "partner_id" (ex: "AB1CD2")
+  viator:       "",   // partnerplatform.viator.com → publisher pid (ex: "P00123456")
+  skyscanner:   "",   // travelpayouts.com/programs/114 → "marker" (ex: "123456")
+};
+
+const aff = (base, params) => AFF[Object.keys(params)[0]]
+  ? `${base}${base.includes("?")?"&":"?"}${Object.entries(params).map(([k,v])=>`${k}=${v}`).join("&")}`
+  : base;
+
 const BOOK = {
   flights:     (from, to)   => `https://www.google.com/travel/flights?q=vols+de+${encodeURIComponent(from)}+à+${encodeURIComponent(to)}`,
-  skyscanner:  (from, to)   => `https://www.skyscanner.fr/transport/vols/${encodeURIComponent(from.toLowerCase().replace(/ /g,"-"))}/${encodeURIComponent(to.toLowerCase().replace(/ /g,"-"))}/`,
+  skyscanner:  (from, to)   => aff(`https://www.skyscanner.fr/transport/vols/${encodeURIComponent(from.toLowerCase().replace(/ /g,"-"))}/${encodeURIComponent(to.toLowerCase().replace(/ /g,"-"))}/`, {marker:AFF.skyscanner}),
   kayak:       (from, to)   => `https://www.kayak.fr/flights/${encodeURIComponent(from)}-${encodeURIComponent(to)}`,
-  booking:     (city, name) => `https://www.booking.com/searchresults.fr.html?ss=${encodeURIComponent(name||city)}&lang=fr`,
+  booking:     (city, name) => aff(`https://www.booking.com/searchresults.fr.html?ss=${encodeURIComponent(name||city)}&lang=fr`, {aid:AFF.booking}),
   airbnb:      (city)       => `https://www.airbnb.fr/s/${encodeURIComponent(city)}/homes`,
-  getyourguide:(name, city) => `https://www.getyourguide.fr/s/?q=${encodeURIComponent(name+" "+city)}&locale_autoredirect_optout=true`,
-  viator:      (name, city) => `https://www.viator.com/fr-FR/search?text=${encodeURIComponent(name+" "+city)}`,
+  getyourguide:(name, city) => aff(`https://www.getyourguide.fr/s/?q=${encodeURIComponent(name+" "+city)}&locale_autoredirect_optout=true`, {partner_id:AFF.getyourguide}),
+  viator:      (name, city) => aff(`https://www.viator.com/fr-FR/search?text=${encodeURIComponent(name+" "+city)}`, {pid:AFF.viator}),
   thefork:     (name, city) => `https://www.thefork.fr/recherche?q=${encodeURIComponent(name)}&cityName=${encodeURIComponent(city)}`,
   tripadvisor: (name, city) => `https://www.tripadvisor.fr/Search?q=${encodeURIComponent(name+" "+city)}&searchSessionId=x`,
   maps:        (name, city) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(name+" "+city)}`,
