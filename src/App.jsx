@@ -68,8 +68,34 @@ const wikiError = e => {
   if (e.target.dataset.tried) { e.target.style.opacity=0; return; }
   e.target.dataset.tried = '1';
   const width = e.target.dataset.hires ? 1000 : 600;
-  fetchWikiImage(e.target.dataset.id, e.target.alt, width)
+  const searchTerm = e.target.dataset.wikiterm || e.target.alt;
+  fetchWikiImage(e.target.dataset.id || searchTerm, searchTerm, width)
     .then(src=>{ if(src){e.target.src=src;e.target.style.opacity=1;}else e.target.style.opacity=0;});
+};
+
+const CUISINE_WIKI = t => {
+  const s = (t||"").toLowerCase();
+  if (s.includes("ramen"))       return "Ramen";
+  if (s.includes("sushi"))       return "Sushi";
+  if (s.includes("crêpe")||s.includes("crepe")) return "Crêpe";
+  if (s.includes("street")||s.includes("marché")) return "Street_food";
+  if (s.includes("bistro"))      return "Bistro";
+  if (s.includes("café")||s.includes("cafe")) return "Café";
+  if (s.includes("gastronomique")) return "French_cuisine";
+  if (s.includes("thaï")||s.includes("thai")) return "Thai_cuisine";
+  if (s.includes("indien")||s.includes("indienne")) return "Indian_cuisine";
+  if (s.includes("marocain")||s.includes("tajine")||s.includes("tagine")) return "Moroccan_cuisine";
+  if (s.includes("italien")||s.includes("pizza")) return "Italian_cuisine";
+  if (s.includes("japonais")||s.includes("tempura")) return "Japanese_cuisine";
+  if (s.includes("turc")||s.includes("meze")||s.includes("mezze")) return "Turkish_cuisine";
+  if (s.includes("mexicain")||s.includes("tacos")) return "Mexican_cuisine";
+  if (s.includes("paella")||s.includes("tapas")) return "Spanish_cuisine";
+  if (s.includes("dim sum")||s.includes("cantonais")) return "Dim_sum";
+  if (s.includes("burger")||s.includes("américain")) return "Hamburger";
+  if (s.includes("grillades")||s.includes("bbq")) return "Barbecue";
+  if (s.includes("fusion"))      return "Fusion_cuisine";
+  if (s.includes("rooftop"))     return "Rooftop_bar";
+  return null;
 };
 
 const DESTINATIONS = [
@@ -962,7 +988,13 @@ function generateItinerary(destination, budget, startDate, endDate, adults, chil
     if (attractions[(ai+1)%attractions.length]) afternoon.push({ time:"17h00", activity:`📍 ${attractions[(ai+1)%attractions.length].name}`, note:`${attractions[(ai+1)%attractions.length].duration} · ${attractions[(ai+1)%attractions.length].budget[budget]}` });
     const evening = restaurants[ri] ? [{ time:"19h30", activity:`🍽 Dîner — ${restaurants[ri].name}`, note:`${restaurants[ri].type} · ${restaurants[ri].budget[budget]}` }] : [];
     if (d === days - 1) evening.push({ time:"Matin", activity:"🛫 Check-out & départ", note:"Bon retour !" });
-    return { day: d+1, date: dateLabel, morning, afternoon, evening };
+    const toItems = arr => arr.map(item => ({
+      time: item.time,
+      icon: item.activity.match(/^\S+/)?.[0] || "📌",
+      activity: item.activity.replace(/^\S+\s/, ""),
+      desc: item.note,
+    }));
+    return { day: d+1, date: dateLabel, items: [...toItems(morning), ...toItems(afternoon), ...toItems(evening)] };
   });
 }
 
@@ -1309,6 +1341,7 @@ export default function TravelPlanner() {
   const [openFaq, setOpenFaq] = useState(null);
   const [heroIdx, setHeroIdx] = useState(0);
   const [heroImgs, setHeroImgs] = useState({});
+  const [extraImgs, setExtraImgs] = useState({});
   const [showTravelers, setShowTravelers] = useState(false);
   const destRef = useRef(null);
   const aboutRef = useRef(null);
@@ -1333,10 +1366,61 @@ export default function TravelPlanner() {
   // eslint-disable-next-line
   },[]);
 
+  // Preload hotel + restaurant images when step 3 opens
+  useEffect(()=>{
+    if (step !== 3 || !destination) return;
+    const d = getDestData(destination);
+    if (!d) return;
+    let delay = 0;
+    ["serré","moyen","riche"].forEach(tier => {
+      (d.hotels[tier]||[]).forEach(h => {
+        const key = `hotel_${h.name}`;
+        if (!h.name || extraImgs[key]) return;
+        const t = delay; delay += 220;
+        setTimeout(()=>{ fetchWikiImage(key, h.name, 800).then(src=>{ if(src) setExtraImgs(p=>({...p,[key]:src})); }); }, t);
+      });
+    });
+    const seenTypes = new Set();
+    d.restaurants.forEach(r => {
+      const wiki = CUISINE_WIKI(r.type);
+      if (!wiki || seenTypes.has(wiki)) return;
+      seenTypes.add(wiki);
+      const key = `rest_${wiki}`;
+      if (extraImgs[key]) return;
+      const t = delay; delay += 220;
+      setTimeout(()=>{ fetchWikiImage(key, wiki.replace(/_/g,' '), 600).then(src=>{ if(src) setExtraImgs(p=>({...p,[key]:src})); }); }, t);
+    });
+  // eslint-disable-next-line
+  },[step, destination]);
+
   const T = LANG[lang];
   const TH = THEMES[theme];
   const ST = STEP1[theme];
   const isRTL = lang === "ar";
+  const isLight = theme === "light";
+
+  // Theme tokens for steps 2 & 3
+  const S2 = {
+    sectBg:   isLight ? "rgba(255,255,255,.92)"              : "rgba(15,27,45,.65)",
+    sectBg3:  isLight ? "rgba(255,255,255,.85)"              : "rgba(15,27,45,.45)",
+    sectBdr:  isLight ? "rgba(109,40,217,.15)"               : "rgba(255,255,255,.07)",
+    bodyText: isLight ? "#1A0B35"                            : "#F8FAFC",
+    muted:    isLight ? "#4B5563"                            : "#94A3B8",
+    muted70:  isLight ? "rgba(75,85,99,.75)"                 : "rgba(148,163,184,.7)",
+    cardBg:   isLight ? "rgba(109,40,217,.04)"               : "rgba(255,255,255,.04)",
+    cardBdr:  isLight ? "rgba(109,40,217,.12)"               : "rgba(255,255,255,.07)",
+    btnBg:    isLight ? "rgba(109,40,217,.07)"               : "rgba(255,255,255,.05)",
+    btnBg2:   isLight ? "rgba(109,40,217,.05)"               : "rgba(255,255,255,.06)",
+    btnBdr:   isLight ? "rgba(109,40,217,.14)"               : "rgba(255,255,255,.12)",
+    tabBg:    isLight ? "rgba(109,40,217,.04)"               : "rgba(255,255,255,.04)",
+    tabBdr:   isLight ? "rgba(109,40,217,.12)"               : "rgba(255,255,255,.1)",
+    sep:      isLight ? "rgba(109,40,217,.15)"               : "rgba(255,255,255,.2)",
+    dimText:  isLight ? "rgba(91,33,182,.38)"                : "rgba(148,163,184,.5)",
+    sumBg:    isLight
+      ? "linear-gradient(135deg,rgba(255,255,255,.96),rgba(245,240,255,.96))"
+      : "linear-gradient(135deg,rgba(15,27,45,.9),rgba(9,18,32,.9))",
+    borderL:  isLight ? "3px solid rgba(109,40,217,.3)"      : "3px solid #8B5CF6",
+  };
 
   const nights = startDate && endDate ? Math.max(0, Math.round((new Date(endDate)-new Date(startDate))/86400000)) : 0;
   const data = destination ? getDestData(destination) : null;
@@ -1362,7 +1446,6 @@ export default function TravelPlanner() {
   const reset = () => { setStep(1); setOrigin(""); setDestination(null); setBudget(""); setStartDate(""); setEndDate(""); setAdults(2); setChildren(0); setSearch(""); setContinent("tous"); };
 
 
-  const isLight = theme === "light";
   const inputText = isLight ? "#1A1208" : "#F8FAFC";
   const inputBg = isLight ? "rgba(26,18,8,.04)" : "rgba(255,255,255,.06)";
   const inputBorder = isLight ? "rgba(26,18,8,.16)" : "rgba(255,255,255,.1)";
@@ -1882,55 +1965,55 @@ export default function TravelPlanner() {
             <div style={{ maxWidth:820, margin:"0 auto", padding:"40px 28px 80px" }}>
               <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:36, fontSize:13 }}>
                 <span onClick={()=>setStep(1)} style={{ color:"#D4A574", cursor:"pointer", fontWeight:500 }}>{T.step_dest}</span>
-                <span style={{ color:"rgba(255,255,255,.2)" }}>›</span>
-                <span style={{ color:"#F8FAFC", fontWeight:700 }}>{T.step_settings}</span>
-                <span style={{ color:"rgba(255,255,255,.2)" }}>›</span>
-                <span style={{ color:"rgba(148,163,184,.5)" }}>{T.step_program}</span>
+                <span style={{ color:S2.sep }}>›</span>
+                <span style={{ color:S2.bodyText, fontWeight:700 }}>{T.step_settings}</span>
+                <span style={{ color:S2.sep }}>›</span>
+                <span style={{ color:S2.dimText }}>{T.step_program}</span>
               </div>
 
               <div style={{ background:"rgba(212,165,116,.05)", border:"1px solid rgba(212,165,116,.16)", borderRadius:22, padding:"22px 26px", marginBottom:32, display:"flex", alignItems:"center", gap:18 }}>
                 <span style={{ fontSize:40 }}>{destination?.emoji}</span>
                 <div>
-                  <div style={{ fontFamily:"'Playfair Display',serif", fontSize:24, fontWeight:700, color:"#F8FAFC", marginBottom:4 }}>{destination?.name} {destination?.flag}</div>
-                  <div style={{ fontSize:13, color:"#94A3B8" }}>{origin} → {destination?.name} · {destination?.country} · 🌡 {destination?.temp}</div>
+                  <div style={{ fontFamily:"'Playfair Display',serif", fontSize:24, fontWeight:700, color:S2.bodyText, marginBottom:4 }}>{destination?.name} {destination?.flag}</div>
+                  <div style={{ fontSize:13, color:S2.muted }}>{origin} → {destination?.name} · {destination?.country} · 🌡 {destination?.temp}</div>
                 </div>
               </div>
 
-              <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:28, fontWeight:700, marginBottom:28, color:"#F8FAFC" }}>{T.configure}</h2>
+              <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:28, fontWeight:700, marginBottom:28, color:S2.bodyText }}>{T.configure}</h2>
 
-              <div style={{ background:"rgba(15,27,45,.65)", border:"1px solid rgba(255,255,255,.07)", borderRadius:22, padding:"26px", marginBottom:16, backdropFilter:"blur(8px)" }}>
+              <div style={{ background:S2.sectBg, border:`1px solid ${S2.sectBdr}`, borderRadius:22, padding:"26px", marginBottom:16, backdropFilter:"blur(8px)" }}>
                 <div style={{ fontSize:11, color:"#D4A574", textTransform:"uppercase", letterSpacing:"1.5px", fontWeight:600, marginBottom:18 }}>{T.lbl_dates}</div>
                 <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:16 }}>
-                  <div><label style={{ display:"block", marginBottom:7, fontSize:12, color:"#94A3B8" }}>{T.dep_date}</label><input type="date" value={startDate} min={new Date().toISOString().split("T")[0]} onChange={e=>setStartDate(e.target.value)}/></div>
-                  <div><label style={{ display:"block", marginBottom:7, fontSize:12, color:"#94A3B8" }}>{T.ret_date}</label><input type="date" value={endDate} min={startDate||new Date().toISOString().split("T")[0]} onChange={e=>setEndDate(e.target.value)}/></div>
+                  <div><label style={{ display:"block", marginBottom:7, fontSize:12, color:S2.muted }}>{T.dep_date}</label><input type="date" value={startDate} min={new Date().toISOString().split("T")[0]} onChange={e=>setStartDate(e.target.value)}/></div>
+                  <div><label style={{ display:"block", marginBottom:7, fontSize:12, color:S2.muted }}>{T.ret_date}</label><input type="date" value={endDate} min={startDate||new Date().toISOString().split("T")[0]} onChange={e=>setEndDate(e.target.value)}/></div>
                 </div>
                 {nights>0&&<div style={{ marginTop:14, fontSize:13, color:"#D4A574", background:"rgba(212,165,116,.08)", borderRadius:10, padding:"8px 16px", display:"inline-block" }}>✨ <strong>{T.nights(nights)}</strong> à {destination?.name}</div>}
               </div>
 
-              <div style={{ background:"rgba(15,27,45,.65)", border:"1px solid rgba(255,255,255,.07)", borderRadius:22, padding:"26px", marginBottom:16, backdropFilter:"blur(8px)" }}>
+              <div style={{ background:S2.sectBg, border:`1px solid ${S2.sectBdr}`, borderRadius:22, padding:"26px", marginBottom:16, backdropFilter:"blur(8px)" }}>
                 <div style={{ fontSize:11, color:"#D4A574", textTransform:"uppercase", letterSpacing:"1.5px", fontWeight:600, marginBottom:18 }}>{T.lbl_travelers}</div>
                 <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:20 }}>
                   {[[`👤 ${T.adults}`,adults,setAdults,1],[`👶 ${T.children}`,children,setChildren,0]].map(([lbl,val,set,min])=>(
                     <div key={lbl}>
-                      <label style={{ display:"block", marginBottom:12, fontSize:12, color:"#94A3B8" }}>{lbl}</label>
+                      <label style={{ display:"block", marginBottom:12, fontSize:12, color:S2.muted }}>{lbl}</label>
                       <div style={{ display:"flex", alignItems:"center", gap:14 }}>
-                        <button onClick={()=>set(Math.max(min,val-1))} style={{ width:38, height:38, borderRadius:12, border:"1px solid rgba(255,255,255,.12)", background:"rgba(255,255,255,.05)", color:"#F8FAFC", cursor:"pointer", fontSize:20, display:"flex", alignItems:"center", justifyContent:"center", transition:"all .2s" }}>−</button>
-                        <span style={{ fontSize:20, fontWeight:700, color:"#F8FAFC", minWidth:28, textAlign:"center" }}>{val}</span>
-                        <button onClick={()=>set(val+1)} style={{ width:38, height:38, borderRadius:12, border:"1px solid rgba(255,255,255,.12)", background:"rgba(255,255,255,.05)", color:"#F8FAFC", cursor:"pointer", fontSize:20, display:"flex", alignItems:"center", justifyContent:"center", transition:"all .2s" }}>+</button>
+                        <button onClick={()=>set(Math.max(min,val-1))} style={{ width:38, height:38, borderRadius:12, border:`1px solid ${S2.btnBdr}`, background:S2.btnBg, color:S2.bodyText, cursor:"pointer", fontSize:20, display:"flex", alignItems:"center", justifyContent:"center", transition:"all .2s" }}>−</button>
+                        <span style={{ fontSize:20, fontWeight:700, color:S2.bodyText, minWidth:28, textAlign:"center" }}>{val}</span>
+                        <button onClick={()=>set(val+1)} style={{ width:38, height:38, borderRadius:12, border:`1px solid ${S2.btnBdr}`, background:S2.btnBg, color:S2.bodyText, cursor:"pointer", fontSize:20, display:"flex", alignItems:"center", justifyContent:"center", transition:"all .2s" }}>+</button>
                       </div>
                     </div>
                   ))}
                 </div>
               </div>
 
-              <div style={{ background:"rgba(15,27,45,.65)", border:"1px solid rgba(255,255,255,.07)", borderRadius:22, padding:"26px", marginBottom:32, backdropFilter:"blur(8px)" }}>
+              <div style={{ background:S2.sectBg, border:`1px solid ${S2.sectBdr}`, borderRadius:22, padding:"26px", marginBottom:32, backdropFilter:"blur(8px)" }}>
                 <div style={{ fontSize:11, color:"#D4A574", textTransform:"uppercase", letterSpacing:"1.5px", fontWeight:600, marginBottom:18 }}>💰 {T.budget_type}</div>
                 <div style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:14 }}>
                   {Object.entries(BUDGET_LABELS).map(([key,val])=>(
-                    <div key={key} onClick={()=>setBudget(key)} style={{ cursor:"pointer", borderRadius:18, padding:"20px 14px", textAlign:"center", border:`2px solid ${budget===key?val.color:"rgba(255,255,255,.08)"}`, background:budget===key?`rgba(${key==="serré"?"45,212,191":key==="moyen"?"245,158,11":"139,92,246"},.1)`:"rgba(255,255,255,.03)", transition:"all .22s" }}>
+                    <div key={key} onClick={()=>setBudget(key)} style={{ cursor:"pointer", borderRadius:18, padding:"20px 14px", textAlign:"center", border:`2px solid ${budget===key?val.color:S2.cardBdr}`, background:budget===key?`rgba(${key==="serré"?"45,212,191":key==="moyen"?"245,158,11":"139,92,246"},.1)`:S2.cardBg, transition:"all .22s" }}>
                       <div style={{ fontSize:30, marginBottom:10 }}>{val.icon}</div>
-                      <div style={{ fontWeight:700, fontSize:14, color:budget===key?val.color:"#F8FAFC", marginBottom:5 }}>{val.label}</div>
-                      <div style={{ fontSize:11, color:"#94A3B8", lineHeight:1.5 }}>{val.desc}</div>
+                      <div style={{ fontWeight:700, fontSize:14, color:budget===key?val.color:S2.bodyText, marginBottom:5 }}>{val.label}</div>
+                      <div style={{ fontSize:11, color:S2.muted, lineHeight:1.5 }}>{val.desc}</div>
                     </div>
                   ))}
                 </div>
@@ -1951,15 +2034,15 @@ export default function TravelPlanner() {
             <div style={{ maxWidth:1140, margin:"0 auto", padding:"32px 28px 60px" }}>
 
               {/* Summary bar */}
-              <div style={{ background:"linear-gradient(135deg,rgba(15,27,45,.9),rgba(9,18,32,.9))", border:"1px solid rgba(212,165,116,.14)", borderRadius:22, padding:"18px 24px", marginBottom:20, backdropFilter:"blur(8px)", display:"flex", flexWrap:"wrap", gap:14, alignItems:"center", justifyContent:"space-between" }}>
+              <div style={{ background:S2.sumBg, border:"1px solid rgba(212,165,116,.14)", borderRadius:22, padding:"18px 24px", marginBottom:20, backdropFilter:"blur(8px)", display:"flex", flexWrap:"wrap", gap:14, alignItems:"center", justifyContent:"space-between" }}>
                 <div style={{ display:"flex", gap:20, flexWrap:"wrap" }}>
                   {[[T.journey,`${origin} → ${destination.name} ${destination.flag}`],[T.stay,T.nights(nights)],[T.travelers,`${adults} adulte${adults>1?"s":""}${children>0?` + ${children} enfant${children>1?"s":""}`:""}`],[T.budget_label,`${BUDGET_LABELS[budget].icon} ${BUDGET_LABELS[budget].label}`]].map(([k,v])=>(
-                    <div key={k}><div style={{ fontSize:10, color:"#94A3B8", textTransform:"uppercase", letterSpacing:"1px", marginBottom:3 }}>{k}</div><div style={{ fontSize:14, fontWeight:700, color:k===T.budget_label?BUDGET_LABELS[budget].color:"#F8FAFC" }}>{v}</div></div>
+                    <div key={k}><div style={{ fontSize:10, color:S2.muted, textTransform:"uppercase", letterSpacing:"1px", marginBottom:3 }}>{k}</div><div style={{ fontSize:14, fontWeight:700, color:k===T.budget_label?BUDGET_LABELS[budget].color:S2.bodyText }}>{v}</div></div>
                   ))}
                 </div>
                 <div style={{ display:"flex", gap:8, flexWrap:"wrap" }}>
                   <button className="bpdf" onClick={handlePDF} disabled={pdfLoading}>{pdfLoading?<span className="sp"/>:"📥"} {pdfLoading?T.generating:T.dl_pdf}</button>
-                  <button onClick={()=>setStep(2)} style={{ background:"rgba(255,255,255,.06)", border:"1px solid rgba(255,255,255,.1)", color:"#94A3B8", padding:"9px 16px", borderRadius:10, cursor:"pointer", fontSize:13, fontFamily:"'Inter',sans-serif" }}>{T.modify}</button>
+                  <button onClick={()=>setStep(2)} style={{ background:S2.btnBg2, border:`1px solid ${S2.tabBdr}`, color:S2.muted, padding:"9px 16px", borderRadius:10, cursor:"pointer", fontSize:13, fontFamily:"'Inter',sans-serif" }}>{T.modify}</button>
                   <button onClick={reset} style={{ background:"linear-gradient(135deg,#D4A574,#C49160)", border:"none", color:"white", padding:"9px 18px", borderRadius:10, cursor:"pointer", fontSize:13, fontWeight:700, fontFamily:"'Inter',sans-serif", display:"flex", alignItems:"center", gap:6 }}>🏠 {T.home_btn}</button>
                 </div>
               </div>
@@ -1983,10 +2066,10 @@ export default function TravelPlanner() {
                   <span style={{ fontSize:34 }}>🏨</span>
                   <div>
                     <div style={{ fontSize:10, color:"#D4A574", textTransform:"uppercase", letterSpacing:"1px", marginBottom:3 }}>{T.recommended}</div>
-                    <div style={{ fontSize:18, fontWeight:700, marginBottom:4, color:"#F8FAFC" }}>{data.hotels[budget]?.[0]?.name}</div>
+                    <div style={{ fontSize:18, fontWeight:700, marginBottom:4, color:S2.bodyText }}>{data.hotels[budget]?.[0]?.name}</div>
                     <div style={{ display:"flex", gap:8, alignItems:"center" }}>
                       <span style={{ color:"#F59E0B" }}>{"★".repeat(data.hotels[budget]?.[0]?.stars||0)}</span>
-                      <span style={{ fontSize:12, color:"#94A3B8" }}>· {data.hotels[budget]?.[0]?.price}</span>
+                      <span style={{ fontSize:12, color:S2.muted }}>· {data.hotels[budget]?.[0]?.price}</span>
                     </div>
                   </div>
                 </div>
@@ -1997,27 +2080,27 @@ export default function TravelPlanner() {
               <div style={{ display:"flex", gap:6, marginBottom:22, flexWrap:"wrap" }}>
                 {T.tabs.map((label,i)=>{
                   const key=T.tab_keys[i];const active=activeTab===key;
-                  return <button key={key} onClick={()=>setActiveTab(key)} style={{ padding:"10px 22px", borderRadius:12, border:`1px solid ${active?"transparent":"rgba(255,255,255,.1)"}`, cursor:"pointer", fontSize:13, fontWeight:active?700:500, fontFamily:"'Inter',sans-serif", background:active?"linear-gradient(135deg,#6D28D9,#8B5CF6)":"rgba(255,255,255,.04)", color:active?"white":"#94A3B8", transition:"all .2s" }}>{label}</button>;
+                  return <button key={key} onClick={()=>setActiveTab(key)} style={{ padding:"10px 22px", borderRadius:12, border:`1px solid ${active?"transparent":S2.tabBdr}`, cursor:"pointer", fontSize:13, fontWeight:active?700:500, fontFamily:"'Inter',sans-serif", background:active?"linear-gradient(135deg,#6D28D9,#8B5CF6)":S2.tabBg, color:active?"white":S2.muted, transition:"all .2s" }}>{label}</button>;
                 })}
               </div>
 
               {/* Tab content */}
-              <div style={{ background:"rgba(15,27,45,.45)", border:"1px solid rgba(255,255,255,.07)", borderRadius:22, padding:"28px" }}>
+              <div style={{ background:S2.sectBg3, border:`1px solid ${S2.sectBdr}`, borderRadius:22, padding:"28px" }}>
 
                 {activeTab==="attractions" && (
                   <div>
-                    <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:20, fontWeight:700, marginBottom:18, color:"#F8FAFC" }}>Attractions à {destination.name}</h3>
+                    <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:20, fontWeight:700, marginBottom:18, color:S2.bodyText }}>Attractions à {destination.name}</h3>
                     <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(270px,1fr))", gap:14 }}>
                       {data.attractions.map(a=>(
-                        <div key={a.name} style={{ background:"rgba(255,255,255,.04)", border:"1px solid rgba(255,255,255,.07)", borderRadius:18, padding:18 }}>
+                        <div key={a.name} style={{ background:S2.cardBg, border:`1px solid ${S2.cardBdr}`, borderRadius:18, padding:18 }}>
                           <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:8 }}>
-                            <div style={{ fontWeight:700, fontSize:14, color:"#F8FAFC" }}>{a.name}</div>
+                            <div style={{ fontWeight:700, fontSize:14, color:S2.bodyText }}>{a.name}</div>
                             <span style={{ padding:"3px 10px", borderRadius:20, fontSize:10, fontWeight:600, background:"rgba(139,92,246,.15)", color:"#C4B5FD", flexShrink:0, marginLeft:8 }}>{a.type}</span>
                           </div>
-                          <div style={{ fontSize:12, color:"rgba(148,163,184,.7)", marginBottom:10 }}>⏱ {a.duration}</div>
-                          <div style={{ background:"rgba(255,255,255,.04)", borderRadius:10, padding:"8px 12px", marginBottom:12 }}>
+                          <div style={{ fontSize:12, color:S2.muted70, marginBottom:10 }}>⏱ {a.duration}</div>
+                          <div style={{ background:S2.cardBg, borderRadius:10, padding:"8px 12px", marginBottom:12, border:`1px solid ${S2.cardBdr}` }}>
                             <div style={{ fontSize:10, color:BUDGET_LABELS[budget].color, fontWeight:600, textTransform:"uppercase", letterSpacing:"1px", marginBottom:2 }}>{BUDGET_LABELS[budget].icon} Prix</div>
-                            <div style={{ fontSize:13, fontWeight:600, color:"#F8FAFC" }}>{a.budget[budget]}</div>
+                            <div style={{ fontSize:13, fontWeight:600, color:S2.bodyText }}>{a.budget[budget]}</div>
                           </div>
                           <div style={{ display:"flex", gap:8 }}>
                             <a href={BOOK.getyourguide(a.name,destination.name)} target="_blank" rel="noopener noreferrer" style={{ flex:1, display:"flex", alignItems:"center", justifyContent:"center", gap:5, padding:"8px 0", borderRadius:10, background:"#FF6B35", color:"white", fontSize:11, fontWeight:600, textDecoration:"none" }}>🎟 GetYourGuide</a>
@@ -2031,50 +2114,61 @@ export default function TravelPlanner() {
 
                 {activeTab==="restaurants" && (
                   <div>
-                    <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:20, fontWeight:700, marginBottom:18, color:"#F8FAFC" }}>Restaurants à {destination.name}</h3>
+                    <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:20, fontWeight:700, marginBottom:18, color:S2.bodyText }}>Restaurants à {destination.name}</h3>
                     <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(280px,1fr))", gap:14 }}>
-                      {data.restaurants.map(r=>(
-                        <div key={r.name} style={{ background:"rgba(255,255,255,.04)", border:"1px solid rgba(255,255,255,.07)", borderRadius:18, padding:18 }}>
-                          <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:6 }}>
-                            <div style={{ fontWeight:700, fontSize:14, color:"#F8FAFC" }}>{r.name}</div>
-                            <div>{Array.from({length:r.stars||0},(_,i)=><span key={i} style={{color:"#F59E0B",fontSize:12}}>★</span>)}</div>
-                          </div>
-                          <div style={{ fontSize:12, color:"rgba(148,163,184,.7)", marginBottom:6 }}>{r.type}</div>
-                          {r.price&&<div style={{ fontSize:13, fontWeight:600, color:"#D4A574", marginBottom:12 }}>💰 {r.price}</div>}
-                          {r.price&&(
-                            <div style={{ display:"flex", gap:7 }}>
-                              <a href={BOOK.thefork(r.name,destination.name)} target="_blank" rel="noopener noreferrer" style={{ flex:1, display:"flex", alignItems:"center", justifyContent:"center", gap:5, padding:"7px 0", borderRadius:10, background:"#00B551", color:"white", fontSize:11, fontWeight:600, textDecoration:"none" }}>🍴 TheFork</a>
-                              <a href={BOOK.tripadvisor(r.name,destination.name)} target="_blank" rel="noopener noreferrer" style={{ flex:1, display:"flex", alignItems:"center", justifyContent:"center", gap:5, padding:"7px 0", borderRadius:10, background:"rgba(52,224,161,.1)", color:"#34E0A1", fontSize:11, fontWeight:600, textDecoration:"none", border:"1px solid rgba(52,224,161,.2)" }}>⭐ Tripadvisor</a>
-                              <a href={BOOK.maps(r.name,destination.name)} target="_blank" rel="noopener noreferrer" style={{ padding:"7px 12px", borderRadius:10, background:"rgba(255,255,255,.06)", color:"#94A3B8", fontSize:14, textDecoration:"none", display:"flex", alignItems:"center" }}>📍</a>
+                      {data.restaurants.map(r=>{
+                        const wikiKey = CUISINE_WIKI(r.type);
+                        const img = wikiKey ? extraImgs[`rest_${wikiKey}`] : null;
+                        return (
+                        <div key={r.name} style={{ background:S2.cardBg, border:`1px solid ${S2.cardBdr}`, borderRadius:18, overflow:"hidden" }}>
+                          {img ? (
+                            <div style={{ height:140, overflow:"hidden" }}>
+                              <img src={img} alt={r.type} style={{ width:"100%", height:"100%", objectFit:"cover" }} />
                             </div>
+                          ) : (
+                            <div style={{ height:8, background:`linear-gradient(90deg,${BUDGET_LABELS[budget]?.color||"#8B5CF6"},rgba(139,92,246,.3))` }} />
                           )}
+                          <div style={{ padding:16 }}>
+                            <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:6 }}>
+                              <div style={{ fontWeight:700, fontSize:14, color:S2.bodyText }}>{r.name}</div>
+                              <div>{Array.from({length:r.stars||0},(_,i)=><span key={i} style={{color:"#F59E0B",fontSize:12}}>★</span>)}</div>
+                            </div>
+                            <div style={{ fontSize:12, color:S2.muted70, marginBottom:6 }}>{r.type}</div>
+                            {r.price&&<div style={{ fontSize:13, fontWeight:600, color:"#D4A574", marginBottom:10 }}>💰 {r.price}</div>}
+                            <div style={{ display:"flex", gap:7 }}>
+                              <a href={BOOK.maps(r.name,destination.name)} target="_blank" rel="noopener noreferrer" style={{ flex:1, display:"flex", alignItems:"center", justifyContent:"center", gap:5, padding:"7px 0", borderRadius:10, background:"#4285F4", color:"white", fontSize:11, fontWeight:600, textDecoration:"none" }}>🗺 Google Maps</a>
+                              <a href={BOOK.thefork(r.name,destination.name)} target="_blank" rel="noopener noreferrer" style={{ flex:1, display:"flex", alignItems:"center", justifyContent:"center", gap:5, padding:"7px 0", borderRadius:10, background:"#00B551", color:"white", fontSize:11, fontWeight:600, textDecoration:"none" }}>🍴 TheFork</a>
+                              <a href={BOOK.tripadvisor(r.name,destination.name)} target="_blank" rel="noopener noreferrer" style={{ padding:"7px 10px", borderRadius:10, background:"rgba(52,224,161,.1)", color:"#34E0A1", fontSize:12, textDecoration:"none", display:"flex", alignItems:"center", border:"1px solid rgba(52,224,161,.2)" }}>⭐</a>
+                            </div>
+                          </div>
                         </div>
-                      ))}
+                        );
+                      })}
                     </div>
                   </div>
                 )}
 
-                {activeTab==="planning" && (
+                {activeTab==="itinerary" && (
                   <div>
-                    <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:20, fontWeight:700, marginBottom:18, color:"#F8FAFC" }}>📅 {T.daily_plan} — {destination.name}</h3>
+                    <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:20, fontWeight:700, marginBottom:18, color:S2.bodyText }}>📅 {T.daily_plan} — {destination.name}</h3>
                     <div style={{ display:"flex", flexDirection:"column", gap:16 }}>
                       {itinerary.map(day=>(
-                        <div key={day.day} style={{ background:"rgba(255,255,255,.03)", border:"1px solid rgba(255,255,255,.07)", borderRadius:18, overflow:"hidden" }}>
-                          <div style={{ background:"rgba(212,165,116,.07)", borderBottom:"1px solid rgba(255,255,255,.06)", padding:"14px 22px", display:"flex", alignItems:"center", gap:14 }}>
+                        <div key={day.day} style={{ background:S2.cardBg, border:`1px solid ${S2.cardBdr}`, borderRadius:18, overflow:"hidden" }}>
+                          <div style={{ background:"rgba(212,165,116,.07)", borderBottom:`1px solid ${S2.cardBdr}`, padding:"14px 22px", display:"flex", alignItems:"center", gap:14 }}>
                             <div style={{ width:38, height:38, borderRadius:"50%", background:"linear-gradient(135deg,#D4A574,#C49160)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:14, fontWeight:800, color:"white", flexShrink:0 }}>{day.day}</div>
                             <div>
                               <div style={{ fontSize:10, color:"#D4A574", textTransform:"uppercase", letterSpacing:"1px" }}>Jour {day.day}</div>
-                              <div style={{ fontWeight:700, fontSize:14, color:"#F8FAFC" }}>{day.date}</div>
+                              <div style={{ fontWeight:700, fontSize:14, color:S2.bodyText }}>{day.date}</div>
                             </div>
                           </div>
                           <div style={{ padding:"10px 0" }}>
                             {day.items.map((item,i)=>(
-                              <div key={i} style={{ display:"flex", gap:14, padding:"10px 22px", borderBottom:i<day.items.length-1?"1px solid rgba(255,255,255,.04)":"none" }}>
+                              <div key={i} style={{ display:"flex", gap:14, padding:"10px 22px", borderBottom:i<day.items.length-1?`1px solid ${S2.cardBdr}`:"none" }}>
                                 <div style={{ fontSize:11, color:"#D4A574", fontWeight:600, minWidth:42, paddingTop:2 }}>{item.time}</div>
                                 <div style={{ fontSize:22, flexShrink:0 }}>{item.icon}</div>
                                 <div style={{ flex:1 }}>
-                                  <div style={{ fontWeight:600, fontSize:13, color:"#F8FAFC", marginBottom:3 }}>{item.activity}</div>
-                                  <div style={{ fontSize:12, color:"rgba(148,163,184,.65)", lineHeight:1.5 }}>{item.desc}</div>
+                                  <div style={{ fontWeight:600, fontSize:13, color:S2.bodyText, marginBottom:3 }}>{item.activity}</div>
+                                  <div style={{ fontSize:12, color:S2.muted70, lineHeight:1.5 }}>{item.desc}</div>
                                 </div>
                               </div>
                             ))}
@@ -2085,9 +2179,16 @@ export default function TravelPlanner() {
                   </div>
                 )}
 
+                {activeTab==="map" && (
+                  <div>
+                    <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:20, fontWeight:700, marginBottom:18, color:S2.bodyText }}>🗺 Carte — {destination.name}</h3>
+                    <MapView destination={destination} budget={budget} />
+                  </div>
+                )}
+
                 {activeTab==="transport" && (
                   <div>
-                    <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:20, fontWeight:700, marginBottom:16, color:"#F8FAFC" }}>✈️ {T.transport_info} — {origin} → {destination.name}</h3>
+                    <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:20, fontWeight:700, marginBottom:16, color:S2.bodyText }}>✈️ {T.transport_info} — {origin} → {destination.name}</h3>
                     <div style={{ background:"rgba(14,165,233,.06)", border:"1px solid rgba(14,165,233,.14)", borderRadius:14, padding:"14px 18px", marginBottom:20 }}>
                       <div style={{ fontSize:11, color:"#C4B5FD", textTransform:"uppercase", letterSpacing:"1px", fontWeight:600, marginBottom:10 }}>✈️ Réserver votre vol</div>
                       <div style={{ display:"flex", gap:9, flexWrap:"wrap" }}>
@@ -2098,11 +2199,11 @@ export default function TravelPlanner() {
                     </div>
                     <div style={{ display:"flex", flexDirection:"column", gap:10, marginBottom:22 }}>
                       {data.transport.map((t,i)=>(
-                        <div key={i} style={{ background:"rgba(255,255,255,.04)", border:"1px solid rgba(255,255,255,.07)", borderRadius:14, padding:"16px 20px", display:"flex", gap:14, alignItems:"flex-start", borderLeft:"3px solid #8B5CF6" }}>
+                        <div key={i} style={{ background:S2.cardBg, border:`1px solid ${S2.cardBdr}`, borderRadius:14, padding:"16px 20px", display:"flex", gap:14, alignItems:"flex-start", borderLeft:S2.borderL }}>
                           <span style={{ fontSize:28, flexShrink:0 }}>{t.mode.split(" ")[0]}</span>
                           <div style={{ flex:1 }}>
-                            <div style={{ fontWeight:700, fontSize:14, marginBottom:4, color:"#F8FAFC" }}>{t.mode}</div>
-                            <div style={{ fontSize:13, color:"#94A3B8", marginBottom:8 }}>{t.info}</div>
+                            <div style={{ fontWeight:700, fontSize:14, marginBottom:4, color:S2.bodyText }}>{t.mode}</div>
+                            <div style={{ fontSize:13, color:S2.muted, marginBottom:8 }}>{t.info}</div>
                             <div style={{ background:`rgba(${budget==="serré"?"45,212,191":budget==="moyen"?"245,158,11":"139,92,246"},.1)`, border:`1px solid rgba(${budget==="serré"?"45,212,191":budget==="moyen"?"245,158,11":"139,92,246"},.2)`, borderRadius:8, padding:"5px 12px", display:"inline-block", fontSize:12, fontWeight:600, color:BUDGET_LABELS[budget].color }}>{BUDGET_LABELS[budget].icon} {t.budgetNote}</div>
                           </div>
                         </div>
@@ -2110,9 +2211,9 @@ export default function TravelPlanner() {
                     </div>
                     <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(200px,1fr))", gap:10 }}>
                       {TRANSPORT_MODES.map(tm=>(
-                        <div key={tm.label} style={{ background:"rgba(255,255,255,.03)", border:`1px solid rgba(255,255,255,.07)`, borderRadius:14, padding:"14px 16px", display:"flex", gap:12, alignItems:"flex-start", borderTop:`2px solid ${tm.color}` }}>
+                        <div key={tm.label} style={{ background:S2.cardBg, border:`1px solid ${S2.cardBdr}`, borderRadius:14, padding:"14px 16px", display:"flex", gap:12, alignItems:"flex-start", borderTop:`2px solid ${tm.color}` }}>
                           <span style={{ fontSize:24, flexShrink:0 }}>{tm.icon}</span>
-                          <div><div style={{ fontWeight:700, fontSize:13, marginBottom:4, color:"#F8FAFC" }}>{tm.label}</div><div style={{ fontSize:11, color:"#94A3B8", lineHeight:1.5 }}>{tm.desc}</div></div>
+                          <div><div style={{ fontWeight:700, fontSize:13, marginBottom:4, color:S2.bodyText }}>{tm.label}</div><div style={{ fontSize:11, color:S2.muted, lineHeight:1.5 }}>{tm.desc}</div></div>
                         </div>
                       ))}
                     </div>
@@ -2121,8 +2222,8 @@ export default function TravelPlanner() {
 
                 {activeTab==="hotels" && (
                   <div>
-                    <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:20, fontWeight:700, marginBottom:8, color:"#F8FAFC" }}>🏨 {T.hotel_options} — {destination.name}</h3>
-                    <p style={{ fontSize:13, color:"#94A3B8", marginBottom:16 }}>Tous les hébergements disponibles par catégorie de budget</p>
+                    <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:20, fontWeight:700, marginBottom:8, color:S2.bodyText }}>🏨 {T.hotel_options} — {destination.name}</h3>
+                    <p style={{ fontSize:13, color:S2.muted, marginBottom:16 }}>Tous les hébergements disponibles par catégorie de budget</p>
                     <div style={{ display:"flex", gap:9, flexWrap:"wrap", marginBottom:22 }}>
                       {[{label:"Booking.com",color:"#003580",url:BOOK.booking(destination.name)},{label:"Airbnb",color:"#FF5A5F",url:BOOK.airbnb(destination.name)},{label:"Hotels.com",color:"#D9000D",url:`https://fr.hotels.com/search.do?q-destination=${encodeURIComponent(destination.name)}`}].map(({label,color,url})=>(
                         <a key={label} href={url} target="_blank" rel="noopener noreferrer" style={{ display:"inline-flex", alignItems:"center", gap:6, padding:"8px 18px", borderRadius:20, background:color, color:"white", fontSize:12, fontWeight:600, textDecoration:"none" }}>🏨 {label}</a>
@@ -2133,25 +2234,37 @@ export default function TravelPlanner() {
                         const list=data.hotels[tier]||[];const bl=BUDGET_LABELS[tier];
                         return (
                           <div key={tier}>
-                            <div style={{ display:"flex", alignItems:"center", gap:9, marginBottom:14, paddingBottom:10, borderBottom:"1px solid rgba(255,255,255,.06)" }}>
+                            <div style={{ display:"flex", alignItems:"center", gap:9, marginBottom:14, paddingBottom:10, borderBottom:`1px solid ${S2.cardBdr}` }}>
                               <span style={{ fontSize:22 }}>{bl.icon}</span>
                               <div style={{ fontWeight:700, fontSize:15, color:bl.color }}>{bl.label}</div>
-                              <span style={{ fontSize:12, color:"#94A3B8" }}>— {bl.desc}</span>
+                              <span style={{ fontSize:12, color:S2.muted }}>— {bl.desc}</span>
                             </div>
                             <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(250px,1fr))", gap:12 }}>
-                              {list.map((h,i)=>(
-                                <div key={i} style={{ background:"rgba(255,255,255,.04)", border:`${tier===budget?"2px solid "+bl.color:"1px solid rgba(255,255,255,.07)"}`, borderRadius:16, padding:18, position:"relative" }}>
-                                  {tier===budget&&i===0&&<div style={{ position:"absolute", top:10, right:10, background:bl.color, color:"white", fontSize:9, fontWeight:700, padding:"2px 8px", borderRadius:10, textTransform:"uppercase" }}>✓ {T.selected}</div>}
-                                  <div style={{ fontWeight:700, fontSize:14, marginBottom:4, color:"#F8FAFC" }}>{h.name}</div>
-                                  {h.type&&<div style={{ fontSize:11, color:"#94A3B8", marginBottom:6 }}>{h.type}</div>}
-                                  <div style={{ color:"#F59E0B", fontSize:13, marginBottom:8 }}>{"★".repeat(h.stars)}{"☆".repeat(Math.max(0,5-h.stars))}</div>
-                                  <div style={{ background:`rgba(${tier==="serré"?"45,212,191":tier==="moyen"?"245,158,11":"139,92,246"},.1)`, border:`1px solid rgba(${tier==="serré"?"45,212,191":tier==="moyen"?"245,158,11":"139,92,246"},.2)`, borderRadius:8, padding:"6px 10px", fontSize:13, fontWeight:600, color:bl.color, marginBottom:12 }}>💰 {h.price}</div>
-                                  <div style={{ display:"flex", gap:7 }}>
-                                    <a href={BOOK.booking(destination.name,h.name)} target="_blank" rel="noopener noreferrer" style={{ flex:1, display:"flex", alignItems:"center", justifyContent:"center", gap:5, padding:"8px 0", borderRadius:10, background:"#003580", color:"white", fontSize:11, fontWeight:600, textDecoration:"none" }}>🏨 Booking</a>
-                                    <a href={BOOK.airbnb(destination.name)} target="_blank" rel="noopener noreferrer" style={{ flex:1, display:"flex", alignItems:"center", justifyContent:"center", gap:5, padding:"8px 0", borderRadius:10, background:"#FF5A5F", color:"white", fontSize:11, fontWeight:600, textDecoration:"none" }}>🏠 Airbnb</a>
+                              {list.map((h,i)=>{
+                                const hotelImg = extraImgs[`hotel_${h.name}`];
+                                return (
+                                <div key={i} style={{ background:S2.cardBg, border:`${tier===budget?"2px solid "+bl.color:`1px solid ${S2.cardBdr}`}`, borderRadius:16, overflow:"hidden", position:"relative" }}>
+                                  {hotelImg ? (
+                                    <div style={{ height:150, overflow:"hidden" }}>
+                                      <img src={hotelImg} alt={h.name} style={{ width:"100%", height:"100%", objectFit:"cover" }} />
+                                    </div>
+                                  ) : (
+                                    <div style={{ height:6, background:`linear-gradient(90deg,${bl.color},rgba(139,92,246,.3))` }} />
+                                  )}
+                                  <div style={{ padding:16, position:"relative" }}>
+                                    {tier===budget&&i===0&&<div style={{ position:"absolute", top:-8, right:10, background:bl.color, color:"white", fontSize:9, fontWeight:700, padding:"2px 8px", borderRadius:10, textTransform:"uppercase" }}>✓ {T.selected}</div>}
+                                    <div style={{ fontWeight:700, fontSize:14, marginBottom:4, color:S2.bodyText }}>{h.name}</div>
+                                    {h.type&&<div style={{ fontSize:11, color:S2.muted, marginBottom:6 }}>{h.type}</div>}
+                                    <div style={{ color:"#F59E0B", fontSize:13, marginBottom:8 }}>{"★".repeat(h.stars)}{"☆".repeat(Math.max(0,5-h.stars))}</div>
+                                    <div style={{ background:`rgba(${tier==="serré"?"45,212,191":tier==="moyen"?"245,158,11":"139,92,246"},.1)`, border:`1px solid rgba(${tier==="serré"?"45,212,191":tier==="moyen"?"245,158,11":"139,92,246"},.2)`, borderRadius:8, padding:"6px 10px", fontSize:13, fontWeight:600, color:bl.color, marginBottom:12 }}>💰 {h.price}</div>
+                                    <div style={{ display:"flex", gap:7 }}>
+                                      <a href={BOOK.booking(destination.name,h.name)} target="_blank" rel="noopener noreferrer" style={{ flex:1, display:"flex", alignItems:"center", justifyContent:"center", gap:5, padding:"8px 0", borderRadius:10, background:"#003580", color:"white", fontSize:11, fontWeight:600, textDecoration:"none" }}>🏨 Booking</a>
+                                      <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(h.name+" "+destination.name)}`} target="_blank" rel="noopener noreferrer" style={{ flex:1, display:"flex", alignItems:"center", justifyContent:"center", gap:5, padding:"8px 0", borderRadius:10, background:"#4285F4", color:"white", fontSize:11, fontWeight:600, textDecoration:"none" }}>📍 Maps</a>
+                                    </div>
                                   </div>
                                 </div>
-                              ))}
+                                );
+                              })}
                             </div>
                           </div>
                         );
@@ -2161,8 +2274,8 @@ export default function TravelPlanner() {
                 )}
               </div>
 
-              <div style={{ textAlign:"center", padding:"32px 0 8px", color:"rgba(148,163,184,.4)", fontSize:11, display:"flex", flexWrap:"wrap", justifyContent:"center", gap:12, alignItems:"center" }}>
-                <span>VoyagesPro · 50+ destinations mondiales ✈️</span>
+              <div style={{ textAlign:"center", padding:"32px 0 8px", color:S2.muted70, fontSize:11, display:"flex", flexWrap:"wrap", justifyContent:"center", gap:12, alignItems:"center" }}>
+                <span>VoyagesPro · 65+ destinations mondiales ✈️</span>
                 <span>·</span>
                 <button onClick={()=>setShowPrivacy(true)} style={{ background:"none", border:"none", color:"rgba(148,163,184,.4)", fontSize:11, cursor:"pointer", textDecoration:"underline", padding:0 }}>Politique de confidentialité</button>
                 <span>·</span>
