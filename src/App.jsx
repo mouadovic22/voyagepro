@@ -21,12 +21,14 @@ const WIKI_TITLES = {
   sofia:"Sofia",zagreb:"Zagreb",valletta:"Valletta"
 };
 
-// ── AFFILIATE IDs ── fill in after registering at each platform
+// ── AFFILIATE IDs ── CJ Publisher ID: 7982811
+// To get link IDs: CJ dashboard → Advertisers → join program → Links → Deep Link Generator
 const AFF = {
-  booking:      "",   // partners.booking.com  → "AID" (ex: "1234567")
-  getyourguide: "",   // partner.getyourguide.com → "partner_id" (ex: "AB1CD2")
-  viator:       "",   // partnerplatform.viator.com → publisher pid (ex: "P00123456")
-  skyscanner:   "",   // travelpayouts.com/programs/114 → "marker" (ex: "123456")
+  cj_pid:       "7982811", // your CJ Publisher ID
+  booking:      "",   // CJ → Booking.com program → link ID after "click-7982811-"
+  getyourguide: "",   // partner.getyourguide.com → partner_id (direct program, not CJ)
+  viator:       "",   // CJ → Viator program → link ID after "click-7982811-"
+  kayak:        "",   // CJ → Kayak program → link ID after "click-7982811-"
 };
 
 const aff = (base, params) => AFF[Object.keys(params)[0]]
@@ -246,6 +248,16 @@ const LANG = {
       {title:"New York, la ville qui ne dort jamais", text:"Capitale culturelle et financière, New York est une énergie à elle seule. Contemplez la skyline depuis l'Empire State Building, promenez-vous dans Central Park, traversez le pont de Brooklyn et laissez-vous happer par l'effervescence de Times Square. Entre comédies musicales à Broadway, musées de renommée mondiale et quartiers cosmopolites, la Grosse Pomme se découvre toute l'année, avec une magie particulière à l'automne et pendant les fêtes."},
     ],
     faq_badge:"Questions fréquentes", faq_title:"Tout ce qu'il faut savoir",
+    faq_items:[
+      ["VoyagesPro est-il vraiment gratuit ?", "Oui, VoyagesPro est 100 % gratuit et le restera. Vous pouvez planifier autant de voyages que vous le souhaitez, consulter les itinéraires et exporter votre programme en PDF sans aucun frais ni abonnement."],
+      ["Dois-je créer un compte pour utiliser le site ?", "Non, aucune inscription n'est requise. VoyagesPro fonctionne directement dans votre navigateur : choisissez votre destination, vos dates et votre budget, et obtenez instantanément votre programme personnalisé."],
+      ["Comment VoyagesPro crée-t-il mon itinéraire ?", "Notre outil génère un programme jour par jour adapté à votre destination, à la durée de votre séjour et à votre budget. Chaque journée comprend des attractions incontournables, des suggestions de restaurants et des recommandations d'hébergements."],
+      ["Combien de destinations sont disponibles ?", "VoyagesPro propose 50 destinations parmi les plus prisées au monde, réparties sur tous les continents : Europe, Asie, Afrique, Amériques et Océanie, de Paris à Tokyo en passant par Marrakech, Dubaï et Bali."],
+      ["Puis-je exporter mon programme de voyage ?", "Absolument. Une fois votre itinéraire généré, vous pouvez l'exporter en PDF en un clic pour le consulter hors ligne, l'imprimer ou le partager avec vos compagnons de voyage."],
+      ["VoyagesPro réserve-t-il les hôtels et les vols ?", "VoyagesPro est un outil de planification : il vous oriente vers les meilleures attractions, restaurants et hôtels, et vous propose des liens vers des partenaires de confiance pour effectuer vos réservations en toute sérénité."],
+      ["Sur quels appareils puis-je utiliser VoyagesPro ?", "VoyagesPro est accessible depuis n'importe quel appareil disposant d'un navigateur web : ordinateur, tablette ou smartphone. L'interface s'adapte automatiquement à votre écran."],
+      ["Les informations sont-elles à jour ?", "Nous sélectionnons des lieux et attractions reconnus et durables. Nous vous recommandons toutefois de vérifier les horaires et conditions d'accès directement auprès des établissements avant votre départ."],
+    ],
     footer_tagline:"Votre partenaire pour des voyages inoubliables, personnalisés et sans stress.",
     footer_dest:"Destinations",
     footer_continents:["Europe","Asie","Afrique","Amérique","Océanie"],
@@ -332,6 +344,16 @@ const LANG = {
       {title:"New York, the city that never sleeps", text:"Cultural and financial capital, New York is an energy unto itself. Admire the skyline from the Empire State Building, stroll Central Park, cross the Brooklyn Bridge and let Times Square sweep you away. With Broadway musicals, world-class museums and cosmopolitan neighborhoods, the Big Apple enchants year-round, with special magic in autumn and the holiday season."},
     ],
     faq_badge:"FAQ", faq_title:"Everything you need to know",
+    faq_items:[
+      ["Is VoyagesPro really free?", "Yes, VoyagesPro is 100% free and will remain so. You can plan as many trips as you like, view itineraries and export your programme to PDF with no fees or subscription."],
+      ["Do I need to create an account?", "No, no sign-up required. VoyagesPro works directly in your browser: choose your destination, dates and budget, and instantly get your personalised itinerary."],
+      ["How does VoyagesPro create my itinerary?", "Our tool generates a day-by-day programme tailored to your destination, length of stay and budget. Each day includes must-see attractions, restaurant suggestions and accommodation recommendations."],
+      ["How many destinations are available?", "VoyagesPro offers 50 of the world's most popular destinations across all continents: Europe, Asia, Africa, the Americas and Oceania — from Paris to Tokyo, via Marrakech, Dubai and Bali."],
+      ["Can I export my itinerary?", "Absolutely. Once your itinerary is generated, you can export it to PDF in one click to read offline, print or share with your travel companions."],
+      ["Does VoyagesPro book hotels and flights?", "VoyagesPro is a planning tool: it guides you to the best attractions, restaurants and hotels, and provides links to trusted partners so you can book with confidence."],
+      ["Which devices can I use VoyagesPro on?", "VoyagesPro works on any device with a web browser: computer, tablet or smartphone. The interface adapts automatically to your screen size."],
+      ["Is the information up to date?", "We select well-established and lasting places and attractions. We recommend checking opening hours and access conditions directly with establishments before you travel."],
+    ],
     footer_tagline:"Your partner for unforgettable, personalized and stress-free travels.",
     footer_dest:"Destinations",
     footer_continents:["Europe","Asia","Africa","Americas","Oceania"],
@@ -418,6 +440,16 @@ const LANG = {
       {title:"نيويورك، المدينة التي لا تنام", text:"العاصمة الثقافية والمالية، نيويورك طاقة بحد ذاتها. أعجب بأفق المدينة من إمباير ستيت بيلدينغ، تجوّل في سنترال بارك، اعبر جسر بروكلين ودعك تبتلعك إثارة تايمز سكوير. بين عروض برودواي والمتاحف العالمية والأحياء الكوزموبوليتانية، تكشف التفاحة الكبرى سحرها طوال العام مع بهجة خاصة في الخريف والأعياد."},
     ],
     faq_badge:"الأسئلة الشائعة", faq_title:"كل ما تحتاج معرفته",
+    faq_items:[
+      ["هل VoyagesPro مجاني حقاً؟", "نعم، VoyagesPro مجاني 100% وسيظل كذلك. يمكنك التخطيط لأي عدد من الرحلات والاطلاع على البرامج وتصديرها بصيغة PDF دون أي رسوم أو اشتراك."],
+      ["هل أحتاج إلى إنشاء حساب؟", "لا، لا يلزم التسجيل. يعمل VoyagesPro مباشرة في متصفحك: اختر وجهتك وتواريخك وميزانيتك، واحصل فوراً على برنامجك المخصص."],
+      ["كيف يُنشئ VoyagesPro برنامجي؟", "تُولّد أداتنا برنامجاً يومياً مُكيَّفاً مع وجهتك ومدة إقامتك وميزانيتك. تشمل كل يوم أبرز المعالم السياحية واقتراحات المطاعم والإقامات المناسبة."],
+      ["كم عدد الوجهات المتاحة؟", "يقدم VoyagesPro 50 وجهة من أشهر وجهات العالم موزعة على جميع القارات: أوروبا وآسيا وأفريقيا والأمريكتان وأوقيانوسيا، من باريس إلى طوكيو مروراً بمراكش ودبي وبالي."],
+      ["هل يمكنني تصدير برنامج رحلتي؟", "بالتأكيد. بمجرد إنشاء برنامجك، يمكنك تصديره بصيغة PDF بنقرة واحدة للاطلاع عليه دون اتصال أو طباعته أو مشاركته مع رفقاء سفرك."],
+      ["هل يحجز VoyagesPro الفنادق والرحلات؟", "VoyagesPro أداة تخطيط: يرشدك إلى أفضل المعالم والمطاعم والفنادق، ويوفر روابط لشركاء موثوقين لإجراء حجوزاتك بكل سهولة وأمان."],
+      ["على أي أجهزة يمكنني استخدام VoyagesPro؟", "يعمل VoyagesPro على أي جهاز بمتصفح ويب: حاسوب أو لوحي أو هاتف ذكي. تتكيف الواجهة تلقائياً مع حجم شاشتك."],
+      ["هل المعلومات محدَّثة؟", "نختار أماكن ومعالم راسخة ومستدامة. نوصي مع ذلك بالتحقق من أوقات العمل وشروط الدخول مباشرة من الجهات المعنية قبل سفرك."],
+    ],
     footer_tagline:"رفيقك لرحلات لا تُنسى، مخصصة وخالية من التوتر.",
     footer_dest:"الوجهات",
     footer_continents:["أوروبا","آسيا","أفريقيا","الأمريكتان","أوقيانوسيا"],
@@ -1758,7 +1790,7 @@ export default function TravelPlanner() {
                   <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:"clamp(28px,4vw,42px)", fontWeight:900, color:ST.text }}>{T.faq_title}</h2>
                 </div>
                 <div>
-                  {FAQ_ITEMS.map(([q,a],i)=>(
+                  {T.faq_items.map(([q,a],i)=>(
                     <div key={i} style={{ borderBottom:`1px solid ${ST.cardBorder}` }}>
                       <button onClick={()=>setOpenFaq(openFaq===i?null:i)} style={{ width:"100%", background:"transparent", border:"none", padding:"22px 4px", display:"flex", justifyContent:"space-between", alignItems:"center", cursor:"pointer", textAlign:isRTL?"right":"left", gap:16 }}>
                         <span style={{ fontSize:16, fontWeight:600, color:ST.text, fontFamily:"'Inter',sans-serif" }}>{q}</span>
