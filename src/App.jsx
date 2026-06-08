@@ -151,34 +151,93 @@ const wikiError = e => {
     .then(src=>{ if(src){e.target.src=src;e.target.style.opacity=1;}else e.target.style.opacity=0;});
 };
 
-// Stable Wikimedia Commons thumbnails for cuisine types (no API call needed)
-const WK = "https://upload.wikimedia.org/wikipedia/commons/thumb/";
-const CUISINE_PHOTO = t => {
+// Map cuisine type string → Wikipedia article title for food photo lookup
+const getFoodWikiTitle = t => {
   const s = (t||"").toLowerCase();
-  if (s.includes("ramen"))          return WK+"d/d2/Shoyu_ramen%2C_at_Kasukabe_Station_%282014.05.05%29_1.jpg/400px-Shoyu_ramen%2C_at_Kasukabe_Station_%282014.05.05%29_1.jpg";
-  if (s.includes("sushi"))          return WK+"6/60/Sushi_platter.jpg/400px-Sushi_platter.jpg";
-  if (s.includes("crêpe")||s.includes("crepe")) return WK+"1/1f/Crepes_with_strawberries.jpg/400px-Crepes_with_strawberries.jpg";
-  if (s.includes("street")||s.includes("marché")) return WK+"a/a7/Camponotus_flavomarginatus_ant.jpg/400px-Street_food_market.jpg";
-  if (s.includes("bistro")||s.includes("brasserie")) return WK+"b/b4/Wiener_Schnitzel_02.jpg/400px-Wiener_Schnitzel_02.jpg";
-  if (s.includes("gastronomique")||s.includes("étoilé")) return WK+"b/b4/Plato_del_buen_comer.jpg/400px-Plato_del_buen_comer.jpg";
-  if (s.includes("café")||s.includes("cafe")||s.includes("coffee")) return WK+"4/45/A_small_cup_of_coffee.JPG/400px-A_small_cup_of_coffee.JPG";
-  if (s.includes("thaï")||s.includes("thai")) return WK+"b/bf/Gaeng_daeng.jpg/400px-Gaeng_daeng.jpg";
-  if (s.includes("indien")||s.includes("indienne")||s.includes("curry")) return WK+"1/15/Red_curry.jpg/400px-Red_curry.jpg";
-  if (s.includes("marocain")||s.includes("tajine")||s.includes("tagine")) return WK+"e/e4/Tajine_de_l%27agneau.jpg/400px-Tajine_de_l%27agneau.jpg";
-  if (s.includes("italien")||s.includes("pizza")||s.includes("pasta")) return WK+"a/a3/Eq_it-na_pizza-margherita_sep2005_sml.jpg/400px-Eq_it-na_pizza-margherita_sep2005_sml.jpg";
-  if (s.includes("japonais")||s.includes("tempura")||s.includes("teppan")) return WK+"c/c1/Tempura_mixed.jpg/400px-Tempura_mixed.jpg";
-  if (s.includes("turc")||s.includes("kebab")||s.includes("meze")||s.includes("mezze")) return WK+"3/37/Meze_spread.jpg/400px-Meze_spread.jpg";
-  if (s.includes("mexicain")||s.includes("tacos")) return WK+"8/84/Breakfast_burrito_scrambled_eggs.jpg/400px-Breakfast_burrito_scrambled_eggs.jpg";
-  if (s.includes("paella")||s.includes("tapas")||s.includes("espagnol")) return WK+"4/4e/Paella_de_mariscos.jpg/400px-Paella_de_mariscos.jpg";
-  if (s.includes("dim sum")||s.includes("cantonais")||s.includes("chinois")) return WK+"0/0e/Dimsum_in_Hong_Kong.jpg/400px-Dimsum_in_Hong_Kong.jpg";
-  if (s.includes("burger")||s.includes("américain")||s.includes("fast")) return WK+"0/0b/Grilled_Cheese_Bacon_Burger.jpg/400px-Grilled_Cheese_Bacon_Burger.jpg";
-  if (s.includes("grillades")||s.includes("bbq")||s.includes("steak")) return WK+"7/72/Barbecued_pork_chops.jpg/400px-Barbecued_pork_chops.jpg";
-  if (s.includes("libanais")||s.includes("houmous")||s.includes("falafel")) return WK+"8/83/Hummus_from_The_Nile.jpg/400px-Hummus_from_The_Nile.jpg";
-  if (s.includes("grec")||s.includes("souvlaki")) return WK+"7/7e/Souvlaki_Platter.jpg/400px-Souvlaki_Platter.jpg";
-  if (s.includes("rooftop")||s.includes("bar")) return WK+"4/4e/Siam_Paragon_rooftop_food_court.jpg/400px-Siam_Paragon_rooftop_food_court.jpg";
-  if (s.includes("fruits de mer")||s.includes("poisson")||s.includes("seafood")) return WK+"5/5c/FruitsMer.jpg/400px-FruitsMer.jpg";
-  // generic restaurant fallback
-  return WK+"b/b4/Restaurant_1_.jpg/400px-Restaurant_1_.jpg";
+  if (s.includes("ramen"))                                    return "Ramen";
+  if (s.includes("sushi"))                                    return "Sushi";
+  if (s.includes("pizza")||s.includes("trattoria"))           return "Pizza";
+  if (s.includes("burger")||s.includes("fast food"))          return "Hamburger";
+  if (s.includes("tapas")||s.includes("pintxos")||s.includes("catalan")) return "Tapas";
+  if (s.includes("paella")||s.includes("espagnol"))           return "Paella";
+  if (s.includes("gastronomique")||s.includes("étoilé")||s.includes("étoile")||s.includes("haute")||s.includes("kaiseki")) return "Haute_cuisine";
+  if (s.includes("bistro")||s.includes("brasserie")||s.includes("café parisien")) return "French_cuisine";
+  if (s.includes("crêpe")||s.includes("crepe"))               return "Crêpe";
+  if (s.includes("street food")||s.includes("marché"))        return "Street_food";
+  if (s.includes("marocain")||s.includes("tajine")||s.includes("tagine")) return "Moroccan_cuisine";
+  if (s.includes("souvlaki")||s.includes("gyros")||s.includes("grec"))    return "Souvlaki";
+  if (s.includes("steak")||s.includes("grillades")||s.includes("bbq")||s.includes("steakhouse")) return "Steak";
+  if (s.includes("deli"))                                     return "Delicatessen";
+  if (s.includes("café")||s.includes("cafe")||s.includes("coffee")) return "Coffeehouse";
+  if (s.includes("koshary")||s.includes("égyptien"))          return "Kushari";
+  if (s.includes("indien")||s.includes("indienne")||s.includes("curry")) return "Indian_cuisine";
+  if (s.includes("thaï")||s.includes("thai")||s.includes("thaïlandais")) return "Thai_cuisine";
+  if (s.includes("japonais")||s.includes("tempura")||s.includes("teppan")||s.includes("balinais")) return "Japanese_cuisine";
+  if (s.includes("tunisien"))                                 return "Tunisian_cuisine";
+  if (s.includes("algérien"))                                 return "Algerian_cuisine";
+  if (s.includes("émirati"))                                  return "Emirati_cuisine";
+  if (s.includes("fusion"))                                   return "Fusion_cuisine";
+  if (s.includes("iranien"))                                  return "Iranian_cuisine";
+  if (s.includes("pakistanais"))                              return "Pakistani_cuisine";
+  if (s.includes("turc")||s.includes("kebab")||s.includes("meze")||s.includes("ottoman")||s.includes("baklava")) return "Turkish_cuisine";
+  if (s.includes("dim sum")||s.includes("cantonais")||s.includes("chinois")) return "Dim_sum";
+  if (s.includes("libanais")||s.includes("falafel")||s.includes("houmous")) return "Lebanese_cuisine";
+  if (s.includes("fruits de mer")||s.includes("seafood"))    return "Seafood";
+  if (s.includes("vietnam"))                                  return "Vietnamese_cuisine";
+  if (s.includes("coréen"))                                   return "Korean_cuisine";
+  if (s.includes("locale")||s.includes("local")||s.includes("traditionnel")) return "Cuisine";
+  return "Restaurant";
+};
+
+const getFoodEmoji = t => {
+  const s = (t||"").toLowerCase();
+  if (s.includes("ramen")||s.includes("japonais")) return "🍜";
+  if (s.includes("sushi")) return "🍣";
+  if (s.includes("pizza")||s.includes("trattoria")) return "🍕";
+  if (s.includes("burger")) return "🍔";
+  if (s.includes("tapas")||s.includes("paella")) return "🥘";
+  if (s.includes("gastronomique")||s.includes("étoilé")||s.includes("haute")) return "⭐";
+  if (s.includes("crêpe")) return "🥞";
+  if (s.includes("street food")||s.includes("marché")) return "🌮";
+  if (s.includes("marocain")||s.includes("tajine")) return "🫕";
+  if (s.includes("souvlaki")||s.includes("grec")) return "🥙";
+  if (s.includes("steak")||s.includes("grillades")) return "🥩";
+  if (s.includes("deli")) return "🥪";
+  if (s.includes("café")||s.includes("coffee")) return "☕";
+  if (s.includes("indien")||s.includes("curry")) return "🍛";
+  if (s.includes("thaï")) return "🌶️";
+  if (s.includes("turc")||s.includes("kebab")) return "🌯";
+  if (s.includes("mexicain")||s.includes("tacos")) return "🌮";
+  if (s.includes("chinois")||s.includes("dim sum")) return "🥟";
+  if (s.includes("fruits de mer")||s.includes("seafood")) return "🦞";
+  return "🍽️";
+};
+
+// Map cuisine type to TheMealDB search term for real food photos
+const getFoodMealTerm = t => {
+  const s = (t||"").toLowerCase();
+  if (s.includes("ramen"))                                    return "ramen";
+  if (s.includes("sushi"))                                    return "sushi";
+  if (s.includes("pizza")||s.includes("trattoria"))           return "pizza";
+  if (s.includes("burger")||s.includes("fast food"))          return "burger";
+  if (s.includes("tapas")||s.includes("pintxos"))             return "tapas";
+  if (s.includes("paella")||s.includes("espagnol"))           return "paella";
+  if (s.includes("crêpe")||s.includes("crepe"))               return "crepes";
+  if (s.includes("marocain")||s.includes("tajine")||s.includes("tagine")) return "tagine";
+  if (s.includes("souvlaki")||s.includes("grec"))             return "souvlaki";
+  if (s.includes("steak")||s.includes("grillades")||s.includes("bbq")) return "steak";
+  if (s.includes("indien")||s.includes("curry"))              return "curry";
+  if (s.includes("thaï")||s.includes("thai"))                 return "pad thai";
+  if (s.includes("turc")||s.includes("kebab"))                return "kebab";
+  if (s.includes("dim sum")||s.includes("chinois"))           return "dim sum";
+  if (s.includes("libanais")||s.includes("falafel"))          return "falafel";
+  if (s.includes("fruits de mer")||s.includes("seafood"))     return "seafood";
+  if (s.includes("vietnam")||s.includes("pho"))               return "pho";
+  if (s.includes("coréen"))                                   return "bibimbap";
+  if (s.includes("bistro")||s.includes("brasserie")||s.includes("gastronomique")) return "french onion soup";
+  if (s.includes("deli"))                                     return "sandwich";
+  if (s.includes("street food")||s.includes("marché"))        return "tacos";
+  return "pasta";
 };
 
 const DESTINATIONS = [
@@ -1431,6 +1490,7 @@ export default function TravelPlanner() {
     return out;
   });
   const [extraImgs, setExtraImgs] = useState({});
+  const [foodImgs, setFoodImgs] = useState({});
   const [showTravelers, setShowTravelers] = useState(false);
   const destRef = useRef(null);
   const aboutRef = useRef(null);
@@ -1454,19 +1514,22 @@ export default function TravelPlanner() {
     });
   // eslint-disable-next-line
   },[]);
-  // Preload hotel images from Wikipedia when step 3 opens
+  // Fetch food photos from TheMealDB for restaurant cards
   useEffect(()=>{
     if (step !== 3 || !destination) return;
     const d = getDestData(destination);
-    if (!d) return;
-    let delay = 0;
-    ["serré","moyen","riche"].forEach(tier => {
-      (d.hotels[tier]||[]).forEach(h => {
-        const key = `hotel_${h.name}`;
-        if (!h.name || extraImgs[key]) return;
-        const t = delay; delay += 300;
-        setTimeout(()=>{ fetchWikiImage(key, h.name, 800).then(src=>{ if(src) setExtraImgs(p=>({...p,[key]:src})); }); }, t);
-      });
+    if (!d?.restaurants) return;
+    const seen = new Set();
+    d.restaurants.forEach((r, i) => {
+      const term = getFoodMealTerm(r.type);
+      if (seen.has(term) || foodImgs[r.type]) return;
+      seen.add(term);
+      setTimeout(()=>{
+        fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${encodeURIComponent(term)}`)
+          .then(res=>res.json())
+          .then(json=>{ const img=json?.meals?.[0]?.strMealThumb; if(img) setFoodImgs(p=>({...p,[r.type]:img})); })
+          .catch(()=>{});
+      }, i * 250);
     });
   // eslint-disable-next-line
   },[step, destination]);
@@ -2195,19 +2258,25 @@ export default function TravelPlanner() {
                     <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:20, fontWeight:700, marginBottom:18, color:S2.bodyText }}>Restaurants à {destination.name}</h3>
                     <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(280px,1fr))", gap:14 }}>
                       {data.restaurants.map(r=>{
-                        const cuisineImg = CUISINE_PHOTO(r.type);
+                        const foodImg = foodImgs[r.type];
+                        const foodEmoji = getFoodEmoji(r.type);
                         return (
                         <div key={r.name} style={{ background:S2.cardBg, border:`1px solid ${S2.cardBdr}`, borderRadius:18, overflow:"hidden" }}>
-                          <div style={{ height:140, overflow:"hidden", background:S2.cardBg }}>
-                            <img src={cuisineImg} alt={r.type}
-                              onError={e=>{ e.target.style.display="none"; }}
-                              style={{ width:"100%", height:"100%", objectFit:"cover" }} />
+                          <div style={{ height:160, overflow:"hidden", position:"relative" }}>
+                            {foodImg ? (
+                              <img src={foodImg} alt={r.type} style={{ width:"100%", height:"100%", objectFit:"cover" }} />
+                            ) : (
+                              <div style={{ width:"100%", height:"100%", background:`linear-gradient(135deg,rgba(139,92,246,.18),rgba(212,165,116,.15))`, display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", gap:6 }}>
+                                <span style={{ fontSize:52 }}>{foodEmoji}</span>
+                                <span style={{ fontSize:11, color:S2.muted, fontWeight:600 }}>{r.type}</span>
+                              </div>
+                            )}
+                            <div style={{ position:"absolute", top:10, right:10, background:"rgba(0,0,0,.55)", backdropFilter:"blur(6px)", borderRadius:20, padding:"3px 10px", fontSize:10, color:"white", fontWeight:600 }}>
+                              {Array.from({length:r.stars||0},(_,i)=><span key={i}>★</span>)}
+                            </div>
                           </div>
                           <div style={{ padding:16 }}>
-                            <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:6 }}>
-                              <div style={{ fontWeight:700, fontSize:14, color:S2.bodyText }}>{r.name}</div>
-                              <div>{Array.from({length:r.stars||0},(_,i)=><span key={i} style={{color:"#F59E0B",fontSize:12}}>★</span>)}</div>
-                            </div>
+                            <div style={{ fontWeight:700, fontSize:14, color:S2.bodyText, marginBottom:4 }}>{r.name}</div>
                             <div style={{ fontSize:12, color:S2.muted70, marginBottom:6 }}>{r.type}</div>
                             {r.price&&<div style={{ fontSize:13, fontWeight:600, color:"#D4A574", marginBottom:10 }}>💰 {r.price}</div>}
                             <div style={{ display:"flex", gap:7 }}>
@@ -2316,16 +2385,17 @@ export default function TravelPlanner() {
                             </div>
                             <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(250px,1fr))", gap:12 }}>
                               {list.map((h,i)=>{
-                                const hotelImg = extraImgs[`hotel_${h.name}`];
+                                const destPhoto = heroImgs[destination.id] || destination.photo;
                                 return (
                                 <div key={i} style={{ background:S2.cardBg, border:`${tier===budget?"2px solid "+bl.color:`1px solid ${S2.cardBdr}`}`, borderRadius:16, overflow:"hidden", position:"relative" }}>
-                                  {hotelImg ? (
-                                    <div style={{ height:150, overflow:"hidden" }}>
-                                      <img src={hotelImg} alt={h.name} style={{ width:"100%", height:"100%", objectFit:"cover" }} />
+                                  <div style={{ height:150, overflow:"hidden", position:"relative" }}>
+                                    <img src={destPhoto} alt={destination.name} style={{ width:"100%", height:"100%", objectFit:"cover", filter:"brightness(.55) saturate(1.2)" }} onError={e=>{e.target.style.display="none";}} />
+                                    <div style={{ position:"absolute", inset:0, background:"linear-gradient(160deg,rgba(0,0,0,.1),rgba(0,0,0,.65))", display:"flex", flexDirection:"column", justifyContent:"flex-end", padding:"12px 14px" }}>
+                                      <div style={{ fontSize:18, marginBottom:2 }}>🏨</div>
+                                      <div style={{ fontSize:11, color:"rgba(255,255,255,.9)", fontWeight:700, lineHeight:1.3 }}>{h.type||"Hébergement"}</div>
+                                      <div style={{ color:"#F59E0B", fontSize:11, marginTop:2 }}>{"★".repeat(h.stars||0)}{"☆".repeat(Math.max(0,5-(h.stars||0)))}</div>
                                     </div>
-                                  ) : (
-                                    <div style={{ height:6, background:`linear-gradient(90deg,${bl.color},rgba(139,92,246,.3))` }} />
-                                  )}
+                                  </div>
                                   <div style={{ padding:16, position:"relative" }}>
                                     {tier===budget&&i===0&&<div style={{ position:"absolute", top:-8, right:10, background:bl.color, color:"white", fontSize:9, fontWeight:700, padding:"2px 8px", borderRadius:10, textTransform:"uppercase" }}>✓ {T.selected}</div>}
                                     <div style={{ fontWeight:700, fontSize:14, marginBottom:4, color:S2.bodyText }}>{h.name}</div>
