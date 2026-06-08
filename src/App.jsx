@@ -1,75 +1,75 @@
 import { useState, useEffect, useRef } from "react";
 
-const WKF = "https://commons.wikimedia.org/wiki/Special:FilePath/";
+const BASE = "https://upload.wikimedia.org/wikipedia/commons/thumb/";
 const IMG = id => {
   const MAP = {
-    paris:       "Tour_Eiffel_Wikimedia_Commons_(cropped).jpg",
-    tokyo:       "Shinjuku_skyline_crop.jpg",
-    marrakech:   "Djemaa_el-Fna_at_Sunset.jpg",
-    rome:        "Colosseum_in_Rome-April_2007-1-_copie_2B.jpg",
-    dubai:       "Dubai_skyline_(8282183840).jpg",
-    barcelona:   "Sagrada_Familia_01.jpg",
-    newyork:     "New_york_times_square-terabass.jpg",
-    bali:        "Pura_Ulun_Danu_Bratan,_Bali.jpg",
-    istanbul:    "Hagia_Sophia_exterior_2007_002.jpg",
-    london:      "Palace_of_Westminster,_London_-_Jan_2006.jpg",
-    singapore:   "Singapore_skyline_2019-10.jpg",
-    bangkok:     "Grand_Palace_in_Bangkok.jpg",
-    amsterdam:   "Amsterdam_-_Herengracht_and_Thorbeckeplein.jpg",
-    prague:      "Praha,_Pohled_na_Hradčany_od_Čechova_mostu.jpg",
-    vienna:      "Schonbrunn_cropped.jpg",
-    sydney:      "Sydney_Harbour_Bridge_BG.jpg",
-    kyoto:       "Fushimi_Inari-taisha_shrine.jpg",
-    losangeles:  "DowntownLA_Aerial.jpg",
-    miami:       "Miami_Beach_SoBe.jpg",
-    lisbon:      "Lisbon_(26987344515).jpg",
-    athens:      "The_Parthenon_in_Athens.jpg",
-    cairo:       "Egypt.Giza.Sphinx.02.jpg",
-    capetown:    "Cape_Town_(16572285602).jpg",
-    maldives:    "Maldive_Beautiful.jpg",
-    santorini:   "Oia-Santorini.jpg",
-    rio:         "Rio_de_Janeiro_-_Aerial_(9611838796).jpg",
-    buenosaires: "Buenos_Aires_-_Aerial.jpg",
-    mexico:      "Mexico_City_Reforma.jpg",
-    havana:      "La_Habana_Cuba_(5674013286).jpg",
-    beijing:     "Great_Wall_of_China,_Jinshanling_crop.jpg",
-    hongkong:    "Hong_Kong_Night_Skyline.jpg",
-    seoul:       "Seoul_Skyline_(14233978424).jpg",
-    berlin:      "Brandenburger_Tor_abends.jpg",
-    munich:      "München,_Blick_vom_Hochhaus_an_der_Candidstraße_auf_die_Frauenkirche.jpg",
-    zurich:      "Zürich_Quaibrücke_2015_2.jpg",
-    toronto:     "Toronto_-_ON_-_Toronto_Harbourfront4.jpg",
-    montreal:    "Montreal_-(e)_night.jpg",
-    mumbai:      "India_Mumbai_Skyline_from_Malabar_Hill.jpg",
-    delhi:       "India_Gate_in_New_Delhi_03-2016.jpg",
-    nairobi:     "Nairobi_CBD.jpg",
-    casablanca:  "Hassan_II_Mosque,_Casablanca.jpg",
-    tunis:       "Medina_of_Tunis.jpg",
-    alger:       "Algiers,_Algeria.jpg",
-    abudhabi:    "Abu_Dhabi_Skyline_2.jpg",
-    doha:        "Doha_Qatar_Jan_2011.jpg",
-    phuket:      "Patong_Beach,_Phuket,_Thailand.jpg",
-    florence:    "Firenze_SM_del_Fiore_Apr_2008_(2).jpg",
-    venice:      "Basilica_di_San_Marco_Venezia.jpg",
-    seville:     "Seville_cathedral.jpg",
-    shanghai:    "Shanghai_skyline_2013.jpg",
-    dublin:      "Dublin,_Ireland_-_panoramio_(1).jpg",
-    copenhagen:  "Nyhavn_-_Copenhagen,_Denmark_-_panoramio.jpg",
-    stockholm:   "Stockholm_-_Stadhuset.jpg",
-    helsinki:    "Tuomiokirkko,_Helsinki.jpg",
-    oslo:        "Oslo_Aker_Brygge.jpg",
-    warsaw:      "Warsaw_Old_Town_(2010).jpg",
-    budapest:    "Budapest_Parliament_by_night.jpg",
-    bucharest:   "Bucharest_city_center.jpg",
-    brussels:    "Grand_Place_Brussels_Belgium_2009_01.jpg",
-    edinburgh:   "Edinburgh_Castle_from_the_north-east.jpg",
-    belgrade:    "Belgrade_panorama_from_Kalemegdan.jpg",
-    reykjavik:   "Reykjavik,_capital_city_of_Iceland.jpg",
-    sofia:       "Alexander_Nevsky_Cathedral_Sofia.jpg",
-    zagreb:      "Zagreb_Cathedral_closeup.jpg",
-    valletta:    "Valletta_Grand_Harbour_2.jpg",
+    paris:       BASE+"8/85/Tour_Eiffel_Wikimedia_Commons_(cropped).jpg/600px-Tour_Eiffel_Wikimedia_Commons_(cropped).jpg",
+    tokyo:       BASE+"b/b1/Shinjuku_skyline_crop.jpg/600px-Shinjuku_skyline_crop.jpg",
+    marrakech:   BASE+"c/c1/Djemaa_el-Fna_at_Sunset.jpg/600px-Djemaa_el-Fna_at_Sunset.jpg",
+    rome:        BASE+"d/d8/Colosseum_in_Rome-April_2007-1-_copie_2B.jpg/600px-Colosseum_in_Rome-April_2007-1-_copie_2B.jpg",
+    dubai:       BASE+"8/89/Dubai_skyline_(8282183840).jpg/600px-Dubai_skyline_(8282183840).jpg",
+    barcelona:   BASE+"e/ee/Sagrada_Familia_01.jpg/600px-Sagrada_Familia_01.jpg",
+    newyork:     BASE+"4/47/New_york_times_square-terabass.jpg/600px-New_york_times_square-terabass.jpg",
+    bali:        BASE+"5/53/Pura_Ulun_Danu_Bratan,_Bali.jpg/600px-Pura_Ulun_Danu_Bratan,_Bali.jpg",
+    istanbul:    BASE+"9/90/Hagia_Sophia_exterior_2007_002.jpg/600px-Hagia_Sophia_exterior_2007_002.jpg",
+    london:      BASE+"5/54/Palace_of_Westminster,_London_-_Jan_2006.jpg/600px-Palace_of_Westminster,_London_-_Jan_2006.jpg",
+    singapore:   BASE+"9/98/Singapore_skyline_2019-10.jpg/600px-Singapore_skyline_2019-10.jpg",
+    bangkok:     BASE+"9/93/Grand_Palace_in_Bangkok.jpg/600px-Grand_Palace_in_Bangkok.jpg",
+    amsterdam:   BASE+"b/b9/Amsterdam_-_Herengracht_and_Thorbeckeplein.jpg/600px-Amsterdam_-_Herengracht_and_Thorbeckeplein.jpg",
+    prague:      BASE+"c/c6/Praha,_Pohled_na_Hrad%C4%8Dany_od_%C4%8Cechova_mostu.jpg/600px-Praha,_Pohled_na_Hrad%C4%8Dany_od_%C4%8Cechova_mostu.jpg",
+    vienna:      BASE+"9/9d/Schonbrunn_cropped.jpg/600px-Schonbrunn_cropped.jpg",
+    sydney:      BASE+"2/26/Sydney_Harbour_Bridge_BG.jpg/600px-Sydney_Harbour_Bridge_BG.jpg",
+    kyoto:       BASE+"b/bd/Fushimi_Inari-taisha_shrine.jpg/600px-Fushimi_Inari-taisha_shrine.jpg",
+    losangeles:  BASE+"2/2c/DowntownLA_Aerial.jpg/600px-DowntownLA_Aerial.jpg",
+    miami:       BASE+"2/20/Miami_Beach_SoBe.jpg/600px-Miami_Beach_SoBe.jpg",
+    lisbon:      BASE+"8/84/Lisbon_(26987344515).jpg/600px-Lisbon_(26987344515).jpg",
+    athens:      BASE+"d/da/The_Parthenon_in_Athens.jpg/600px-The_Parthenon_in_Athens.jpg",
+    cairo:       BASE+"6/6c/Egypt.Giza.Sphinx.02.jpg/600px-Egypt.Giza.Sphinx.02.jpg",
+    capetown:    BASE+"8/8d/Cape_Town_(16572285602).jpg/600px-Cape_Town_(16572285602).jpg",
+    maldives:    BASE+"c/cb/Maldive_Beautiful.jpg/600px-Maldive_Beautiful.jpg",
+    santorini:   BASE+"f/f0/Oia-Santorini.jpg/600px-Oia-Santorini.jpg",
+    rio:         BASE+"6/69/Rio_de_Janeiro_-_Aerial_(9611838796).jpg/600px-Rio_de_Janeiro_-_Aerial_(9611838796).jpg",
+    buenosaires: BASE+"4/45/Buenos_Aires_-_Aerial.jpg/600px-Buenos_Aires_-_Aerial.jpg",
+    mexico:      BASE+"7/7d/Mexico_City_Reforma.jpg/600px-Mexico_City_Reforma.jpg",
+    havana:      BASE+"e/e2/La_Habana_Cuba_(5674013286).jpg/600px-La_Habana_Cuba_(5674013286).jpg",
+    beijing:     BASE+"a/a5/Great_Wall_of_China,_Jinshanling_crop.jpg/600px-Great_Wall_of_China,_Jinshanling_crop.jpg",
+    hongkong:    BASE+"1/18/Hong_Kong_Night_Skyline.jpg/600px-Hong_Kong_Night_Skyline.jpg",
+    seoul:       BASE+"0/02/Seoul_Skyline_(14233978424).jpg/600px-Seoul_Skyline_(14233978424).jpg",
+    berlin:      BASE+"a/a6/Brandenburger_Tor_abends.jpg/600px-Brandenburger_Tor_abends.jpg",
+    munich:      BASE+"5/5f/M%C3%BCnchen,_Blick_vom_Hochhaus_an_der_Candidstra%C3%9Fe_auf_die_Frauenkirche.jpg/600px-M%C3%BCnchen,_Blick_vom_Hochhaus_an_der_Candidstra%C3%9Fe_auf_die_Frauenkirche.jpg",
+    zurich:      BASE+"7/7e/Z%C3%BCrich_Quaibr%C3%BCcke_2015_2.jpg/600px-Z%C3%BCrich_Quaibr%C3%BCcke_2015_2.jpg",
+    toronto:     BASE+"2/21/Toronto_-_ON_-_Toronto_Harbourfront4.jpg/600px-Toronto_-_ON_-_Toronto_Harbourfront4.jpg",
+    montreal:    BASE+"9/95/Montreal_-(e)_night.jpg/600px-Montreal_-(e)_night.jpg",
+    mumbai:      BASE+"9/9d/India_Mumbai_Skyline_from_Malabar_Hill.jpg/600px-India_Mumbai_Skyline_from_Malabar_Hill.jpg",
+    delhi:       BASE+"0/09/India_Gate_in_New_Delhi_03-2016.jpg/600px-India_Gate_in_New_Delhi_03-2016.jpg",
+    nairobi:     BASE+"2/28/Nairobi_CBD.jpg/600px-Nairobi_CBD.jpg",
+    casablanca:  BASE+"8/84/Hassan_II_Mosque,_Casablanca.jpg/600px-Hassan_II_Mosque,_Casablanca.jpg",
+    tunis:       BASE+"7/7f/Medina_of_Tunis.jpg/600px-Medina_of_Tunis.jpg",
+    alger:       BASE+"d/d0/Algiers,_Algeria.jpg/600px-Algiers,_Algeria.jpg",
+    abudhabi:    BASE+"9/95/Abu_Dhabi_Skyline_2.jpg/600px-Abu_Dhabi_Skyline_2.jpg",
+    doha:        BASE+"4/4c/Doha_Qatar_Jan_2011.jpg/600px-Doha_Qatar_Jan_2011.jpg",
+    phuket:      BASE+"3/3c/Patong_Beach,_Phuket,_Thailand.jpg/600px-Patong_Beach,_Phuket,_Thailand.jpg",
+    florence:    BASE+"b/b1/Firenze_SM_del_Fiore_Apr_2008_(2).jpg/600px-Firenze_SM_del_Fiore_Apr_2008_(2).jpg",
+    venice:      BASE+"9/92/Basilica_di_San_Marco_Venezia.jpg/600px-Basilica_di_San_Marco_Venezia.jpg",
+    seville:     BASE+"6/61/Seville_cathedral.jpg/600px-Seville_cathedral.jpg",
+    shanghai:    BASE+"5/52/Shanghai_skyline_2013.jpg/600px-Shanghai_skyline_2013.jpg",
+    dublin:      BASE+"2/2b/Dublin,_Ireland_-_panoramio_(1).jpg/600px-Dublin,_Ireland_-_panoramio_(1).jpg",
+    copenhagen:  BASE+"0/0a/Nyhavn_-_Copenhagen,_Denmark_-_panoramio.jpg/600px-Nyhavn_-_Copenhagen,_Denmark_-_panoramio.jpg",
+    stockholm:   BASE+"4/43/Stockholm_-_Stadhuset.jpg/600px-Stockholm_-_Stadhuset.jpg",
+    helsinki:    BASE+"6/61/Tuomiokirkko,_Helsinki.jpg/600px-Tuomiokirkko,_Helsinki.jpg",
+    oslo:        BASE+"9/9b/Oslo_Aker_Brygge.jpg/600px-Oslo_Aker_Brygge.jpg",
+    warsaw:      BASE+"7/74/Warsaw_Old_Town_(2010).jpg/600px-Warsaw_Old_Town_(2010).jpg",
+    budapest:    BASE+"9/97/Budapest_Parliament_by_night.jpg/600px-Budapest_Parliament_by_night.jpg",
+    bucharest:   BASE+"d/d9/Bucharest_city_center.jpg/600px-Bucharest_city_center.jpg",
+    brussels:    BASE+"c/cb/Grand_Place_Brussels_Belgium_2009_01.jpg/600px-Grand_Place_Brussels_Belgium_2009_01.jpg",
+    edinburgh:   BASE+"f/f2/Edinburgh_Castle_from_the_north-east.jpg/600px-Edinburgh_Castle_from_the_north-east.jpg",
+    belgrade:    BASE+"1/13/Belgrade_panorama_from_Kalemegdan.jpg/600px-Belgrade_panorama_from_Kalemegdan.jpg",
+    reykjavik:   BASE+"4/42/Reykjavik,_capital_city_of_Iceland.jpg/600px-Reykjavik,_capital_city_of_Iceland.jpg",
+    sofia:       BASE+"3/39/Alexander_Nevsky_Cathedral_Sofia.jpg/600px-Alexander_Nevsky_Cathedral_Sofia.jpg",
+    zagreb:      BASE+"5/56/Zagreb_Cathedral_closeup.jpg/600px-Zagreb_Cathedral_closeup.jpg",
+    valletta:    BASE+"0/05/Valletta_Grand_Harbour_2.jpg/600px-Valletta_Grand_Harbour_2.jpg",
   };
-  return WKF + encodeURIComponent(MAP[id] || "Globe_east_90.jpg") + "?width=600";
+  return MAP[id] || BASE+"4/47/Globe_east_90.jpg/600px-Globe_east_90.jpg";
 };
 
 const WIKI_TITLES = {
@@ -1415,7 +1415,6 @@ export default function TravelPlanner() {
   const [showLegal, setShowLegal] = useState(false);
   const [openFaq, setOpenFaq] = useState(null);
   const [heroIdx, setHeroIdx] = useState(0);
-  const [heroImgs, setHeroImgs] = useState({});
   const [extraImgs, setExtraImgs] = useState({});
   const [showTravelers, setShowTravelers] = useState(false);
   const destRef = useRef(null);
@@ -1428,19 +1427,6 @@ export default function TravelPlanner() {
     const t = setInterval(()=>setHeroIdx(i=>(i+1)%heroDests.length), 5500);
     return ()=>clearInterval(t);
   },[step]);
-  // Preload Wikipedia images for hero slideshow + all featured + guide destinations
-  useEffect(()=>{
-    const priorityIds = [...new Set([...heroDests.map(d=>d.id), ...FEATURED_IDS, ...DEST_GUIDES.map(g=>g.id)])];
-    priorityIds.forEach((id,i)=>{
-      const d = DESTINATIONS.find(dest=>dest.id===id);
-      if(!d || heroImgs[id]) return;
-      setTimeout(()=>{
-        fetchWikiImage(d.id, d.name, 2000).then(src=>{ if(src) setHeroImgs(p=>({...p,[d.id]:src})); });
-      }, i*120);
-    });
-  // eslint-disable-next-line
-  },[]);
-
   // Preload hotel images from Wikipedia when step 3 opens
   useEffect(()=>{
     if (step !== 3 || !destination) return;
@@ -1627,7 +1613,7 @@ export default function TravelPlanner() {
             {/* ── HERO ── */}
             <section style={{ position:"relative", height:"100vh", minHeight:600, overflow:"hidden", display:"flex", alignItems:"center", justifyContent:"center" }}>
               {heroDests.map((d,i)=>(
-                <div key={d.id} style={{ position:"absolute", inset:0, backgroundColor:"#0A1426", backgroundImage:`url(${heroImgs[d.id]||d.photo})`, backgroundSize:"cover", backgroundPosition:"center", opacity:heroIdx===i?1:0, transform:heroIdx===i?"scale(1.06)":"scale(1)", transition:"opacity 1.8s ease, transform 7s ease", zIndex:0 }}/>
+                <div key={d.id} style={{ position:"absolute", inset:0, backgroundColor:"#0A1426", backgroundImage:`url(${d.photo})`, backgroundSize:"cover", backgroundPosition:"center", opacity:heroIdx===i?1:0, transform:heroIdx===i?"scale(1.06)":"scale(1)", transition:"opacity 1.8s ease, transform 7s ease", zIndex:0 }}/>
               ))}
               <div style={{ position:"absolute", inset:0, background:"linear-gradient(180deg,rgba(5,10,20,.18) 0%,rgba(5,10,20,.55) 50%,rgba(7,17,31,.97) 100%)", zIndex:1 }}/>
               <div style={{ position:"relative", zIndex:2, textAlign:"center", maxWidth:800, padding:"0 28px", marginTop:68, direction:isRTL?"rtl":"ltr" }}>
@@ -1688,14 +1674,14 @@ export default function TravelPlanner() {
                       {T.travelers_fn(adults+children)} ▾
                     </button>
                     {showTravelers && (
-                      <div style={{ position:"absolute", top:"calc(100% + 8px)", left:0, background:"#0A1426", border:"1px solid rgba(212,165,116,.25)", borderRadius:14, padding:16, zIndex:80, width:220, boxShadow:"0 20px 60px rgba(0,0,0,.5)" }}>
+                      <div style={{ position:"absolute", top:"calc(100% + 8px)", left:0, background:isLight?"#FFF8F0":"#0A1426", border:"1px solid rgba(212,165,116,.25)", borderRadius:14, padding:16, zIndex:80, width:220, boxShadow:"0 20px 60px rgba(0,0,0,.25)" }}>
                         {[[`👤 ${T.adults}`,adults,setAdults,1],[`👶 ${T.children}`,children,setChildren,0]].map(([lbl,val,set,min])=>(
                           <div key={lbl} style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:12 }}>
-                            <span style={{ fontSize:13, color:"#F8FAFC" }}>{lbl}</span>
+                            <span style={{ fontSize:13, color:ST.text }}>{lbl}</span>
                             <div style={{ display:"flex", alignItems:"center", gap:10 }}>
-                              <button onClick={()=>set(Math.max(min,val-1))} style={{ width:30, height:30, borderRadius:9, border:"1px solid rgba(255,255,255,.15)", background:"rgba(255,255,255,.05)", color:"#F8FAFC", cursor:"pointer", fontSize:16 }}>−</button>
-                              <span style={{ fontSize:15, fontWeight:700, color:"#F8FAFC", minWidth:18, textAlign:"center" }}>{val}</span>
-                              <button onClick={()=>set(val+1)} style={{ width:30, height:30, borderRadius:9, border:"1px solid rgba(255,255,255,.15)", background:"rgba(255,255,255,.05)", color:"#F8FAFC", cursor:"pointer", fontSize:16 }}>+</button>
+                              <button onClick={()=>set(Math.max(min,val-1))} style={{ width:30, height:30, borderRadius:9, border:`1px solid ${ST.cardBorder}`, background:ST.cardBg, color:ST.text, cursor:"pointer", fontSize:16 }}>−</button>
+                              <span style={{ fontSize:15, fontWeight:700, color:ST.text, minWidth:18, textAlign:"center" }}>{val}</span>
+                              <button onClick={()=>set(val+1)} style={{ width:30, height:30, borderRadius:9, border:`1px solid ${ST.cardBorder}`, background:ST.cardBg, color:ST.text, cursor:"pointer", fontSize:16 }}>+</button>
                             </div>
                           </div>
                         ))}
@@ -1754,7 +1740,7 @@ export default function TravelPlanner() {
                         onMouseEnter={e=>{if(!sel){e.currentTarget.style.transform="translateY(-5px)";e.currentTarget.style.boxShadow="0 24px 60px rgba(0,0,0,.55)";}}}
                         onMouseLeave={e=>{if(!sel){e.currentTarget.style.transform="none";e.currentTarget.style.boxShadow="0 8px 32px rgba(0,0,0,.35)";}}}
                       >
-                        <img src={heroImgs[d.id]||d.photo} alt={d.name} data-id={d.id} data-hires="1" onError={wikiError} style={{ width:"100%", height:"100%", objectFit:"cover", transition:"transform .55s" }}
+                        <img src={d.photo} alt={d.name} data-id={d.id} data-hires="1" onError={wikiError} style={{ width:"100%", height:"100%", objectFit:"cover", transition:"transform .55s" }}
                           onMouseEnter={e=>e.target.style.transform="scale(1.08)"} onMouseLeave={e=>e.target.style.transform="scale(1)"}/>
                         <div style={{ position:"absolute", inset:0, background:"linear-gradient(to top,rgba(0,0,0,.9) 0%,rgba(0,0,0,.1) 55%,transparent 100%)" }}/>
                         {sel&&<div style={{ position:"absolute", top:14, right:14, width:30, height:30, borderRadius:"50%", background:"#D4A574", display:"flex", alignItems:"center", justifyContent:"center", fontSize:13, color:"white", fontWeight:800 }}>✓</div>}
@@ -1803,7 +1789,7 @@ export default function TravelPlanner() {
                       <div key={dest.id} onClick={()=>setDestination(sel?null:dest)} style={{ position:"relative", borderRadius:16, overflow:"hidden", cursor:"pointer", aspectRatio:"4/3", backgroundColor:CONTINENT_BG[dest.continent]||"#0D0A28", border:sel?"2px solid #D4A574":"2px solid transparent", boxShadow:sel?"0 0 0 1px rgba(212,165,116,.3)":"none", transition:"all .2s" }}
                         onMouseEnter={e=>{if(!sel){e.currentTarget.style.transform="translateY(-2px)";e.currentTarget.style.boxShadow="0 10px 28px rgba(0,0,0,.45)";}}}
                         onMouseLeave={e=>{if(!sel){e.currentTarget.style.transform="none";e.currentTarget.style.boxShadow="none";}}}>
-                        <img src={heroImgs[dest.id]||dest.photo} alt={dest.name} data-id={dest.id} loading="lazy" onError={wikiError} style={{ width:"100%", height:"100%", objectFit:"cover" }}/>
+                        <img src={dest.photo} alt={dest.name} data-id={dest.id} loading="lazy" onError={wikiError} style={{ width:"100%", height:"100%", objectFit:"cover" }}/>
                         <div style={{ position:"absolute", inset:0, background:"linear-gradient(to top,rgba(0,0,0,.88) 0%,transparent 60%)" }}/>
                         {sel&&<div style={{ position:"absolute", top:8, right:8, width:24, height:24, borderRadius:"50%", background:"#D4A574", display:"flex", alignItems:"center", justifyContent:"center", fontSize:11, fontWeight:700, color:"white", zIndex:2 }}>✓</div>}
                         <div style={{ position:"absolute", bottom:0, left:0, right:0, padding:"10px 10px 9px" }}>
@@ -1912,8 +1898,8 @@ export default function TravelPlanner() {
                 <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(320px,1fr))", gap:24 }}>
                   {DEST_GUIDES.map((g,i) => (
                     <article key={g.id} style={{ background:ST.cardBg, border:`1px solid ${ST.cardBorder}`, borderRadius:18, overflow:"hidden", display:"flex", flexDirection:"column" }}>
-                      <div style={{ height:160, backgroundColor:"#0A1426", overflow:"hidden" }}>
-                        <img src={heroImgs[g.id]||DESTINATIONS.find(d=>d.id===g.id)?.photo} alt={g.name} data-id={g.id} onError={wikiError} style={{ width:"100%", height:"100%", objectFit:"cover" }}/>
+                      <div style={{ height:160, backgroundColor:isLight?ST.cardBg:"#0A1426", overflow:"hidden" }}>
+                        <img src={DESTINATIONS.find(dd=>dd.id===g.id)?.photo} alt={g.name} data-id={g.id} onError={wikiError} style={{ width:"100%", height:"100%", objectFit:"cover" }}/>
                       </div>
                       <div style={{ padding:"24px 22px" }}>
                         <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:21, fontWeight:700, color:ST.text, marginBottom:12 }}>{g.flag} {T.guides_items[i].title}</h3>
@@ -1955,7 +1941,7 @@ export default function TravelPlanner() {
 
             {/* ── CTA BANNER ── */}
             <section style={{ position:"relative", height:330, overflow:"hidden", display:"flex", alignItems:"center", justifyContent:"center" }}>
-              <div style={{ position:"absolute", inset:0, backgroundColor:"#0A1426", backgroundImage:`url(${heroImgs["bali"]||heroImgs["santorini"]||DESTINATIONS.find(d=>d.id==="bali")?.photo})`, backgroundSize:"cover", backgroundPosition:"center" }}/>
+              <div style={{ position:"absolute", inset:0, backgroundColor:"#0A1426", backgroundImage:`url(${DESTINATIONS.find(d=>d.id==="bali")?.photo})`, backgroundSize:"cover", backgroundPosition:"center" }}/>
               <div style={{ position:"absolute", inset:0, background:"linear-gradient(135deg,rgba(7,17,31,.88),rgba(15,27,45,.75))" }}/>
               <div style={{ position:"relative", zIndex:1, textAlign:"center", padding:"0 24px" }}>
                 <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:"clamp(28px,4vw,48px)", fontWeight:900, color:"#F8FAFC", marginBottom:14 }}>{T.cta_title}</h2>
@@ -2185,7 +2171,7 @@ export default function TravelPlanner() {
                         const cuisineImg = CUISINE_PHOTO(r.type);
                         return (
                         <div key={r.name} style={{ background:S2.cardBg, border:`1px solid ${S2.cardBdr}`, borderRadius:18, overflow:"hidden" }}>
-                          <div style={{ height:140, overflow:"hidden", background:"#1A0B35" }}>
+                          <div style={{ height:140, overflow:"hidden", background:S2.cardBg }}>
                             <img src={cuisineImg} alt={r.type}
                               onError={e=>{ e.target.style.display="none"; }}
                               style={{ width:"100%", height:"100%", objectFit:"cover" }} />
