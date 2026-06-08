@@ -213,56 +213,6 @@ const getFoodEmoji = t => {
   return "🍽️";
 };
 
-// Hardcoded Wikimedia Commons direct thumbnail URLs for food — instant, no API needed
-const W = "https://upload.wikimedia.org/wikipedia/commons/thumb/";
-const FOOD_IMG = t => {
-  const s = (t||"").toLowerCase();
-  if (s.includes("ramen"))                                       return W+"9/9b/Shoyu_Ramen,_Shinjuku.jpg/600px-Shoyu_Ramen,_Shinjuku.jpg";
-  if (s.includes("sushi"))                                       return W+"c/cc/Various_sushi.jpg/600px-Various_sushi.jpg";
-  if (s.includes("pizza")||s.includes("trattoria"))              return W+"c/c8/Pizza_Margherita_stu_spivack.jpg/600px-Pizza_Margherita_stu_spivack.jpg";
-  if (s.includes("burger")||s.includes("fast food"))             return W+"4/47/Hamburger_(black_bg).jpg/600px-Hamburger_(black_bg).jpg";
-  if (s.includes("tapas")||s.includes("pintxos")||s.includes("catalan")) return W+"4/4c/Tapas_assortment.jpg/600px-Tapas_assortment.jpg";
-  if (s.includes("paella")||s.includes("espagnol"))              return W+"1/1a/Paella_Valenciana_original.jpg/600px-Paella_Valenciana_original.jpg";
-  if (s.includes("crêpe")||s.includes("crepe"))                  return W+"e/e2/Crepes_with_berries.jpg/600px-Crepes_with_berries.jpg";
-  if (s.includes("marocain")||s.includes("tajine")||s.includes("tagine")) return W+"1/18/Tagine_of_chicken_(Breton_chicken).jpg/600px-Tagine_of_chicken_(Breton_chicken).jpg";
-  if (s.includes("souvlaki")||s.includes("grec"))                return W+"8/8d/Greek_Souvlaki.jpg/600px-Greek_Souvlaki.jpg";
-  if (s.includes("steak")||s.includes("grillades")||s.includes("bbq")||s.includes("steakhouse")) return W+"f/fe/Grilled_Steak.jpg/600px-Grilled_Steak.jpg";
-  if (s.includes("indien")||s.includes("indienne")||s.includes("curry")) return W+"2/21/Chicken_curry.jpg/600px-Chicken_curry.jpg";
-  if (s.includes("thaï")||s.includes("thai"))                    return W+"d/d8/Phat_thai_kung_Chang_Khien_Street_Chiang_Mai.jpg/600px-Phat_thai_kung_Chang_Khien_Street_Chiang_Mai.jpg";
-  if (s.includes("turc")||s.includes("kebab")||s.includes("meze")||s.includes("ottoman")) return W+"8/83/Iskender_kebap,_Bursa.jpg/600px-Iskender_kebap,_Bursa.jpg";
-  if (s.includes("dim sum")||s.includes("cantonais")||s.includes("chinois")) return W+"1/1c/Dim_sum_in_HK.jpg/600px-Dim_sum_in_HK.jpg";
-  if (s.includes("libanais")||s.includes("falafel")||s.includes("houmous")) return W+"4/4d/Falafel_Ball_from_flickr.jpg/600px-Falafel_Ball_from_flickr.jpg";
-  if (s.includes("fruits de mer")||s.includes("seafood"))        return W+"6/63/Mixed_seafood.jpg/600px-Mixed_seafood.jpg";
-  if (s.includes("vietnam")||s.includes("pho"))                  return W+"b/b6/Pho_Bo.jpg/600px-Pho_Bo.jpg";
-  if (s.includes("coréen"))                                      return W+"4/44/Dolsot-bibimbap.jpg/600px-Dolsot-bibimbap.jpg";
-  if (s.includes("bistro")||s.includes("brasserie")||s.includes("gastronomique")||s.includes("étoilé")||s.includes("haute")) return W+"1/14/Coq_au_vin_2.jpg/600px-Coq_au_vin_2.jpg";
-  if (s.includes("deli"))                                        return W+"6/69/Submarine_sandwich.jpg/600px-Submarine_sandwich.jpg";
-  if (s.includes("street food")||s.includes("marché"))           return W+"3/39/Tacos_de_rajas.jpg/600px-Tacos_de_rajas.jpg";
-  if (s.includes("koshary")||s.includes("égyptien")||s.includes("egyptien")) return W+"9/97/Kushari.jpg/600px-Kushari.jpg";
-  if (s.includes("japonais")||s.includes("tempura")||s.includes("teppan")||s.includes("kaiseki")) return W+"9/9b/Shoyu_Ramen,_Shinjuku.jpg/600px-Shoyu_Ramen,_Shinjuku.jpg";
-  if (s.includes("vue nil")||s.includes("locale")||s.includes("local")||s.includes("traditionnel")) return W+"c/c4/Spaghetti_bolognese_(hozinja).jpg/600px-Spaghetti_bolognese_(hozinja).jpg";
-  return W+"c/c4/Spaghetti_bolognese_(hozinja).jpg/600px-Spaghetti_bolognese_(hozinja).jpg";
-};
-
-// Hardcoded Wikimedia Commons direct thumbnail URLs for attraction types — instant, no API
-const ATTRACTION_IMG = t => {
-  const s = (t||"").toLowerCase();
-  if (s.includes("monument")||s.includes("site"))     return W+"d/d8/Colosseum_in_Rome-April_2007-1-_copie_2B.jpg/600px-Colosseum_in_Rome-April_2007-1-_copie_2B.jpg";
-  if (s.includes("musée")||s.includes("museum"))      return W+"6/66/Louvre_Museum_Wikimedia_Commons.jpg/600px-Louvre_Museum_Wikimedia_Commons.jpg";
-  if (s.includes("marché")||s.includes("bazar")||s.includes("souk")) return W+"f/f9/Grand_Bazaar,_Istanbul.jpg/600px-Grand_Bazaar,_Istanbul.jpg";
-  if (s.includes("plage")||s.includes("beach"))       return W+"c/c7/Beautiful_beach.jpg/600px-Beautiful_beach.jpg";
-  if (s.includes("parc")||s.includes("park"))         return W+"9/96/Central_Park_New_York_City_New_York_(USA),_panoramio.jpg/600px-Central_Park_New_York_City_New_York_(USA),_panoramio.jpg";
-  if (s.includes("jardin")||s.includes("garden"))     return W+"1/14/Keukenhof_Netherlands.jpg/600px-Keukenhof_Netherlands.jpg";
-  if (s.includes("temple")||s.includes("pagode"))     return W+"8/81/Wat_Arun_Ratchawararam_Ratchawaramahawihan.jpg/600px-Wat_Arun_Ratchawararam_Ratchawaramahawihan.jpg";
-  if (s.includes("mosquée")||s.includes("mosque"))    return W+"1/19/Hassan_II_Mosque_(Casablanca,_Morocco)_-_panoramio.jpg/600px-Hassan_II_Mosque_(Casablanca,_Morocco)_-_panoramio.jpg";
-  if (s.includes("palais")||s.includes("palace"))     return W+"f/f7/Versailles_chateau_全景.jpg/600px-Versailles_chateau_全景.jpg";
-  if (s.includes("nature")||s.includes("montagne"))   return W+"d/dd/Ama_Dablam_from_near_Pangboche.jpg/600px-Ama_Dablam_from_near_Pangboche.jpg";
-  if (s.includes("quartier")||s.includes("district")) return W+"5/50/Greenwich_Village_NYC.jpg/600px-Greenwich_Village_NYC.jpg";
-  if (s.includes("place")||s.includes("plaza"))       return W+"1/19/Times_Square,_New_York_City_(HDR).jpg/600px-Times_Square,_New_York_City_(HDR).jpg";
-  if (s.includes("loisir")||s.includes("activité")||s.includes("sport")) return W+"2/2c/Diving_Gilli_Air.jpg/600px-Diving_Gilli_Air.jpg";
-  if (s.includes("art")||s.includes("galerie"))       return W+"6/66/Louvre_Museum_Wikimedia_Commons.jpg/600px-Louvre_Museum_Wikimedia_Commons.jpg";
-  return W+"d/d8/Colosseum_in_Rome-April_2007-1-_copie_2B.jpg/600px-Colosseum_in_Rome-April_2007-1-_copie_2B.jpg";
-};
 
 const DESTINATIONS = [
   { id:"paris",      name:"Paris",          country:"France",         flag:"🇫🇷", emoji:"🗼", temp:"18°C", currency:"EUR", mapCenter:[48.8566,2.3522],    continent:"europe",    photo:IMG("paris") },
@@ -1514,6 +1464,11 @@ export default function TravelPlanner() {
     return out;
   });
   const [extraImgs, setExtraImgs] = useState({});
+  const [foodTypeImgs, setFoodTypeImgs] = useState(()=>{
+    const out = {};
+    Object.keys(_imgCache).forEach(k=>{ if(k.startsWith("food_")) { const t=k.replace(/^food_/,"").replace(/_\d+$/,""); if(_imgCache[k]) out[t]=_imgCache[k]; } });
+    return out;
+  });
   const [showTravelers, setShowTravelers] = useState(false);
   const destRef = useRef(null);
   const aboutRef = useRef(null);
@@ -1537,6 +1492,24 @@ export default function TravelPlanner() {
     });
   // eslint-disable-next-line
   },[]);
+
+  // Fetch food photos via Wikipedia API when step 3 is reached (cached in localStorage)
+  useEffect(()=>{
+    if (step !== 3 || !destination) return;
+    const d = getDestData(destination);
+    if (!d?.restaurants) return;
+    const seen = new Set();
+    d.restaurants.forEach((r, i) => {
+      const title = getFoodWikiTitle(r.type);
+      if (seen.has(title) || foodTypeImgs[title]) return;
+      seen.add(title);
+      setTimeout(()=>{
+        fetchWikiImage(`food_${title}`, title.replace(/_/g,' '), 400)
+          .then(src => { if (src) setFoodTypeImgs(p => ({...p, [title]: src})); });
+      }, i * 250);
+    });
+  // eslint-disable-next-line
+  },[step, destination]);
 
   const T = LANG[lang];
   const TH = THEMES[theme];
@@ -2240,15 +2213,14 @@ export default function TravelPlanner() {
                         <div key={a.name} style={{ background:S2.cardBg, border:`1px solid ${S2.cardBdr}`, borderRadius:18, overflow:"hidden" }}>
                           <div style={{ height:150, overflow:"hidden", position:"relative" }}>
                             <img
-                              src={ATTRACTION_IMG(a.type)}
-                              alt={a.type}
-                              style={{ width:"100%", height:"100%", objectFit:"cover" }}
-                              onError={e=>{ e.target.style.display="none"; }}
+                              src={heroImgs[destination.id] || destination.photo}
+                              alt={destination.name}
+                              style={{ width:"100%", height:"100%", objectFit:"cover", filter:"brightness(.5) saturate(1.2)" }}
                             />
-                            <div style={{ position:"absolute", inset:0, background:"linear-gradient(to bottom,rgba(0,0,0,.1),rgba(0,0,0,.6))", display:"flex", flexDirection:"column", justifyContent:"flex-end", padding:"10px 14px" }}>
+                            <div style={{ position:"absolute", inset:0, background:"linear-gradient(to bottom,rgba(0,0,0,.05),rgba(0,0,0,.55))", display:"flex", flexDirection:"column", justifyContent:"flex-end", padding:"10px 14px" }}>
                               <div style={{ fontWeight:700, fontSize:14, color:"white", marginBottom:2 }}>{a.name}</div>
                               <div style={{ display:"flex", alignItems:"center", gap:6 }}>
-                                <span style={{ padding:"2px 8px", borderRadius:20, fontSize:9, fontWeight:600, background:"rgba(139,92,246,.7)", color:"white" }}>{a.type}</span>
+                                <span style={{ padding:"2px 8px", borderRadius:20, fontSize:9, fontWeight:600, background:"rgba(139,92,246,.75)", color:"white" }}>{a.type}</span>
                                 <span style={{ fontSize:10, color:"rgba(255,255,255,.8)" }}>⏱ {a.duration}</span>
                               </div>
                             </div>
@@ -2274,15 +2246,20 @@ export default function TravelPlanner() {
                     <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:20, fontWeight:700, marginBottom:18, color:S2.bodyText }}>Restaurants à {destination.name}</h3>
                     <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(280px,1fr))", gap:14 }}>
                       {data.restaurants.map(r=>{
+                        const foodTitle = getFoodWikiTitle(r.type);
+                        const foodImg = foodTypeImgs[foodTitle];
+                        const foodEmoji = getFoodEmoji(r.type);
                         return (
                         <div key={r.name} style={{ background:S2.cardBg, border:`1px solid ${S2.cardBdr}`, borderRadius:18, overflow:"hidden" }}>
                           <div style={{ height:160, overflow:"hidden", position:"relative" }}>
-                            <img
-                              src={FOOD_IMG(r.type)}
-                              alt={r.type}
-                              style={{ width:"100%", height:"100%", objectFit:"cover" }}
-                              onError={e=>{ e.target.style.display="none"; e.target.parentElement.style.background=`linear-gradient(135deg,rgba(139,92,246,.18),rgba(212,165,116,.15))`; }}
-                            />
+                            {foodImg ? (
+                              <img src={foodImg} alt={r.type} style={{ width:"100%", height:"100%", objectFit:"cover" }} />
+                            ) : (
+                              <div style={{ width:"100%", height:"100%", background:`linear-gradient(135deg,rgba(139,92,246,.18),rgba(212,165,116,.15))`, display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", gap:4 }}>
+                                <span style={{ fontSize:48 }}>{foodEmoji}</span>
+                                <span style={{ fontSize:10, color:S2.muted }}>{r.type}</span>
+                              </div>
+                            )}
                             <div style={{ position:"absolute", bottom:0, left:0, right:0, background:"linear-gradient(transparent,rgba(0,0,0,.55))", padding:"18px 12px 8px" }}>
                               <div style={{ fontSize:11, color:"rgba(255,255,255,.9)", fontWeight:600 }}>{r.type}</div>
                             </div>
