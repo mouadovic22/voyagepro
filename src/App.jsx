@@ -2216,6 +2216,7 @@ export default function TravelPlanner() {
                               src={heroImgs[destination.id] || destination.photo}
                               alt={destination.name}
                               style={{ width:"100%", height:"100%", objectFit:"cover", filter:"brightness(.5) saturate(1.2)" }}
+                              onError={e=>{ e.target.onerror=null; e.target.src=`https://picsum.photos/seed/${encodeURIComponent(a.name)}/600/400`; }}
                             />
                             <div style={{ position:"absolute", inset:0, background:"linear-gradient(to bottom,rgba(0,0,0,.05),rgba(0,0,0,.55))", display:"flex", flexDirection:"column", justifyContent:"flex-end", padding:"10px 14px" }}>
                               <div style={{ fontWeight:700, fontSize:14, color:"white", marginBottom:2 }}>{a.name}</div>
@@ -2248,18 +2249,15 @@ export default function TravelPlanner() {
                       {data.restaurants.map(r=>{
                         const foodTitle = getFoodWikiTitle(r.type);
                         const foodImg = foodTypeImgs[foodTitle];
-                        const foodEmoji = getFoodEmoji(r.type);
                         return (
                         <div key={r.name} style={{ background:S2.cardBg, border:`1px solid ${S2.cardBdr}`, borderRadius:18, overflow:"hidden" }}>
                           <div style={{ height:160, overflow:"hidden", position:"relative" }}>
-                            {foodImg ? (
-                              <img src={foodImg} alt={r.type} style={{ width:"100%", height:"100%", objectFit:"cover" }} />
-                            ) : (
-                              <div style={{ width:"100%", height:"100%", background:`linear-gradient(135deg,rgba(139,92,246,.18),rgba(212,165,116,.15))`, display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", gap:4 }}>
-                                <span style={{ fontSize:48 }}>{foodEmoji}</span>
-                                <span style={{ fontSize:10, color:S2.muted }}>{r.type}</span>
-                              </div>
-                            )}
+                            <img
+                              src={foodImg || `https://picsum.photos/seed/${encodeURIComponent(foodTitle)}/600/400`}
+                              alt={r.type}
+                              style={{ width:"100%", height:"100%", objectFit:"cover" }}
+                              onError={e=>{ e.target.onerror=null; e.target.src=`https://picsum.photos/seed/${encodeURIComponent(r.name)}/600/400`; }}
+                            />
                             <div style={{ position:"absolute", bottom:0, left:0, right:0, background:"linear-gradient(transparent,rgba(0,0,0,.55))", padding:"18px 12px 8px" }}>
                               <div style={{ fontSize:11, color:"rgba(255,255,255,.9)", fontWeight:600 }}>{r.type}</div>
                             </div>
@@ -2379,7 +2377,7 @@ export default function TravelPlanner() {
                                 return (
                                 <div key={i} style={{ background:S2.cardBg, border:`${tier===budget?"2px solid "+bl.color:`1px solid ${S2.cardBdr}`}`, borderRadius:16, overflow:"hidden", position:"relative" }}>
                                   <div style={{ height:150, overflow:"hidden", position:"relative" }}>
-                                    <img src={destPhoto} alt={destination.name} style={{ width:"100%", height:"100%", objectFit:"cover", filter:"brightness(.55) saturate(1.2)" }} onError={e=>{e.target.style.display="none";}} />
+                                    <img src={destPhoto} alt={destination.name} style={{ width:"100%", height:"100%", objectFit:"cover", filter:"brightness(.55) saturate(1.2)" }} onError={e=>{ e.target.onerror=null; e.target.src=`https://picsum.photos/seed/hotel-${encodeURIComponent(h.name)}/600/400`; }} />
                                     <div style={{ position:"absolute", inset:0, background:"linear-gradient(160deg,rgba(0,0,0,.1),rgba(0,0,0,.65))", display:"flex", flexDirection:"column", justifyContent:"flex-end", padding:"12px 14px" }}>
                                       <div style={{ fontSize:18, marginBottom:2 }}>🏨</div>
                                       <div style={{ fontSize:11, color:"rgba(255,255,255,.9)", fontWeight:700, lineHeight:1.3 }}>{h.type||"Hébergement"}</div>
