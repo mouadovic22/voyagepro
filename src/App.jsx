@@ -121,15 +121,23 @@ const BOOK = {
 // Upscale a Wikipedia/Commons thumbnail URL to a larger width for crisp images
 const upscaleWiki = (url, width=1000) => url ? url.replace(/\/(\d+)px-/, `/${width}px-`) : url;
 
-// Fetch a high-resolution Wikipedia image for a destination id (returns a promise of url|null)
-const fetchWikiImage = (id, name, width=1200) => {
+// localStorage cache so images load instantly on subsequent visits
+const _imgCache = (() => { try { return JSON.parse(localStorage.getItem('vp_imgs')||'{}'); } catch(e){ return {}; } })();
+const _saveImgCache = () => { try { localStorage.setItem('vp_imgs', JSON.stringify(_imgCache)); } catch(e){} };
+
+// Fetch a Wikipedia image URL, with cache (returns a promise of url|null)
+const fetchWikiImage = (id, name, width=600) => {
+  const key = `${id}_${width}`;
+  if (_imgCache[key]) return Promise.resolve(_imgCache[key]);
   const title = WIKI_TITLES[id] || (name||"").replace(/ /g,'_');
   return fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`)
     .then(r=>r.json())
     .then(d=>{
       const orig = d.originalimage?.source;
       const thumb = upscaleWiki(d.thumbnail?.source, width);
-      return orig || thumb || null;
+      const src = orig || thumb || null;
+      if (src) { _imgCache[key] = src; _saveImgCache(); }
+      return src;
     })
     .catch(()=>null);
 };
@@ -1415,6 +1423,13 @@ export default function TravelPlanner() {
   const [showLegal, setShowLegal] = useState(false);
   const [openFaq, setOpenFaq] = useState(null);
   const [heroIdx, setHeroIdx] = useState(0);
+  const [heroImgs, setHeroImgs] = useState(()=>{
+    // Initialise from localStorage cache so images are instant on repeat visits
+    const cache = _imgCache;
+    const out = {};
+    DESTINATIONS.forEach(d=>{ if(cache[`${d.id}_600`]) out[d.id] = cache[`${d.id}_600`]; });
+    return out;
+  });
   const [extraImgs, setExtraImgs] = useState({});
   const [showTravelers, setShowTravelers] = useState(false);
   const destRef = useRef(null);
@@ -1427,6 +1442,18 @@ export default function TravelPlanner() {
     const t = setInterval(()=>setHeroIdx(i=>(i+1)%heroDests.length), 5500);
     return ()=>clearInterval(t);
   },[step]);
+  // Fetch Wikipedia images for all destinations (cached in localStorage after first visit)
+  useEffect(()=>{
+    DESTINATIONS.forEach((d,i)=>{
+      if(heroImgs[d.id]) return; // already have it (from cache or earlier fetch)
+      setTimeout(()=>{
+        fetchWikiImage(d.id, d.name, 600).then(src=>{
+          if(src) setHeroImgs(p=>({...p,[d.id]:src}));
+        });
+      }, i * 80); // stagger to avoid simultaneous requests
+    });
+  // eslint-disable-next-line
+  },[]);
   // Preload hotel images from Wikipedia when step 3 opens
   useEffect(()=>{
     if (step !== 3 || !destination) return;
@@ -1613,7 +1640,7 @@ export default function TravelPlanner() {
             {/* ── HERO ── */}
             <section style={{ position:"relative", height:"100vh", minHeight:600, overflow:"hidden", display:"flex", alignItems:"center", justifyContent:"center" }}>
               {heroDests.map((d,i)=>(
-                <div key={d.id} style={{ position:"absolute", inset:0, backgroundColor:"#0A1426", backgroundImage:`url(${d.photo})`, backgroundSize:"cover", backgroundPosition:"center", opacity:heroIdx===i?1:0, transform:heroIdx===i?"scale(1.06)":"scale(1)", transition:"opacity 1.8s ease, transform 7s ease", zIndex:0 }}/>
+                <div key={d.id} style={{ position:"absolute", inset:0, backgroundColor:"#0A1426", backgroundImage:`url(${heroImgs[d.id]||d.photo})`, backgroundSize:"cover", backgroundPosition:"center", opacity:heroIdx===i?1:0, transform:heroIdx===i?"scale(1.06)":"scale(1)", transition:"opacity 1.8s ease, transform 7s ease", zIndex:0 }}/>
               ))}
               <div style={{ position:"absolute", inset:0, background:"linear-gradient(180deg,rgba(5,10,20,.18) 0%,rgba(5,10,20,.55) 50%,rgba(7,17,31,.97) 100%)", zIndex:1 }}/>
               <div style={{ position:"relative", zIndex:2, textAlign:"center", maxWidth:800, padding:"0 28px", marginTop:68, direction:isRTL?"rtl":"ltr" }}>
@@ -1740,7 +1767,7 @@ export default function TravelPlanner() {
                         onMouseEnter={e=>{if(!sel){e.currentTarget.style.transform="translateY(-5px)";e.currentTarget.style.boxShadow="0 24px 60px rgba(0,0,0,.55)";}}}
                         onMouseLeave={e=>{if(!sel){e.currentTarget.style.transform="none";e.currentTarget.style.boxShadow="0 8px 32px rgba(0,0,0,.35)";}}}
                       >
-                        <img src={d.photo} alt={d.name} data-id={d.id} data-hires="1" onError={wikiError} style={{ width:"100%", height:"100%", objectFit:"cover", transition:"transform .55s" }}
+                        <img src={heroImgs[d.id]||d.photo} alt={d.name} data-id={d.id} onError={wikiError} style={{ width:"100%", height:"100%", objectFit:"cover", transition:"transform .55s" }}
                           onMouseEnter={e=>e.target.style.transform="scale(1.08)"} onMouseLeave={e=>e.target.style.transform="scale(1)"}/>
                         <div style={{ position:"absolute", inset:0, background:"linear-gradient(to top,rgba(0,0,0,.9) 0%,rgba(0,0,0,.1) 55%,transparent 100%)" }}/>
                         {sel&&<div style={{ position:"absolute", top:14, right:14, width:30, height:30, borderRadius:"50%", background:"#D4A574", display:"flex", alignItems:"center", justifyContent:"center", fontSize:13, color:"white", fontWeight:800 }}>✓</div>}
@@ -1789,7 +1816,7 @@ export default function TravelPlanner() {
                       <div key={dest.id} onClick={()=>setDestination(sel?null:dest)} style={{ position:"relative", borderRadius:16, overflow:"hidden", cursor:"pointer", aspectRatio:"4/3", backgroundColor:CONTINENT_BG[dest.continent]||"#0D0A28", border:sel?"2px solid #D4A574":"2px solid transparent", boxShadow:sel?"0 0 0 1px rgba(212,165,116,.3)":"none", transition:"all .2s" }}
                         onMouseEnter={e=>{if(!sel){e.currentTarget.style.transform="translateY(-2px)";e.currentTarget.style.boxShadow="0 10px 28px rgba(0,0,0,.45)";}}}
                         onMouseLeave={e=>{if(!sel){e.currentTarget.style.transform="none";e.currentTarget.style.boxShadow="none";}}}>
-                        <img src={dest.photo} alt={dest.name} data-id={dest.id} loading="lazy" onError={wikiError} style={{ width:"100%", height:"100%", objectFit:"cover" }}/>
+                        <img src={heroImgs[dest.id]||dest.photo} alt={dest.name} data-id={dest.id} loading="lazy" onError={wikiError} style={{ width:"100%", height:"100%", objectFit:"cover" }}/>
                         <div style={{ position:"absolute", inset:0, background:"linear-gradient(to top,rgba(0,0,0,.88) 0%,transparent 60%)" }}/>
                         {sel&&<div style={{ position:"absolute", top:8, right:8, width:24, height:24, borderRadius:"50%", background:"#D4A574", display:"flex", alignItems:"center", justifyContent:"center", fontSize:11, fontWeight:700, color:"white", zIndex:2 }}>✓</div>}
                         <div style={{ position:"absolute", bottom:0, left:0, right:0, padding:"10px 10px 9px" }}>
@@ -1899,7 +1926,7 @@ export default function TravelPlanner() {
                   {DEST_GUIDES.map((g,i) => (
                     <article key={g.id} style={{ background:ST.cardBg, border:`1px solid ${ST.cardBorder}`, borderRadius:18, overflow:"hidden", display:"flex", flexDirection:"column" }}>
                       <div style={{ height:160, backgroundColor:isLight?ST.cardBg:"#0A1426", overflow:"hidden" }}>
-                        <img src={DESTINATIONS.find(dd=>dd.id===g.id)?.photo} alt={g.name} data-id={g.id} onError={wikiError} style={{ width:"100%", height:"100%", objectFit:"cover" }}/>
+                        <img src={heroImgs[g.id]||DESTINATIONS.find(dd=>dd.id===g.id)?.photo} alt={g.name} data-id={g.id} onError={wikiError} style={{ width:"100%", height:"100%", objectFit:"cover" }}/>
                       </div>
                       <div style={{ padding:"24px 22px" }}>
                         <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:21, fontWeight:700, color:ST.text, marginBottom:12 }}>{g.flag} {T.guides_items[i].title}</h3>
@@ -1941,7 +1968,7 @@ export default function TravelPlanner() {
 
             {/* ── CTA BANNER ── */}
             <section style={{ position:"relative", height:330, overflow:"hidden", display:"flex", alignItems:"center", justifyContent:"center" }}>
-              <div style={{ position:"absolute", inset:0, backgroundColor:"#0A1426", backgroundImage:`url(${DESTINATIONS.find(d=>d.id==="bali")?.photo})`, backgroundSize:"cover", backgroundPosition:"center" }}/>
+              <div style={{ position:"absolute", inset:0, backgroundColor:"#0A1426", backgroundImage:`url(${heroImgs["bali"]||DESTINATIONS.find(d=>d.id==="bali")?.photo})`, backgroundSize:"cover", backgroundPosition:"center" }}/>
               <div style={{ position:"absolute", inset:0, background:"linear-gradient(135deg,rgba(7,17,31,.88),rgba(15,27,45,.75))" }}/>
               <div style={{ position:"relative", zIndex:1, textAlign:"center", padding:"0 24px" }}>
                 <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:"clamp(28px,4vw,48px)", fontWeight:900, color:"#F8FAFC", marginBottom:14 }}>{T.cta_title}</h2>
