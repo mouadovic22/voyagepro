@@ -1,6 +1,76 @@
 import { useState, useEffect, useRef } from "react";
 
-const IMG = id => `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=600&q=80`;
+const WKF = "https://commons.wikimedia.org/wiki/Special:FilePath/";
+const IMG = id => {
+  const MAP = {
+    paris:       "Tour_Eiffel_Wikimedia_Commons_(cropped).jpg",
+    tokyo:       "Shinjuku_skyline_crop.jpg",
+    marrakech:   "Djemaa_el-Fna_at_Sunset.jpg",
+    rome:        "Colosseum_in_Rome-April_2007-1-_copie_2B.jpg",
+    dubai:       "Dubai_skyline_(8282183840).jpg",
+    barcelona:   "Sagrada_Familia_01.jpg",
+    newyork:     "New_york_times_square-terabass.jpg",
+    bali:        "Pura_Ulun_Danu_Bratan,_Bali.jpg",
+    istanbul:    "Hagia_Sophia_exterior_2007_002.jpg",
+    london:      "Palace_of_Westminster,_London_-_Jan_2006.jpg",
+    singapore:   "Singapore_skyline_2019-10.jpg",
+    bangkok:     "Grand_Palace_in_Bangkok.jpg",
+    amsterdam:   "Amsterdam_-_Herengracht_and_Thorbeckeplein.jpg",
+    prague:      "Praha,_Pohled_na_Hradčany_od_Čechova_mostu.jpg",
+    vienna:      "Schonbrunn_cropped.jpg",
+    sydney:      "Sydney_Harbour_Bridge_BG.jpg",
+    kyoto:       "Fushimi_Inari-taisha_shrine.jpg",
+    losangeles:  "DowntownLA_Aerial.jpg",
+    miami:       "Miami_Beach_SoBe.jpg",
+    lisbon:      "Lisbon_(26987344515).jpg",
+    athens:      "The_Parthenon_in_Athens.jpg",
+    cairo:       "Egypt.Giza.Sphinx.02.jpg",
+    capetown:    "Cape_Town_(16572285602).jpg",
+    maldives:    "Maldive_Beautiful.jpg",
+    santorini:   "Oia-Santorini.jpg",
+    rio:         "Rio_de_Janeiro_-_Aerial_(9611838796).jpg",
+    buenosaires: "Buenos_Aires_-_Aerial.jpg",
+    mexico:      "Mexico_City_Reforma.jpg",
+    havana:      "La_Habana_Cuba_(5674013286).jpg",
+    beijing:     "Great_Wall_of_China,_Jinshanling_crop.jpg",
+    hongkong:    "Hong_Kong_Night_Skyline.jpg",
+    seoul:       "Seoul_Skyline_(14233978424).jpg",
+    berlin:      "Brandenburger_Tor_abends.jpg",
+    munich:      "München,_Blick_vom_Hochhaus_an_der_Candidstraße_auf_die_Frauenkirche.jpg",
+    zurich:      "Zürich_Quaibrücke_2015_2.jpg",
+    toronto:     "Toronto_-_ON_-_Toronto_Harbourfront4.jpg",
+    montreal:    "Montreal_-(e)_night.jpg",
+    mumbai:      "India_Mumbai_Skyline_from_Malabar_Hill.jpg",
+    delhi:       "India_Gate_in_New_Delhi_03-2016.jpg",
+    nairobi:     "Nairobi_CBD.jpg",
+    casablanca:  "Hassan_II_Mosque,_Casablanca.jpg",
+    tunis:       "Medina_of_Tunis.jpg",
+    alger:       "Algiers,_Algeria.jpg",
+    abudhabi:    "Abu_Dhabi_Skyline_2.jpg",
+    doha:        "Doha_Qatar_Jan_2011.jpg",
+    phuket:      "Patong_Beach,_Phuket,_Thailand.jpg",
+    florence:    "Firenze_SM_del_Fiore_Apr_2008_(2).jpg",
+    venice:      "Basilica_di_San_Marco_Venezia.jpg",
+    seville:     "Seville_cathedral.jpg",
+    shanghai:    "Shanghai_skyline_2013.jpg",
+    dublin:      "Dublin,_Ireland_-_panoramio_(1).jpg",
+    copenhagen:  "Nyhavn_-_Copenhagen,_Denmark_-_panoramio.jpg",
+    stockholm:   "Stockholm_-_Stadhuset.jpg",
+    helsinki:    "Tuomiokirkko,_Helsinki.jpg",
+    oslo:        "Oslo_Aker_Brygge.jpg",
+    warsaw:      "Warsaw_Old_Town_(2010).jpg",
+    budapest:    "Budapest_Parliament_by_night.jpg",
+    bucharest:   "Bucharest_city_center.jpg",
+    brussels:    "Grand_Place_Brussels_Belgium_2009_01.jpg",
+    edinburgh:   "Edinburgh_Castle_from_the_north-east.jpg",
+    belgrade:    "Belgrade_panorama_from_Kalemegdan.jpg",
+    reykjavik:   "Reykjavik,_capital_city_of_Iceland.jpg",
+    sofia:       "Alexander_Nevsky_Cathedral_Sofia.jpg",
+    zagreb:      "Zagreb_Cathedral_closeup.jpg",
+    valletta:    "Valletta_Grand_Harbour_2.jpg",
+  };
+  return WKF + encodeURIComponent(MAP[id] || "Globe_east_90.jpg") + "?width=600";
+};
 
 const WIKI_TITLES = {
   paris:"Paris",newyork:"New_York_City",tokyo:"Tokyo",london:"London",
@@ -73,98 +143,103 @@ const wikiError = e => {
     .then(src=>{ if(src){e.target.src=src;e.target.style.opacity=1;}else e.target.style.opacity=0;});
 };
 
-const CUISINE_WIKI = t => {
+// Stable Wikimedia Commons thumbnails for cuisine types (no API call needed)
+const WK = "https://upload.wikimedia.org/wikipedia/commons/thumb/";
+const CUISINE_PHOTO = t => {
   const s = (t||"").toLowerCase();
-  if (s.includes("ramen"))       return "Ramen";
-  if (s.includes("sushi"))       return "Sushi";
-  if (s.includes("crêpe")||s.includes("crepe")) return "Crêpe";
-  if (s.includes("street")||s.includes("marché")) return "Street_food";
-  if (s.includes("bistro"))      return "Bistro";
-  if (s.includes("café")||s.includes("cafe")) return "Café";
-  if (s.includes("gastronomique")) return "French_cuisine";
-  if (s.includes("thaï")||s.includes("thai")) return "Thai_cuisine";
-  if (s.includes("indien")||s.includes("indienne")) return "Indian_cuisine";
-  if (s.includes("marocain")||s.includes("tajine")||s.includes("tagine")) return "Moroccan_cuisine";
-  if (s.includes("italien")||s.includes("pizza")) return "Italian_cuisine";
-  if (s.includes("japonais")||s.includes("tempura")) return "Japanese_cuisine";
-  if (s.includes("turc")||s.includes("meze")||s.includes("mezze")) return "Turkish_cuisine";
-  if (s.includes("mexicain")||s.includes("tacos")) return "Mexican_cuisine";
-  if (s.includes("paella")||s.includes("tapas")) return "Spanish_cuisine";
-  if (s.includes("dim sum")||s.includes("cantonais")) return "Dim_sum";
-  if (s.includes("burger")||s.includes("américain")) return "Hamburger";
-  if (s.includes("grillades")||s.includes("bbq")) return "Barbecue";
-  if (s.includes("fusion"))      return "Fusion_cuisine";
-  if (s.includes("rooftop"))     return "Rooftop_bar";
-  return null;
+  if (s.includes("ramen"))          return WK+"d/d2/Shoyu_ramen%2C_at_Kasukabe_Station_%282014.05.05%29_1.jpg/400px-Shoyu_ramen%2C_at_Kasukabe_Station_%282014.05.05%29_1.jpg";
+  if (s.includes("sushi"))          return WK+"6/60/Sushi_platter.jpg/400px-Sushi_platter.jpg";
+  if (s.includes("crêpe")||s.includes("crepe")) return WK+"1/1f/Crepes_with_strawberries.jpg/400px-Crepes_with_strawberries.jpg";
+  if (s.includes("street")||s.includes("marché")) return WK+"a/a7/Camponotus_flavomarginatus_ant.jpg/400px-Street_food_market.jpg";
+  if (s.includes("bistro")||s.includes("brasserie")) return WK+"b/b4/Wiener_Schnitzel_02.jpg/400px-Wiener_Schnitzel_02.jpg";
+  if (s.includes("gastronomique")||s.includes("étoilé")) return WK+"b/b4/Plato_del_buen_comer.jpg/400px-Plato_del_buen_comer.jpg";
+  if (s.includes("café")||s.includes("cafe")||s.includes("coffee")) return WK+"4/45/A_small_cup_of_coffee.JPG/400px-A_small_cup_of_coffee.JPG";
+  if (s.includes("thaï")||s.includes("thai")) return WK+"b/bf/Gaeng_daeng.jpg/400px-Gaeng_daeng.jpg";
+  if (s.includes("indien")||s.includes("indienne")||s.includes("curry")) return WK+"1/15/Red_curry.jpg/400px-Red_curry.jpg";
+  if (s.includes("marocain")||s.includes("tajine")||s.includes("tagine")) return WK+"e/e4/Tajine_de_l%27agneau.jpg/400px-Tajine_de_l%27agneau.jpg";
+  if (s.includes("italien")||s.includes("pizza")||s.includes("pasta")) return WK+"a/a3/Eq_it-na_pizza-margherita_sep2005_sml.jpg/400px-Eq_it-na_pizza-margherita_sep2005_sml.jpg";
+  if (s.includes("japonais")||s.includes("tempura")||s.includes("teppan")) return WK+"c/c1/Tempura_mixed.jpg/400px-Tempura_mixed.jpg";
+  if (s.includes("turc")||s.includes("kebab")||s.includes("meze")||s.includes("mezze")) return WK+"3/37/Meze_spread.jpg/400px-Meze_spread.jpg";
+  if (s.includes("mexicain")||s.includes("tacos")) return WK+"8/84/Breakfast_burrito_scrambled_eggs.jpg/400px-Breakfast_burrito_scrambled_eggs.jpg";
+  if (s.includes("paella")||s.includes("tapas")||s.includes("espagnol")) return WK+"4/4e/Paella_de_mariscos.jpg/400px-Paella_de_mariscos.jpg";
+  if (s.includes("dim sum")||s.includes("cantonais")||s.includes("chinois")) return WK+"0/0e/Dimsum_in_Hong_Kong.jpg/400px-Dimsum_in_Hong_Kong.jpg";
+  if (s.includes("burger")||s.includes("américain")||s.includes("fast")) return WK+"0/0b/Grilled_Cheese_Bacon_Burger.jpg/400px-Grilled_Cheese_Bacon_Burger.jpg";
+  if (s.includes("grillades")||s.includes("bbq")||s.includes("steak")) return WK+"7/72/Barbecued_pork_chops.jpg/400px-Barbecued_pork_chops.jpg";
+  if (s.includes("libanais")||s.includes("houmous")||s.includes("falafel")) return WK+"8/83/Hummus_from_The_Nile.jpg/400px-Hummus_from_The_Nile.jpg";
+  if (s.includes("grec")||s.includes("souvlaki")) return WK+"7/7e/Souvlaki_Platter.jpg/400px-Souvlaki_Platter.jpg";
+  if (s.includes("rooftop")||s.includes("bar")) return WK+"4/4e/Siam_Paragon_rooftop_food_court.jpg/400px-Siam_Paragon_rooftop_food_court.jpg";
+  if (s.includes("fruits de mer")||s.includes("poisson")||s.includes("seafood")) return WK+"5/5c/FruitsMer.jpg/400px-FruitsMer.jpg";
+  // generic restaurant fallback
+  return WK+"b/b4/Restaurant_1_.jpg/400px-Restaurant_1_.jpg";
 };
 
 const DESTINATIONS = [
-  { id:"paris",      name:"Paris",          country:"France",         flag:"🇫🇷", emoji:"🗼", temp:"18°C", currency:"EUR", mapCenter:[48.8566,2.3522],    continent:"europe",    photo:IMG("QAwciFlS1g4") },
-  { id:"tokyo",      name:"Tokyo",          country:"Japon",          flag:"🇯🇵", emoji:"🗾", temp:"22°C", currency:"JPY", mapCenter:[35.6762,139.6503],  continent:"asie",      photo:IMG("rFYAxgF43vw") },
-  { id:"marrakech",  name:"Marrakech",      country:"Maroc",          flag:"🇲🇦", emoji:"🕌", temp:"28°C", currency:"MAD", mapCenter:[31.6295,-7.9811],   continent:"maghreb",   photo:IMG("Dql2_LN5sRg") },
-  { id:"rome",       name:"Rome",           country:"Italie",         flag:"🇮🇹", emoji:"🏛️", temp:"24°C", currency:"EUR", mapCenter:[41.9028,12.4964],   continent:"europe",    photo:IMG("75XHJzEIeUc") },
-  { id:"dubai",      name:"Dubaï",          country:"Émirats",        flag:"🇦🇪", emoji:"🏙️", temp:"35°C", currency:"AED", mapCenter:[25.2048,55.2708],   continent:"maghreb",   photo:IMG("lMo2HjtoUpM") },
-  { id:"barcelona",  name:"Barcelone",      country:"Espagne",        flag:"🇪🇸", emoji:"🎭", temp:"21°C", currency:"EUR", mapCenter:[41.3851,2.1734],    continent:"europe",    photo:IMG("mfnIHAwlBCw") },
-  { id:"newyork",    name:"New York",       country:"USA",            flag:"🇺🇸", emoji:"🗽", temp:"15°C", currency:"USD", mapCenter:[40.7128,-74.0060],   continent:"ameriques", photo:IMG("00pM5WzCzR8") },
-  { id:"bali",       name:"Bali",           country:"Indonésie",      flag:"🇮🇩", emoji:"🌴", temp:"30°C", currency:"IDR", mapCenter:[-8.3405,115.0920],  continent:"asie",      photo:IMG("uvmnzDC3jg4") },
-  { id:"istanbul",   name:"Istanbul",       country:"Türkiye",        flag:"🇹🇷", emoji:"🕍", temp:"20°C", currency:"TRY", mapCenter:[41.0082,28.9784],   continent:"maghreb",   photo:IMG("UM_YUJUGK6g") },
-  { id:"london",     name:"Londres",        country:"Royaume-Uni",    flag:"🇬🇧", emoji:"🎡", temp:"14°C", currency:"GBP", mapCenter:[51.5074,-0.1278],   continent:"europe",    photo:IMG("A94gGLeFd68") },
-  { id:"singapore",  name:"Singapour",      country:"Singapour",      flag:"🇸🇬", emoji:"🦁", temp:"31°C", currency:"SGD", mapCenter:[1.3521,103.8198],   continent:"asie",      photo:IMG("kcHkbytoiSQ") },
-  { id:"bangkok",    name:"Bangkok",        country:"Thaïlande",      flag:"🇹🇭", emoji:"🛕", temp:"33°C", currency:"THB", mapCenter:[13.7563,100.5018],  continent:"asie",      photo:IMG("uR6MUrhKoMY") },
-  { id:"amsterdam",  name:"Amsterdam",      country:"Pays-Bas",       flag:"🇳🇱", emoji:"🌷", temp:"16°C", currency:"EUR", mapCenter:[52.3676,4.9041],    continent:"europe",    photo:IMG("6Fd0C-AAc2s") },
-  { id:"prague",     name:"Prague",         country:"Tchéquie",       flag:"🇨🇿", emoji:"🏰", temp:"15°C", currency:"CZK", mapCenter:[50.0755,14.4378],   continent:"europe",    photo:IMG("h0YlnYGa3F0") },
-  { id:"vienna",     name:"Vienne",         country:"Autriche",       flag:"🇦🇹", emoji:"🎶", temp:"16°C", currency:"EUR", mapCenter:[48.2082,16.3738],   continent:"europe",    photo:IMG("ZkQNOEezi6k") },
-  { id:"sydney",     name:"Sydney",         country:"Australie",      flag:"🇦🇺", emoji:"🦘", temp:"22°C", currency:"AUD", mapCenter:[-33.8688,151.2093], continent:"oceanie",   photo:IMG("jK9dT34TfuI") },
-  { id:"kyoto",      name:"Kyoto",          country:"Japon",          flag:"🇯🇵", emoji:"⛩️", temp:"20°C", currency:"JPY", mapCenter:[35.0116,135.7681],  continent:"asie",      photo:IMG("ZGpijJnQ0D4") },
-  { id:"losangeles", name:"Los Angeles",    country:"USA",            flag:"🇺🇸", emoji:"🎬", temp:"24°C", currency:"USD", mapCenter:[34.0522,-118.2437],  continent:"ameriques", photo:IMG("cR05i3WgRlQ") },
-  { id:"miami",      name:"Miami",          country:"USA",            flag:"🇺🇸", emoji:"🌊", temp:"29°C", currency:"USD", mapCenter:[25.7617,-80.1918],   continent:"ameriques", photo:IMG("HgVE4_VWgos") },
-  { id:"lisbon",     name:"Lisbonne",       country:"Portugal",       flag:"🇵🇹", emoji:"🚋", temp:"19°C", currency:"EUR", mapCenter:[38.7223,-9.1393],   continent:"europe",    photo:IMG("r_ShROkN3E8") },
-  { id:"athens",     name:"Athènes",        country:"Grèce",          flag:"🇬🇷", emoji:"🏺", temp:"25°C", currency:"EUR", mapCenter:[37.9838,23.7275],   continent:"europe",    photo:IMG("MH6sSrsXDm4") },
-  { id:"cairo",      name:"Le Caire",       country:"Égypte",         flag:"🇪🇬", emoji:"🐪", temp:"32°C", currency:"EGP", mapCenter:[30.0444,31.2357],   continent:"maghreb",   photo:IMG("rxv2qwYPe6s") },
-  { id:"capetown",   name:"Le Cap",         country:"Afrique du Sud", flag:"🇿🇦", emoji:"🦁", temp:"20°C", currency:"ZAR", mapCenter:[-33.9249,18.4241],  continent:"afrique",   photo:IMG("tRPvXfu5Xf0") },
-  { id:"maldives",   name:"Maldives",       country:"Maldives",       flag:"🇲🇻", emoji:"🏝️", temp:"30°C", currency:"MVR", mapCenter:[4.1755,73.5093],    continent:"asie",      photo:IMG("plv1pMQDSYY") },
-  { id:"santorini",  name:"Santorin",       country:"Grèce",          flag:"🇬🇷", emoji:"🌅", temp:"25°C", currency:"EUR", mapCenter:[36.3932,25.4615],   continent:"europe",    photo:IMG("shfi7FgOnyg") },
-  { id:"rio",        name:"Rio de Janeiro", country:"Brésil",         flag:"🇧🇷", emoji:"🎉", temp:"28°C", currency:"BRL", mapCenter:[-22.9068,-43.1729],  continent:"ameriques", photo:IMG("CErddu-JwKw") },
-  { id:"buenosaires",name:"Buenos Aires",   country:"Argentine",      flag:"🇦🇷", emoji:"💃", temp:"20°C", currency:"ARS", mapCenter:[-34.6037,-58.3816],  continent:"ameriques", photo:IMG("ekA3fTefJMA") },
-  { id:"mexico",     name:"Mexico",         country:"Mexique",        flag:"🇲🇽", emoji:"🌮", temp:"22°C", currency:"MXN", mapCenter:[19.4326,-99.1332],   continent:"ameriques", photo:IMG("CFB20Nc9t3A") },
-  { id:"havana",     name:"La Havane",      country:"Cuba",           flag:"🇨🇺", emoji:"🎺", temp:"28°C", currency:"CUP", mapCenter:[23.1136,-82.3666],   continent:"ameriques", photo:IMG("0tsrwMRgShc") },
-  { id:"beijing",    name:"Pékin",          country:"Chine",          flag:"🇨🇳", emoji:"🏯", temp:"18°C", currency:"CNY", mapCenter:[39.9042,116.4074],   continent:"asie",      photo:IMG("siy5LCp84AY") },
-  { id:"hongkong",   name:"Hong Kong",      country:"Chine (RAE)",    flag:"🇭🇰", emoji:"🌃", temp:"26°C", currency:"HKD", mapCenter:[22.3193,114.1694],   continent:"asie",      photo:IMG("HZqGpw4ulU8") },
-  { id:"seoul",      name:"Séoul",          country:"Corée du Sud",   flag:"🇰🇷", emoji:"🎎", temp:"16°C", currency:"KRW", mapCenter:[37.5665,126.9780],   continent:"asie",      photo:IMG("0njBEcQmbk4") },
-  { id:"berlin",     name:"Berlin",         country:"Allemagne",      flag:"🇩🇪", emoji:"🌉", temp:"15°C", currency:"EUR", mapCenter:[52.5200,13.4050],    continent:"europe",    photo:IMG("EmGJdoIvp3A") },
-  { id:"munich",     name:"Munich",         country:"Allemagne",      flag:"🇩🇪", emoji:"🍺", temp:"14°C", currency:"EUR", mapCenter:[48.1351,11.5820],    continent:"europe",    photo:IMG("9NXqM09KDqI") },
-  { id:"zurich",     name:"Zurich",         country:"Suisse",         flag:"🇨🇭", emoji:"⛰️", temp:"13°C", currency:"CHF", mapCenter:[47.3769,8.5417],    continent:"europe",    photo:IMG("cwhMg9g-KJE") },
-  { id:"toronto",    name:"Toronto",        country:"Canada",         flag:"🇨🇦", emoji:"🍁", temp:"12°C", currency:"CAD", mapCenter:[43.6532,-79.3832],   continent:"ameriques", photo:IMG("GBw6Grb6qiY") },
-  { id:"montreal",   name:"Montréal",       country:"Canada",         flag:"🇨🇦", emoji:"🥐", temp:"10°C", currency:"CAD", mapCenter:[45.5017,-73.5673],   continent:"ameriques", photo:IMG("36B-WO8yCMs") },
-  { id:"mumbai",     name:"Mumbai",         country:"Inde",           flag:"🇮🇳", emoji:"🎥", temp:"30°C", currency:"INR", mapCenter:[19.0760,72.8777],    continent:"asie",      photo:IMG("tE7fXM5afOo") },
-  { id:"delhi",      name:"New Delhi",      country:"Inde",           flag:"🇮🇳", emoji:"🕌", temp:"29°C", currency:"INR", mapCenter:[28.6139,77.2090],    continent:"asie",      photo:IMG("Lo1MM5WJiEw") },
-  { id:"nairobi",    name:"Nairobi",        country:"Kenya",          flag:"🇰🇪", emoji:"🦒", temp:"24°C", currency:"KES", mapCenter:[-1.2921,36.8219],    continent:"afrique",   photo:IMG("IaJm3mq0F5o") },
-  { id:"casablanca", name:"Casablanca",     country:"Maroc",          flag:"🇲🇦", emoji:"🕌", temp:"22°C", currency:"MAD", mapCenter:[33.5731,-7.5898],    continent:"maghreb",   photo:IMG("ABWzLDO4Y4Y") },
-  { id:"tunis",      name:"Tunis",          country:"Tunisie",        flag:"🇹🇳", emoji:"🏛️", temp:"23°C", currency:"TND", mapCenter:[36.8191,10.1658],    continent:"maghreb",   photo:IMG("x8Y-s2Oic2Q") },
-  { id:"alger",      name:"Alger",          country:"Algérie",        flag:"🇩🇿", emoji:"🏛️", temp:"20°C", currency:"DZD", mapCenter:[36.7538,3.0588],     continent:"maghreb",   photo:IMG("xIItqrTyWEw") },
-  { id:"abudhabi",   name:"Abu Dhabi",      country:"Émirats",        flag:"🇦🇪", emoji:"🕌", temp:"34°C", currency:"AED", mapCenter:[24.4539,54.3773],    continent:"maghreb",   photo:IMG("LiGnI_CfsZE") },
-  { id:"doha",       name:"Doha",           country:"Qatar",          flag:"🇶🇦", emoji:"🏟️", temp:"33°C", currency:"QAR", mapCenter:[25.2854,51.5310],    continent:"maghreb",   photo:IMG("5jvAmqV4W-c") },
-  { id:"phuket",     name:"Phuket",         country:"Thaïlande",      flag:"🇹🇭", emoji:"🏖️", temp:"30°C", currency:"THB", mapCenter:[7.8804,98.3923],     continent:"asie",      photo:IMG("W0aNkXY9DKU") },
-  { id:"florence",   name:"Florence",       country:"Italie",         flag:"🇮🇹", emoji:"🎨", temp:"22°C", currency:"EUR", mapCenter:[43.7696,11.2558],    continent:"europe",    photo:IMG("zMFxCtkn9vI") },
-  { id:"venice",     name:"Venise",         country:"Italie",         flag:"🇮🇹", emoji:"🚤", temp:"19°C", currency:"EUR", mapCenter:[45.4408,12.3155],    continent:"europe",    photo:IMG("oWy1jKPbAVw") },
-  { id:"seville",    name:"Séville",        country:"Espagne",        flag:"🇪🇸", emoji:"💃", temp:"25°C", currency:"EUR", mapCenter:[37.3891,-5.9845],    continent:"europe",    photo:IMG("4HWBIUH9yRM") },
-  { id:"shanghai",   name:"Shanghai",       country:"Chine",          flag:"🇨🇳", emoji:"🌆", temp:"20°C", currency:"CNY", mapCenter:[31.2304,121.4737],   continent:"asie",      photo:IMG("0p37Ch2LYQc") },
+  { id:"paris",      name:"Paris",          country:"France",         flag:"🇫🇷", emoji:"🗼", temp:"18°C", currency:"EUR", mapCenter:[48.8566,2.3522],    continent:"europe",    photo:IMG("paris") },
+  { id:"tokyo",      name:"Tokyo",          country:"Japon",          flag:"🇯🇵", emoji:"🗾", temp:"22°C", currency:"JPY", mapCenter:[35.6762,139.6503],  continent:"asie",      photo:IMG("tokyo") },
+  { id:"marrakech",  name:"Marrakech",      country:"Maroc",          flag:"🇲🇦", emoji:"🕌", temp:"28°C", currency:"MAD", mapCenter:[31.6295,-7.9811],   continent:"maghreb",   photo:IMG("marrakech") },
+  { id:"rome",       name:"Rome",           country:"Italie",         flag:"🇮🇹", emoji:"🏛️", temp:"24°C", currency:"EUR", mapCenter:[41.9028,12.4964],   continent:"europe",    photo:IMG("rome") },
+  { id:"dubai",      name:"Dubaï",          country:"Émirats",        flag:"🇦🇪", emoji:"🏙️", temp:"35°C", currency:"AED", mapCenter:[25.2048,55.2708],   continent:"maghreb",   photo:IMG("dubai") },
+  { id:"barcelona",  name:"Barcelone",      country:"Espagne",        flag:"🇪🇸", emoji:"🎭", temp:"21°C", currency:"EUR", mapCenter:[41.3851,2.1734],    continent:"europe",    photo:IMG("barcelona") },
+  { id:"newyork",    name:"New York",       country:"USA",            flag:"🇺🇸", emoji:"🗽", temp:"15°C", currency:"USD", mapCenter:[40.7128,-74.0060],   continent:"ameriques", photo:IMG("newyork") },
+  { id:"bali",       name:"Bali",           country:"Indonésie",      flag:"🇮🇩", emoji:"🌴", temp:"30°C", currency:"IDR", mapCenter:[-8.3405,115.0920],  continent:"asie",      photo:IMG("bali") },
+  { id:"istanbul",   name:"Istanbul",       country:"Türkiye",        flag:"🇹🇷", emoji:"🕍", temp:"20°C", currency:"TRY", mapCenter:[41.0082,28.9784],   continent:"maghreb",   photo:IMG("istanbul") },
+  { id:"london",     name:"Londres",        country:"Royaume-Uni",    flag:"🇬🇧", emoji:"🎡", temp:"14°C", currency:"GBP", mapCenter:[51.5074,-0.1278],   continent:"europe",    photo:IMG("london") },
+  { id:"singapore",  name:"Singapour",      country:"Singapour",      flag:"🇸🇬", emoji:"🦁", temp:"31°C", currency:"SGD", mapCenter:[1.3521,103.8198],   continent:"asie",      photo:IMG("singapore") },
+  { id:"bangkok",    name:"Bangkok",        country:"Thaïlande",      flag:"🇹🇭", emoji:"🛕", temp:"33°C", currency:"THB", mapCenter:[13.7563,100.5018],  continent:"asie",      photo:IMG("bangkok") },
+  { id:"amsterdam",  name:"Amsterdam",      country:"Pays-Bas",       flag:"🇳🇱", emoji:"🌷", temp:"16°C", currency:"EUR", mapCenter:[52.3676,4.9041],    continent:"europe",    photo:IMG("amsterdam") },
+  { id:"prague",     name:"Prague",         country:"Tchéquie",       flag:"🇨🇿", emoji:"🏰", temp:"15°C", currency:"CZK", mapCenter:[50.0755,14.4378],   continent:"europe",    photo:IMG("prague") },
+  { id:"vienna",     name:"Vienne",         country:"Autriche",       flag:"🇦🇹", emoji:"🎶", temp:"16°C", currency:"EUR", mapCenter:[48.2082,16.3738],   continent:"europe",    photo:IMG("vienna") },
+  { id:"sydney",     name:"Sydney",         country:"Australie",      flag:"🇦🇺", emoji:"🦘", temp:"22°C", currency:"AUD", mapCenter:[-33.8688,151.2093], continent:"oceanie",   photo:IMG("sydney") },
+  { id:"kyoto",      name:"Kyoto",          country:"Japon",          flag:"🇯🇵", emoji:"⛩️", temp:"20°C", currency:"JPY", mapCenter:[35.0116,135.7681],  continent:"asie",      photo:IMG("kyoto") },
+  { id:"losangeles", name:"Los Angeles",    country:"USA",            flag:"🇺🇸", emoji:"🎬", temp:"24°C", currency:"USD", mapCenter:[34.0522,-118.2437],  continent:"ameriques", photo:IMG("losangeles") },
+  { id:"miami",      name:"Miami",          country:"USA",            flag:"🇺🇸", emoji:"🌊", temp:"29°C", currency:"USD", mapCenter:[25.7617,-80.1918],   continent:"ameriques", photo:IMG("miami") },
+  { id:"lisbon",     name:"Lisbonne",       country:"Portugal",       flag:"🇵🇹", emoji:"🚋", temp:"19°C", currency:"EUR", mapCenter:[38.7223,-9.1393],   continent:"europe",    photo:IMG("lisbon") },
+  { id:"athens",     name:"Athènes",        country:"Grèce",          flag:"🇬🇷", emoji:"🏺", temp:"25°C", currency:"EUR", mapCenter:[37.9838,23.7275],   continent:"europe",    photo:IMG("athens") },
+  { id:"cairo",      name:"Le Caire",       country:"Égypte",         flag:"🇪🇬", emoji:"🐪", temp:"32°C", currency:"EGP", mapCenter:[30.0444,31.2357],   continent:"maghreb",   photo:IMG("cairo") },
+  { id:"capetown",   name:"Le Cap",         country:"Afrique du Sud", flag:"🇿🇦", emoji:"🦁", temp:"20°C", currency:"ZAR", mapCenter:[-33.9249,18.4241],  continent:"afrique",   photo:IMG("capetown") },
+  { id:"maldives",   name:"Maldives",       country:"Maldives",       flag:"🇲🇻", emoji:"🏝️", temp:"30°C", currency:"MVR", mapCenter:[4.1755,73.5093],    continent:"asie",      photo:IMG("maldives") },
+  { id:"santorini",  name:"Santorin",       country:"Grèce",          flag:"🇬🇷", emoji:"🌅", temp:"25°C", currency:"EUR", mapCenter:[36.3932,25.4615],   continent:"europe",    photo:IMG("santorini") },
+  { id:"rio",        name:"Rio de Janeiro", country:"Brésil",         flag:"🇧🇷", emoji:"🎉", temp:"28°C", currency:"BRL", mapCenter:[-22.9068,-43.1729],  continent:"ameriques", photo:IMG("rio") },
+  { id:"buenosaires",name:"Buenos Aires",   country:"Argentine",      flag:"🇦🇷", emoji:"💃", temp:"20°C", currency:"ARS", mapCenter:[-34.6037,-58.3816],  continent:"ameriques", photo:IMG("buenosaires") },
+  { id:"mexico",     name:"Mexico",         country:"Mexique",        flag:"🇲🇽", emoji:"🌮", temp:"22°C", currency:"MXN", mapCenter:[19.4326,-99.1332],   continent:"ameriques", photo:IMG("mexico") },
+  { id:"havana",     name:"La Havane",      country:"Cuba",           flag:"🇨🇺", emoji:"🎺", temp:"28°C", currency:"CUP", mapCenter:[23.1136,-82.3666],   continent:"ameriques", photo:IMG("havana") },
+  { id:"beijing",    name:"Pékin",          country:"Chine",          flag:"🇨🇳", emoji:"🏯", temp:"18°C", currency:"CNY", mapCenter:[39.9042,116.4074],   continent:"asie",      photo:IMG("beijing") },
+  { id:"hongkong",   name:"Hong Kong",      country:"Chine (RAE)",    flag:"🇭🇰", emoji:"🌃", temp:"26°C", currency:"HKD", mapCenter:[22.3193,114.1694],   continent:"asie",      photo:IMG("hongkong") },
+  { id:"seoul",      name:"Séoul",          country:"Corée du Sud",   flag:"🇰🇷", emoji:"🎎", temp:"16°C", currency:"KRW", mapCenter:[37.5665,126.9780],   continent:"asie",      photo:IMG("seoul") },
+  { id:"berlin",     name:"Berlin",         country:"Allemagne",      flag:"🇩🇪", emoji:"🌉", temp:"15°C", currency:"EUR", mapCenter:[52.5200,13.4050],    continent:"europe",    photo:IMG("berlin") },
+  { id:"munich",     name:"Munich",         country:"Allemagne",      flag:"🇩🇪", emoji:"🍺", temp:"14°C", currency:"EUR", mapCenter:[48.1351,11.5820],    continent:"europe",    photo:IMG("munich") },
+  { id:"zurich",     name:"Zurich",         country:"Suisse",         flag:"🇨🇭", emoji:"⛰️", temp:"13°C", currency:"CHF", mapCenter:[47.3769,8.5417],    continent:"europe",    photo:IMG("zurich") },
+  { id:"toronto",    name:"Toronto",        country:"Canada",         flag:"🇨🇦", emoji:"🍁", temp:"12°C", currency:"CAD", mapCenter:[43.6532,-79.3832],   continent:"ameriques", photo:IMG("toronto") },
+  { id:"montreal",   name:"Montréal",       country:"Canada",         flag:"🇨🇦", emoji:"🥐", temp:"10°C", currency:"CAD", mapCenter:[45.5017,-73.5673],   continent:"ameriques", photo:IMG("montreal") },
+  { id:"mumbai",     name:"Mumbai",         country:"Inde",           flag:"🇮🇳", emoji:"🎥", temp:"30°C", currency:"INR", mapCenter:[19.0760,72.8777],    continent:"asie",      photo:IMG("mumbai") },
+  { id:"delhi",      name:"New Delhi",      country:"Inde",           flag:"🇮🇳", emoji:"🕌", temp:"29°C", currency:"INR", mapCenter:[28.6139,77.2090],    continent:"asie",      photo:IMG("delhi") },
+  { id:"nairobi",    name:"Nairobi",        country:"Kenya",          flag:"🇰🇪", emoji:"🦒", temp:"24°C", currency:"KES", mapCenter:[-1.2921,36.8219],    continent:"afrique",   photo:IMG("nairobi") },
+  { id:"casablanca", name:"Casablanca",     country:"Maroc",          flag:"🇲🇦", emoji:"🕌", temp:"22°C", currency:"MAD", mapCenter:[33.5731,-7.5898],    continent:"maghreb",   photo:IMG("casablanca") },
+  { id:"tunis",      name:"Tunis",          country:"Tunisie",        flag:"🇹🇳", emoji:"🏛️", temp:"23°C", currency:"TND", mapCenter:[36.8191,10.1658],    continent:"maghreb",   photo:IMG("tunis") },
+  { id:"alger",      name:"Alger",          country:"Algérie",        flag:"🇩🇿", emoji:"🏛️", temp:"20°C", currency:"DZD", mapCenter:[36.7538,3.0588],     continent:"maghreb",   photo:IMG("alger") },
+  { id:"abudhabi",   name:"Abu Dhabi",      country:"Émirats",        flag:"🇦🇪", emoji:"🕌", temp:"34°C", currency:"AED", mapCenter:[24.4539,54.3773],    continent:"maghreb",   photo:IMG("abudhabi") },
+  { id:"doha",       name:"Doha",           country:"Qatar",          flag:"🇶🇦", emoji:"🏟️", temp:"33°C", currency:"QAR", mapCenter:[25.2854,51.5310],    continent:"maghreb",   photo:IMG("doha") },
+  { id:"phuket",     name:"Phuket",         country:"Thaïlande",      flag:"🇹🇭", emoji:"🏖️", temp:"30°C", currency:"THB", mapCenter:[7.8804,98.3923],     continent:"asie",      photo:IMG("phuket") },
+  { id:"florence",   name:"Florence",       country:"Italie",         flag:"🇮🇹", emoji:"🎨", temp:"22°C", currency:"EUR", mapCenter:[43.7696,11.2558],    continent:"europe",    photo:IMG("florence") },
+  { id:"venice",     name:"Venise",         country:"Italie",         flag:"🇮🇹", emoji:"🚤", temp:"19°C", currency:"EUR", mapCenter:[45.4408,12.3155],    continent:"europe",    photo:IMG("venice") },
+  { id:"seville",    name:"Séville",        country:"Espagne",        flag:"🇪🇸", emoji:"💃", temp:"25°C", currency:"EUR", mapCenter:[37.3891,-5.9845],    continent:"europe",    photo:IMG("seville") },
+  { id:"shanghai",   name:"Shanghai",       country:"Chine",          flag:"🇨🇳", emoji:"🌆", temp:"20°C", currency:"CNY", mapCenter:[31.2304,121.4737],   continent:"asie",      photo:IMG("shanghai") },
   // ── European capitals ──
-  { id:"dublin",     name:"Dublin",         country:"Irlande",        flag:"🇮🇪", emoji:"🍺", temp:"12°C", currency:"EUR", mapCenter:[53.3498,-6.2603],    continent:"europe",    photo:IMG("oLtoyYnYiPQ") },
-  { id:"copenhagen", name:"Copenhague",     country:"Danemark",       flag:"🇩🇰", emoji:"🧜", temp:"13°C", currency:"DKK", mapCenter:[55.6761,12.5683],    continent:"europe",    photo:IMG("iC2FHfd3TuM") },
-  { id:"stockholm",  name:"Stockholm",      country:"Suède",          flag:"🇸🇪", emoji:"👑", temp:"10°C", currency:"SEK", mapCenter:[59.3293,18.0686],    continent:"europe",    photo:IMG("TOskx3WLjms") },
-  { id:"helsinki",   name:"Helsinki",       country:"Finlande",       flag:"🇫🇮", emoji:"🌲", temp:"7°C",  currency:"EUR", mapCenter:[60.1699,24.9384],    continent:"europe",    photo:IMG("PV3IW664mZg") },
-  { id:"oslo",       name:"Oslo",           country:"Norvège",        flag:"🇳🇴", emoji:"⛵", temp:"8°C",  currency:"NOK", mapCenter:[59.9139,10.7522],    continent:"europe",    photo:IMG("ncrAA1Kc7QM") },
-  { id:"warsaw",     name:"Varsovie",       country:"Pologne",        flag:"🇵🇱", emoji:"🏰", temp:"13°C", currency:"PLN", mapCenter:[52.2297,21.0122],    continent:"europe",    photo:IMG("p6gxHYb43v0") },
-  { id:"budapest",   name:"Budapest",       country:"Hongrie",        flag:"🇭🇺", emoji:"🌊", temp:"17°C", currency:"HUF", mapCenter:[47.4979,19.0402],    continent:"europe",    photo:IMG("s8khmvGXWo0") },
-  { id:"bucharest",  name:"Bucarest",       country:"Roumanie",       flag:"🇷🇴", emoji:"🏛️", temp:"16°C", currency:"RON", mapCenter:[44.4268,26.1025],    continent:"europe",    photo:IMG("ogXPqfXoFD4") },
-  { id:"brussels",   name:"Bruxelles",      country:"Belgique",       flag:"🇧🇪", emoji:"🧇", temp:"14°C", currency:"EUR", mapCenter:[50.8503,4.3517],     continent:"europe",    photo:IMG("v5j_fxYUwaI") },
-  { id:"edinburgh",  name:"Édimbourg",      country:"Écosse",         flag:"🏴󠁧󠁢󠁳󠁣󠁴󠁿", emoji:"🏯", temp:"11°C", currency:"GBP", mapCenter:[55.9533,-3.1883],    continent:"europe",    photo:IMG("nWkt_TNAhG4") },
-  { id:"belgrade",   name:"Belgrade",       country:"Serbie",         flag:"🇷🇸", emoji:"🎸", temp:"16°C", currency:"RSD", mapCenter:[44.7866,20.4489],    continent:"europe",    photo:IMG("t0sXKOz9qtk") },
-  { id:"reykjavik",  name:"Reykjavik",      country:"Islande",        flag:"🇮🇸", emoji:"🌌", temp:"5°C",  currency:"ISK", mapCenter:[64.1265,-21.8174],   continent:"europe",    photo:IMG("_ZC17S5ve14") },
-  { id:"sofia",      name:"Sofia",          country:"Bulgarie",       flag:"🇧🇬", emoji:"🕍", temp:"15°C", currency:"BGN", mapCenter:[42.6977,23.3219],    continent:"europe",    photo:IMG("roGuIsVp_gk") },
-  { id:"zagreb",     name:"Zagreb",         country:"Croatie",        flag:"🇭🇷", emoji:"🏰", temp:"17°C", currency:"EUR", mapCenter:[45.8150,15.9819],    continent:"europe",    photo:IMG("ydN2gVJxAcs") },
-  { id:"valletta",   name:"La Valette",     country:"Malte",          flag:"🇲🇹", emoji:"⚓", temp:"22°C", currency:"EUR", mapCenter:[35.8997,14.5147],    continent:"europe",    photo:IMG("2gJETrvLNSw") },
+  { id:"dublin",     name:"Dublin",         country:"Irlande",        flag:"🇮🇪", emoji:"🍺", temp:"12°C", currency:"EUR", mapCenter:[53.3498,-6.2603],    continent:"europe",    photo:IMG("dublin") },
+  { id:"copenhagen", name:"Copenhague",     country:"Danemark",       flag:"🇩🇰", emoji:"🧜", temp:"13°C", currency:"DKK", mapCenter:[55.6761,12.5683],    continent:"europe",    photo:IMG("copenhagen") },
+  { id:"stockholm",  name:"Stockholm",      country:"Suède",          flag:"🇸🇪", emoji:"👑", temp:"10°C", currency:"SEK", mapCenter:[59.3293,18.0686],    continent:"europe",    photo:IMG("stockholm") },
+  { id:"helsinki",   name:"Helsinki",       country:"Finlande",       flag:"🇫🇮", emoji:"🌲", temp:"7°C",  currency:"EUR", mapCenter:[60.1699,24.9384],    continent:"europe",    photo:IMG("helsinki") },
+  { id:"oslo",       name:"Oslo",           country:"Norvège",        flag:"🇳🇴", emoji:"⛵", temp:"8°C",  currency:"NOK", mapCenter:[59.9139,10.7522],    continent:"europe",    photo:IMG("oslo") },
+  { id:"warsaw",     name:"Varsovie",       country:"Pologne",        flag:"🇵🇱", emoji:"🏰", temp:"13°C", currency:"PLN", mapCenter:[52.2297,21.0122],    continent:"europe",    photo:IMG("warsaw") },
+  { id:"budapest",   name:"Budapest",       country:"Hongrie",        flag:"🇭🇺", emoji:"🌊", temp:"17°C", currency:"HUF", mapCenter:[47.4979,19.0402],    continent:"europe",    photo:IMG("budapest") },
+  { id:"bucharest",  name:"Bucarest",       country:"Roumanie",       flag:"🇷🇴", emoji:"🏛️", temp:"16°C", currency:"RON", mapCenter:[44.4268,26.1025],    continent:"europe",    photo:IMG("bucharest") },
+  { id:"brussels",   name:"Bruxelles",      country:"Belgique",       flag:"🇧🇪", emoji:"🧇", temp:"14°C", currency:"EUR", mapCenter:[50.8503,4.3517],     continent:"europe",    photo:IMG("brussels") },
+  { id:"edinburgh",  name:"Édimbourg",      country:"Écosse",         flag:"🏴󠁧󠁢󠁳󠁣󠁴󠁿", emoji:"🏯", temp:"11°C", currency:"GBP", mapCenter:[55.9533,-3.1883],    continent:"europe",    photo:IMG("edinburgh") },
+  { id:"belgrade",   name:"Belgrade",       country:"Serbie",         flag:"🇷🇸", emoji:"🎸", temp:"16°C", currency:"RSD", mapCenter:[44.7866,20.4489],    continent:"europe",    photo:IMG("belgrade") },
+  { id:"reykjavik",  name:"Reykjavik",      country:"Islande",        flag:"🇮🇸", emoji:"🌌", temp:"5°C",  currency:"ISK", mapCenter:[64.1265,-21.8174],   continent:"europe",    photo:IMG("reykjavik") },
+  { id:"sofia",      name:"Sofia",          country:"Bulgarie",       flag:"🇧🇬", emoji:"🕍", temp:"15°C", currency:"BGN", mapCenter:[42.6977,23.3219],    continent:"europe",    photo:IMG("sofia") },
+  { id:"zagreb",     name:"Zagreb",         country:"Croatie",        flag:"🇭🇷", emoji:"🏰", temp:"17°C", currency:"EUR", mapCenter:[45.8150,15.9819],    continent:"europe",    photo:IMG("zagreb") },
+  { id:"valletta",   name:"La Valette",     country:"Malte",          flag:"🇲🇹", emoji:"⚓", temp:"22°C", currency:"EUR", mapCenter:[35.8997,14.5147],    continent:"europe",    photo:IMG("valletta") },
 ];
 
 const ORIGINS = ["Alger","Tunis","Casablanca","Rabat","Oran","Constantine","Paris","Lyon","Marseille","Bruxelles","Genève","Montréal","Dakar","Beyrouth","Dubaï","Le Caire","Riyad"];
@@ -1138,12 +1213,12 @@ async function exportToPDF({ destination, origin, budget, startDate, endDate, ad
       <span class="day-date">${day.date}</span>
     </div>
     <div class="timeline">
-      ${[...day.morning,...day.afternoon,...day.evening].map(item => `
+      ${day.items.map(item => `
       <div class="timeline-item">
         <div class="timeline-time">${item.time}</div>
         <div class="timeline-content">
-          <div class="act">${item.activity}</div>
-          ${item.note ? `<div class="note">${item.note}</div>` : ""}
+          <div class="act">${item.icon} ${item.activity}</div>
+          ${item.desc ? `<div class="note">${item.desc}</div>` : ""}
         </div>
       </div>`).join("")}
     </div>
@@ -1366,7 +1441,7 @@ export default function TravelPlanner() {
   // eslint-disable-next-line
   },[]);
 
-  // Preload hotel + restaurant images when step 3 opens
+  // Preload hotel images from Wikipedia when step 3 opens
   useEffect(()=>{
     if (step !== 3 || !destination) return;
     const d = getDestData(destination);
@@ -1376,19 +1451,9 @@ export default function TravelPlanner() {
       (d.hotels[tier]||[]).forEach(h => {
         const key = `hotel_${h.name}`;
         if (!h.name || extraImgs[key]) return;
-        const t = delay; delay += 220;
+        const t = delay; delay += 300;
         setTimeout(()=>{ fetchWikiImage(key, h.name, 800).then(src=>{ if(src) setExtraImgs(p=>({...p,[key]:src})); }); }, t);
       });
-    });
-    const seenTypes = new Set();
-    d.restaurants.forEach(r => {
-      const wiki = CUISINE_WIKI(r.type);
-      if (!wiki || seenTypes.has(wiki)) return;
-      seenTypes.add(wiki);
-      const key = `rest_${wiki}`;
-      if (extraImgs[key]) return;
-      const t = delay; delay += 220;
-      setTimeout(()=>{ fetchWikiImage(key, wiki.replace(/_/g,' '), 600).then(src=>{ if(src) setExtraImgs(p=>({...p,[key]:src})); }); }, t);
     });
   // eslint-disable-next-line
   },[step, destination]);
@@ -2117,17 +2182,14 @@ export default function TravelPlanner() {
                     <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:20, fontWeight:700, marginBottom:18, color:S2.bodyText }}>Restaurants à {destination.name}</h3>
                     <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(280px,1fr))", gap:14 }}>
                       {data.restaurants.map(r=>{
-                        const wikiKey = CUISINE_WIKI(r.type);
-                        const img = wikiKey ? extraImgs[`rest_${wikiKey}`] : null;
+                        const cuisineImg = CUISINE_PHOTO(r.type);
                         return (
                         <div key={r.name} style={{ background:S2.cardBg, border:`1px solid ${S2.cardBdr}`, borderRadius:18, overflow:"hidden" }}>
-                          {img ? (
-                            <div style={{ height:140, overflow:"hidden" }}>
-                              <img src={img} alt={r.type} style={{ width:"100%", height:"100%", objectFit:"cover" }} />
-                            </div>
-                          ) : (
-                            <div style={{ height:8, background:`linear-gradient(90deg,${BUDGET_LABELS[budget]?.color||"#8B5CF6"},rgba(139,92,246,.3))` }} />
-                          )}
+                          <div style={{ height:140, overflow:"hidden", background:"#1A0B35" }}>
+                            <img src={cuisineImg} alt={r.type}
+                              onError={e=>{ e.target.style.display="none"; }}
+                              style={{ width:"100%", height:"100%", objectFit:"cover" }} />
+                          </div>
                           <div style={{ padding:16 }}>
                             <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:6 }}>
                               <div style={{ fontWeight:700, fontSize:14, color:S2.bodyText }}>{r.name}</div>
