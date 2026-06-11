@@ -335,6 +335,7 @@ const LANG = {
     nights:n=>`${n} nuit${n>1?"s":""}`, budget_label:"Budget",
     journey:"Trajet", stay:"Séjour", travelers:"Voyageurs",
     hotel_options:"Options d\'hébergement", stars:"étoile",
+    daily_plan:"Programme jour par jour", transport_info:"Infos pratiques",
     // Step 1 landing page
     hero_badge:"Planificateur de voyage intelligent",
     hero_h1:["Créez votre","voyage","idéal"],
@@ -431,6 +432,7 @@ const LANG = {
     nights:n=>`${n} night${n>1?"s":""}`, budget_label:"Budget",
     journey:"Route", stay:"Stay", travelers:"Travelers",
     hotel_options:"Accommodation options", stars:"star",
+    daily_plan:"Day-by-Day Plan", transport_info:"Transport & Info",
     // Step 1 landing page
     hero_badge:"Intelligent Travel Planner",
     hero_h1:["Create your","perfect","journey"],
@@ -527,6 +529,7 @@ const LANG = {
     nights:n=>`${n} ليلة`, budget_label:"الميزانية",
     journey:"المسار", stay:"المدة", travelers:"المسافرون",
     hotel_options:"خيارات الإقامة", stars:"نجمة",
+    daily_plan:"البرنامج اليومي", transport_info:"النقل والمعلومات",
     // Step 1 landing page
     hero_badge:"مخطط رحلات ذكي",
     hero_h1:["أنشئ رحلة","أحلامك","المثالية"],
@@ -2266,7 +2269,7 @@ export default function TravelPlanner() {
                           <div style={{ padding:16 }}>
                             <div style={{ fontWeight:700, fontSize:14, color:S2.bodyText, marginBottom:4 }}>{r.name}</div>
                             <div style={{ fontSize:12, color:S2.muted70, marginBottom:6 }}>{r.type}</div>
-                            {r.price&&<div style={{ fontSize:13, fontWeight:600, color:"#D4A574", marginBottom:10 }}>💰 {r.price}</div>}
+                            {r.budget&&r.budget[budget]&&<div style={{ fontSize:13, fontWeight:600, color:"#D4A574", marginBottom:10 }}>💰 {r.budget[budget]}</div>}
                             <div style={{ display:"flex", gap:7 }}>
                               <a href={BOOK.maps(r.name,destination.name)} target="_blank" rel="noopener noreferrer" style={{ flex:1, display:"flex", alignItems:"center", justifyContent:"center", gap:5, padding:"7px 0", borderRadius:10, background:"#4285F4", color:"white", fontSize:11, fontWeight:600, textDecoration:"none" }}>🗺 Google Maps</a>
                               <a href={BOOK.thefork(r.name,destination.name)} target="_blank" rel="noopener noreferrer" style={{ flex:1, display:"flex", alignItems:"center", justifyContent:"center", gap:5, padding:"7px 0", borderRadius:10, background:"#00B551", color:"white", fontSize:11, fontWeight:600, textDecoration:"none" }}>🍴 TheFork</a>
