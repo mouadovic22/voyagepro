@@ -92,12 +92,167 @@ const WIKI_TITLES = {
 };
 
 // ── AFFILIATE IDs ── CJ Publisher ID: 7982811
+
+// ── Premium hero/destination images (Unsplash) — Codex feature, with Wikimedia + picsum fallbacks ──
+const HOME_HERO_IMAGES = {
+  maldives: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=2400&q=90",
+  dubai: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=2400&q=90",
+  santorini: "https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?auto=format&fit=crop&w=2400&q=90",
+  paris: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=2400&q=90",
+};
+
+const PREMIUM_DESTINATION_IMAGES = {
+  paris: HOME_HERO_IMAGES.paris,
+  dubai: HOME_HERO_IMAGES.dubai,
+  santorini: HOME_HERO_IMAGES.santorini,
+  maldives: HOME_HERO_IMAGES.maldives,
+  tokyo: "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?auto=format&fit=crop&w=1200&q=85",
+  bali: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=1200&q=85",
+  marrakech: "https://images.unsplash.com/photo-1597212618440-806262de4f6b?auto=format&fit=crop&w=1200&q=85",
+  newyork: "https://images.unsplash.com/photo-1485871981521-5b1fd3805eee?auto=format&fit=crop&w=1200&q=85",
+  miami: "https://images.unsplash.com/photo-1506966953602-c20cc11f75e3?auto=format&fit=crop&w=1200&q=85",
+  losangeles: "https://images.unsplash.com/photo-1534190760961-74e8c1c5c3da?auto=format&fit=crop&w=1200&q=85",
+  istanbul: "https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?auto=format&fit=crop&w=1200&q=85",
+  london: "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=1200&q=85",
+  singapore: "https://images.unsplash.com/photo-1525625293386-3f8f99389edd?auto=format&fit=crop&w=1200&q=85",
+  bangkok: "https://images.unsplash.com/photo-1508009603885-50cf7c579365?auto=format&fit=crop&w=1200&q=85",
+  amsterdam: "https://images.unsplash.com/photo-1512470876302-972faa2aa9a4?auto=format&fit=crop&w=1200&q=85",
+  prague: "https://images.unsplash.com/photo-1541849546-216549ae216d?auto=format&fit=crop&w=1200&q=85",
+  vienna: "https://images.unsplash.com/photo-1516550893923-42d28e5677af?auto=format&fit=crop&w=1200&q=85",
+  sydney: "https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?auto=format&fit=crop&w=1200&q=85",
+  kyoto: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=1200&q=85",
+};
+
+const RESULT_IMAGES = {
+  attraction: [
+    "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=85",
+    "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1200&q=85",
+    "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1200&q=85",
+    "https://images.unsplash.com/photo-1527631746610-bca00a040d60?auto=format&fit=crop&w=1200&q=85",
+  ],
+  restaurant: [
+    "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1200&q=85",
+    "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=85",
+    "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1200&q=85",
+    "https://images.unsplash.com/photo-1551218808-94e220e084d2?auto=format&fit=crop&w=1200&q=85",
+  ],
+  hotel: [
+    "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=85",
+    "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=1200&q=85",
+    "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1200&q=85",
+    "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&fit=crop&w=1200&q=85",
+  ],
+};
+
+// Curated attraction photos (Wikipedia titles + direct Commons URLs) — extendable per city
+const ATTRACTION_WIKI_TITLES = {
+  paris: {
+    "Tour Eiffel": "Eiffel_Tower",
+    "Musée du Louvre": "Louvre_Pyramid",
+    "Montmartre & Sacré-Coeur": "Basilique_du_Sacré-Cœur_de_Montmartre",
+    "Musée d'Orsay": "Gare_d'Orsay",
+    "Versailles": "Palace_of_Versailles",
+    "Croisière Seine": "Seine",
+  },
+};
+
+const ATTRACTION_IMAGES = {
+  paris: {
+    "Tour Eiffel": "https://upload.wikimedia.org/wikipedia/commons/a/a8/Tour_Eiffel_Wikimedia_Commons.jpg",
+    "Musée du Louvre": "https://upload.wikimedia.org/wikipedia/en/thumb/4/42/Louvre_Pyramid.jpg/1600px-Louvre_Pyramid.jpg",
+    "Montmartre & Sacré-Coeur": "https://upload.wikimedia.org/wikipedia/commons/d/d1/Sacr%C3%A9_Coeur_Fa%C3%A7ade_1.jpg",
+    "Musée d'Orsay": "https://upload.wikimedia.org/wikipedia/commons/0/04/La_Gare_d%27Orleans_et_Quai_d%27Orsay.jpg",
+    "Versailles": "https://upload.wikimedia.org/wikipedia/commons/d/d2/Versailles-Chateau-Jardins02.jpg",
+    "Croisière Seine": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Pont_au_Change_and_Palais_de_justice%2C_Paris_20_April_2021_001.jpg/1600px-Pont_au_Change_and_Palais_de_justice%2C_Paris_20_April_2021_001.jpg",
+  },
+};
+
+// ── SEO articles (guides) shown on the landing page ──
+const SEO_ARTICLES = [
+  {
+    id: "paris-3-jours",
+    destId: "paris",
+    title: "Que faire à Paris en 3 jours ? Itinéraire complet quartier par quartier",
+    kicker: "Guide Paris",
+    excerpt: "Un parcours efficace entre Tour Eiffel, Louvre, Montmartre, Orsay et croisière sur la Seine, avec conseils de rythme et bonnes zones où loger.",
+    read: "7 min",
+  },
+  {
+    id: "marrakech-weekend",
+    destId: "marrakech",
+    title: "Week-end à Marrakech : riads, souks, jardins et désert sans perdre de temps",
+    kicker: "Guide Maroc",
+    excerpt: "L'essentiel pour organiser deux ou trois jours à Marrakech : médina, Jardin Majorelle, adresses locales et excursion dans l'Atlas.",
+    read: "6 min",
+  },
+  {
+    id: "dubai-luxe-budget",
+    destId: "dubai",
+    title: "Dubaï luxe ou budget malin : comment choisir son hôtel et ses activités",
+    kicker: "Guide Émirats",
+    excerpt: "Comparer Marina, Downtown, Palm Jumeirah et Deira selon votre budget, avec les expériences à réserver avant le départ.",
+    read: "8 min",
+  },
+  {
+    id: "tokyo-premier-voyage",
+    destId: "tokyo",
+    title: "Premier voyage à Tokyo : quartiers, transports et programme idéal",
+    kicker: "Guide Japon",
+    excerpt: "Un guide clair pour comprendre Tokyo, alterner temples, skyline, food spots et shopping, sans se perdre dans une ville immense.",
+    read: "9 min",
+  },
+  {
+    id: "bali-lune-de-miel",
+    destId: "bali",
+    title: "Bali en couple : plages, temples, villas et itinéraire romantique",
+    kicker: "Guide Bali",
+    excerpt: "Ubud, Uluwatu, Seminyak ou Nusa Dua : les meilleurs choix selon l'ambiance souhaitée et le niveau de confort.",
+    read: "6 min",
+  },
+  {
+    id: "new-york-premiere-fois",
+    destId: "newyork",
+    title: "New York pour une première fois : le programme qui évite les pièges",
+    kicker: "Guide USA",
+    excerpt: "Les incontournables de Manhattan, Brooklyn et Central Park, avec une logique de visite par zones pour gagner du temps.",
+    read: "7 min",
+  },
+];
+
+const articleCopy = (a, lang) => a; // FR content shown for all languages for now
+
+const seedIndex = (seed, count) => {
+  const text = String(seed || "voyagespro");
+  let hash = 0;
+  for (let i = 0; i < text.length; i++) hash = ((hash << 5) - hash + text.charCodeAt(i)) | 0;
+  return Math.abs(hash) % count;
+};
+
+const pickImage = (list, seed) => list[seedIndex(seed, list.length)];
+const destinationPhoto = d => PREMIUM_DESTINATION_IMAGES[d?.id] || d?.photo;
+const destinationThumb = d => {
+  const src = destinationPhoto(d);
+  return src?.includes("images.unsplash.com")
+    ? src.replace(/w=\d+/, "w=720").replace(/q=\d+/, "q=82")
+    : src;
+};
+const destinationFallback = id => `https://picsum.photos/seed/dest-${id}/720/540`;
+const resultPhoto = (type, seed) => pickImage(RESULT_IMAGES[type], seed);
+// Image onError chain: premium Unsplash → Wikimedia city photo → picsum (guaranteed)
+const destImgError = dest => e => {
+  const el = e.currentTarget;
+  if (!el.dataset.fb && dest?.photo && el.src !== dest.photo) { el.dataset.fb = "1"; el.src = dest.photo; }
+  else { el.onerror = null; el.src = destinationFallback(dest?.id || "monde"); }
+};
+
+
+// ── AFFILIATE IDs ── CJ Publisher ID: 7982811
 // To get link IDs: CJ dashboard → Advertisers → join program → Links → Deep Link Generator
 const AFF = {
   cj_pid:       "7982811", // your CJ Publisher ID
   booking:      "",   // CJ → Booking.com program → link ID after "click-7982811-"
   getyourguide: "",   // partner.getyourguide.com → partner_id (direct program, not CJ)
-  viator:       "",   // CJ → Viator program → link ID after "click-7982811-"
+  viator:       "P00305277",   // partnerize.com → Viator program
   kayak:        "",   // CJ → Kayak program → link ID after "click-7982811-"
 };
 
@@ -112,13 +267,19 @@ const BOOK = {
   booking:     (city, name) => aff(`https://www.booking.com/searchresults.fr.html?ss=${encodeURIComponent(name||city)}&lang=fr`, {aid:AFF.booking}),
   airbnb:      (city)       => `https://www.airbnb.fr/s/${encodeURIComponent(city)}/homes`,
   getyourguide:(name, city) => aff(`https://www.getyourguide.fr/s/?q=${encodeURIComponent(name+" "+city)}&locale_autoredirect_optout=true`, {partner_id:AFF.getyourguide}),
-  viator:      (name, city) => aff(`https://www.viator.com/fr-FR/search?text=${encodeURIComponent(name+" "+city)}`, {pid:AFF.viator}),
+  viator:      (name, city) => {
+    const VIATOR_DEST = {paris:"Paris/d479",tokyo:"Tokyo/d334",dubai:"Dubai/d827",rome:"Rome/d511",barcelona:"Barcelona/d562",bali:"Bali/d348",newyork:"New-York/d687",london:"London/d737",istanbul:"Istanbul/d585",marrakech:"Marrakech/d641",amsterdam:"Amsterdam/d525",bangkok:"Bangkok/d343",singapore:"Singapore/d492",lisbon:"Lisbon/d538",athens:"Athens/d496",cairo:"Cairo/d296",maldives:"Maldives/d374",santorini:"Santorini/d479",rio:"Rio-de-Janeiro/d294",kyoto:"Kyoto/d336",sydney:"Sydney/d357",vienna:"Vienna/d518",prague:"Prague/d621",budapest:"Budapest/d622",dublin:"Dublin/d527",copenhagen:"Copenhagen/d663",berlin:"Berlin/d488",munich:"Munich/d489",zurich:"Zurich/d578",toronto:"Toronto/d703",montreal:"Montreal/d700",miami:"Miami/d672",losangeles:"Los-Angeles/d645",beijing:"Beijing/d329",hongkong:"Hong-Kong/d349",seoul:"Seoul/d973",shanghai:"Shanghai/d330",florence:"Florence/d519",venice:"Venice/d520",casablanca:"Casablanca/d642"};
+    const destSlug = VIATOR_DEST[city?.toLowerCase?.()?.replace(/ /g,"")] || VIATOR_DEST[name?.toLowerCase?.()?.replace(/ /g,"")];
+    const base = destSlug ? `https://www.viator.com/fr-FR/${destSlug}` : `https://www.viator.com/fr-FR/tours/${encodeURIComponent(city||name)}`;
+    return `${base}${AFF.viator?`?pid=${AFF.viator}&mcid=42383`:""}`;
+  },
   thefork:     (name, city) => `https://www.thefork.fr/recherche?q=${encodeURIComponent(name)}&cityName=${encodeURIComponent(city)}`,
   tripadvisor: (name, city) => `https://www.tripadvisor.fr/Search?q=${encodeURIComponent(name+" "+city)}&searchSessionId=x`,
   maps:        (name, city) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(name+" "+city)}`,
 };
 
-// Upscale a Wikipedia/Commons thumbnail URL to a larger width for crisp images
+const INSTAGRAM_URL = "https://www.instagram.com/voyagespro.fr/";
+
 const upscaleWiki = (url, width=1000) => url ? url.replace(/\/(\d+)px-/, `/${width}px-`) : url;
 
 // localStorage cache so images load instantly on subsequent visits
@@ -285,6 +446,37 @@ const DESTINATIONS = [
 
 const ORIGINS = ["Alger","Tunis","Casablanca","Rabat","Oran","Constantine","Paris","Lyon","Marseille","Bruxelles","Genève","Montréal","Dakar","Beyrouth","Dubaï","Le Caire","Riyad"];
 
+// ── Arabic destination names (Codex feature, encoding repaired) ──
+const DESTINATION_I18N = {
+  ar: {
+    paris:{name:"باريس",country:"فرنسا"}, tokyo:{name:"طوكيو",country:"اليابان"}, marrakech:{name:"مراكش",country:"المغرب"},
+    rome:{name:"روما",country:"إيطاليا"}, dubai:{name:"دبي",country:"الإمارات"}, barcelona:{name:"برشلونة",country:"إسبانيا"},
+    newyork:{name:"نيويورك",country:"الولايات المتحدة"}, bali:{name:"بالي",country:"إندونيسيا"}, istanbul:{name:"إسطنبول",country:"تركيا"},
+    london:{name:"لندن",country:"المملكة المتحدة"}, singapore:{name:"سنغافورة",country:"سنغافورة"}, bangkok:{name:"بانكوك",country:"تايلاند"},
+    amsterdam:{name:"أمستردام",country:"هولندا"}, prague:{name:"براغ",country:"التشيك"}, vienna:{name:"فيينا",country:"النمسا"},
+    sydney:{name:"سيدني",country:"أستراليا"}, kyoto:{name:"كيوتو",country:"اليابان"}, losangeles:{name:"لوس أنجلوس",country:"الولايات المتحدة"},
+    miami:{name:"ميامي",country:"الولايات المتحدة"}, lisbon:{name:"لشبونة",country:"البرتغال"}, athens:{name:"أثينا",country:"اليونان"},
+    cairo:{name:"القاهرة",country:"مصر"}, capetown:{name:"كيب تاون",country:"جنوب أفريقيا"}, maldives:{name:"المالديف",country:"المالديف"},
+    santorini:{name:"سانتوريني",country:"اليونان"}, rio:{name:"ريو دي جانيرو",country:"البرازيل"}, buenosaires:{name:"بوينس آيرس",country:"الأرجنتين"},
+    mexico:{name:"مكسيكو سيتي",country:"المكسيك"}, havana:{name:"هافانا",country:"كوبا"}, beijing:{name:"بكين",country:"الصين"},
+    hongkong:{name:"هونغ كونغ",country:"الصين"}, seoul:{name:"سيول",country:"كوريا الجنوبية"}, berlin:{name:"برلين",country:"ألمانيا"},
+    munich:{name:"ميونخ",country:"ألمانيا"}, zurich:{name:"زيورخ",country:"سويسرا"}, toronto:{name:"تورونتو",country:"كندا"},
+    montreal:{name:"مونتريال",country:"كندا"}, mumbai:{name:"مومباي",country:"الهند"}, delhi:{name:"نيودلهي",country:"الهند"},
+    nairobi:{name:"نيروبي",country:"كينيا"}, casablanca:{name:"الدار البيضاء",country:"المغرب"}, tunis:{name:"تونس",country:"تونس"},
+    alger:{name:"الجزائر",country:"الجزائر"}, abudhabi:{name:"أبوظبي",country:"الإمارات"}, doha:{name:"الدوحة",country:"قطر"},
+    phuket:{name:"بوكيت",country:"تايلاند"}, florence:{name:"فلورنسا",country:"إيطاليا"}, venice:{name:"البندقية",country:"إيطاليا"},
+    seville:{name:"إشبيلية",country:"إسبانيا"}, shanghai:{name:"شنغهاي",country:"الصين"}, dublin:{name:"دبلن",country:"إيرلندا"},
+    copenhagen:{name:"كوبنهاغن",country:"الدنمارك"}, stockholm:{name:"ستوكهولم",country:"السويد"}, helsinki:{name:"هلسنكي",country:"فنلندا"},
+    oslo:{name:"أوسلو",country:"النرويج"}, warsaw:{name:"وارسو",country:"بولندا"}, budapest:{name:"بودابست",country:"المجر"},
+    bucharest:{name:"بوخارست",country:"رومانيا"}, brussels:{name:"بروكسل",country:"بلجيكا"}, edinburgh:{name:"إدنبرة",country:"اسكتلندا"},
+    belgrade:{name:"بلغراد",country:"صربيا"}, reykjavik:{name:"ريكيافيك",country:"آيسلندا"}, sofia:{name:"صوفيا",country:"بلغاريا"},
+    zagreb:{name:"زغرب",country:"كرواتيا"}, valletta:{name:"فاليتا",country:"مالطا"},
+  },
+};
+
+const destinationName = (d, lang) => DESTINATION_I18N[lang]?.[d?.id]?.name || d?.name || "";
+const destinationCountry = (d, lang) => DESTINATION_I18N[lang]?.[d?.id]?.country || d?.country || "";
+
 const CONTINENTS = [
   { id:"tous",      label:"Tous",         icon:"🌍" },
   { id:"europe",    label:"Europe",       icon:"🏛️" },
@@ -306,12 +498,12 @@ const TRANSPORT_MODES = [
   { icon:"🚌", label:"Bus longue distance", desc:"FlixBus, Ouibus — économique & confortable",   color:"#F59E0B" },
   { icon:"🚗", label:"Location auto", desc:"Liberté totale pour explorer à votre rythme",        color:"#EF4444" },
 ];
-
 const BUDGET_LABELS = {
-  serré:{ label:"Budget Serré", icon:"🎒", color:"#2DD4BF", desc:"Voyager malin, profiter au max" },
-  moyen:{ label:"Budget Moyen", icon:"✈️",  color:"#F59E0B", desc:"Confort et bonnes expériences" },
-  riche:{ label:"Budget Premium",icon:"💎", color:"#8B5CF6", desc:"Le luxe sans compromis" },
+  serré:{ label:"Budget Serré", short:"Éco", icon:"🎒", color:"#2DD4BF", desc:"Voyager malin, profiter au max" },
+  moyen:{ label:"Budget Moyen", short:"Confort", icon:"✈️",  color:"#F59E0B", desc:"Confort et bonnes expériences" },
+  riche:{ label:"Budget Premium", short:"Premium", icon:"💎", color:"#8B5CF6", desc:"Le luxe sans compromis" },
 };
+
 
 const LANG = {
   fr:{
@@ -336,6 +528,23 @@ const LANG = {
     journey:"Trajet", stay:"Séjour", travelers:"Voyageurs",
     hotel_options:"Options d\'hébergement", stars:"étoile",
     daily_plan:"Programme jour par jour", transport_info:"Infos pratiques",
+    nav:["Destinations","Hôtels","Itinéraires","Contact","À propos"],
+    articles_badge:"Inspiration & conseils",
+    articles_title:"Guides pratiques pour préparer votre voyage",
+    articles_desc:"Des articles concrets pour organiser chaque étape : quartiers où loger, programmes jour par jour et astuces budget.",
+    articles_cta:"Choisir une destination →",
+    article_plan:"Planifier ce voyage →",
+    contact_badge:"Contact",
+    contact_title:"Une question, une suggestion ?",
+    contact_desc:"Écrivez-nous : idées de destinations, partenariats, corrections ou simple bonjour — nous lisons tous les messages.",
+    contact_email_label:"Email direct",
+    contact_email_note:"Réponse sous 24 à 48h en général.",
+    contact_name:"Votre nom", contact_name_ph:"Prénom et nom",
+    contact_email:"Votre email",
+    contact_subject:"Sujet", contact_subject_ph:"Ex : suggestion de destination",
+    contact_message:"Message", contact_message_ph:"Votre message…",
+    contact_submit:"Envoyer le message →",
+    contact_note:"Vos données ne sont utilisées que pour répondre à votre message.",
     // Step 1 landing page
     hero_badge:"Planificateur de voyage intelligent",
     hero_h1:["Créez votre","voyage","idéal"],
@@ -433,6 +642,23 @@ const LANG = {
     journey:"Route", stay:"Stay", travelers:"Travelers",
     hotel_options:"Accommodation options", stars:"star",
     daily_plan:"Day-by-Day Plan", transport_info:"Transport & Info",
+    nav:["Destinations","Hotels","Itineraries","Contact","About"],
+    articles_badge:"Inspiration & tips",
+    articles_title:"Practical guides to plan your trip",
+    articles_desc:"Hands-on articles to organise every step: where to stay, day-by-day plans and budget tips.",
+    articles_cta:"Pick a destination →",
+    article_plan:"Plan this trip →",
+    contact_badge:"Contact",
+    contact_title:"A question or a suggestion?",
+    contact_desc:"Write to us: destination ideas, partnerships, corrections or just to say hello — we read every message.",
+    contact_email_label:"Direct email",
+    contact_email_note:"We usually reply within 24–48h.",
+    contact_name:"Your name", contact_name_ph:"First and last name",
+    contact_email:"Your email",
+    contact_subject:"Subject", contact_subject_ph:"E.g. destination suggestion",
+    contact_message:"Message", contact_message_ph:"Your message…",
+    contact_submit:"Send message →",
+    contact_note:"Your data is only used to reply to your message.",
     // Step 1 landing page
     hero_badge:"Intelligent Travel Planner",
     hero_h1:["Create your","perfect","journey"],
@@ -530,6 +756,23 @@ const LANG = {
     journey:"المسار", stay:"المدة", travelers:"المسافرون",
     hotel_options:"خيارات الإقامة", stars:"نجمة",
     daily_plan:"البرنامج اليومي", transport_info:"النقل والمعلومات",
+    nav:["الوجهات","الفنادق","المسارات","تواصل","عن الموقع"],
+    articles_badge:"إلهام ونصائح",
+    articles_title:"أدلة عملية لتحضير رحلتك",
+    articles_desc:"مقالات عملية لتنظيم كل خطوة: أين تقيم، برامج يومية ونصائح للميزانية.",
+    articles_cta:"اختر وجهة ←",
+    article_plan:"خطط لهذه الرحلة ←",
+    contact_badge:"تواصل معنا",
+    contact_title:"سؤال أو اقتراح؟",
+    contact_desc:"راسلنا: أفكار وجهات، شراكات، تصحيحات أو مجرد تحية — نقرأ كل الرسائل.",
+    contact_email_label:"البريد المباشر",
+    contact_email_note:"نرد عادة خلال 24 إلى 48 ساعة.",
+    contact_name:"اسمك", contact_name_ph:"الاسم الكامل",
+    contact_email:"بريدك الإلكتروني",
+    contact_subject:"الموضوع", contact_subject_ph:"مثال: اقتراح وجهة",
+    contact_message:"الرسالة", contact_message_ph:"رسالتك…",
+    contact_submit:"إرسال الرسالة ←",
+    contact_note:"تُستخدم بياناتك فقط للرد على رسالتك.",
     // Step 1 landing page
     hero_badge:"مخطط رحلات ذكي",
     hero_h1:["أنشئ رحلة","أحلامك","المثالية"],
@@ -607,20 +850,22 @@ const LANG = {
   },
 };
 
+const UI_COPY = LANG;
+
 const STEP1 = {
   dark:{
-    bg:"#07111F", bg2:"#0F1B2D", footerBg:"#060D1A",
-    text:"#F8FAFC", textMuted:"#94A3B8",
-    cardBg:"rgba(15,27,45,.65)", cardBorder:"rgba(255,255,255,.07)",
-    searchBg:"rgba(10,20,38,.9)", searchBorder:"rgba(255,255,255,.08)",
-    searchDivider:"rgba(255,255,255,.08)", searchText:"#F8FAFC",
+    bg:"#171510", bg2:"#211D16", footerBg:"#12100C",
+    text:"#FFF7EA", textMuted:"#B9AA91",
+    cardBg:"rgba(45,39,29,.72)", cardBorder:"rgba(236,201,139,.12)",
+    searchBg:"rgba(37,32,24,.92)", searchBorder:"rgba(236,201,139,.18)",
+    searchDivider:"rgba(236,201,139,.14)", searchText:"#FFF7EA",
     passionBg:"rgba(255,255,255,.03)", passionBorder:"rgba(255,255,255,.07)",
-    gridBg:"rgba(15,27,45,.55)", gridBorder:"rgba(255,255,255,.07)",
-    btnOutline:"rgba(255,255,255,.12)", btnOutlineText:"#94A3B8",
+    gridBg:"rgba(37,32,24,.58)", gridBorder:"rgba(236,201,139,.12)",
+    btnOutline:"rgba(236,201,139,.18)", btnOutlineText:"#B9AA91",
     sectionTag:"#D4A574", socialBg:"rgba(255,255,255,.05)",
     socialBorder:"rgba(255,255,255,.08)", divider:"rgba(255,255,255,.06)",
-    copyright:"rgba(148,163,184,.45)", continentBg:"rgba(255,255,255,.03)",
-    continentActive:"rgba(212,165,116,.1)", heroMuted:"rgba(248,250,252,.68)",
+    copyright:"rgba(185,170,145,.48)", continentBg:"rgba(255,255,255,.035)",
+    continentActive:"rgba(212,165,116,.14)", heroMuted:"rgba(255,247,234,.72)",
   },
   light:{
     bg:"#FAF6F0", bg2:"#F0E8DC", footerBg:"#1A1208",
@@ -640,23 +885,23 @@ const STEP1 = {
 
 const THEMES = {
   dark:{
-    bg:"#08071A", bg2:"linear-gradient(160deg,#06051A 0%,#0D0A28 50%,#06051A 100%)",
-    card:"rgba(139,92,246,.06)", cardBorder:"rgba(139,92,246,.15)",
-    cardHover:"rgba(139,92,246,.22)",
-    text:"#F0EEFF", text2:"rgba(196,181,253,.75)", text3:"rgba(196,181,253,.4)",
-    inputBg:"rgba(139,92,246,.08)", inputBorder:"rgba(139,92,246,.2)",
-    headerBg:"linear-gradient(135deg,#160D35,#22104A,#160D35)",
-    headerBorder:"rgba(139,92,246,.2)",
-    heroBg:"linear-gradient(135deg,#0F0822,#1C0D42,#0F0822)",
-    summaryBg:"linear-gradient(135deg,#1A0B40,#22104A)",
-    summaryBorder:"rgba(139,92,246,.25)",
-    tabActive:"linear-gradient(135deg,#6D28D9,#8B5CF6)",
-    tabInactive:"rgba(139,92,246,.08)",
-    tabInactiveBorder:"rgba(139,92,246,.15)",
-    tabInactiveColor:"rgba(196,181,253,.75)",
-    btnSecBg:"rgba(139,92,246,.08)", btnSecBorder:"rgba(139,92,246,.15)", btnSecColor:"#A78BFA",
-    hotelBg:"linear-gradient(135deg,rgba(139,92,246,.08),rgba(245,158,11,.04))",
-    hotelBorder:"rgba(139,92,246,.2)",
+    bg:"#171510", bg2:"linear-gradient(160deg,#171510 0%,#242016 52%,#151814 100%)",
+    card:"rgba(255,247,234,.055)", cardBorder:"rgba(236,201,139,.14)",
+    cardHover:"rgba(212,165,116,.14)",
+    text:"#FFF7EA", text2:"rgba(229,214,188,.78)", text3:"rgba(185,170,145,.48)",
+    inputBg:"rgba(255,247,234,.07)", inputBorder:"rgba(236,201,139,.18)",
+    headerBg:"linear-gradient(135deg,#171510,#262016,#1D2A22)",
+    headerBorder:"rgba(236,201,139,.16)",
+    heroBg:"linear-gradient(135deg,#171510,#302414,#1D2A22)",
+    summaryBg:"linear-gradient(135deg,#252019,#1D2A22)",
+    summaryBorder:"rgba(236,201,139,.2)",
+    tabActive:"linear-gradient(135deg,#B8834A,#D4A574)",
+    tabInactive:"rgba(255,247,234,.06)",
+    tabInactiveBorder:"rgba(236,201,139,.12)",
+    tabInactiveColor:"rgba(229,214,188,.74)",
+    btnSecBg:"rgba(212,165,116,.08)", btnSecBorder:"rgba(236,201,139,.14)", btnSecColor:"#D4A574",
+    hotelBg:"linear-gradient(135deg,rgba(212,165,116,.1),rgba(98,120,92,.08))",
+    hotelBorder:"rgba(236,201,139,.18)",
   },
   light:{
     bg:"#FAF8FF", bg2:"linear-gradient(160deg,#F5F0FF 0%,#EDE5FF 50%,#F5F0FF 100%)",
@@ -679,7 +924,7 @@ const THEMES = {
   },
 };
 
-// Rich data for top cities
+
 const CITY_DATA = {
   paris:{
     attractions:[
@@ -1034,56 +1279,44 @@ function getDestData(dest) {
   return { ...raw, hotels };
 }
 
-// ── MAP COMPONENT ──
-function MapView({ destination, budget }) {
-  const mapRef = useRef(null), mapInst = useRef(null);
-  const [ready, setReady] = useState(false);
+
+// ── MAP — embedded Google Maps + clickable place list ──
+function MapView({ destination, budget, S2 }) {
   const data = destination ? getDestData(destination) : null;
-
-  useEffect(() => {
-    if (!destination) return;
-    if (window.L) { setReady(true); return; }
-    const link = document.createElement("link");
-    link.rel = "stylesheet";
-    link.href = "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css";
-    document.head.appendChild(link);
-    const s = document.createElement("script");
-    s.src = "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js";
-    s.onload = () => setReady(true);
-    document.head.appendChild(s);
-  }, [destination]);
-
-  useEffect(() => {
-    if (!ready || !mapRef.current || !data || !window.L) return;
-    if (mapInst.current) { mapInst.current.remove(); }
-    const mc = destination.mapCenter || [48.8566, 2.3522];
-    const map = window.L.map(mapRef.current).setView(mc, 13);
-    mapInst.current = map;
-    window.L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { attribution: "© OpenStreetMap" }).addTo(map);
-    const mkIcon = (bg, em) => window.L.divIcon({ html: `<div style="background:${bg};color:white;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:15px;border:2px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.4)">${em}</div>`, className: "", iconSize: [32,32], iconAnchor: [16,16] });
-    const h0 = data.hotels[budget]?.[0];
-    window.L.marker(mc, { icon: mkIcon("#1E3A5F","🏨") }).addTo(map).bindPopup(`<strong>🏨 ${h0?.name}</strong><br>${h0?.price}`);
-    data.attractions.forEach(a => {
-      window.L.marker(a.coords, { icon: mkIcon("#EF4444","📍") }).addTo(map).bindPopup(`<strong>${a.name}</strong><br>⏱ ${a.duration}<br>💰 ${a.budget[budget]}`);
-    });
-    data.restaurants.filter(r => r.budget[budget]).forEach(r => {
-      window.L.marker(r.coords, { icon: mkIcon("#F97316","🍽") }).addTo(map).bindPopup(`<strong>${r.name}</strong><br>${r.type}<br>💰 ${r.budget[budget]}`);
-    });
-  }, [ready, destination, budget, data]);
-
   if (!destination || !data) return null;
+  const [lat, lng] = destination.mapCenter || [48.8566, 2.3522];
+  const hotel = data.hotels[budget]?.[0];
+  const places = [
+    ...(hotel ? [{ name: hotel.name, type: "Hôtel", meta: hotel.price, icon: "🏨", url: BOOK.maps(hotel.name, destination.name) }] : []),
+    ...data.attractions.slice(0, 5).map(a => ({ name: a.name, type: a.type, meta: `${a.duration} · ${a.budget[budget]}`, icon: "📍", url: BOOK.maps(a.name, destination.name) })),
+    ...data.restaurants.filter(r => r.budget[budget]).slice(0, 3).map(r => ({ name: r.name, type: r.type, meta: r.budget[budget], icon: "🍽", url: BOOK.maps(r.name, destination.name) })),
+  ];
   return (
-    <div style={{ borderRadius: 16, overflow: "hidden", border: "1px solid rgba(255,255,255,0.1)", height: 420, position: "relative" }}>
-      <div ref={mapRef} style={{ width: "100%", height: "100%" }} />
-      <div style={{ position:"absolute", top:12, left:12, zIndex:1000, background:"rgba(15,23,42,0.9)", borderRadius:10, padding:"8px 12px", fontSize:12, color:"white", backdropFilter:"blur(8px)" }}>
-        <div style={{ fontWeight:700, marginBottom:4, fontSize:13 }}>Légende</div>
-        {[["📍","Attraction"],["🍽","Restaurant"],["🏨","Hôtel"]].map(([e,l]) => (
-          <div key={l} style={{ display:"flex", alignItems:"center", gap:6, marginBottom:2 }}><span>{e}</span><span style={{ opacity:.8 }}>{l}</span></div>
-        ))}
+    <div style={{ display:"grid", gridTemplateColumns:"minmax(0,1.35fr) minmax(280px,.65fr)", gap:16 }}>
+      <div style={{ borderRadius:18, overflow:"hidden", border:`1px solid ${S2.cardBdr}`, height:440, background:S2.cardBg }}>
+        <iframe title={`Google Maps — ${destination.name}`} src={`https://www.google.com/maps?q=${lat},${lng}&z=13&output=embed`} style={{ width:"100%", height:"100%", border:0, display:"block" }} loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
+      </div>
+      <div style={{ background:S2.cardBg, border:`1px solid ${S2.cardBdr}`, borderRadius:18, padding:16 }}>
+        <div style={{ fontSize:11, color:"#D4A574", textTransform:"uppercase", letterSpacing:"1px", fontWeight:800, marginBottom:10 }}>Google Maps</div>
+        <h4 style={{ margin:"0 0 8px", color:S2.bodyText, fontSize:18 }}>{destination.name} en pratique</h4>
+        <p style={{ margin:"0 0 14px", color:S2.muted, fontSize:13, lineHeight:1.6 }}>Ouvrez chaque lieu dans Google Maps pour vérifier les horaires, calculer les trajets et sauvegarder vos favoris avant le départ.</p>
+        <a href={BOOK.maps(destination.name, destination.country)} target="_blank" rel="noopener noreferrer" style={{ display:"flex", justifyContent:"center", padding:"10px 12px", borderRadius:12, background:"#4285F4", color:"white", fontSize:13, fontWeight:800, textDecoration:"none", marginBottom:14 }}>Ouvrir la carte Google</a>
+        <div style={{ display:"flex", flexDirection:"column", gap:8, maxHeight:300, overflow:"auto", paddingRight:4 }}>
+          {places.map((p,i)=>(
+            <a key={`${p.name}-${i}`} href={p.url} target="_blank" rel="noopener noreferrer" style={{ display:"grid", gridTemplateColumns:"30px 1fr", gap:10, alignItems:"center", padding:"9px 10px", borderRadius:12, background:"rgba(212,165,116,.07)", border:`1px solid ${S2.cardBdr}`, textDecoration:"none" }}>
+              <span style={{ width:30, height:30, borderRadius:10, background:i===0?"#003580":p.icon==="🍽"?"#F97316":"#D4A574", color:"white", display:"flex", alignItems:"center", justifyContent:"center", fontSize:14 }}>{p.icon}</span>
+              <span>
+                <span style={{ display:"block", color:S2.bodyText, fontSize:13, fontWeight:800, lineHeight:1.25 }}>{p.name}</span>
+                <span style={{ display:"block", color:S2.muted, fontSize:11, marginTop:2 }}>{p.type} · {p.meta}</span>
+              </span>
+            </a>
+          ))}
+        </div>
       </div>
     </div>
   );
 }
+
 
 // ── ITINERARY GENERATOR ──
 function generateItinerary(destination, budget, startDate, endDate, adults, children) {
@@ -1453,104 +1686,96 @@ export default function TravelPlanner() {
   const [itinerary, setItinerary] = useState([]);
   const [search, setSearch] = useState("");
   const [continent, setContinent] = useState("tous");
-  const [hoveredId, setHoveredId] = useState(null);
+  const [visibleDestCount, setVisibleDestCount] = useState(18);
   const [pdfLoading, setPdfLoading] = useState(false);
   const [showPrivacy, setShowPrivacy] = useState(false);
   const [showLegal, setShowLegal] = useState(false);
   const [openFaq, setOpenFaq] = useState(null);
   const [heroIdx, setHeroIdx] = useState(0);
-  const [heroImgs, setHeroImgs] = useState(()=>{
-    // Initialise from localStorage cache so images are instant on repeat visits
-    const cache = _imgCache;
-    const out = {};
-    DESTINATIONS.forEach(d=>{ if(cache[`${d.id}_600`]) out[d.id] = cache[`${d.id}_600`]; });
-    return out;
-  });
-  const [extraImgs, setExtraImgs] = useState({});
-  const [foodTypeImgs, setFoodTypeImgs] = useState(()=>{
-    const out = {};
-    Object.keys(_imgCache).forEach(k=>{ if(k.startsWith("food_")) { const t=k.replace(/^food_/,"").replace(/_\d+$/,""); if(_imgCache[k]) out[t]=_imgCache[k]; } });
-    return out;
-  });
+  const [attractionImgs, setAttractionImgs] = useState({});
   const [showTravelers, setShowTravelers] = useState(false);
   const destRef = useRef(null);
   const aboutRef = useRef(null);
   const guidesRef = useRef(null);
   const faqRef = useRef(null);
-  const heroDests = ['santorini','bali','kyoto','paris'].map(id=>DESTINATIONS.find(d=>d.id===id)).filter(Boolean);
+  const contactRef = useRef(null);
+  const heroDests = ['maldives','dubai','santorini','paris'].map(id=>DESTINATIONS.find(d=>d.id===id)).filter(Boolean);
+  const homeHeroImg = d => HOME_HERO_IMAGES[d.id] || destinationPhoto(d);
+
   useEffect(()=>{
     if(step!==1) return;
     const t = setInterval(()=>setHeroIdx(i=>(i+1)%heroDests.length), 5500);
     return ()=>clearInterval(t);
   },[step]);
-  // Fetch Wikipedia images for all destinations (cached in localStorage after first visit)
-  useEffect(()=>{
-    DESTINATIONS.forEach((d,i)=>{
-      if(heroImgs[d.id]) return; // already have it (from cache or earlier fetch)
-      setTimeout(()=>{
-        fetchWikiImage(d.id, d.name, 600).then(src=>{
-          if(src) setHeroImgs(p=>({...p,[d.id]:src}));
-        });
-      }, i * 80); // stagger to avoid simultaneous requests
-    });
-  // eslint-disable-next-line
-  },[]);
-
-  // Fetch food photos via Wikipedia API when step 3 is reached (cached in localStorage)
+  useEffect(()=>{ setVisibleDestCount(18); }, [continent, search]);
+  // Fetch attraction photos from Wikipedia when reaching step 3 (cached in localStorage)
   useEffect(()=>{
     if (step !== 3 || !destination) return;
-    const d = getDestData(destination);
-    if (!d?.restaurants) return;
-    const seen = new Set();
-    d.restaurants.forEach((r, i) => {
-      const title = getFoodWikiTitle(r.type);
-      if (seen.has(title) || foodTypeImgs[title]) return;
-      seen.add(title);
+    const nextData = getDestData(destination);
+    nextData.attractions.forEach((a, i) => {
+      const key = `${destination.id}:${a.name}`;
+      if (attractionImgs[key] || ATTRACTION_IMAGES[destination.id]?.[a.name]) return;
+      const title = ATTRACTION_WIKI_TITLES[destination.id]?.[a.name] || `${a.name} ${destination.name}`;
       setTimeout(()=>{
-        fetchWikiImage(`food_${title}`, title.replace(/_/g,' '), 400)
-          .then(src => { if (src) setFoodTypeImgs(p => ({...p, [title]: src})); });
-      }, i * 250);
+        fetchWikiImage(`attr_${destination.id}_${a.name}`, title, 1000)
+          .then(src => { if (src) setAttractionImgs(p => ({...p, [key]: src})); });
+      }, i * 120);
     });
   // eslint-disable-next-line
   },[step, destination]);
 
   const T = LANG[lang];
-  const TH = THEMES[theme];
+  const C = UI_COPY[lang] || UI_COPY.fr;
   const ST = STEP1[theme];
   const isRTL = lang === "ar";
   const isLight = theme === "light";
+  const destinationOptions = DESTINATIONS.map(d => destinationName(d, lang));
+  const findDestinationByLabel = label => DESTINATIONS.find(d => destinationName(d, lang) === label || d.name === label);
+  const displayDestination = destination ? destinationName(destination, lang) : "";
+  const displayCountry = destination ? destinationCountry(destination, lang) : "";
+
+  const homeNav = [
+    [C.nav[0], () => destRef.current?.scrollIntoView({ behavior:"smooth", block:"start" })],
+    [C.nav[1], () => destination ? setStep(2) : destRef.current?.scrollIntoView({ behavior:"smooth", block:"start" })],
+    [C.nav[2], () => guidesRef.current?.scrollIntoView({ behavior:"smooth", block:"start" })],
+    [C.nav[3], () => contactRef.current?.scrollIntoView({ behavior:"smooth", block:"start" })],
+    [C.nav[4], () => aboutRef.current?.scrollIntoView({ behavior:"smooth", block:"start" })],
+  ];
 
   // Theme tokens for steps 2 & 3
   const S2 = {
-    sectBg:   isLight ? "rgba(255,255,255,.92)"              : "rgba(15,27,45,.65)",
-    sectBg3:  isLight ? "rgba(255,255,255,.85)"              : "rgba(15,27,45,.45)",
-    sectBdr:  isLight ? "rgba(109,40,217,.15)"               : "rgba(255,255,255,.07)",
-    bodyText: isLight ? "#1A0B35"                            : "#F8FAFC",
-    muted:    isLight ? "#4B5563"                            : "#94A3B8",
-    muted70:  isLight ? "rgba(75,85,99,.75)"                 : "rgba(148,163,184,.7)",
-    cardBg:   isLight ? "rgba(109,40,217,.04)"               : "rgba(255,255,255,.04)",
-    cardBdr:  isLight ? "rgba(109,40,217,.12)"               : "rgba(255,255,255,.07)",
-    btnBg:    isLight ? "rgba(109,40,217,.07)"               : "rgba(255,255,255,.05)",
-    btnBg2:   isLight ? "rgba(109,40,217,.05)"               : "rgba(255,255,255,.06)",
-    btnBdr:   isLight ? "rgba(109,40,217,.14)"               : "rgba(255,255,255,.12)",
-    tabBg:    isLight ? "rgba(109,40,217,.04)"               : "rgba(255,255,255,.04)",
-    tabBdr:   isLight ? "rgba(109,40,217,.12)"               : "rgba(255,255,255,.1)",
-    sep:      isLight ? "rgba(109,40,217,.15)"               : "rgba(255,255,255,.2)",
-    dimText:  isLight ? "rgba(91,33,182,.38)"                : "rgba(148,163,184,.5)",
+    sectBg:   isLight ? "rgba(255,255,255,.92)"              : "rgba(37,32,24,.72)",
+    sectBg3:  isLight ? "rgba(255,255,255,.85)"              : "rgba(37,32,24,.56)",
+    sectBdr:  isLight ? "rgba(109,40,217,.15)"               : "rgba(236,201,139,.12)",
+    bodyText: isLight ? "#1A0B35"                            : "#FFF7EA",
+    muted:    isLight ? "#4B5563"                            : "#B9AA91",
+    muted70:  isLight ? "rgba(75,85,99,.75)"                 : "rgba(229,214,188,.72)",
+    cardBg:   isLight ? "rgba(109,40,217,.04)"               : "rgba(255,247,234,.05)",
+    cardBdr:  isLight ? "rgba(109,40,217,.12)"               : "rgba(236,201,139,.12)",
+    btnBg:    isLight ? "rgba(109,40,217,.07)"               : "rgba(212,165,116,.08)",
+    btnBg2:   isLight ? "rgba(109,40,217,.05)"               : "rgba(255,247,234,.06)",
+    btnBdr:   isLight ? "rgba(109,40,217,.14)"               : "rgba(236,201,139,.16)",
+    tabBg:    isLight ? "rgba(109,40,217,.04)"               : "rgba(255,247,234,.055)",
+    tabBdr:   isLight ? "rgba(109,40,217,.12)"               : "rgba(236,201,139,.14)",
+    sep:      isLight ? "rgba(109,40,217,.15)"               : "rgba(236,201,139,.18)",
+    dimText:  isLight ? "rgba(91,33,182,.38)"                : "rgba(185,170,145,.5)",
     sumBg:    isLight
       ? "linear-gradient(135deg,rgba(255,255,255,.96),rgba(245,240,255,.96))"
-      : "linear-gradient(135deg,rgba(15,27,45,.9),rgba(9,18,32,.9))",
-    borderL:  isLight ? "3px solid rgba(109,40,217,.3)"      : "3px solid #8B5CF6",
+      : "linear-gradient(135deg,rgba(37,32,24,.94),rgba(29,42,34,.9))",
+    borderL:  isLight ? "3px solid rgba(109,40,217,.3)"      : "3px solid #D4A574",
   };
 
   const nights = startDate && endDate ? Math.max(0, Math.round((new Date(endDate)-new Date(startDate))/86400000)) : 0;
   const data = destination ? getDestData(destination) : null;
   const filtered = DESTINATIONS.filter(d => {
     const q = search.toLowerCase();
-    const matchSearch = !q || d.name.toLowerCase().includes(q) || d.country.toLowerCase().includes(q);
+    const localName = destinationName(d, lang).toLowerCase();
+    const localCountry = destinationCountry(d, lang).toLowerCase();
+    const matchSearch = !q || localName.includes(q) || localCountry.includes(q) || d.name.toLowerCase().includes(q) || d.country.toLowerCase().includes(q);
     const matchContinent = continent === "tous" || d.continent === continent;
     return matchSearch && matchContinent;
   });
+  const visibleDestinations = filtered.slice(0, visibleDestCount);
 
   const handlePlan = () => {
     setItinerary(generateItinerary(destination, budget, startDate, endDate, adults, children));
@@ -1566,7 +1791,6 @@ export default function TravelPlanner() {
 
   const reset = () => { setStep(1); setOrigin(""); setDestination(null); setBudget(""); setStartDate(""); setEndDate(""); setAdults(2); setChildren(0); setSearch(""); setContinent("tous"); };
 
-
   const inputText = isLight ? "#1A1208" : "#F8FAFC";
   const inputBg = isLight ? "rgba(26,18,8,.04)" : "rgba(255,255,255,.06)";
   const inputBorder = isLight ? "rgba(26,18,8,.16)" : "rgba(255,255,255,.1)";
@@ -1575,10 +1799,9 @@ export default function TravelPlanner() {
   const css = `
     @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600;700&display=swap');
     *{box-sizing:border-box;margin:0;padding:0;}
-    body{background:${isLight ? "#FAF6F0" : "#07111F"};font-family:'Inter','DM Sans',sans-serif;color:${inputText};}
+    body{background:${isLight ? "#FAF6F0" : "#171510"};font-family:'Inter','DM Sans',sans-serif;color:${inputText};}
     ::-webkit-scrollbar{width:6px;}::-webkit-scrollbar-thumb{background:rgba(212,165,116,.25);border-radius:3px;}
     @keyframes fadeIn{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
-    @keyframes heroFade{from{opacity:0}to{opacity:1}}
     .fade-in{animation:fadeIn .7s ease forwards;}
     .bp{background:linear-gradient(135deg,#6D28D9,#8B5CF6);color:white;border:none;padding:14px 32px;border-radius:14px;font-size:15px;font-weight:700;cursor:pointer;transition:all .25s;font-family:'Inter',sans-serif;letter-spacing:.3px;}
     .bp:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(139,92,246,.4);}
@@ -1588,9 +1811,9 @@ export default function TravelPlanner() {
     .bpdf:disabled{opacity:.5;cursor:not-allowed;transform:none;}
     .sp{width:14px;height:14px;border:2px solid rgba(255,255,255,.3);border-top-color:white;border-radius:50%;display:inline-block;animation:spin 0.8s linear infinite;}
     @keyframes spin{to{transform:rotate(360deg)}}
-    input{background:${inputBg};border:1px solid ${inputBorder};border-radius:12px;color:${inputText};padding:12px 14px;font-size:14px;font-family:'Inter',sans-serif;outline:none;transition:border-color .2s;width:100%;color-scheme:${isLight ? "light" : "dark"};}
-    input:focus{border-color:#D4A574;}
-    input::placeholder{color:${inputPlaceholder};}
+    input,textarea{background:${inputBg};border:1px solid ${inputBorder};border-radius:12px;color:${inputText};padding:12px 14px;font-size:14px;font-family:'Inter',sans-serif;outline:none;transition:border-color .2s;width:100%;color-scheme:${isLight ? "light" : "dark"};}
+    input:focus,textarea:focus{border-color:#D4A574;}
+    input::placeholder,textarea::placeholder{color:${inputPlaceholder};}
     input[type=date]{color:${inputText};}
     input[type=date]::-webkit-datetime-edit{color:${inputText};}
     input[type=date]::-webkit-datetime-edit-text,input[type=date]::-webkit-datetime-edit-month-field,input[type=date]::-webkit-datetime-edit-day-field,input[type=date]::-webkit-datetime-edit-year-field{color:${inputText};}
@@ -1606,86 +1829,66 @@ export default function TravelPlanner() {
 
       {/* Floating sticky CTA when origin + destination selected */}
       {step===1 && origin && destination && (
-        <div style={{ position:"fixed", bottom:0, left:0, right:0, zIndex:300, background:"rgba(7,17,31,.96)", backdropFilter:"blur(16px)", borderTop:"1px solid rgba(212,165,116,.2)", padding:"14px 28px", display:"flex", alignItems:"center", justifyContent:"space-between", boxShadow:"0 -8px 40px rgba(0,0,0,.5)", flexWrap:"wrap", gap:12 }}>
+        <div style={{ position:"fixed", bottom:0, left:0, right:0, zIndex:300, background:isLight?"rgba(255,248,240,.97)":"rgba(37,32,24,.96)", backdropFilter:"blur(16px)", borderTop:"1px solid rgba(212,165,116,.24)", padding:"14px 28px", display:"flex", alignItems:"center", justifyContent:"space-between", boxShadow:"0 -8px 40px rgba(0,0,0,.25)", flexWrap:"wrap", gap:12 }}>
           <div style={{ display:"flex", alignItems:"center", gap:14 }}>
             <span style={{ fontSize:28 }}>{destination.emoji}</span>
             <div>
-              <div style={{ fontSize:11, color:"#94A3B8", marginBottom:2 }}>{origin} → {destination.name}</div>
-              <div style={{ fontSize:15, fontWeight:700, color:"#F8FAFC" }}>{destination.name} {destination.flag} · {destination.country}</div>
+              <div style={{ fontSize:11, color:ST.textMuted, marginBottom:2 }}>{origin} → {displayDestination}</div>
+              <div style={{ fontSize:15, fontWeight:700, color:ST.text }}>{displayDestination} {destination.flag} · {displayCountry}</div>
             </div>
           </div>
           <button onClick={()=>setStep(2)} style={{ background:"linear-gradient(135deg,#D4A574,#C49160)", color:"white", border:"none", padding:"13px 32px", borderRadius:14, fontSize:15, fontWeight:700, cursor:"pointer", fontFamily:"'Inter',sans-serif", boxShadow:"0 6px 24px rgba(212,165,116,.4)", transition:"all .2s" }}
             onMouseEnter={e=>e.currentTarget.style.transform="translateY(-1px)"} onMouseLeave={e=>e.currentTarget.style.transform="none"}>
-            Continuer →
+            {T.continue}
           </button>
         </div>
       )}
 
-      <div dir={isRTL?"rtl":"ltr"} style={{ background:"#07111F", color:"#F8FAFC", minHeight:"100vh", fontFamily:"'Inter','DM Sans',sans-serif" }}>
+      <div dir={isRTL?"rtl":"ltr"} style={{ background:ST.bg, color:ST.text, minHeight:"100vh", fontFamily:"'Inter','DM Sans',sans-serif" }}>
 
-        {/* ════════ FIXED HEADER ════════ */}
-        <header style={{ position:"fixed", top:0, left:0, right:0, zIndex:200, transition:"background .4s,border .4s", background:step===1?"rgba(7,17,31,0)":"rgba(7,17,31,.96)", backdropFilter:step===1?"none":"blur(20px)", borderBottom:step===1?"none":"1px solid rgba(255,255,255,.07)", padding:"0 32px", height:68, display:"flex", alignItems:"center", justifyContent:"space-between" }}>
-          {/* Logo */}
-          <div style={{ display:"flex", alignItems:"center", gap:12, cursor:"pointer" }} onClick={step>1?reset:undefined}>
-            <svg width="36" height="36" viewBox="0 0 44 44" fill="none">
-              <defs>
-                <linearGradient id="hl1" x1="0" y1="0" x2="44" y2="44" gradientUnits="userSpaceOnUse">
-                  <stop offset="0%" stopColor="#E9D5FF"/><stop offset="100%" stopColor="#8B5CF6"/>
-                </linearGradient>
-                <linearGradient id="hl2" x1="0" y1="0" x2="44" y2="44" gradientUnits="userSpaceOnUse">
-                  <stop offset="0%" stopColor="#FCD34D"/><stop offset="100%" stopColor="#D4A574"/>
-                </linearGradient>
-              </defs>
-              <circle cx="22" cy="22" r="19" stroke="url(#hl1)" strokeWidth="2" fill="none"/>
-              <ellipse cx="22" cy="22" rx="10" ry="19" stroke="url(#hl1)" strokeWidth="1.5" fill="none"/>
-              <line x1="3" y1="22" x2="41" y2="22" stroke="url(#hl1)" strokeWidth="1.5"/>
-              <line x1="3" y1="15" x2="41" y2="15" stroke="url(#hl1)" strokeWidth="1" opacity="0.5"/>
-              <line x1="3" y1="29" x2="41" y2="29" stroke="url(#hl1)" strokeWidth="1" opacity="0.5"/>
-              <path d="M30 12l-12 9 2 1-3 6 5-2 2 4 1-6 5-1z" fill="url(#hl2)"/>
-            </svg>
-            <div>
-              <div style={{ fontFamily:"'Playfair Display',serif", fontSize:20, fontWeight:900, background:"linear-gradient(135deg,#E9D5FF,#C4B5FD)", WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent", letterSpacing:"-0.5px" }}>VoyagesPro</div>
-              <div style={{ fontSize:9, color:"rgba(148,163,184,.55)", letterSpacing:"2.5px", textTransform:"uppercase" }}>50 destinations · Export PDF</div>
+        {/* FIXED HEADER */}
+        <header style={{ position:"fixed", top:14, left:24, right:24, zIndex:200, transition:"all .35s ease", background:isLight?"rgba(255,248,240,.9)":"rgba(37,32,24,.82)", backdropFilter:"blur(22px)", border:"1px solid rgba(212,165,116,.22)", borderRadius:18, padding:"0 14px", minHeight:64, display:"flex", alignItems:"center", justifyContent:"space-between", boxShadow:isLight?"0 18px 50px rgba(73,54,31,.12)":"0 18px 50px rgba(0,0,0,.28)" }}>
+          <button style={{ display:"flex", alignItems:"center", gap:12, cursor:"pointer", background:"transparent", border:"none", padding:"8px 4px", fontFamily:"'Inter',sans-serif" }} onClick={step>1?reset:()=>window.scrollTo({top:0,behavior:"smooth"})}>
+            <img src="/logo-mark.svg?v=3" alt="VoyagesPro" style={{ width:46, height:46, borderRadius:16, display:"block", boxShadow:"0 12px 30px rgba(212,165,116,.32)" }} />
+            <div style={{ textAlign:isRTL?"right":"left" }}>
+              <div style={{ fontFamily:"'Playfair Display',serif", fontSize:21, fontWeight:900, color:ST.text, letterSpacing:"-.3px", lineHeight:1 }}>VoyagesPro</div>
+              <div style={{ fontSize:9, color:ST.textMuted, letterSpacing:"2px", textTransform:"uppercase", marginTop:4 }}>65 destinations · Export PDF</div>
             </div>
-          </div>
+          </button>
 
-          {/* Nav links — step 1 only */}
           {step===1 && (
-            <nav style={{ display:"flex", gap:28 }}>
-              {["Destinations","Hôtels","Itinéraires","À propos"].map(link=>(
-                <span key={link} style={{ fontSize:13, color:"rgba(248,250,252,.65)", cursor:"pointer", fontWeight:500 }}
-                  onMouseEnter={e=>e.target.style.color="#F8FAFC"} onMouseLeave={e=>e.target.style.color="rgba(248,250,252,.65)"}>{link}</span>
+            <nav style={{ display:"flex", gap:6, padding:5, borderRadius:14, background:isLight?"rgba(255,255,255,.48)":"rgba(255,247,234,.06)", border:`1px solid ${isLight?"rgba(212,165,116,.18)":"rgba(236,201,139,.1)"}` }}>
+              {homeNav.map(([link,onClick])=>(
+                <button key={link} onClick={onClick} style={{ background:"transparent", border:"none", padding:"9px 13px", borderRadius:11, fontSize:13, color:ST.textMuted, cursor:"pointer", fontWeight:700, fontFamily:"'Inter',sans-serif", transition:"all .18s" }}
+                  onMouseEnter={e=>{e.currentTarget.style.color=ST.text;e.currentTarget.style.background=isLight?"rgba(212,165,116,.13)":"rgba(212,165,116,.12)";}} onMouseLeave={e=>{e.currentTarget.style.color=ST.textMuted;e.currentTarget.style.background="transparent";}}>{link}</button>
               ))}
             </nav>
           )}
 
-          {/* Controls */}
           <div style={{ display:"flex", gap:8, alignItems:"center" }}>
             {step>=2 && (
-              <button onClick={step===3?reset:()=>setStep(1)} style={{ background:"transparent", border:"1px solid rgba(255,255,255,.1)", color:"#94A3B8", padding:"7px 16px", borderRadius:9, fontSize:12, cursor:"pointer", fontFamily:"'Inter',sans-serif", marginRight:4 }}>
-                ← {step===3?"Accueil":"Retour"}
+              <button onClick={step===3?reset:()=>setStep(1)} style={{ background:"transparent", border:"1px solid rgba(212,165,116,.22)", color:ST.textMuted, padding:"7px 16px", borderRadius:9, fontSize:12, cursor:"pointer", fontFamily:"'Inter',sans-serif", marginRight:4 }}>
+                ← {step===3?T.home_btn:T.back.replace("← ","")}
               </button>
             )}
             {["fr","en","ar"].map(l=>(
-              <button key={l} onClick={()=>setLang(l)} style={{ padding:"5px 9px", borderRadius:7, border:`1px solid ${lang===l?"#D4A574":"rgba(255,255,255,.1)"}`, background:lang===l?"rgba(212,165,116,.1)":"transparent", color:lang===l?"#D4A574":"rgba(148,163,184,.7)", fontSize:10, fontWeight:lang===l?700:500, cursor:"pointer", fontFamily:"'Inter',sans-serif", textTransform:"uppercase", letterSpacing:"1px" }}>{l}</button>
+              <button key={l} onClick={()=>setLang(l)} style={{ padding:"6px 9px", borderRadius:9, border:`1px solid ${lang===l?"#D4A574":"rgba(212,165,116,.18)"}`, background:lang===l?"rgba(212,165,116,.13)":"transparent", color:lang===l?"#D4A574":ST.textMuted, fontSize:10, fontWeight:lang===l?800:600, cursor:"pointer", fontFamily:"'Inter',sans-serif", textTransform:"uppercase", letterSpacing:"1px" }}>{l}</button>
             ))}
-            <button onClick={()=>setTheme(t=>t==="dark"?"light":"dark")} style={{ padding:"7px 10px", borderRadius:8, border:"1px solid rgba(255,255,255,.1)", background:"rgba(255,255,255,.04)", color:"#94A3B8", fontSize:15, cursor:"pointer" }}>
+            <button onClick={()=>setTheme(t=>t==="dark"?"light":"dark")} style={{ padding:"8px 10px", borderRadius:10, border:"1px solid rgba(212,165,116,.2)", background:isLight?"rgba(255,255,255,.5)":"rgba(255,247,234,.06)", color:ST.textMuted, fontSize:15, cursor:"pointer" }}>
               {theme==="dark"?"☀️":"🌙"}
             </button>
           </div>
         </header>
 
-        {/* ════════════════════════════════════ */}
-        {/* STEP 1 — LANDING PAGE               */}
-        {/* ════════════════════════════════════ */}
+        {/* STEP 1 — LANDING PAGE */}
         {step===1 && (
           <>
-            {/* ── HERO ── */}
+            {/* HERO */}
             <section style={{ position:"relative", height:"100vh", minHeight:600, overflow:"hidden", display:"flex", alignItems:"center", justifyContent:"center" }}>
               {heroDests.map((d,i)=>(
-                <div key={d.id} style={{ position:"absolute", inset:0, backgroundColor:"#0A1426", backgroundImage:`url(${heroImgs[d.id]||d.photo})`, backgroundSize:"cover", backgroundPosition:"center", opacity:heroIdx===i?1:0, transform:heroIdx===i?"scale(1.06)":"scale(1)", transition:"opacity 1.8s ease, transform 7s ease", zIndex:0 }}/>
+                <div key={d.id} style={{ position:"absolute", inset:0, backgroundColor:"#171510", backgroundImage:`url(${homeHeroImg(d)}), url(${d.photo})`, backgroundSize:"cover", backgroundPosition:"center", opacity:heroIdx===i?1:0, transform:heroIdx===i?"scale(1.06)":"scale(1)", transition:"opacity 1.8s ease, transform 7s ease", zIndex:0 }}/>
               ))}
-              <div style={{ position:"absolute", inset:0, background:"linear-gradient(180deg,rgba(5,10,20,.18) 0%,rgba(5,10,20,.55) 50%,rgba(7,17,31,.97) 100%)", zIndex:1 }}/>
+              <div style={{ position:"absolute", inset:0, background:"linear-gradient(180deg,rgba(10,8,5,.18) 0%,rgba(10,8,5,.55) 50%,rgba(23,21,16,.97) 100%)", zIndex:1 }}/>
               <div style={{ position:"relative", zIndex:2, textAlign:"center", maxWidth:800, padding:"0 28px", marginTop:68, direction:isRTL?"rtl":"ltr" }}>
                 <div style={{ display:"inline-flex", alignItems:"center", gap:8, background:"rgba(212,165,116,.1)", border:"1px solid rgba(212,165,116,.22)", borderRadius:30, padding:"7px 20px", fontSize:11, color:"#D4A574", fontWeight:600, letterSpacing:"1.8px", textTransform:"uppercase", marginBottom:30 }}>
                   ✦ {T.hero_badge}
@@ -1707,7 +1910,6 @@ export default function TravelPlanner() {
                   </button>
                 </div>
               </div>
-              {/* Image dots */}
               <div style={{ position:"absolute", bottom:30, left:"50%", transform:"translateX(-50%)", display:"flex", gap:8, zIndex:2 }}>
                 {heroDests.map((_,i)=>(
                   <div key={i} onClick={()=>setHeroIdx(i)} style={{ width:heroIdx===i?28:8, height:8, borderRadius:4, background:heroIdx===i?"#D4A574":"rgba(255,255,255,.3)", cursor:"pointer", transition:"all .35s" }}/>
@@ -1715,21 +1917,18 @@ export default function TravelPlanner() {
               </div>
             </section>
 
-            {/* ── GLASSMORPHISM SEARCH BAR ── */}
+            {/* GLASSMORPHISM SEARCH BAR */}
             <div style={{ position:"relative", zIndex:50, padding:"0 28px", marginTop:-50 }}>
               <div style={{ maxWidth:1120, margin:"0 auto", background:ST.searchBg, backdropFilter:"blur(28px)", border:`1px solid ${ST.searchBorder}`, borderRadius:24, padding:"20px 24px", boxShadow:"0 24px 72px rgba(0,0,0,.55)" }}>
                 <div style={{ display:"flex", gap:0, alignItems:"stretch", flexWrap:"wrap", direction:isRTL?"rtl":"ltr" }}>
-                  {/* Départ */}
                   <div style={{ flex:"1.4 1 170px", borderRight:`1px solid ${ST.searchDivider}`, paddingRight:18, marginRight:18 }}>
                     <div style={{ fontSize:10, color:"#D4A574", textTransform:"uppercase", letterSpacing:"1.5px", fontWeight:600, marginBottom:6 }}>{T.lbl_depart}</div>
-                    <CitySelect value={origin} onChange={setOrigin} options={ORIGINS} placeholder={T.depart+"…"} TH={{ inputBg:"transparent", inputBorder:"transparent", text:ST.searchText, text3:"rgba(128,100,64,.5)", bg:theme==="light"?"#FFF8F0":"#0A1426" }} />
+                    <CitySelect value={origin} onChange={setOrigin} options={ORIGINS} placeholder={T.depart+"…"} TH={{ inputBg:"transparent", inputBorder:"transparent", text:ST.searchText, text3:"rgba(128,100,64,.5)", bg:theme==="light"?"#FFF8F0":"#171510" }} />
                   </div>
-                  {/* Destination */}
                   <div style={{ flex:"1.4 1 170px", borderRight:`1px solid ${ST.searchDivider}`, paddingRight:18, marginRight:18 }}>
                     <div style={{ fontSize:10, color:"#D4A574", textTransform:"uppercase", letterSpacing:"1.5px", fontWeight:600, marginBottom:6 }}>{T.lbl_dest}</div>
-                    <CitySelect value={destination?.name||""} onChange={name=>setDestination(DESTINATIONS.find(d=>d.name===name)||null)} options={DESTINATIONS.map(d=>d.name)} placeholder={T.dest_ph} TH={{ inputBg:"transparent", inputBorder:"transparent", text:ST.searchText, text3:"rgba(128,100,64,.5)", bg:theme==="light"?"#FFF8F0":"#0A1426" }} />
+                    <CitySelect value={displayDestination} onChange={name=>setDestination(findDestinationByLabel(name)||null)} options={destinationOptions} placeholder={T.dest_ph} TH={{ inputBg:"transparent", inputBorder:"transparent", text:ST.searchText, text3:"rgba(128,100,64,.5)", bg:theme==="light"?"#FFF8F0":"#171510" }} />
                   </div>
-                  {/* Dates */}
                   <div style={{ flex:"1.2 1 160px", borderRight:`1px solid ${ST.searchDivider}`, paddingRight:16, marginRight:16 }}>
                     <div style={{ fontSize:10, color:"#D4A574", textTransform:"uppercase", letterSpacing:"1.5px", fontWeight:600, marginBottom:6 }}>{T.lbl_dates}</div>
                     <div style={{ display:"flex", gap:6 }}>
@@ -1737,14 +1936,13 @@ export default function TravelPlanner() {
                       <input type="date" value={endDate} min={startDate||new Date().toISOString().split("T")[0]} onChange={e=>setEndDate(e.target.value)} style={{ padding:"7px 8px", fontSize:12, borderRadius:9 }}/>
                     </div>
                   </div>
-                  {/* Voyageurs */}
                   <div style={{ position:"relative", flex:"1 1 130px", borderRight:`1px solid ${ST.searchDivider}`, paddingRight:16, marginRight:16 }}>
                     <div style={{ fontSize:10, color:"#D4A574", textTransform:"uppercase", letterSpacing:"1.5px", fontWeight:600, marginBottom:6 }}>{T.lbl_travelers}</div>
                     <button onClick={()=>setShowTravelers(s=>!s)} style={{ background:"transparent", border:"none", color:ST.searchText, fontSize:13, cursor:"pointer", padding:"6px 0", fontFamily:"'Inter',sans-serif", textAlign:"left", width:"100%" }}>
                       {T.travelers_fn(adults+children)} ▾
                     </button>
                     {showTravelers && (
-                      <div style={{ position:"absolute", top:"calc(100% + 8px)", left:0, background:isLight?"#FFF8F0":"#0A1426", border:"1px solid rgba(212,165,116,.25)", borderRadius:14, padding:16, zIndex:80, width:220, boxShadow:"0 20px 60px rgba(0,0,0,.25)" }}>
+                      <div style={{ position:"absolute", top:"calc(100% + 8px)", left:0, background:isLight?"#FFF8F0":"#171510", border:"1px solid rgba(212,165,116,.25)", borderRadius:14, padding:16, zIndex:80, width:220, boxShadow:"0 20px 60px rgba(0,0,0,.25)" }}>
                         {[[`👤 ${T.adults}`,adults,setAdults,1],[`👶 ${T.children}`,children,setChildren,0]].map(([lbl,val,set,min])=>(
                           <div key={lbl} style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:12 }}>
                             <span style={{ fontSize:13, color:ST.text }}>{lbl}</span>
@@ -1759,16 +1957,14 @@ export default function TravelPlanner() {
                       </div>
                     )}
                   </div>
-                  {/* Budget */}
-                  <div style={{ flex:"1 1 120px", paddingRight:14 }}>
+                  <div style={{ flex:"1 1 250px", paddingRight:14 }}>
                     <div style={{ fontSize:10, color:"#D4A574", textTransform:"uppercase", letterSpacing:"1.5px", fontWeight:600, marginBottom:6 }}>{T.lbl_budget}</div>
-                    <div style={{ display:"flex", gap:5 }}>
+                    <div style={{ display:"flex", gap:6 }}>
                       {Object.entries(BUDGET_LABELS).map(([key,val])=>(
-                        <button key={key} onClick={()=>setBudget(budget===key?"":key)} title={val.label} style={{ flex:1, padding:"7px 0", borderRadius:9, border:`1px solid ${budget===key?val.color:"rgba(255,255,255,.12)"}`, background:budget===key?`${val.color}22`:"transparent", color:budget===key?val.color:"rgba(248,250,252,.5)", fontSize:15, cursor:"pointer" }}>{val.icon}</button>
+                        <button key={key} onClick={()=>setBudget(budget===key?"":key)} title={val.label} style={{ flex:1, minWidth:72, padding:"9px 10px", borderRadius:11, border:`1px solid ${budget===key?val.color:isLight?"rgba(73,54,31,.16)":"rgba(255,255,255,.12)"}`, background:budget===key?`${val.color}22`:isLight?"rgba(255,255,255,.55)":"transparent", color:budget===key?val.color:ST.textMuted, fontSize:12, fontWeight:800, cursor:"pointer", fontFamily:"'Inter',sans-serif" }}>{val.icon} {val.short}</button>
                       ))}
                     </div>
                   </div>
-                  {/* Rechercher */}
                   <div style={{ display:"flex", alignItems:"center", paddingTop:14 }}>
                     <button onClick={()=>{
                       if(origin && destination){ setStep(2); window.scrollTo({top:0,behavior:"smooth"}); }
@@ -1781,13 +1977,13 @@ export default function TravelPlanner() {
                 </div>
                 {origin && destination && (
                   <div style={{ marginTop:14, paddingTop:14, borderTop:`1px solid ${ST.searchDivider}`, fontSize:13, color:"#D4A574", display:"flex", alignItems:"center", gap:8 }}>
-                    {T.search_confirm(origin, destination.name, destination.flag)}
+                    {T.search_confirm(origin, displayDestination, destination.flag)}
                   </div>
                 )}
               </div>
             </div>
 
-            {/* ── FEATURED DESTINATIONS horizontal ── */}
+            {/* FEATURED DESTINATIONS */}
             <section style={{ padding:"76px 0 48px", background:ST.bg }}>
               <div style={{ maxWidth:1200, margin:"0 auto", padding:"0 32px" }}>
                 <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-end", marginBottom:34, direction:isRTL?"rtl":"ltr" }}>
@@ -1800,23 +1996,22 @@ export default function TravelPlanner() {
                     {T.featured_see_all}
                   </button>
                 </div>
-                <div style={{ display:"flex", gap:16, overflowX:"auto", paddingBottom:8, scrollbarWidth:"none", WebkitScrollSnapType:"x mandatory" }}>
-                  {['paris','tokyo','bali','santorini','marrakech','kyoto'].map(id=>{
+                <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(155px,1fr))", gap:16 }}>
+                  {FEATURED_IDS.slice(0,6).map(id=>{
                     const d=DESTINATIONS.find(dest=>dest.id===id);
                     if(!d) return null;
                     const sel=destination?.id===id;
                     return (
-                      <div key={id} onClick={()=>setDestination(sel?null:d)} style={{ flex:"0 0 195px", position:"relative", borderRadius:24, overflow:"hidden", cursor:"pointer", aspectRatio:"4/5", border:sel?"2px solid #D4A574":"2px solid transparent", boxShadow:sel?"0 0 0 1px rgba(212,165,116,.35),0 20px 56px rgba(0,0,0,.55)":"0 8px 32px rgba(0,0,0,.35)", transition:"all .35s", transform:sel?"translateY(-6px)":"none" }}
-                        onMouseEnter={e=>{if(!sel){e.currentTarget.style.transform="translateY(-5px)";e.currentTarget.style.boxShadow="0 24px 60px rgba(0,0,0,.55)";}}}
-                        onMouseLeave={e=>{if(!sel){e.currentTarget.style.transform="none";e.currentTarget.style.boxShadow="0 8px 32px rgba(0,0,0,.35)";}}}
+                      <div key={id} onClick={()=>setDestination(sel?null:d)} style={{ position:"relative", borderRadius:22, overflow:"hidden", cursor:"pointer", aspectRatio:"4/5", border:sel?"2px solid #D4A574":"2px solid transparent", boxShadow:sel?(isLight?"0 0 0 1px rgba(212,165,116,.35),0 18px 40px rgba(73,54,31,.16)":"0 0 0 1px rgba(212,165,116,.35),0 20px 56px rgba(0,0,0,.55)"):(isLight?"0 10px 26px rgba(73,54,31,.12)":"0 8px 32px rgba(0,0,0,.35)"), transition:"transform .2s ease,border-color .2s ease", transform:sel?"translateY(-4px)":"none", contain:"layout paint" }}
+                        onMouseEnter={e=>{if(!sel)e.currentTarget.style.transform="translateY(-3px)";}}
+                        onMouseLeave={e=>{if(!sel)e.currentTarget.style.transform="none";}}
                       >
-                        <img src={heroImgs[d.id]||d.photo} alt={d.name} data-id={d.id} onError={wikiError} style={{ width:"100%", height:"100%", objectFit:"cover", transition:"transform .55s" }}
-                          onMouseEnter={e=>e.target.style.transform="scale(1.08)"} onMouseLeave={e=>e.target.style.transform="scale(1)"}/>
-                        <div style={{ position:"absolute", inset:0, background:"linear-gradient(to top,rgba(0,0,0,.9) 0%,rgba(0,0,0,.1) 55%,transparent 100%)" }}/>
+                        <img src={destinationThumb(d)} alt={destinationName(d, lang)} data-id={d.id} loading="eager" decoding="async" fetchPriority="high" onError={destImgError(d)} style={{ width:"100%", height:"100%", objectFit:"cover", display:"block", transform:"translateZ(0)" }} />
+                        <div style={{ position:"absolute", inset:0, background:isLight?"linear-gradient(to top,rgba(63,45,24,.58) 0%,rgba(63,45,24,.08) 58%,transparent 100%)":"linear-gradient(to top,rgba(0,0,0,.9) 0%,rgba(0,0,0,.1) 55%,transparent 100%)" }}/>
                         {sel&&<div style={{ position:"absolute", top:14, right:14, width:30, height:30, borderRadius:"50%", background:"#D4A574", display:"flex", alignItems:"center", justifyContent:"center", fontSize:13, color:"white", fontWeight:800 }}>✓</div>}
                         <div style={{ position:"absolute", bottom:0, left:0, right:0, padding:"20px 16px 16px" }}>
-                          <div style={{ fontFamily:"'Playfair Display',serif", fontWeight:700, fontSize:18, color:"#F8FAFC", marginBottom:4 }}>{d.name}</div>
-                          <div style={{ fontSize:12, color:"rgba(255,255,255,.6)", marginBottom:8, display:"flex", alignItems:"center", gap:4 }}>📍 {d.country}</div>
+                          <div style={{ fontFamily:"'Playfair Display',serif", fontWeight:700, fontSize:18, color:"#F8FAFC", marginBottom:4 }}>{destinationName(d, lang)}</div>
+                          <div style={{ fontSize:12, color:"rgba(255,255,255,.6)", marginBottom:8, display:"flex", alignItems:"center", gap:4 }}>{d.flag} {destinationCountry(d, lang)}</div>
                           <div style={{ fontSize:11, color:"#D4A574", fontWeight:600 }}>120+ {T.featured_hotels}</div>
                         </div>
                       </div>
@@ -1826,24 +2021,18 @@ export default function TravelPlanner() {
               </div>
             </section>
 
-            {/* ── FULL DESTINATION SEARCH GRID ── */}
+            {/* FULL DESTINATION SEARCH GRID */}
             <section ref={destRef} style={{ padding:"0 32px 80px", maxWidth:1200, margin:"0 auto", background:ST.bg }}>
               <div style={{ background:ST.gridBg, border:`1px solid ${ST.gridBorder}`, borderRadius:28, padding:"32px 28px", backdropFilter:"blur(12px)", direction:isRTL?"rtl":"ltr" }}>
-                <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:22, fontWeight:700, color:ST.text, marginBottom:22 }}>{T.grid_title}</h3>
-                <div style={{ marginBottom:18 }}>
-                  <label style={{ display:"block", marginBottom:8, fontSize:11, fontWeight:600, color:"#D4A574", textTransform:"uppercase", letterSpacing:"1.5px" }}>🛫 {T.depart}</label>
-                  <CitySelect value={origin} onChange={setOrigin} options={ORIGINS} placeholder={`— ${T.depart} —`} TH={TH} />
-                </div>
-                <div style={{ marginBottom:18 }}>
-                  <label style={{ display:"block", marginBottom:8, fontSize:11, fontWeight:600, color:"#D4A574", textTransform:"uppercase", letterSpacing:"1.5px" }}>{T.grid_search_lbl}</label>
-                  <div style={{ display:"flex", gap:10, alignItems:"center" }}>
-                    <div style={{ position:"relative", flex:1, maxWidth:440 }}>
-                      <span style={{ position:"absolute", left:14, top:"50%", transform:"translateY(-50%)", fontSize:14, opacity:.4 }}>🔍</span>
-                      <input value={search} onChange={e=>{setSearch(e.target.value);setContinent("tous");}} placeholder={T.search_ph} style={{ paddingLeft:42 }}/>
-                      {search&&<button onClick={()=>setSearch("")} style={{ position:"absolute", right:12, top:"50%", transform:"translateY(-50%)", background:"none", border:"none", color:"#94A3B8", cursor:"pointer", fontSize:20 }}>×</button>}
-                    </div>
-                    <span style={{ fontSize:12, color:"#94A3B8", whiteSpace:"nowrap" }}>{filtered.length} {T.results}{filtered.length!==1?"s":""}</span>
+                <div style={{ display:"flex", justifyContent:"space-between", gap:16, alignItems:"flex-end", flexWrap:"wrap", marginBottom:20 }}>
+                  <div>
+                    <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:24, fontWeight:800, color:ST.text, marginBottom:8 }}>{T.grid_title}</h3>
+                    <p style={{ margin:0, fontSize:13, color:ST.textMuted, maxWidth:620, lineHeight:1.6 }}>{T.also_choose}</p>
                   </div>
+                  <span style={{ fontSize:12, color:ST.textMuted, whiteSpace:"nowrap" }}>{filtered.length} {T.results}{filtered.length!==1?"s":""}</span>
+                </div>
+                <div style={{ marginBottom:16, maxWidth:380 }}>
+                  <input value={search} onChange={e=>setSearch(e.target.value)} placeholder={T.grid_search_lbl} />
                 </div>
                 <div style={{ display:"flex", gap:8, flexWrap:"wrap", marginBottom:20 }}>
                   {CONTINENTS.map(c=>(
@@ -1852,39 +2041,46 @@ export default function TravelPlanner() {
                     </button>
                   ))}
                 </div>
-                <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(170px,1fr))", gap:12, maxHeight:520, overflowY:"auto", paddingRight:4 }}>
-                  {filtered.map(dest=>{
+                <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(170px,1fr))", gap:12 }}>
+                  {visibleDestinations.map(dest=>{
                     const sel=destination?.id===dest.id;
                     return (
-                      <div key={dest.id} onClick={()=>setDestination(sel?null:dest)} style={{ position:"relative", borderRadius:16, overflow:"hidden", cursor:"pointer", aspectRatio:"4/3", backgroundColor:CONTINENT_BG[dest.continent]||"#0D0A28", border:sel?"2px solid #D4A574":"2px solid transparent", boxShadow:sel?"0 0 0 1px rgba(212,165,116,.3)":"none", transition:"all .2s" }}
-                        onMouseEnter={e=>{if(!sel){e.currentTarget.style.transform="translateY(-2px)";e.currentTarget.style.boxShadow="0 10px 28px rgba(0,0,0,.45)";}}}
-                        onMouseLeave={e=>{if(!sel){e.currentTarget.style.transform="none";e.currentTarget.style.boxShadow="none";}}}>
-                        <img src={heroImgs[dest.id]||dest.photo} alt={dest.name} data-id={dest.id} loading="lazy" onError={wikiError} style={{ width:"100%", height:"100%", objectFit:"cover" }}/>
-                        <div style={{ position:"absolute", inset:0, background:"linear-gradient(to top,rgba(0,0,0,.88) 0%,transparent 60%)" }}/>
+                      <div key={dest.id} onClick={()=>setDestination(sel?null:dest)} style={{ position:"relative", borderRadius:16, overflow:"hidden", cursor:"pointer", aspectRatio:"4/3", backgroundColor:isLight?"#EFE6D8":(CONTINENT_BG[dest.continent]||"#0D0A28"), border:sel?"2px solid #D4A574":"2px solid transparent", boxShadow:sel?"0 0 0 1px rgba(212,165,116,.3)":"none", transition:"transform .18s ease,border-color .18s ease", contain:"layout paint", transform:"translateZ(0)" }}
+                        onMouseEnter={e=>{if(!sel){e.currentTarget.style.transform="translateY(-2px)";}}}
+                        onMouseLeave={e=>{if(!sel){e.currentTarget.style.transform="none";}}}>
+                        <img src={destinationThumb(dest)} alt={destinationName(dest, lang)} data-id={dest.id} loading="lazy" decoding="async" onError={destImgError(dest)} style={{ width:"100%", height:"100%", objectFit:"cover", display:"block", transform:"translateZ(0)" }}/>
+                        <div style={{ position:"absolute", inset:0, background:isLight?"linear-gradient(to top,rgba(63,45,24,.58) 0%,rgba(63,45,24,.08) 62%,transparent 100%)":"linear-gradient(to top,rgba(0,0,0,.88) 0%,transparent 60%)" }}/>
                         {sel&&<div style={{ position:"absolute", top:8, right:8, width:24, height:24, borderRadius:"50%", background:"#D4A574", display:"flex", alignItems:"center", justifyContent:"center", fontSize:11, fontWeight:700, color:"white", zIndex:2 }}>✓</div>}
                         <div style={{ position:"absolute", bottom:0, left:0, right:0, padding:"10px 10px 9px" }}>
-                          <div style={{ fontWeight:700, fontSize:13, color:"white", lineHeight:1.2, marginBottom:2 }}>{dest.name} {dest.flag}</div>
-                          <div style={{ fontSize:10, color:"rgba(255,255,255,.6)" }}>{dest.country} · 🌡 {dest.temp}</div>
+                          <div style={{ fontWeight:700, fontSize:13, color:"white", lineHeight:1.2, marginBottom:2 }}>{destinationName(dest, lang)} {dest.flag}</div>
+                          <div style={{ fontSize:10, color:"rgba(255,255,255,.6)" }}>{destinationCountry(dest, lang)} · {dest.temp}</div>
                         </div>
                       </div>
                     );
                   })}
                   {filtered.length===0&&(
-                    <div style={{ gridColumn:"1/-1", textAlign:"center", padding:"40px", color:"#94A3B8" }}>
+                    <div style={{ gridColumn:"1/-1", textAlign:"center", padding:"40px", color:ST.textMuted }}>
                       <div style={{ fontSize:32, marginBottom:8 }}>🔍</div>
                       <div>{T.no_dest} « {search} »</div>
                     </div>
                   )}
                 </div>
+                {visibleDestCount < filtered.length && (
+                  <div style={{ display:"flex", justifyContent:"center", marginTop:22 }}>
+                    <button onClick={()=>setVisibleDestCount(c=>Math.min(c+18, filtered.length))} style={{ background:"rgba(212,165,116,.1)", border:"1px solid rgba(212,165,116,.28)", color:"#D4A574", padding:"11px 24px", borderRadius:12, fontSize:13, fontWeight:700, cursor:"pointer", fontFamily:"'Inter',sans-serif" }}>
+                      {T.featured_see_all}
+                    </button>
+                  </div>
+                )}
                 {destination&&(
                   <div style={{ marginTop:18, padding:"12px 20px", borderRadius:14, background:"rgba(212,165,116,.08)", border:"1px solid rgba(212,165,116,.22)", fontSize:13, color:"#D4A574", display:"inline-flex", alignItems:"center", gap:10 }}>
-                    {destination.emoji} <strong>{destination.name}</strong> {destination.flag} {T.selected}{!origin?` ${T.dest_no_origin}`:""}
+                    {destination.emoji} <strong>{displayDestination}</strong> {destination.flag} {T.selected}{!origin?` ${T.dest_no_origin}`:""}
                   </div>
                 )}
               </div>
             </section>
 
-            {/* ── PASSION THEMES ── */}
+            {/* PASSION THEMES */}
             <section style={{ background:ST.bg2, padding:"88px 32px" }}>
               <div style={{ maxWidth:1200, margin:"0 auto", direction:isRTL?"rtl":"ltr" }}>
                 <div style={{ textAlign:"center", marginBottom:56 }}>
@@ -1896,7 +2092,7 @@ export default function TravelPlanner() {
                     <div key={t.label} style={{ background:ST.passionBg, border:`1px solid ${ST.passionBorder}`, borderRadius:22, padding:"30px 20px", textAlign:"center", cursor:"pointer", transition:"all .28s" }}
                       onMouseEnter={e=>{e.currentTarget.style.background="rgba(212,165,116,.1)";e.currentTarget.style.borderColor="rgba(212,165,116,.28)";e.currentTarget.style.transform="translateY(-5px)";}}
                       onMouseLeave={e=>{e.currentTarget.style.background=ST.passionBg;e.currentTarget.style.borderColor=ST.passionBorder;e.currentTarget.style.transform="none";}}>
-                      <div style={{ fontSize:36, marginBottom:14 }}>{t.emoji}</div>
+                      <div style={{ width:56, height:56, margin:"0 auto 14px", borderRadius:18, display:"flex", alignItems:"center", justifyContent:"center", background:"linear-gradient(135deg,rgba(212,165,116,.2),rgba(255,255,255,.04))", border:"1px solid rgba(212,165,116,.22)", fontSize:26 }}>{t.emoji}</div>
                       <div style={{ fontFamily:"'Playfair Display',serif", fontWeight:700, fontSize:16, color:ST.text, marginBottom:7 }}>{t.label}</div>
                       <div style={{ fontSize:12, color:ST.textMuted, lineHeight:1.6 }}>{t.desc}</div>
                     </div>
@@ -1905,7 +2101,7 @@ export default function TravelPlanner() {
               </div>
             </section>
 
-            {/* ── FEATURES ── */}
+            {/* FEATURES */}
             <section style={{ padding:"88px 32px", background:ST.bg, maxWidth:"100%" }}>
               <div style={{ maxWidth:1200, margin:"0 auto", direction:isRTL?"rtl":"ltr" }}>
                 <div style={{ textAlign:"center", marginBottom:52 }}>
@@ -1926,28 +2122,7 @@ export default function TravelPlanner() {
               </div>
             </section>
 
-            {/* ── TESTIMONIALS ── */}
-            <section style={{ background:ST.bg2, padding:"88px 32px" }}>
-              <div style={{ maxWidth:760, margin:"0 auto", textAlign:"center", direction:isRTL?"rtl":"ltr" }}>
-                <div style={{ display:"flex", justifyContent:"center", alignItems:"center", gap:16, marginBottom:28 }}>
-                  <div style={{ display:"flex" }}>
-                    {["👩","👨","👩‍🦱"].map((a,i)=>(
-                      <div key={i} style={{ width:42, height:42, borderRadius:"50%", background:`hsl(${220+i*30},60%,${30+i*5}%)`, border:`3px solid ${ST.bg2}`, display:"flex", alignItems:"center", justifyContent:"center", fontSize:20, marginLeft:i?-12:0, position:"relative", zIndex:3-i }}>{a}</div>
-                    ))}
-                  </div>
-                  <div style={{ textAlign:isRTL?"right":"left" }}>
-                    <div style={{ fontSize:24, fontWeight:800, color:"#D4A574" }}>{T.testimonial_rating}</div>
-                    <div style={{ fontSize:12, color:ST.textMuted }}>{T.testimonial_count}</div>
-                  </div>
-                </div>
-                <blockquote style={{ fontFamily:"'Playfair Display',serif", fontSize:"clamp(18px,2.5vw,23px)", fontStyle:"italic", color:ST.text, lineHeight:1.7, marginBottom:20 }}>
-                  "{T.testimonial_quote.split("\n").map((l,i)=><span key={i}>{l}{i===0&&<br/>}</span>)}"
-                </blockquote>
-                <div style={{ fontSize:14, color:ST.textMuted }}>{T.testimonial_author}</div>
-              </div>
-            </section>
-
-            {/* ── À PROPOS ── */}
+            {/* À PROPOS */}
             <section ref={aboutRef} style={{ background:ST.bg, padding:"88px 32px" }}>
               <div style={{ maxWidth:880, margin:"0 auto", textAlign:"center", direction:isRTL?"rtl":"ltr" }}>
                 <div style={{ fontSize:13, fontWeight:700, letterSpacing:"2px", color:"#D4A574", textTransform:"uppercase", marginBottom:14 }}>{T.about_badge}</div>
@@ -1957,7 +2132,7 @@ export default function TravelPlanner() {
               </div>
             </section>
 
-            {/* ── GUIDES DE DESTINATIONS ── */}
+            {/* GUIDES DE DESTINATIONS */}
             <section ref={guidesRef} style={{ background:ST.bg2, padding:"88px 32px" }}>
               <div style={{ maxWidth:1100, margin:"0 auto", direction:isRTL?"rtl":"ltr" }}>
                 <div style={{ textAlign:"center", marginBottom:54 }}>
@@ -1968,8 +2143,8 @@ export default function TravelPlanner() {
                 <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(320px,1fr))", gap:24 }}>
                   {DEST_GUIDES.map((g,i) => (
                     <article key={g.id} style={{ background:ST.cardBg, border:`1px solid ${ST.cardBorder}`, borderRadius:18, overflow:"hidden", display:"flex", flexDirection:"column" }}>
-                      <div style={{ height:160, backgroundColor:isLight?ST.cardBg:"#0A1426", overflow:"hidden" }}>
-                        <img src={heroImgs[g.id]||DESTINATIONS.find(dd=>dd.id===g.id)?.photo} alt={g.name} data-id={g.id} onError={wikiError} style={{ width:"100%", height:"100%", objectFit:"cover" }}/>
+                      <div style={{ height:160, backgroundColor:isLight?"#EFE6D8":"#241F18", overflow:"hidden" }}>
+                        <img src={destinationPhoto(DESTINATIONS.find(dd=>dd.id===g.id) || { id:g.id, name:g.name })} alt={g.name} data-id={g.id} onError={destImgError(DESTINATIONS.find(dd=>dd.id===g.id))} style={{ width:"100%", height:"100%", objectFit:"cover" }}/>
                       </div>
                       <div style={{ padding:"24px 22px" }}>
                         <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:21, fontWeight:700, color:ST.text, marginBottom:12 }}>{g.flag} {T.guides_items[i].title}</h3>
@@ -1986,7 +2161,45 @@ export default function TravelPlanner() {
               </div>
             </section>
 
-            {/* ── FAQ ── */}
+            {/* SEO ARTICLES */}
+            <section style={{ background:ST.bg, padding:"86px 32px" }}>
+              <div style={{ maxWidth:1160, margin:"0 auto", direction:isRTL?"rtl":"ltr" }}>
+                <div style={{ display:"flex", justifyContent:"space-between", gap:22, alignItems:"flex-end", flexWrap:"wrap", marginBottom:34 }}>
+                  <div>
+                    <div style={{ fontSize:13, fontWeight:700, letterSpacing:"2px", color:"#D4A574", textTransform:"uppercase", marginBottom:12 }}>{C.articles_badge}</div>
+                    <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:"clamp(28px,4vw,42px)", fontWeight:900, color:ST.text, marginBottom:12 }}>{C.articles_title}</h2>
+                    <p style={{ fontSize:15, color:ST.textMuted, lineHeight:1.75, maxWidth:680, margin:0 }}>{C.articles_desc}</p>
+                  </div>
+                  <button onClick={()=>destRef.current?.scrollIntoView({behavior:"smooth"})} style={{ background:"rgba(212,165,116,.1)", border:"1px solid rgba(212,165,116,.28)", color:"#D4A574", padding:"10px 18px", borderRadius:12, fontSize:13, fontWeight:700, cursor:"pointer", fontFamily:"'Inter',sans-serif" }}>{C.articles_cta}</button>
+                </div>
+                <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(280px,1fr))", gap:18 }}>
+                  {SEO_ARTICLES.map(article=>{
+                    const a = articleCopy(article, lang);
+                    const d = DESTINATIONS.find(dest=>dest.id===article.destId);
+                    return (
+                      <article key={article.id} style={{ background:ST.cardBg, border:`1px solid ${ST.cardBorder}`, borderRadius:18, overflow:"hidden", display:"flex", flexDirection:"column" }}>
+                        <div style={{ height:150, overflow:"hidden", background:isLight?"#EFE6D8":"#171510" }}>
+                          <img src={destinationPhoto(d)} alt={a.title} loading="lazy" onError={destImgError(d)} style={{ width:"100%", height:"100%", objectFit:"cover" }}/>
+                        </div>
+                        <div style={{ padding:"20px 20px 22px", display:"flex", flexDirection:"column", flex:1 }}>
+                          <div style={{ display:"flex", justifyContent:"space-between", gap:10, alignItems:"center", marginBottom:10 }}>
+                            <span style={{ fontSize:11, color:"#D4A574", fontWeight:800, textTransform:"uppercase", letterSpacing:"1.4px" }}>{a.kicker}</span>
+                            <span style={{ fontSize:11, color:ST.textMuted }}>{a.read}</span>
+                          </div>
+                          <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:21, lineHeight:1.22, fontWeight:800, color:ST.text, margin:"0 0 10px" }}>{a.title}</h3>
+                          <p style={{ fontSize:14, color:ST.textMuted, lineHeight:1.7, margin:"0 0 18px", flex:1 }}>{a.excerpt}</p>
+                          <button onClick={()=>{ setDestination(d||null); setStep(2); window.scrollTo({top:0,behavior:"smooth"}); }} style={{ alignSelf:"flex-start", background:"transparent", border:"1px solid rgba(212,165,116,.32)", color:"#D4A574", padding:"9px 15px", borderRadius:10, fontSize:12, fontWeight:700, cursor:"pointer", fontFamily:"'Inter',sans-serif" }}>
+                            {C.article_plan}
+                          </button>
+                        </div>
+                      </article>
+                    );
+                  })}
+                </div>
+              </div>
+            </section>
+
+            {/* FAQ */}
             <section ref={faqRef} style={{ background:ST.bg, padding:"88px 32px" }}>
               <div style={{ maxWidth:780, margin:"0 auto", direction:isRTL?"rtl":"ltr" }}>
                 <div style={{ textAlign:"center", marginBottom:48 }}>
@@ -2009,10 +2222,10 @@ export default function TravelPlanner() {
               </div>
             </section>
 
-            {/* ── CTA BANNER ── */}
+            {/* CTA BANNER */}
             <section style={{ position:"relative", height:330, overflow:"hidden", display:"flex", alignItems:"center", justifyContent:"center" }}>
-              <div style={{ position:"absolute", inset:0, backgroundColor:"#0A1426", backgroundImage:`url(${heroImgs["bali"]||DESTINATIONS.find(d=>d.id==="bali")?.photo})`, backgroundSize:"cover", backgroundPosition:"center" }}/>
-              <div style={{ position:"absolute", inset:0, background:"linear-gradient(135deg,rgba(7,17,31,.88),rgba(15,27,45,.75))" }}/>
+              <div style={{ position:"absolute", inset:0, backgroundColor:isLight?"#EFE6D8":"#241F18", backgroundImage:`url(${destinationPhoto(DESTINATIONS.find(d=>d.id==="bali"))})`, backgroundSize:"cover", backgroundPosition:"center" }}/>
+              <div style={{ position:"absolute", inset:0, background:isLight?"linear-gradient(135deg,rgba(63,45,24,.62),rgba(98,120,92,.45))":"linear-gradient(135deg,rgba(23,21,16,.88),rgba(37,32,24,.75))" }}/>
               <div style={{ position:"relative", zIndex:1, textAlign:"center", padding:"0 24px" }}>
                 <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:"clamp(28px,4vw,48px)", fontWeight:900, color:"#F8FAFC", marginBottom:14 }}>{T.cta_title}</h2>
                 <p style={{ fontSize:16, color:"rgba(248,250,252,.68)", marginBottom:30 }}>{T.cta_desc}</p>
@@ -2023,27 +2236,70 @@ export default function TravelPlanner() {
               </div>
             </section>
 
-            {/* ── FOOTER ── */}
+            {/* CONTACT */}
+            <section ref={contactRef} style={{ background:ST.bg, padding:"88px 32px" }}>
+              <div style={{ maxWidth:1020, margin:"0 auto", display:"grid", gridTemplateColumns:"minmax(260px,.8fr) minmax(320px,1.2fr)", gap:34, alignItems:"start", direction:isRTL?"rtl":"ltr" }}>
+                <div>
+                  <div style={{ fontSize:12, color:"#D4A574", textTransform:"uppercase", letterSpacing:"2px", fontWeight:800, marginBottom:14 }}>{C.contact_badge}</div>
+                  <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:"clamp(30px,4vw,44px)", lineHeight:1.08, fontWeight:900, color:ST.text, marginBottom:18 }}>{C.contact_title}</h2>
+                  <p style={{ fontSize:15, color:ST.textMuted, lineHeight:1.8, marginBottom:22 }}>{C.contact_desc}</p>
+                  <div style={{ background:ST.cardBg, border:`1px solid ${ST.cardBorder}`, borderRadius:18, padding:18 }}>
+                    <div style={{ fontSize:11, color:"#D4A574", fontWeight:800, textTransform:"uppercase", letterSpacing:"1px", marginBottom:8 }}>{C.contact_email_label}</div>
+                    <a href="mailto:mouad.ouhaddou@gmail.com" style={{ color:ST.text, fontSize:15, fontWeight:800, textDecoration:"none" }}>mouad.ouhaddou@gmail.com</a>
+                    <div style={{ fontSize:12, color:ST.textMuted, lineHeight:1.6, marginTop:10 }}>{C.contact_email_note}</div>
+                  </div>
+                </div>
+
+                <form action="https://formsubmit.co/mouad.ouhaddou@gmail.com" method="POST" style={{ background:ST.cardBg, border:`1px solid ${ST.cardBorder}`, borderRadius:22, padding:"24px", display:"grid", gap:14, boxShadow:isLight?"0 18px 50px rgba(73,54,31,.10)":"0 18px 50px rgba(0,0,0,.22)" }}>
+                  <input type="hidden" name="_subject" value="Nouveau message depuis VoyagesPro" />
+                  <input type="hidden" name="_template" value="table" />
+                  <input type="hidden" name="_captcha" value="false" />
+                  <input type="text" name="_honey" style={{ display:"none" }} tabIndex="-1" autoComplete="off" />
+                  <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(190px,1fr))", gap:12 }}>
+                    <label style={{ display:"grid", gap:7, fontSize:12, color:ST.textMuted, fontWeight:700 }}>
+                      {C.contact_name}
+                      <input required name="nom" placeholder={C.contact_name_ph} />
+                    </label>
+                    <label style={{ display:"grid", gap:7, fontSize:12, color:ST.textMuted, fontWeight:700 }}>
+                      {C.contact_email}
+                      <input required type="email" name="email" placeholder="votre@email.com" />
+                    </label>
+                  </div>
+                  <label style={{ display:"grid", gap:7, fontSize:12, color:ST.textMuted, fontWeight:700 }}>
+                    {C.contact_subject}
+                    <input required name="sujet" placeholder={C.contact_subject_ph} />
+                  </label>
+                  <label style={{ display:"grid", gap:7, fontSize:12, color:ST.textMuted, fontWeight:700 }}>
+                    {C.contact_message}
+                    <textarea required name="message" rows="6" placeholder={C.contact_message_ph} style={{ resize:"vertical", minHeight:140 }} />
+                  </label>
+                  <button type="submit" style={{ background:"linear-gradient(135deg,#D4A574,#B8834A)", color:"white", border:"none", padding:"14px 22px", borderRadius:14, fontSize:14, fontWeight:800, cursor:"pointer", fontFamily:"'Inter',sans-serif", justifySelf:"start", boxShadow:"0 8px 26px rgba(212,165,116,.28)" }}>{C.contact_submit}</button>
+                  <div style={{ fontSize:11, color:ST.textMuted, lineHeight:1.6 }}>{C.contact_note}</div>
+                </form>
+              </div>
+            </section>
+
+            {/* FOOTER */}
             <footer style={{ background:ST.footerBg, borderTop:`1px solid ${ST.divider}`, padding:"68px 32px 32px", direction:isRTL?"rtl":"ltr" }}>
               <div style={{ maxWidth:1200, margin:"0 auto" }}>
                 <div style={{ display:"grid", gridTemplateColumns:"2fr 1fr 1fr 1.2fr", gap:44, marginBottom:52 }}>
                   <div>
                     <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:18 }}>
-                      <svg width="26" height="26" viewBox="0 0 44 44" fill="none"><circle cx="22" cy="22" r="19" stroke="#C4B5FD" strokeWidth="2" fill="none"/><ellipse cx="22" cy="22" rx="10" ry="19" stroke="#C4B5FD" strokeWidth="1.5" fill="none"/><line x1="3" y1="22" x2="41" y2="22" stroke="#C4B5FD" strokeWidth="1.5"/><path d="M30 12l-12 9 2 1-3 6 5-2 2 4 1-6 5-1z" fill="#D4A574"/></svg>
+                      <img src="/logo-mark.svg?v=3" alt="VoyagesPro" style={{ width:30, height:30, borderRadius:10, display:"block" }} />
                       <div style={{ fontFamily:"'Playfair Display',serif", fontSize:17, fontWeight:900, color:"#F8FAFC" }}>VoyagesPro</div>
                     </div>
                     <p style={{ fontSize:13, color:"rgba(255,255,255,.55)", lineHeight:1.75, maxWidth:240, marginBottom:22 }}>{T.footer_tagline}</p>
-                    <div style={{ display:"flex", gap:10 }}>
-                      {["📷","📘","🐦"].map((ic,i)=>(
-                        <div key={i} style={{ width:36, height:36, borderRadius:10, background:ST.socialBg, border:`1px solid ${ST.socialBorder}`, display:"flex", alignItems:"center", justifyContent:"center", fontSize:15, cursor:"pointer", transition:"all .2s" }}
-                          onMouseEnter={e=>e.currentTarget.style.borderColor="rgba(212,165,116,.3)"} onMouseLeave={e=>e.currentTarget.style.borderColor=ST.socialBorder}>{ic}</div>
-                      ))}
+                    <div style={{ display:"flex", gap:10, flexWrap:"wrap" }}>
+                      <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" style={{ display:"inline-flex", alignItems:"center", gap:8, minHeight:36, borderRadius:10, background:ST.socialBg, border:`1px solid ${ST.socialBorder}`, color:"#D4A574", padding:"0 13px", fontSize:12, fontWeight:700, textDecoration:"none", transition:"all .2s" }}
+                        onMouseEnter={e=>e.currentTarget.style.borderColor="rgba(212,165,116,.42)"} onMouseLeave={e=>e.currentTarget.style.borderColor=ST.socialBorder}>
+                        📷 Instagram
+                      </a>
                     </div>
                   </div>
                   <div>
                     <div style={{ fontWeight:700, fontSize:13, color:"#F8FAFC", marginBottom:20, letterSpacing:".5px" }}>{T.footer_dest}</div>
                     {T.footer_continents.map(l=>(
-                      <div key={l} style={{ fontSize:13, color:"rgba(255,255,255,.5)", marginBottom:11, cursor:"pointer", transition:"color .15s" }} onMouseEnter={e=>e.target.style.color="#D4A574"} onMouseLeave={e=>e.target.style.color="rgba(255,255,255,.5)"}>{l}</div>
+                      <div key={l} style={{ fontSize:13, color:"rgba(255,255,255,.5)", marginBottom:11, cursor:"pointer", transition:"color .15s" }} onClick={()=>destRef.current?.scrollIntoView({behavior:"smooth"})} onMouseEnter={e=>e.target.style.color="#D4A574"} onMouseLeave={e=>e.target.style.color="rgba(255,255,255,.5)"}>{l}</div>
                     ))}
                   </div>
                   <div>
@@ -2053,7 +2309,7 @@ export default function TravelPlanner() {
                         ()=>aboutRef.current?.scrollIntoView({behavior:"smooth"}),
                         ()=>guidesRef.current?.scrollIntoView({behavior:"smooth"}),
                         ()=>faqRef.current?.scrollIntoView({behavior:"smooth"}),
-                        ()=>{window.location.href="mailto:mouad.ouhaddou@gmail.com";},
+                        ()=>contactRef.current?.scrollIntoView({behavior:"smooth"}),
                         ()=>setShowLegal(true),
                       ];
                       return <div key={l} onClick={fns[idx]} style={{ fontSize:13, color:"rgba(255,255,255,.5)", marginBottom:11, cursor:"pointer", transition:"color .15s" }} onMouseEnter={e=>e.target.style.color="#D4A574"} onMouseLeave={e=>e.target.style.color="rgba(255,255,255,.5)"}>{l}</div>;
@@ -2064,7 +2320,7 @@ export default function TravelPlanner() {
                     <div style={{ fontWeight:700, fontSize:13, color:"#F8FAFC", marginBottom:10, letterSpacing:".5px" }}>{T.footer_newsletter}</div>
                     <div style={{ fontSize:13, color:"rgba(255,255,255,.5)", marginBottom:16, lineHeight:1.65 }}>{T.footer_newsletter_desc}</div>
                     <div style={{ display:"flex" }}>
-                      <input placeholder={T.footer_newsletter_ph} style={{ flex:1, borderRadius:"12px 0 0 12px", borderRight:"none", width:"auto" }}/>
+                      <input type="email" placeholder={T.footer_newsletter_ph} style={{ flex:1, borderRadius:"12px 0 0 12px", borderRight:"none", width:"auto" }}/>
                       <button style={{ background:"linear-gradient(135deg,#D4A574,#C49160)", color:"white", border:"none", padding:"12px 18px", borderRadius:"0 12px 12px 0", cursor:"pointer", fontSize:16 }}>{isRTL?"←":"→"}</button>
                     </div>
                   </div>
@@ -2078,9 +2334,7 @@ export default function TravelPlanner() {
           </>
         )}
 
-        {/* ════════════════════════════════════ */}
-        {/* STEP 2 — CONFIGURE                  */}
-        {/* ════════════════════════════════════ */}
+        {/* STEP 2 — CONFIGURE */}
         {step===2 && (
           <div style={{ paddingTop:88, minHeight:"100vh" }}>
             <div style={{ maxWidth:820, margin:"0 auto", padding:"40px 28px 80px" }}>
@@ -2095,8 +2349,8 @@ export default function TravelPlanner() {
               <div style={{ background:"rgba(212,165,116,.05)", border:"1px solid rgba(212,165,116,.16)", borderRadius:22, padding:"22px 26px", marginBottom:32, display:"flex", alignItems:"center", gap:18 }}>
                 <span style={{ fontSize:40 }}>{destination?.emoji}</span>
                 <div>
-                  <div style={{ fontFamily:"'Playfair Display',serif", fontSize:24, fontWeight:700, color:S2.bodyText, marginBottom:4 }}>{destination?.name} {destination?.flag}</div>
-                  <div style={{ fontSize:13, color:S2.muted }}>{origin} → {destination?.name} · {destination?.country} · 🌡 {destination?.temp}</div>
+                  <div style={{ fontFamily:"'Playfair Display',serif", fontSize:24, fontWeight:700, color:S2.bodyText, marginBottom:4 }}>{displayDestination} {destination?.flag}</div>
+                  <div style={{ fontSize:13, color:S2.muted }}>{origin} → {displayDestination} · {displayCountry} · {destination?.temp}</div>
                 </div>
               </div>
 
@@ -2108,7 +2362,7 @@ export default function TravelPlanner() {
                   <div><label style={{ display:"block", marginBottom:7, fontSize:12, color:S2.muted }}>{T.dep_date}</label><input type="date" value={startDate} min={new Date().toISOString().split("T")[0]} onChange={e=>setStartDate(e.target.value)}/></div>
                   <div><label style={{ display:"block", marginBottom:7, fontSize:12, color:S2.muted }}>{T.ret_date}</label><input type="date" value={endDate} min={startDate||new Date().toISOString().split("T")[0]} onChange={e=>setEndDate(e.target.value)}/></div>
                 </div>
-                {nights>0&&<div style={{ marginTop:14, fontSize:13, color:"#D4A574", background:"rgba(212,165,116,.08)", borderRadius:10, padding:"8px 16px", display:"inline-block" }}>✨ <strong>{T.nights(nights)}</strong> à {destination?.name}</div>}
+                {nights>0&&<div style={{ marginTop:14, fontSize:13, color:"#D4A574", background:"rgba(212,165,116,.08)", borderRadius:10, padding:"8px 16px", display:"inline-block" }}><strong>{T.nights(nights)}</strong> · {displayDestination}</div>}
               </div>
 
               <div style={{ background:S2.sectBg, border:`1px solid ${S2.sectBdr}`, borderRadius:22, padding:"26px", marginBottom:16, backdropFilter:"blur(8px)" }}>
@@ -2128,12 +2382,12 @@ export default function TravelPlanner() {
               </div>
 
               <div style={{ background:S2.sectBg, border:`1px solid ${S2.sectBdr}`, borderRadius:22, padding:"26px", marginBottom:32, backdropFilter:"blur(8px)" }}>
-                <div style={{ fontSize:11, color:"#D4A574", textTransform:"uppercase", letterSpacing:"1.5px", fontWeight:600, marginBottom:18 }}>💰 {T.budget_type}</div>
+                <div style={{ fontSize:11, color:"#D4A574", textTransform:"uppercase", letterSpacing:"1.5px", fontWeight:600, marginBottom:18 }}>{T.budget_type}</div>
                 <div style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:14 }}>
                   {Object.entries(BUDGET_LABELS).map(([key,val])=>(
-                    <div key={key} onClick={()=>setBudget(key)} style={{ cursor:"pointer", borderRadius:18, padding:"20px 14px", textAlign:"center", border:`2px solid ${budget===key?val.color:S2.cardBdr}`, background:budget===key?`rgba(${key==="serré"?"45,212,191":key==="moyen"?"245,158,11":"139,92,246"},.1)`:S2.cardBg, transition:"all .22s" }}>
-                      <div style={{ fontSize:30, marginBottom:10 }}>{val.icon}</div>
-                      <div style={{ fontWeight:700, fontSize:14, color:budget===key?val.color:S2.bodyText, marginBottom:5 }}>{val.label}</div>
+                    <div key={key} onClick={()=>setBudget(key)} style={{ cursor:"pointer", borderRadius:18, padding:"20px 14px", textAlign:"left", border:`2px solid ${budget===key?val.color:S2.cardBdr}`, background:budget===key?`rgba(${key==="serré"?"45,212,191":key==="moyen"?"245,158,11":"139,92,246"},.1)`:S2.cardBg, transition:"all .22s" }}>
+                      <div style={{ display:"inline-flex", alignItems:"center", justifyContent:"center", borderRadius:999, padding:"5px 10px", background:budget===key?`${val.color}22`:S2.btnBg2, color:budget===key?val.color:S2.muted, border:`1px solid ${budget===key?val.color:S2.cardBdr}`, fontSize:11, fontWeight:900, textTransform:"uppercase", letterSpacing:"1px", marginBottom:12 }}>{val.icon} {val.short}</div>
+                      <div style={{ fontWeight:800, fontSize:14, color:budget===key?val.color:S2.bodyText, marginBottom:5 }}>{val.label}</div>
                       <div style={{ fontSize:11, color:S2.muted, lineHeight:1.5 }}>{val.desc}</div>
                     </div>
                   ))}
@@ -2141,15 +2395,13 @@ export default function TravelPlanner() {
               </div>
 
               <button className="bp" style={{ width:"100%", padding:"16px", fontSize:16, borderRadius:16, letterSpacing:".5px" }} disabled={!startDate||!endDate||!budget} onClick={handlePlan}>
-                {T.generate} ✨
+                {T.generate}
               </button>
             </div>
           </div>
         )}
 
-        {/* ════════════════════════════════════ */}
-        {/* STEP 3 — RESULTS                    */}
-        {/* ════════════════════════════════════ */}
+        {/* STEP 3 — RESULTS */}
         {step===3 && data && (
           <div style={{ paddingTop:88 }}>
             <div style={{ maxWidth:1140, margin:"0 auto", padding:"32px 28px 60px" }}>
@@ -2157,12 +2409,12 @@ export default function TravelPlanner() {
               {/* Summary bar */}
               <div style={{ background:S2.sumBg, border:"1px solid rgba(212,165,116,.14)", borderRadius:22, padding:"18px 24px", marginBottom:20, backdropFilter:"blur(8px)", display:"flex", flexWrap:"wrap", gap:14, alignItems:"center", justifyContent:"space-between" }}>
                 <div style={{ display:"flex", gap:20, flexWrap:"wrap" }}>
-                  {[[T.journey,`${origin} → ${destination.name} ${destination.flag}`],[T.stay,T.nights(nights)],[T.travelers,`${adults} adulte${adults>1?"s":""}${children>0?` + ${children} enfant${children>1?"s":""}`:""}`],[T.budget_label,`${BUDGET_LABELS[budget].icon} ${BUDGET_LABELS[budget].label}`]].map(([k,v])=>(
+                  {[[T.journey,`${origin} → ${displayDestination} ${destination.flag}`],[T.stay,T.nights(nights)],[T.travelers,`${adults} adulte${adults>1?"s":""}${children>0?` + ${children} enfant${children>1?"s":""}`:""}`],[T.budget_label,`${BUDGET_LABELS[budget].icon} ${BUDGET_LABELS[budget].label}`]].map(([k,v])=>(
                     <div key={k}><div style={{ fontSize:10, color:S2.muted, textTransform:"uppercase", letterSpacing:"1px", marginBottom:3 }}>{k}</div><div style={{ fontSize:14, fontWeight:700, color:k===T.budget_label?BUDGET_LABELS[budget].color:S2.bodyText }}>{v}</div></div>
                   ))}
                 </div>
                 <div style={{ display:"flex", gap:8, flexWrap:"wrap" }}>
-                  <button className="bpdf" onClick={handlePDF} disabled={pdfLoading}>{pdfLoading?<span className="sp"/>:"📥"} {pdfLoading?T.generating:T.dl_pdf}</button>
+                  <button className="bpdf" onClick={handlePDF} disabled={pdfLoading}>{pdfLoading?<span className="sp"/>:"📄"} {pdfLoading?T.generating:T.dl_pdf}</button>
                   <button onClick={()=>setStep(2)} style={{ background:S2.btnBg2, border:`1px solid ${S2.tabBdr}`, color:S2.muted, padding:"9px 16px", borderRadius:10, cursor:"pointer", fontSize:13, fontFamily:"'Inter',sans-serif" }}>{T.modify}</button>
                   <button onClick={reset} style={{ background:"linear-gradient(135deg,#D4A574,#C49160)", border:"none", color:"white", padding:"9px 18px", borderRadius:10, cursor:"pointer", fontSize:13, fontWeight:700, fontFamily:"'Inter',sans-serif", display:"flex", alignItems:"center", gap:6 }}>🏠 {T.home_btn}</button>
                 </div>
@@ -2170,9 +2422,9 @@ export default function TravelPlanner() {
 
               {/* Quick booking */}
               <div style={{ background:"rgba(14,165,233,.06)", border:"1px solid rgba(14,165,233,.14)", borderRadius:16, padding:"14px 20px", marginBottom:18 }}>
-                <div style={{ fontSize:11, color:"#C4B5FD", textTransform:"uppercase", letterSpacing:"1px", fontWeight:600, marginBottom:11 }}>🔗 {T.book_section} — {destination.name}</div>
+                <div style={{ fontSize:11, color:"#C4B5FD", textTransform:"uppercase", letterSpacing:"1px", fontWeight:600, marginBottom:11 }}>{T.book_section} — {displayDestination}</div>
                 <div style={{ display:"flex", gap:9, flexWrap:"wrap" }}>
-                  {[{label:"✈️ Google Flights",color:"#0EA5E9",url:BOOK.flights(origin,destination.name)},{label:"🔍 Skyscanner",color:"#00A3BE",url:BOOK.skyscanner(origin,destination.name)},{label:"💺 Kayak",color:"#FF690F",url:BOOK.kayak(origin,destination.name)},{label:"🏨 Booking.com",color:"#003580",url:BOOK.booking(destination.name)},{label:"🏠 Airbnb",color:"#FF5A5F",url:BOOK.airbnb(destination.name)}].map(({label,color,url})=>(
+                  {[{label:"✈️ Google Flights",color:"#0EA5E9",url:BOOK.flights(origin,destination.name)},{label:"🔍 Skyscanner",color:"#00A3BE",url:BOOK.skyscanner(origin,destination.name)},{label:"🛫 Kayak",color:"#FF690F",url:BOOK.kayak(origin,destination.name)},{label:"🏨 Booking.com",color:"#003580",url:BOOK.booking(destination.name)},{label:"🏠 Airbnb",color:"#FF5A5F",url:BOOK.airbnb(destination.name)}].map(({label,color,url})=>(
                     <a key={label} href={url} target="_blank" rel="noopener noreferrer" style={{ display:"inline-flex", alignItems:"center", gap:6, padding:"8px 14px", borderRadius:20, background:color, color:"white", fontSize:12, fontWeight:600, textDecoration:"none", transition:"opacity .15s" }}
                       onMouseEnter={e=>e.currentTarget.style.opacity=".82"} onMouseLeave={e=>e.currentTarget.style.opacity="1"}>{label}</a>
                   ))}
@@ -2194,14 +2446,14 @@ export default function TravelPlanner() {
                     </div>
                   </div>
                 </div>
-                <a href={BOOK.booking(destination.name,data.hotels[budget]?.[0]?.name)} target="_blank" rel="noopener noreferrer" style={{ display:"inline-flex", alignItems:"center", gap:8, padding:"11px 22px", borderRadius:12, background:"#003580", color:"white", fontSize:13, fontWeight:700, textDecoration:"none" }}>🏨 Réserver sur Booking</a>
+                <a href={BOOK.booking(destination.name,data.hotels[budget]?.[0]?.name)} target="_blank" rel="noopener noreferrer" style={{ display:"inline-flex", alignItems:"center", gap:8, padding:"11px 22px", borderRadius:12, background:"#003580", color:"white", fontSize:13, fontWeight:700, textDecoration:"none" }}>Réserver sur Booking</a>
               </div>
 
               {/* Tabs */}
               <div style={{ display:"flex", gap:6, marginBottom:22, flexWrap:"wrap" }}>
                 {T.tabs.map((label,i)=>{
                   const key=T.tab_keys[i];const active=activeTab===key;
-                  return <button key={key} onClick={()=>setActiveTab(key)} style={{ padding:"10px 22px", borderRadius:12, border:`1px solid ${active?"transparent":S2.tabBdr}`, cursor:"pointer", fontSize:13, fontWeight:active?700:500, fontFamily:"'Inter',sans-serif", background:active?"linear-gradient(135deg,#6D28D9,#8B5CF6)":S2.tabBg, color:active?"white":S2.muted, transition:"all .2s" }}>{label}</button>;
+                  return <button key={key} onClick={()=>setActiveTab(key)} style={{ padding:"10px 22px", borderRadius:12, border:`1px solid ${active?"transparent":S2.tabBdr}`, cursor:"pointer", fontSize:13, fontWeight:active?700:500, fontFamily:"'Inter',sans-serif", background:active?"linear-gradient(135deg,#B8834A,#D4A574)":S2.tabBg, color:active?"white":S2.muted, transition:"all .2s" }}>{label}</button>;
                 })}
               </div>
 
@@ -2210,15 +2462,15 @@ export default function TravelPlanner() {
 
                 {activeTab==="attractions" && (
                   <div>
-                    <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:20, fontWeight:700, marginBottom:18, color:S2.bodyText }}>Attractions à {destination.name}</h3>
+                    <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:20, fontWeight:700, marginBottom:18, color:S2.bodyText }}>🗺 Attractions — {displayDestination}</h3>
                     <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(270px,1fr))", gap:14 }}>
                       {data.attractions.map(a=>(
                         <div key={a.name} style={{ background:S2.cardBg, border:`1px solid ${S2.cardBdr}`, borderRadius:18, overflow:"hidden" }}>
                           <div style={{ height:150, overflow:"hidden", position:"relative" }}>
                             <img
-                              src={heroImgs[destination.id] || destination.photo}
-                              alt={destination.name}
-                              style={{ width:"100%", height:"100%", objectFit:"cover", filter:"brightness(.5) saturate(1.2)" }}
+                              src={ATTRACTION_IMAGES[destination.id]?.[a.name] || attractionImgs[`${destination.id}:${a.name}`] || destinationPhoto(destination)}
+                              alt={a.name}
+                              style={{ width:"100%", height:"100%", objectFit:"cover", filter:"brightness(.55) saturate(1.2)" }}
                               onError={e=>{ e.target.onerror=null; e.target.src=`https://picsum.photos/seed/${encodeURIComponent(a.name)}/600/400`; }}
                             />
                             <div style={{ position:"absolute", inset:0, background:"linear-gradient(to bottom,rgba(0,0,0,.05),rgba(0,0,0,.55))", display:"flex", flexDirection:"column", justifyContent:"flex-end", padding:"10px 14px" }}>
@@ -2234,9 +2486,10 @@ export default function TravelPlanner() {
                               <div style={{ fontSize:10, color:BUDGET_LABELS[budget].color, fontWeight:600, textTransform:"uppercase", letterSpacing:"1px", marginBottom:2 }}>{BUDGET_LABELS[budget].icon} Prix</div>
                               <div style={{ fontSize:13, fontWeight:600, color:S2.bodyText }}>{a.budget[budget]}</div>
                             </div>
-                            <div style={{ display:"flex", gap:8 }}>
-                              <a href={BOOK.getyourguide(a.name,destination.name)} target="_blank" rel="noopener noreferrer" style={{ flex:1, display:"flex", alignItems:"center", justifyContent:"center", gap:5, padding:"8px 0", borderRadius:10, background:"#FF6B35", color:"white", fontSize:11, fontWeight:600, textDecoration:"none" }}>🎟 GetYourGuide</a>
-                              <a href={BOOK.maps(a.name,destination.name)} target="_blank" rel="noopener noreferrer" style={{ flex:1, display:"flex", alignItems:"center", justifyContent:"center", gap:5, padding:"8px 0", borderRadius:10, background:"rgba(139,92,246,.15)", color:"#C4B5FD", fontSize:11, fontWeight:600, textDecoration:"none", border:"1px solid rgba(139,92,246,.25)" }}>📍 Maps</a>
+                            <div style={{ display:"flex", gap:8, flexWrap:"wrap" }}>
+                              <a href={BOOK.viator(a.name,destination.id)} target="_blank" rel="noopener noreferrer" style={{ flex:1, minWidth:90, display:"flex", alignItems:"center", justifyContent:"center", gap:5, padding:"8px 0", borderRadius:10, background:"#34E0A1", color:"#0A2540", fontSize:11, fontWeight:700, textDecoration:"none" }}>🎟 Viator</a>
+                              <a href={BOOK.getyourguide(a.name,destination.name)} target="_blank" rel="noopener noreferrer" style={{ flex:1, minWidth:90, display:"flex", alignItems:"center", justifyContent:"center", gap:5, padding:"8px 0", borderRadius:10, background:"#FF6B35", color:"white", fontSize:11, fontWeight:600, textDecoration:"none" }}>🎫 GetYourGuide</a>
+                              <a href={BOOK.maps(a.name,destination.name)} target="_blank" rel="noopener noreferrer" style={{ flex:1, minWidth:90, display:"flex", alignItems:"center", justifyContent:"center", gap:5, padding:"8px 0", borderRadius:10, background:"rgba(139,92,246,.15)", color:"#C4B5FD", fontSize:11, fontWeight:600, textDecoration:"none", border:"1px solid rgba(139,92,246,.25)" }}>🗺 Maps</a>
                             </div>
                           </div>
                         </div>
@@ -2247,24 +2500,22 @@ export default function TravelPlanner() {
 
                 {activeTab==="restaurants" && (
                   <div>
-                    <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:20, fontWeight:700, marginBottom:18, color:S2.bodyText }}>Restaurants à {destination.name}</h3>
+                    <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:20, fontWeight:700, marginBottom:18, color:S2.bodyText }}>🍽 Restaurants — {displayDestination}</h3>
                     <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(280px,1fr))", gap:14 }}>
                       {data.restaurants.map(r=>{
-                        const foodTitle = getFoodWikiTitle(r.type);
-                        const foodImg = foodTypeImgs[foodTitle];
+                        const foodImg = resultPhoto("restaurant", `${destination.id}-${r.name}-${r.type}`);
                         return (
                         <div key={r.name} style={{ background:S2.cardBg, border:`1px solid ${S2.cardBdr}`, borderRadius:18, overflow:"hidden" }}>
                           <div style={{ height:160, overflow:"hidden", position:"relative" }}>
                             <img
-                              src={foodImg || `https://picsum.photos/seed/${encodeURIComponent(foodTitle)}/600/400`}
+                              src={foodImg}
                               alt={r.type}
                               style={{ width:"100%", height:"100%", objectFit:"cover" }}
                               onError={e=>{ e.target.onerror=null; e.target.src=`https://picsum.photos/seed/${encodeURIComponent(r.name)}/600/400`; }}
                             />
                             <div style={{ position:"absolute", bottom:0, left:0, right:0, background:"linear-gradient(transparent,rgba(0,0,0,.55))", padding:"18px 12px 8px" }}>
-                              <div style={{ fontSize:11, color:"rgba(255,255,255,.9)", fontWeight:600 }}>{r.type}</div>
+                              <div style={{ fontSize:11, color:"rgba(255,255,255,.9)", fontWeight:600 }}>{getFoodEmoji(r.type)} {r.type}</div>
                             </div>
-                            {(r.stars||0)>0 && <div style={{ position:"absolute", top:8, right:8, background:"rgba(0,0,0,.55)", backdropFilter:"blur(4px)", borderRadius:20, padding:"3px 8px", fontSize:10, color:"#F59E0B", fontWeight:700 }}>{"★".repeat(r.stars)}</div>}
                           </div>
                           <div style={{ padding:16 }}>
                             <div style={{ fontWeight:700, fontSize:14, color:S2.bodyText, marginBottom:4 }}>{r.name}</div>
@@ -2285,28 +2536,57 @@ export default function TravelPlanner() {
 
                 {activeTab==="itinerary" && (
                   <div>
-                    <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:20, fontWeight:700, marginBottom:18, color:S2.bodyText }}>📅 {T.daily_plan} — {destination.name}</h3>
-                    <div style={{ display:"flex", flexDirection:"column", gap:16 }}>
+                    <div style={{ display:"flex", justifyContent:"space-between", gap:16, alignItems:"flex-start", flexWrap:"wrap", marginBottom:18 }}>
+                      <div>
+                        <div style={{ fontSize:11, color:"#D4A574", textTransform:"uppercase", letterSpacing:"1px", fontWeight:800, marginBottom:6 }}>Programme optimisé</div>
+                        <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:26, fontWeight:800, margin:0, color:S2.bodyText }}>📅 {T.daily_plan} — {displayDestination}</h3>
+                        <p style={{ margin:"8px 0 0", color:S2.muted, fontSize:13, lineHeight:1.6, maxWidth:650 }}>Un planning équilibré avec visites, pauses, restaurants et temps de trajet. Chaque étape peut être ouverte dans Google Maps pour ajuster le parcours sur place.</p>
+                      </div>
+                      <a href={BOOK.maps(destination.name,destination.country)} target="_blank" rel="noopener noreferrer" style={{ background:"#4285F4", color:"white", textDecoration:"none", borderRadius:12, padding:"10px 16px", fontSize:13, fontWeight:800 }}>Voir sur Google Maps</a>
+                    </div>
+                    <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(170px,1fr))", gap:10, marginBottom:18 }}>
+                      {[
+                        ["Durée", `${itinerary.length} jour${itinerary.length>1?"s":""}`],
+                        ["Rythme", itinerary.length<=2?"Intense":"Équilibré"],
+                        ["Base hôtel", data.hotels[budget]?.[0]?.name || "À définir"],
+                        ["Budget", BUDGET_LABELS[budget].label],
+                      ].map(([k,v])=>(
+                        <div key={k} style={{ background:S2.cardBg, border:`1px solid ${S2.cardBdr}`, borderRadius:14, padding:"12px 14px" }}>
+                          <div style={{ fontSize:10, color:S2.muted, textTransform:"uppercase", letterSpacing:"1px", marginBottom:5 }}>{k}</div>
+                          <div style={{ fontSize:13, color:S2.bodyText, fontWeight:800, lineHeight:1.35 }}>{v}</div>
+                        </div>
+                      ))}
+                    </div>
+                    <div style={{ display:"flex", flexDirection:"column", gap:18 }}>
                       {itinerary.map(day=>(
                         <div key={day.day} style={{ background:S2.cardBg, border:`1px solid ${S2.cardBdr}`, borderRadius:18, overflow:"hidden" }}>
-                          <div style={{ background:"rgba(212,165,116,.07)", borderBottom:`1px solid ${S2.cardBdr}`, padding:"14px 22px", display:"flex", alignItems:"center", gap:14 }}>
-                            <div style={{ width:38, height:38, borderRadius:"50%", background:"linear-gradient(135deg,#D4A574,#C49160)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:14, fontWeight:800, color:"white", flexShrink:0 }}>{day.day}</div>
-                            <div>
-                              <div style={{ fontSize:10, color:"#D4A574", textTransform:"uppercase", letterSpacing:"1px" }}>Jour {day.day}</div>
-                              <div style={{ fontWeight:700, fontSize:14, color:S2.bodyText }}>{day.date}</div>
+                          <div style={{ background:"linear-gradient(135deg,rgba(212,165,116,.12),rgba(139,92,246,.08))", borderBottom:`1px solid ${S2.cardBdr}`, padding:"16px 22px", display:"flex", alignItems:"center", justifyContent:"space-between", gap:14, flexWrap:"wrap" }}>
+                            <div style={{ display:"flex", alignItems:"center", gap:14 }}>
+                              <div style={{ width:38, height:38, borderRadius:"50%", background:"linear-gradient(135deg,#D4A574,#C49160)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:14, fontWeight:800, color:"white", flexShrink:0 }}>{day.day}</div>
+                              <div>
+                                <div style={{ fontSize:10, color:"#D4A574", textTransform:"uppercase", letterSpacing:"1px" }}>Jour {day.day}</div>
+                                <div style={{ fontWeight:700, fontSize:14, color:S2.bodyText }}>{day.date}</div>
+                              </div>
+                            </div>
+                            <div style={{ display:"flex", gap:8, flexWrap:"wrap" }}>
+                              <span style={{ fontSize:11, color:S2.muted, background:S2.btnBg, border:`1px solid ${S2.cardBdr}`, borderRadius:999, padding:"5px 9px" }}>{day.items.length} étapes</span>
                             </div>
                           </div>
-                          <div style={{ padding:"10px 0" }}>
+                          <div style={{ padding:"8px 0" }}>
                             {day.items.map((item,i)=>(
-                              <div key={i} style={{ display:"flex", gap:14, padding:"10px 22px", borderBottom:i<day.items.length-1?`1px solid ${S2.cardBdr}`:"none" }}>
-                                <div style={{ fontSize:11, color:"#D4A574", fontWeight:600, minWidth:42, paddingTop:2 }}>{item.time}</div>
-                                <div style={{ fontSize:22, flexShrink:0 }}>{item.icon}</div>
+                              <div key={i} style={{ display:"grid", gridTemplateColumns:"58px 34px 1fr auto", gap:12, alignItems:"flex-start", padding:"12px 18px", borderBottom:i<day.items.length-1?`1px solid ${S2.cardBdr}`:"none" }}>
+                                <div style={{ fontSize:11, color:"#D4A574", fontWeight:800, paddingTop:5 }}>{item.time}</div>
+                                <div style={{ width:34, height:34, borderRadius:12, background:"rgba(212,165,116,.12)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:18, flexShrink:0 }}>{item.icon}</div>
                                 <div style={{ flex:1 }}>
-                                  <div style={{ fontWeight:600, fontSize:13, color:S2.bodyText, marginBottom:3 }}>{item.activity}</div>
-                                  <div style={{ fontSize:12, color:S2.muted70, lineHeight:1.5 }}>{item.desc}</div>
+                                  <div style={{ fontWeight:800, fontSize:14, color:S2.bodyText, marginBottom:4 }}>{item.activity}</div>
+                                  <div style={{ fontSize:12, color:S2.muted70, lineHeight:1.55 }}>{item.desc}</div>
                                 </div>
+                                <a href={BOOK.maps(item.activity,destination.name)} target="_blank" rel="noopener noreferrer" style={{ whiteSpace:"nowrap", borderRadius:10, padding:"7px 10px", background:"rgba(66,133,244,.12)", color:"#4285F4", border:"1px solid rgba(66,133,244,.2)", textDecoration:"none", fontSize:11, fontWeight:800 }}>Maps</a>
                               </div>
                             ))}
+                          </div>
+                          <div style={{ padding:"12px 18px", background:"rgba(212,165,116,.06)", color:S2.muted, fontSize:12, lineHeight:1.55 }}>
+                            💡 Conseil du jour : gardez une marge entre deux visites et réservez les attractions payantes en avance si votre séjour est court.
                           </div>
                         </div>
                       ))}
@@ -2316,14 +2596,14 @@ export default function TravelPlanner() {
 
                 {activeTab==="map" && (
                   <div>
-                    <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:20, fontWeight:700, marginBottom:18, color:S2.bodyText }}>🗺 Carte — {destination.name}</h3>
-                    <MapView destination={destination} budget={budget} />
+                    <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:20, fontWeight:700, marginBottom:18, color:S2.bodyText }}>🗺 Carte — {displayDestination}</h3>
+                    <MapView destination={destination} budget={budget} S2={S2} />
                   </div>
                 )}
 
                 {activeTab==="transport" && (
                   <div>
-                    <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:20, fontWeight:700, marginBottom:16, color:S2.bodyText }}>✈️ {T.transport_info} — {origin} → {destination.name}</h3>
+                    <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:20, fontWeight:700, marginBottom:16, color:S2.bodyText }}>✈️ {T.transport_info} — {origin} → {displayDestination}</h3>
                     <div style={{ background:"rgba(14,165,233,.06)", border:"1px solid rgba(14,165,233,.14)", borderRadius:14, padding:"14px 18px", marginBottom:20 }}>
                       <div style={{ fontSize:11, color:"#C4B5FD", textTransform:"uppercase", letterSpacing:"1px", fontWeight:600, marginBottom:10 }}>✈️ Réserver votre vol</div>
                       <div style={{ display:"flex", gap:9, flexWrap:"wrap" }}>
@@ -2331,6 +2611,19 @@ export default function TravelPlanner() {
                           <a key={label} href={url} target="_blank" rel="noopener noreferrer" style={{ display:"inline-flex", alignItems:"center", gap:6, padding:"8px 16px", borderRadius:20, background:color, color:"white", fontSize:12, fontWeight:600, textDecoration:"none" }}>{label}</a>
                         ))}
                       </div>
+                    </div>
+                    <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(190px,1fr))", gap:10, marginBottom:18 }}>
+                      {[
+                        ["Avant le départ", "Comparez les vols, vérifiez les bagages et gardez une marge confortable pour l'aéroport."],
+                        ["Arrivée", "Privilégiez taxi officiel, train aéroport, navette hôtel ou VTC réservé depuis l'application."],
+                        ["Sur place", "Sauvegardez hôtel, attractions et restaurants dans Google Maps pour retrouver les trajets vite."],
+                        ["Budget transport", budget==="riche"?"Transferts privés, chauffeur et confort premium.":budget==="moyen"?"Mix métro, train aéroport et VTC court.":"Pass transports, marche et bus pour optimiser le budget."],
+                      ].map(([title,text])=>(
+                        <div key={title} style={{ background:S2.cardBg, border:`1px solid ${S2.cardBdr}`, borderRadius:14, padding:"13px 15px" }}>
+                          <div style={{ color:"#D4A574", fontSize:11, fontWeight:800, textTransform:"uppercase", letterSpacing:"1px", marginBottom:6 }}>{title}</div>
+                          <div style={{ color:S2.muted, fontSize:12, lineHeight:1.55 }}>{text}</div>
+                        </div>
+                      ))}
                     </div>
                     <div style={{ display:"flex", flexDirection:"column", gap:10, marginBottom:22 }}>
                       {data.transport.map((t,i)=>(
@@ -2357,11 +2650,24 @@ export default function TravelPlanner() {
 
                 {activeTab==="hotels" && (
                   <div>
-                    <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:20, fontWeight:700, marginBottom:8, color:S2.bodyText }}>🏨 {T.hotel_options} — {destination.name}</h3>
+                    <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:20, fontWeight:700, marginBottom:8, color:S2.bodyText }}>🏨 {T.hotel_options} — {displayDestination}</h3>
                     <p style={{ fontSize:13, color:S2.muted, marginBottom:16 }}>Tous les hébergements disponibles par catégorie de budget</p>
                     <div style={{ display:"flex", gap:9, flexWrap:"wrap", marginBottom:22 }}>
                       {[{label:"Booking.com",color:"#003580",url:BOOK.booking(destination.name)},{label:"Airbnb",color:"#FF5A5F",url:BOOK.airbnb(destination.name)},{label:"Hotels.com",color:"#D9000D",url:`https://fr.hotels.com/search.do?q-destination=${encodeURIComponent(destination.name)}`}].map(({label,color,url})=>(
                         <a key={label} href={url} target="_blank" rel="noopener noreferrer" style={{ display:"inline-flex", alignItems:"center", gap:6, padding:"8px 18px", borderRadius:20, background:color, color:"white", fontSize:12, fontWeight:600, textDecoration:"none" }}>🏨 {label}</a>
+                      ))}
+                    </div>
+                    <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(190px,1fr))", gap:10, marginBottom:22 }}>
+                      {[
+                        ["Meilleur choix", data.hotels[budget]?.[0]?.name || "À définir"],
+                        ["Zone conseillée", budget==="riche"?"Quartier central premium":budget==="moyen"?"Centre ou transport direct":"Proche métro / gare"],
+                        ["À comparer", "Annulation, taxes, petit-déjeuner, distance"],
+                        ["Astuce", "Ouvrez l'hôtel dans Google Maps pour voir le quartier et les avis."],
+                      ].map(([k,v])=>(
+                        <div key={k} style={{ background:S2.cardBg, border:`1px solid ${S2.cardBdr}`, borderRadius:14, padding:"13px 15px" }}>
+                          <div style={{ color:"#D4A574", fontSize:11, fontWeight:800, textTransform:"uppercase", letterSpacing:"1px", marginBottom:6 }}>{k}</div>
+                          <div style={{ color:S2.bodyText, fontSize:12, lineHeight:1.5, fontWeight:700 }}>{v}</div>
+                        </div>
                       ))}
                     </div>
                     <div style={{ display:"flex", flexDirection:"column", gap:22 }}>
@@ -2376,11 +2682,11 @@ export default function TravelPlanner() {
                             </div>
                             <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(250px,1fr))", gap:12 }}>
                               {list.map((h,i)=>{
-                                const destPhoto = heroImgs[destination.id] || destination.photo;
+                                const hotelPhoto = resultPhoto("hotel", `${destination.id}-${tier}-${h.name}`);
                                 return (
                                 <div key={i} style={{ background:S2.cardBg, border:`${tier===budget?"2px solid "+bl.color:`1px solid ${S2.cardBdr}`}`, borderRadius:16, overflow:"hidden", position:"relative" }}>
                                   <div style={{ height:150, overflow:"hidden", position:"relative" }}>
-                                    <img src={destPhoto} alt={destination.name} style={{ width:"100%", height:"100%", objectFit:"cover", filter:"brightness(.55) saturate(1.2)" }} onError={e=>{ e.target.onerror=null; e.target.src=`https://picsum.photos/seed/hotel-${encodeURIComponent(h.name)}/600/400`; }} />
+                                    <img src={hotelPhoto} alt={h.name} style={{ width:"100%", height:"100%", objectFit:"cover", filter:"brightness(.65) saturate(1.15)" }} onError={e=>{ e.target.onerror=null; e.target.src=`https://picsum.photos/seed/hotel-${encodeURIComponent(h.name)}/600/400`; }} />
                                     <div style={{ position:"absolute", inset:0, background:"linear-gradient(160deg,rgba(0,0,0,.1),rgba(0,0,0,.65))", display:"flex", flexDirection:"column", justifyContent:"flex-end", padding:"12px 14px" }}>
                                       <div style={{ fontSize:18, marginBottom:2 }}>🏨</div>
                                       <div style={{ fontSize:11, color:"rgba(255,255,255,.9)", fontWeight:700, lineHeight:1.3 }}>{h.type||"Hébergement"}</div>
@@ -2388,14 +2694,26 @@ export default function TravelPlanner() {
                                     </div>
                                   </div>
                                   <div style={{ padding:16, position:"relative" }}>
-                                    {tier===budget&&i===0&&<div style={{ position:"absolute", top:-8, right:10, background:bl.color, color:"white", fontSize:9, fontWeight:700, padding:"2px 8px", borderRadius:10, textTransform:"uppercase" }}>✓ {T.selected}</div>}
+                                    {tier===budget&&i===0&&<div style={{ position:"absolute", top:-8, right:10, background:bl.color, color:"white", fontSize:9, fontWeight:700, padding:"2px 8px", borderRadius:10, textTransform:"uppercase" }}>{T.selected}</div>}
                                     <div style={{ fontWeight:700, fontSize:14, marginBottom:4, color:S2.bodyText }}>{h.name}</div>
                                     {h.type&&<div style={{ fontSize:11, color:S2.muted, marginBottom:6 }}>{h.type}</div>}
                                     <div style={{ color:"#F59E0B", fontSize:13, marginBottom:8 }}>{"★".repeat(h.stars)}{"☆".repeat(Math.max(0,5-h.stars))}</div>
-                                    <div style={{ background:`rgba(${tier==="serré"?"45,212,191":tier==="moyen"?"245,158,11":"139,92,246"},.1)`, border:`1px solid rgba(${tier==="serré"?"45,212,191":tier==="moyen"?"245,158,11":"139,92,246"},.2)`, borderRadius:8, padding:"6px 10px", fontSize:13, fontWeight:600, color:bl.color, marginBottom:12 }}>💰 {h.price}</div>
+                                    <div style={{ background:`rgba(${tier==="serré"?"45,212,191":tier==="moyen"?"245,158,11":"139,92,246"},.1)`, border:`1px solid rgba(${tier==="serré"?"45,212,191":tier==="moyen"?"245,158,11":"139,92,246"},.2)`, borderRadius:8, padding:"6px 10px", fontSize:13, fontWeight:600, color:bl.color, marginBottom:12 }}>{h.price}</div>
+                                    <div style={{ display:"grid", gap:7, marginBottom:12 }}>
+                                      {[
+                                        ["Quartier", i===0?"Central / pratique":i===1?"Bon compromis":"Calme ou premium"],
+                                        ["Idéal pour", tier==="riche"?"Luxe, service et confort":tier==="moyen"?"Confort et localisation":"Petit budget et courts séjours"],
+                                        ["À vérifier", "Petit-déjeuner, taxe locale, annulation"],
+                                      ].map(([k,v])=>(
+                                        <div key={k} style={{ display:"flex", justifyContent:"space-between", gap:10, padding:"7px 9px", borderRadius:9, background:S2.btnBg2, border:`1px solid ${S2.cardBdr}` }}>
+                                          <span style={{ color:S2.muted, fontSize:10, textTransform:"uppercase", letterSpacing:"1px" }}>{k}</span>
+                                          <span style={{ color:S2.bodyText, fontSize:11, fontWeight:700, textAlign:"right" }}>{v}</span>
+                                        </div>
+                                      ))}
+                                    </div>
                                     <div style={{ display:"flex", gap:7 }}>
-                                      <a href={BOOK.booking(destination.name,h.name)} target="_blank" rel="noopener noreferrer" style={{ flex:1, display:"flex", alignItems:"center", justifyContent:"center", gap:5, padding:"8px 0", borderRadius:10, background:"#003580", color:"white", fontSize:11, fontWeight:600, textDecoration:"none" }}>🏨 Booking</a>
-                                      <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(h.name+" "+destination.name)}`} target="_blank" rel="noopener noreferrer" style={{ flex:1, display:"flex", alignItems:"center", justifyContent:"center", gap:5, padding:"8px 0", borderRadius:10, background:"#4285F4", color:"white", fontSize:11, fontWeight:600, textDecoration:"none" }}>📍 Maps</a>
+                                      <a href={BOOK.booking(destination.name,h.name)} target="_blank" rel="noopener noreferrer" style={{ flex:1, display:"flex", alignItems:"center", justifyContent:"center", gap:5, padding:"8px 0", borderRadius:10, background:"#003580", color:"white", fontSize:11, fontWeight:600, textDecoration:"none" }}>Booking</a>
+                                      <a href={BOOK.maps(h.name,destination.name)} target="_blank" rel="noopener noreferrer" style={{ flex:1, display:"flex", alignItems:"center", justifyContent:"center", gap:5, padding:"8px 0", borderRadius:10, background:"#4285F4", color:"white", fontSize:11, fontWeight:600, textDecoration:"none" }}>Maps</a>
                                     </div>
                                   </div>
                                 </div>
@@ -2411,9 +2729,9 @@ export default function TravelPlanner() {
               </div>
 
               <div style={{ textAlign:"center", padding:"32px 0 8px", color:S2.muted70, fontSize:11, display:"flex", flexWrap:"wrap", justifyContent:"center", gap:12, alignItems:"center" }}>
-                <span>VoyagesPro · 65+ destinations mondiales ✈️</span>
+                <span>VoyagesPro · 65 destinations mondiales</span>
                 <span>·</span>
-                <button onClick={()=>setShowPrivacy(true)} style={{ background:"none", border:"none", color:"rgba(148,163,184,.4)", fontSize:11, cursor:"pointer", textDecoration:"underline", padding:0 }}>Politique de confidentialité</button>
+                <button onClick={()=>setShowPrivacy(true)} style={{ background:"none", border:"none", color:S2.dimText, fontSize:11, cursor:"pointer", textDecoration:"underline", padding:0 }}>Politique de confidentialité</button>
                 <span>·</span>
                 <span>© 2026 VoyagesPro</span>
               </div>
