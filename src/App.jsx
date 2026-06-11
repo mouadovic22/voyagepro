@@ -1689,6 +1689,7 @@ export default function TravelPlanner() {
   const [visibleDestCount, setVisibleDestCount] = useState(18);
   const [pdfLoading, setPdfLoading] = useState(false);
   const [showPrivacy, setShowPrivacy] = useState(false);
+  const [showMobileNav, setShowMobileNav] = useState(false);
   const [showLegal, setShowLegal] = useState(false);
   const [openFaq, setOpenFaq] = useState(null);
   const [heroIdx, setHeroIdx] = useState(0);
@@ -1819,6 +1820,20 @@ export default function TravelPlanner() {
     input[type=date]::-webkit-datetime-edit-text,input[type=date]::-webkit-datetime-edit-month-field,input[type=date]::-webkit-datetime-edit-day-field,input[type=date]::-webkit-datetime-edit-year-field{color:${inputText};}
     input[type=date]::-webkit-calendar-picker-indicator{filter:${dateIcon};cursor:pointer;}
     ::-webkit-scrollbar-track{background:transparent;}
+    .vp-burger{display:none;background:transparent;border:1px solid rgba(212,165,116,.25);border-radius:10px;font-size:17px;padding:7px 11px;cursor:pointer;align-items:center;justify-content:center;line-height:1;}
+    @media (max-width:980px){
+      .vp-nav-desktop{display:none !important;}
+      .vp-burger{display:flex;}
+    }
+    @media (max-width:860px){
+      .vp-contact-grid{grid-template-columns:1fr !important;}
+      .vp-footer-grid{grid-template-columns:1fr 1fr !important;gap:30px !important;}
+    }
+    @media (max-width:640px){
+      .vp-header{left:10px !important;right:10px !important;padding:0 10px !important;}
+      .vp-logo-tag{display:none !important;}
+      .vp-footer-grid{grid-template-columns:1fr !important;}
+    }
   `;
 
   return (
@@ -1847,17 +1862,17 @@ export default function TravelPlanner() {
       <div dir={isRTL?"rtl":"ltr"} style={{ background:ST.bg, color:ST.text, minHeight:"100vh", fontFamily:"'Inter','DM Sans',sans-serif" }}>
 
         {/* FIXED HEADER */}
-        <header style={{ position:"fixed", top:14, left:24, right:24, zIndex:200, transition:"all .35s ease", background:isLight?"rgba(255,248,240,.9)":"rgba(37,32,24,.82)", backdropFilter:"blur(22px)", border:"1px solid rgba(212,165,116,.22)", borderRadius:18, padding:"0 14px", minHeight:64, display:"flex", alignItems:"center", justifyContent:"space-between", boxShadow:isLight?"0 18px 50px rgba(73,54,31,.12)":"0 18px 50px rgba(0,0,0,.28)" }}>
+        <header className="vp-header" style={{ position:"fixed", top:14, left:24, right:24, zIndex:200, transition:"all .35s ease", background:isLight?"rgba(255,248,240,.9)":"rgba(37,32,24,.82)", backdropFilter:"blur(22px)", border:"1px solid rgba(212,165,116,.22)", borderRadius:18, padding:"0 14px", minHeight:64, display:"flex", alignItems:"center", justifyContent:"space-between", boxShadow:isLight?"0 18px 50px rgba(73,54,31,.12)":"0 18px 50px rgba(0,0,0,.28)" }}>
           <button style={{ display:"flex", alignItems:"center", gap:12, cursor:"pointer", background:"transparent", border:"none", padding:"8px 4px", fontFamily:"'Inter',sans-serif" }} onClick={step>1?reset:()=>window.scrollTo({top:0,behavior:"smooth"})}>
             <img src="/logo-mark.svg?v=3" alt="VoyagesPro" style={{ width:46, height:46, borderRadius:16, display:"block", boxShadow:"0 12px 30px rgba(212,165,116,.32)" }} />
             <div style={{ textAlign:isRTL?"right":"left" }}>
               <div style={{ fontFamily:"'Playfair Display',serif", fontSize:21, fontWeight:900, color:ST.text, letterSpacing:"-.3px", lineHeight:1 }}>VoyagesPro</div>
-              <div style={{ fontSize:9, color:ST.textMuted, letterSpacing:"2px", textTransform:"uppercase", marginTop:4 }}>65 destinations · Export PDF</div>
+              <div className="vp-logo-tag" style={{ fontSize:9, color:ST.textMuted, letterSpacing:"2px", textTransform:"uppercase", marginTop:4 }}>65 destinations · Export PDF</div>
             </div>
           </button>
 
           {step===1 && (
-            <nav style={{ display:"flex", gap:6, padding:5, borderRadius:14, background:isLight?"rgba(255,255,255,.48)":"rgba(255,247,234,.06)", border:`1px solid ${isLight?"rgba(212,165,116,.18)":"rgba(236,201,139,.1)"}` }}>
+            <nav className="vp-nav-desktop" style={{ display:"flex", gap:6, padding:5, borderRadius:14, background:isLight?"rgba(255,255,255,.48)":"rgba(255,247,234,.06)", border:`1px solid ${isLight?"rgba(212,165,116,.18)":"rgba(236,201,139,.1)"}` }}>
               {homeNav.map(([link,onClick])=>(
                 <button key={link} onClick={onClick} style={{ background:"transparent", border:"none", padding:"9px 13px", borderRadius:11, fontSize:13, color:ST.textMuted, cursor:"pointer", fontWeight:700, fontFamily:"'Inter',sans-serif", transition:"all .18s" }}
                   onMouseEnter={e=>{e.currentTarget.style.color=ST.text;e.currentTarget.style.background=isLight?"rgba(212,165,116,.13)":"rgba(212,165,116,.12)";}} onMouseLeave={e=>{e.currentTarget.style.color=ST.textMuted;e.currentTarget.style.background="transparent";}}>{link}</button>
@@ -1877,7 +1892,17 @@ export default function TravelPlanner() {
             <button onClick={()=>setTheme(t=>t==="dark"?"light":"dark")} style={{ padding:"8px 10px", borderRadius:10, border:"1px solid rgba(212,165,116,.2)", background:isLight?"rgba(255,255,255,.5)":"rgba(255,247,234,.06)", color:ST.textMuted, fontSize:15, cursor:"pointer" }}>
               {theme==="dark"?"☀️":"🌙"}
             </button>
+            {step===1 && (
+              <button className="vp-burger" onClick={()=>setShowMobileNav(s=>!s)} aria-label="Menu" style={{ color:ST.text }}>{showMobileNav?"✕":"☰"}</button>
+            )}
           </div>
+          {step===1 && showMobileNav && (
+            <div style={{ position:"absolute", top:"calc(100% + 10px)", left:0, right:0, background:isLight?"rgba(255,248,240,.98)":"rgba(37,32,24,.97)", backdropFilter:"blur(22px)", border:"1px solid rgba(212,165,116,.22)", borderRadius:16, padding:10, display:"flex", flexDirection:"column", gap:2, boxShadow:"0 24px 60px rgba(0,0,0,.35)", direction:isRTL?"rtl":"ltr" }}>
+              {homeNav.map(([link,onClick])=>(
+                <button key={link} onClick={()=>{setShowMobileNav(false);onClick();}} style={{ background:"transparent", border:"none", padding:"13px 16px", borderRadius:11, fontSize:14, color:ST.text, cursor:"pointer", fontWeight:700, fontFamily:"'Inter',sans-serif", textAlign:isRTL?"right":"left" }}>{link}</button>
+              ))}
+            </div>
+          )}
         </header>
 
         {/* STEP 1 — LANDING PAGE */}
@@ -2254,7 +2279,7 @@ export default function TravelPlanner() {
 
             {/* CONTACT */}
             <section ref={contactRef} style={{ background:ST.bg, padding:"88px 32px" }}>
-              <div style={{ maxWidth:1020, margin:"0 auto", display:"grid", gridTemplateColumns:"minmax(260px,.8fr) minmax(320px,1.2fr)", gap:34, alignItems:"start", direction:isRTL?"rtl":"ltr" }}>
+              <div className="vp-contact-grid" style={{ maxWidth:1020, margin:"0 auto", display:"grid", gridTemplateColumns:"minmax(260px,.8fr) minmax(320px,1.2fr)", gap:34, alignItems:"start", direction:isRTL?"rtl":"ltr" }}>
                 <div>
                   <div style={{ fontSize:12, color:"#D4A574", textTransform:"uppercase", letterSpacing:"2px", fontWeight:800, marginBottom:14 }}>{C.contact_badge}</div>
                   <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:"clamp(30px,4vw,44px)", lineHeight:1.08, fontWeight:900, color:ST.text, marginBottom:18 }}>{C.contact_title}</h2>
@@ -2298,7 +2323,7 @@ export default function TravelPlanner() {
             {/* FOOTER */}
             <footer style={{ background:ST.footerBg, borderTop:`1px solid ${ST.divider}`, padding:"68px 32px 32px", direction:isRTL?"rtl":"ltr" }}>
               <div style={{ maxWidth:1200, margin:"0 auto" }}>
-                <div style={{ display:"grid", gridTemplateColumns:"2fr 1fr 1fr 1.2fr", gap:44, marginBottom:52 }}>
+                <div className="vp-footer-grid" style={{ display:"grid", gridTemplateColumns:"2fr 1fr 1fr 1.2fr", gap:44, marginBottom:52 }}>
                   <div>
                     <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:18 }}>
                       <img src="/logo-mark.svg?v=3" alt="VoyagesPro" style={{ width:30, height:30, borderRadius:10, display:"block" }} />
