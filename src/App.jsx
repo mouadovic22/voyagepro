@@ -98,7 +98,7 @@ const HOME_HERO_IMAGES = {
   maldives: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=2400&q=90",
   dubai: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=2400&q=90",
   santorini: "https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?auto=format&fit=crop&w=2400&q=90",
-  paris: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=2400&q=90",
+  paris: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=2400&q=90",
 };
 
 const PREMIUM_DESTINATION_IMAGES = {
@@ -1961,7 +1961,7 @@ export default function TravelPlanner() {
                     <div style={{ fontSize:10, color:"#D4A574", textTransform:"uppercase", letterSpacing:"1.5px", fontWeight:600, marginBottom:6 }}>{T.lbl_budget}</div>
                     <div style={{ display:"flex", gap:6 }}>
                       {Object.entries(BUDGET_LABELS).map(([key,val])=>(
-                        <button key={key} onClick={()=>setBudget(budget===key?"":key)} title={val.label} style={{ flex:1, minWidth:72, padding:"9px 10px", borderRadius:11, border:`1px solid ${budget===key?val.color:isLight?"rgba(73,54,31,.16)":"rgba(255,255,255,.12)"}`, background:budget===key?`${val.color}22`:isLight?"rgba(255,255,255,.55)":"transparent", color:budget===key?val.color:ST.textMuted, fontSize:12, fontWeight:800, cursor:"pointer", fontFamily:"'Inter',sans-serif" }}>{val.icon} {val.short}</button>
+                        <button key={key} onClick={()=>setBudget(budget===key?"":key)} title={val.label} style={{ flex:1, minWidth:60, padding:"9px 10px", borderRadius:11, border:`1px solid ${budget===key?val.color:isLight?"rgba(73,54,31,.16)":"rgba(255,255,255,.12)"}`, background:budget===key?`${val.color}22`:isLight?"rgba(255,255,255,.55)":"transparent", color:budget===key?val.color:ST.textMuted, fontSize:18, fontWeight:800, cursor:"pointer", fontFamily:"'Inter',sans-serif" }}>{val.icon}</button>
                       ))}
                     </div>
                   </div>
@@ -2018,6 +2018,22 @@ export default function TravelPlanner() {
                     );
                   })}
                 </div>
+              </div>
+            </section>
+
+            {/* DESTINATION SEARCH BAR — second occurrence so users can search without scrolling back up */}
+            <section style={{ padding:"0 32px 36px", maxWidth:1200, margin:"0 auto" }}>
+              <div style={{ background:ST.searchBg, backdropFilter:"blur(20px)", border:`1px solid ${ST.searchBorder}`, borderRadius:20, padding:"14px 20px", display:"flex", alignItems:"center", gap:12, boxShadow:"0 8px 32px rgba(0,0,0,.18)" }}>
+                <span style={{ fontSize:20, flexShrink:0 }}>🔍</span>
+                <input
+                  value={search}
+                  onChange={e=>setSearch(e.target.value)}
+                  placeholder={T.grid_search_lbl}
+                  style={{ flex:1, background:"transparent", border:"none", outline:"none", fontSize:15, color:ST.searchText, fontFamily:"'Inter',sans-serif", caretColor:"#D4A574" }}
+                />
+                {search && (
+                  <button onClick={()=>setSearch("")} style={{ background:"transparent", border:"none", color:ST.textMuted, cursor:"pointer", fontSize:18, lineHeight:1, padding:0, fontFamily:"'Inter',sans-serif" }}>✕</button>
+                )}
               </div>
             </section>
 
